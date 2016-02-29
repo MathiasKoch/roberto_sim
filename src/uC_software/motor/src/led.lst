@@ -1,0 +1,364 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"led.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.align	1
+  20              		.global	LED_Init
+  21              		.thumb
+  22              		.thumb_func
+  24              	LED_Init:
+  25              	.LFB29:
+  26              		.file 1 "src/led.c"
+   1:src/led.c     **** 
+   2:src/led.c     **** #include <stdio.h>
+   3:src/led.c     **** #include <stdbool.h>
+   4:src/led.c     **** #include <stdint.h>
+   5:src/led.c     **** 
+   6:src/led.c     **** #include <stm32f10x.h>
+   7:src/led.c     **** #include "led.h"
+   8:src/led.c     **** 
+   9:src/led.c     **** 
+  10:src/led.c     **** #define DEBUG_PRINT(args...) printf(args)
+  11:src/led.c     **** 
+  12:src/led.c     **** 
+  13:src/led.c     **** TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+  14:src/led.c     **** TIM_OCInitTypeDef  TIM_OCInitStructure;
+  15:src/led.c     **** 
+  16:src/led.c     **** 
+  17:src/led.c     **** 
+  18:src/led.c     **** void LED_Init(){
+  27              		.loc 1 18 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 8
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31 0000 37B5     		push	{r0, r1, r2, r4, r5, lr}
+  32              	.LCFI0:
+  33              		.cfi_def_cfa_offset 24
+  34              		.cfi_offset 4, -12
+  35              		.cfi_offset 5, -8
+  36              		.cfi_offset 14, -4
+  19:src/led.c     **** 
+  20:src/led.c     **** 	GPIO_InitTypeDef GPIO_InitStructure;
+  21:src/led.c     **** 
+  22:src/led.c     **** 	/*Configure GPIO pin : PA1 */
+  23:src/led.c     **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
+  37              		.loc 1 23 0
+  38 0002 0223     		movs	r3, #2
+  24:src/led.c     **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+  25:src/led.c     **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  26:src/led.c     **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+  27:src/led.c     **** 
+  28:src/led.c     **** 
+  29:src/led.c     **** 	TIM_OCStructInit(&TIM_OCInitStructure); // clears the other 4 fields not used here
+  39              		.loc 1 29 0
+  40 0004 184C     		ldr	r4, .L2
+  23:src/led.c     **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+  41              		.loc 1 23 0
+  42 0006 ADF80430 		strh	r3, [sp, #4]	@ movhi
+  24:src/led.c     **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+  43              		.loc 1 24 0
+  44 000a 1823     		movs	r3, #24
+  26:src/led.c     **** 
+  45              		.loc 1 26 0
+  46 000c 01A9     		add	r1, sp, #4
+  24:src/led.c     **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+  47              		.loc 1 24 0
+  48 000e 8DF80730 		strb	r3, [sp, #7]
+  26:src/led.c     **** 
+  49              		.loc 1 26 0
+  50 0012 1648     		ldr	r0, .L2+4
+  25:src/led.c     **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+  51              		.loc 1 25 0
+  52 0014 0323     		movs	r3, #3
+  53 0016 8DF80630 		strb	r3, [sp, #6]
+  26:src/led.c     **** 
+  54              		.loc 1 26 0
+  55 001a FFF7FEFF 		bl	GPIO_Init
+  56              	.LVL0:
+  57              		.loc 1 29 0
+  58 001e 2046     		mov	r0, r4
+  59 0020 FFF7FEFF 		bl	TIM_OCStructInit
+  60              	.LVL1:
+  30:src/led.c     **** 
+  31:src/led.c     **** 	/* PWM1 Mode configuration: Channel1 */
+  32:src/led.c     **** 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+  61              		.loc 1 32 0
+  62 0024 6023     		movs	r3, #96
+  33:src/led.c     **** 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+  63              		.loc 1 33 0
+  64 0026 0125     		movs	r5, #1
+  32:src/led.c     **** 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+  65              		.loc 1 32 0
+  66 0028 2380     		strh	r3, [r4]	@ movhi
+  34:src/led.c     **** 	TIM_OCInitStructure.TIM_Pulse = 0x0000;
+  35:src/led.c     **** 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+  36:src/led.c     **** 
+  37:src/led.c     **** 	TIM_OC2Init(TIM2, &TIM_OCInitStructure);
+  67              		.loc 1 37 0
+  68 002a 2146     		mov	r1, r4
+  34:src/led.c     **** 	TIM_OCInitStructure.TIM_Pulse = 0x0000;
+  69              		.loc 1 34 0
+  70 002c 0023     		movs	r3, #0
+  71              		.loc 1 37 0
+  72 002e 4FF08040 		mov	r0, #1073741824
+  34:src/led.c     **** 	TIM_OCInitStructure.TIM_Pulse = 0x0000;
+  73              		.loc 1 34 0
+  74 0032 E380     		strh	r3, [r4, #6]	@ movhi
+  35:src/led.c     **** 
+  75              		.loc 1 35 0
+  76 0034 2381     		strh	r3, [r4, #8]	@ movhi
+  33:src/led.c     **** 	TIM_OCInitStructure.TIM_Pulse = 0x0000;
+  77              		.loc 1 33 0
+  78 0036 6580     		strh	r5, [r4, #2]	@ movhi
+  79              		.loc 1 37 0
+  80 0038 FFF7FEFF 		bl	TIM_OC2Init
+  81              	.LVL2:
+  38:src/led.c     **** 	
+  39:src/led.c     **** 	TIM_OC2PreloadConfig(TIM2, TIM_OCPreload_Enable);
+  82              		.loc 1 39 0
+  83 003c 0821     		movs	r1, #8
+  84 003e 4FF08040 		mov	r0, #1073741824
+  85 0042 FFF7FEFF 		bl	TIM_OC2PreloadConfig
+  86              	.LVL3:
+  40:src/led.c     **** 
+  41:src/led.c     **** 	TIM_ARRPreloadConfig(TIM2, ENABLE);
+  87              		.loc 1 41 0
+  88 0046 2946     		mov	r1, r5
+  89 0048 4FF08040 		mov	r0, #1073741824
+  90 004c FFF7FEFF 		bl	TIM_ARRPreloadConfig
+  91              	.LVL4:
+  42:src/led.c     **** 
+  43:src/led.c     **** 
+  44:src/led.c     **** 	/* TIM Main Output Enable */
+  45:src/led.c     **** 	TIM_CtrlPWMOutputs(TIM2, ENABLE);
+  92              		.loc 1 45 0
+  93 0050 2946     		mov	r1, r5
+  94 0052 4FF08040 		mov	r0, #1073741824
+  95 0056 FFF7FEFF 		bl	TIM_CtrlPWMOutputs
+  96              	.LVL5:
+  46:src/led.c     **** 
+  47:src/led.c     **** 	/* TIM enable counter */
+  48:src/led.c     **** 	TIM_Cmd(TIM2, ENABLE);
+  97              		.loc 1 48 0
+  98 005a 2946     		mov	r1, r5
+  99 005c 4FF08040 		mov	r0, #1073741824
+ 100 0060 FFF7FEFF 		bl	TIM_Cmd
+ 101              	.LVL6:
+  49:src/led.c     **** }
+ 102              		.loc 1 49 0
+ 103 0064 03B0     		add	sp, sp, #12
+ 104              	.LCFI1:
+ 105              		.cfi_def_cfa_offset 12
+ 106              		@ sp needed
+ 107 0066 30BD     		pop	{r4, r5, pc}
+ 108              	.L3:
+ 109              		.align	2
+ 110              	.L2:
+ 111 0068 00000000 		.word	TIM_OCInitStructure
+ 112 006c 00080140 		.word	1073809408
+ 113              		.cfi_endproc
+ 114              	.LFE29:
+ 116              		.align	1
+ 117              		.global	led_set
+ 118              		.thumb
+ 119              		.thumb_func
+ 121              	led_set:
+ 122              	.LFB30:
+  50:src/led.c     **** 
+  51:src/led.c     **** 
+  52:src/led.c     **** void led_set(uint8_t val){
+ 123              		.loc 1 52 0
+ 124              		.cfi_startproc
+ 125              		@ args = 0, pretend = 0, frame = 0
+ 126              		@ frame_needed = 0, uses_anonymous_args = 0
+ 127              		@ link register save eliminated.
+ 128              	.LVL7:
+  53:src/led.c     **** 	TIM2->CCR2 = val*TIM2->ARR/255;
+ 129              		.loc 1 53 0
+ 130 0070 4FF08042 		mov	r2, #1073741824
+ 131 0074 938D     		ldrh	r3, [r2, #44]
+ 132 0076 9BB2     		uxth	r3, r3
+ 133 0078 5843     		muls	r0, r3, r0
+ 134              	.LVL8:
+ 135 007a FF23     		movs	r3, #255
+ 136 007c 90FBF3F0 		sdiv	r0, r0, r3
+ 137 0080 80B2     		uxth	r0, r0
+ 138 0082 1087     		strh	r0, [r2, #56]	@ movhi
+ 139 0084 7047     		bx	lr
+ 140              		.cfi_endproc
+ 141              	.LFE30:
+ 143              		.align	1
+ 144              		.global	DEBUG_Init
+ 145              		.thumb
+ 146              		.thumb_func
+ 148              	DEBUG_Init:
+ 149              	.LFB31:
+  54:src/led.c     **** }
+  55:src/led.c     **** 
+  56:src/led.c     **** void DEBUG_Init(){
+ 150              		.loc 1 56 0
+ 151              		.cfi_startproc
+ 152              		@ args = 0, pretend = 0, frame = 8
+ 153              		@ frame_needed = 0, uses_anonymous_args = 0
+ 154 0086 07B5     		push	{r0, r1, r2, lr}
+ 155              	.LCFI2:
+ 156              		.cfi_def_cfa_offset 16
+ 157              		.cfi_offset 14, -4
+  57:src/led.c     ****   GPIO_InitTypeDef  GPIO_InitStructure;
+  58:src/led.c     **** 
+  59:src/led.c     ****   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5;
+ 158              		.loc 1 59 0
+ 159 0088 3023     		movs	r3, #48
+ 160 008a ADF80430 		strh	r3, [sp, #4]	@ movhi
+  60:src/led.c     ****   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 161              		.loc 1 60 0
+ 162 008e 0323     		movs	r3, #3
+ 163 0090 8DF80630 		strb	r3, [sp, #6]
+  61:src/led.c     ****   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+  62:src/led.c     ****   GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 164              		.loc 1 62 0
+ 165 0094 01A9     		add	r1, sp, #4
+  61:src/led.c     ****   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+ 166              		.loc 1 61 0
+ 167 0096 1023     		movs	r3, #16
+ 168              		.loc 1 62 0
+ 169 0098 0348     		ldr	r0, .L6
+  61:src/led.c     ****   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+ 170              		.loc 1 61 0
+ 171 009a 8DF80730 		strb	r3, [sp, #7]
+ 172              		.loc 1 62 0
+ 173 009e FFF7FEFF 		bl	GPIO_Init
+ 174              	.LVL9:
+  63:src/led.c     **** }
+ 175              		.loc 1 63 0
+ 176 00a2 03B0     		add	sp, sp, #12
+ 177              	.LCFI3:
+ 178              		.cfi_def_cfa_offset 4
+ 179              		@ sp needed
+ 180 00a4 5DF804FB 		ldr	pc, [sp], #4
+ 181              	.L7:
+ 182              		.align	2
+ 183              	.L6:
+ 184 00a8 000C0140 		.word	1073810432
+ 185              		.cfi_endproc
+ 186              	.LFE31:
+ 188              		.align	1
+ 189              		.global	debug_toggle
+ 190              		.thumb
+ 191              		.thumb_func
+ 193              	debug_toggle:
+ 194              	.LFB32:
+  64:src/led.c     **** 
+  65:src/led.c     **** void debug_toggle(void){
+ 195              		.loc 1 65 0
+ 196              		.cfi_startproc
+ 197              		@ args = 0, pretend = 0, frame = 0
+ 198              		@ frame_needed = 0, uses_anonymous_args = 0
+  66:src/led.c     ****     uint8_t led_bit = GPIO_ReadOutputDataBit(GPIOB, GPIO_Pin_5);
+ 199              		.loc 1 66 0
+ 200 00ac 2021     		movs	r1, #32
+  65:src/led.c     ****     uint8_t led_bit = GPIO_ReadOutputDataBit(GPIOB, GPIO_Pin_5);
+ 201              		.loc 1 65 0
+ 202 00ae 08B5     		push	{r3, lr}
+ 203              	.LCFI4:
+ 204              		.cfi_def_cfa_offset 8
+ 205              		.cfi_offset 3, -8
+ 206              		.cfi_offset 14, -4
+ 207              		.loc 1 66 0
+ 208 00b0 0748     		ldr	r0, .L11
+ 209 00b2 FFF7FEFF 		bl	GPIO_ReadOutputDataBit
+ 210              	.LVL10:
+  67:src/led.c     ****     if(led_bit == (uint8_t)Bit_SET)
+ 211              		.loc 1 67 0
+ 212 00b6 0128     		cmp	r0, #1
+  68:src/led.c     ****         GPIO_ResetBits(GPIOB, GPIO_Pin_5);
+ 213              		.loc 1 68 0
+ 214 00b8 4FF02001 		mov	r1, #32
+ 215 00bc 0448     		ldr	r0, .L11
+ 216              	.LVL11:
+  67:src/led.c     ****     if(led_bit == (uint8_t)Bit_SET)
+ 217              		.loc 1 67 0
+ 218 00be 03D1     		bne	.L9
+  69:src/led.c     ****     else
+  70:src/led.c     ****         GPIO_SetBits(GPIOB, GPIO_Pin_5);
+  71:src/led.c     **** }...
+ 219              		.loc 1 71 0
+ 220 00c0 BDE80840 		pop	{r3, lr}
+ 221              	.LCFI5:
+ 222              		.cfi_remember_state
+ 223              		.cfi_restore 14
+ 224              		.cfi_restore 3
+ 225              		.cfi_def_cfa_offset 0
+  68:src/led.c     ****         GPIO_ResetBits(GPIOB, GPIO_Pin_5);
+ 226              		.loc 1 68 0
+ 227 00c4 FFF7FEBF 		b	GPIO_ResetBits
+ 228              	.LVL12:
+ 229              	.L9:
+ 230              	.LCFI6:
+ 231              		.cfi_restore_state
+ 232              		.loc 1 71 0
+ 233 00c8 BDE80840 		pop	{r3, lr}
+ 234              	.LCFI7:
+ 235              		.cfi_restore 14
+ 236              		.cfi_restore 3
+ 237              		.cfi_def_cfa_offset 0
+  70:src/led.c     ****         GPIO_SetBits(GPIOB, GPIO_Pin_5);
+ 238              		.loc 1 70 0
+ 239 00cc FFF7FEBF 		b	GPIO_SetBits
+ 240              	.LVL13:
+ 241              	.L12:
+ 242              		.align	2
+ 243              	.L11:
+ 244 00d0 000C0140 		.word	1073810432
+ 245              		.cfi_endproc
+ 246              	.LFE32:
+ 248              		.comm	TIM_OCInitStructure,16,2
+ 249              		.comm	TIM_TimeBaseStructure,10,2
+ 250              	.Letext0:
+ 251              		.file 2 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
+ 252              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 253              		.file 4 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
+ 254              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
+ 255              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_tim.h"
+ 256              		.file 7 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 led.c
+     /tmp/ccJhnTBc.s:19     .text:00000000 $t
+     /tmp/ccJhnTBc.s:24     .text:00000000 LED_Init
+     /tmp/ccJhnTBc.s:111    .text:00000068 $d
+                            *COM*:00000010 TIM_OCInitStructure
+     /tmp/ccJhnTBc.s:116    .text:00000070 $t
+     /tmp/ccJhnTBc.s:121    .text:00000070 led_set
+     /tmp/ccJhnTBc.s:148    .text:00000086 DEBUG_Init
+     /tmp/ccJhnTBc.s:184    .text:000000a8 $d
+     /tmp/ccJhnTBc.s:188    .text:000000ac $t
+     /tmp/ccJhnTBc.s:193    .text:000000ac debug_toggle
+     /tmp/ccJhnTBc.s:244    .text:000000d0 $d
+                            *COM*:0000000a TIM_TimeBaseStructure
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+GPIO_Init
+TIM_OCStructInit
+TIM_OC2Init
+TIM_OC2PreloadConfig
+TIM_ARRPreloadConfig
+TIM_CtrlPWMOutputs
+TIM_Cmd
+GPIO_ReadOutputDataBit
+GPIO_ResetBits
+GPIO_SetBits

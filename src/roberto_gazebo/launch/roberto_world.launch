@@ -1,0 +1,18 @@
+<launch>
+  	<!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">	    
+		<arg name="world_name" value="$(find roberto_gazebo)/worlds/roberto.world"/>	    
+		<arg name="gui" value="true"/>	  
+	</include>	
+	<!-- urdf xml robot description loaded on the Parameter Server, converting the xacro into a proper urdf file-->
+	  <param name="robot_description" command="$(find xacro)/xacro.py '$(find roberto_description)/urdf/roberto.xacro'" />
+
+	<!-- push robot_description to factory and spawn robot in gazebo -->
+	<node name="roberto_spawn" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+	 args="-urdf -param robot_description -model roberto
+	 		-J roberto::servo_front_left 0.0
+	 		-J roberto::servo_front_right 0.0" />
+
+	<!-- ros_control roberto launch file -->
+	<include file="$(find roberto_control)/launch/roberto_control.launch" />
+</launch>

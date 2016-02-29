@@ -1,0 +1,342 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"servo.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.align	1
+  20              		.global	SERVO_Init
+  21              		.thumb
+  22              		.thumb_func
+  24              	SERVO_Init:
+  25              	.LFB29:
+  26              		.file 1 "src/servo.c"
+   1:src/servo.c   **** 
+   2:src/servo.c   **** #include <stdio.h>
+   3:src/servo.c   **** #include <stdbool.h>
+   4:src/servo.c   **** #include <stdint.h>
+   5:src/servo.c   **** 
+   6:src/servo.c   **** #include <stm32f10x.h>
+   7:src/servo.c   **** #include "servo.h"
+   8:src/servo.c   **** 
+   9:src/servo.c   **** 
+  10:src/servo.c   **** #define DEBUG_PRINT(args...) printf(args)
+  11:src/servo.c   **** 
+  12:src/servo.c   **** 
+  13:src/servo.c   **** TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+  14:src/servo.c   **** TIM_OCInitTypeDef  TIM_OCInitStructure;
+  15:src/servo.c   **** 
+  16:src/servo.c   **** #define MAX 6800
+  17:src/servo.c   **** #define MIN 2000
+  18:src/servo.c   **** 
+  19:src/servo.c   **** 
+  20:src/servo.c   **** void SERVO_Init(){
+  27              		.loc 1 20 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 8
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31 0000 F7B5     		push	{r0, r1, r2, r4, r5, r6, r7, lr}
+  32              	.LCFI0:
+  33              		.cfi_def_cfa_offset 32
+  34              		.cfi_offset 4, -20
+  35              		.cfi_offset 5, -16
+  36              		.cfi_offset 6, -12
+  37              		.cfi_offset 7, -8
+  38              		.cfi_offset 14, -4
+  21:src/servo.c   **** 
+  22:src/servo.c   **** 	GPIO_InitTypeDef GPIO_InitStructure;
+  23:src/servo.c   **** 
+  24:src/servo.c   **** 	/*Configure GPIO pin : PB8 */
+  25:src/servo.c   **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
+  26:src/servo.c   **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+  27:src/servo.c   **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  28:src/servo.c   **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+  39              		.loc 1 28 0
+  40 0002 284C     		ldr	r4, .L2
+  25:src/servo.c   **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+  41              		.loc 1 25 0
+  42 0004 4FF48073 		mov	r3, #256
+  26:src/servo.c   **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  43              		.loc 1 26 0
+  44 0008 1826     		movs	r6, #24
+  27:src/servo.c   **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+  45              		.loc 1 27 0
+  46 000a 0325     		movs	r5, #3
+  47              		.loc 1 28 0
+  48 000c 01A9     		add	r1, sp, #4
+  49 000e 2046     		mov	r0, r4
+  25:src/servo.c   **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+  50              		.loc 1 25 0
+  51 0010 ADF80430 		strh	r3, [sp, #4]	@ movhi
+  26:src/servo.c   **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  52              		.loc 1 26 0
+  53 0014 8DF80760 		strb	r6, [sp, #7]
+  27:src/servo.c   **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+  54              		.loc 1 27 0
+  55 0018 8DF80650 		strb	r5, [sp, #6]
+  56              		.loc 1 28 0
+  57 001c FFF7FEFF 		bl	GPIO_Init
+  58              	.LVL0:
+  29:src/servo.c   **** 
+  30:src/servo.c   **** 	/*Configure GPIO pin : PB9 */
+  31:src/servo.c   **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
+  59              		.loc 1 31 0
+  60 0020 4FF40073 		mov	r3, #512
+  32:src/servo.c   **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+  33:src/servo.c   **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  34:src/servo.c   **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+  61              		.loc 1 34 0
+  62 0024 01A9     		add	r1, sp, #4
+  63 0026 2046     		mov	r0, r4
+  31:src/servo.c   **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+  64              		.loc 1 31 0
+  65 0028 ADF80430 		strh	r3, [sp, #4]	@ movhi
+  32:src/servo.c   **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+  66              		.loc 1 32 0
+  67 002c 8DF80760 		strb	r6, [sp, #7]
+  33:src/servo.c   **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+  68              		.loc 1 33 0
+  69 0030 8DF80650 		strb	r5, [sp, #6]
+  70              		.loc 1 34 0
+  71 0034 FFF7FEFF 		bl	GPIO_Init
+  72              	.LVL1:
+  35:src/servo.c   **** 
+  36:src/servo.c   **** 
+  37:src/servo.c   **** 	TIM_TimeBaseStructure.TIM_Period = 59999; // ie 0..29999
+  73              		.loc 1 37 0
+  74 0038 4EF65F23 		movw	r3, #59999
+  75 003c 1A49     		ldr	r1, .L2+4
+  38:src/servo.c   **** 	TIM_TimeBaseStructure.TIM_Prescaler = 23;
+  39:src/servo.c   **** 	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
+  40:src/servo.c   **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+  41:src/servo.c   **** 
+  42:src/servo.c   **** 	TIM_TimeBaseInit(TIM4, &TIM_TimeBaseStructure);
+  76              		.loc 1 42 0
+  77 003e A4F58234 		sub	r4, r4, #66560
+  43:src/servo.c   **** 
+  44:src/servo.c   **** 	TIM_OCStructInit(&TIM_OCInitStructure); // clears the other 4 fields not used here
+  78              		.loc 1 44 0
+  79 0042 1A4D     		ldr	r5, .L2+8
+  39:src/servo.c   **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+  80              		.loc 1 39 0
+  81 0044 0027     		movs	r7, #0
+  37:src/servo.c   **** 	TIM_TimeBaseStructure.TIM_Prescaler = 23;
+  82              		.loc 1 37 0
+  83 0046 8B80     		strh	r3, [r1, #4]	@ movhi
+  42:src/servo.c   **** 
+  84              		.loc 1 42 0
+  85 0048 2046     		mov	r0, r4
+  38:src/servo.c   **** 	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
+  86              		.loc 1 38 0
+  87 004a 1723     		movs	r3, #23
+  88 004c 0B80     		strh	r3, [r1]	@ movhi
+  39:src/servo.c   **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+  89              		.loc 1 39 0
+  90 004e CF80     		strh	r7, [r1, #6]	@ movhi
+  40:src/servo.c   **** 
+  91              		.loc 1 40 0
+  92 0050 4F80     		strh	r7, [r1, #2]	@ movhi
+  42:src/servo.c   **** 
+  93              		.loc 1 42 0
+  94 0052 FFF7FEFF 		bl	TIM_TimeBaseInit
+  95              	.LVL2:
+  96              		.loc 1 44 0
+  97 0056 2846     		mov	r0, r5
+  98 0058 FFF7FEFF 		bl	TIM_OCStructInit
+  99              	.LVL3:
+  45:src/servo.c   **** 
+  46:src/servo.c   **** 	/* PWM1 Mode configuration: Channel1 */
+  47:src/servo.c   **** 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+  48:src/servo.c   **** 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+ 100              		.loc 1 48 0
+ 101 005c 0126     		movs	r6, #1
+  47:src/servo.c   **** 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+ 102              		.loc 1 47 0
+ 103 005e 6023     		movs	r3, #96
+  49:src/servo.c   **** 	TIM_OCInitStructure.TIM_Pulse = 0x0000;
+  50:src/servo.c   **** 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+  51:src/servo.c   **** 
+  52:src/servo.c   **** 	TIM_OC3Init(TIM4, &TIM_OCInitStructure);
+ 104              		.loc 1 52 0
+ 105 0060 2946     		mov	r1, r5
+ 106 0062 2046     		mov	r0, r4
+  47:src/servo.c   **** 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+ 107              		.loc 1 47 0
+ 108 0064 2B80     		strh	r3, [r5]	@ movhi
+  48:src/servo.c   **** 	TIM_OCInitStructure.TIM_Pulse = 0x0000;
+ 109              		.loc 1 48 0
+ 110 0066 6E80     		strh	r6, [r5, #2]	@ movhi
+  49:src/servo.c   **** 	TIM_OCInitStructure.TIM_Pulse = 0x0000;
+ 111              		.loc 1 49 0
+ 112 0068 EF80     		strh	r7, [r5, #6]	@ movhi
+  50:src/servo.c   **** 
+ 113              		.loc 1 50 0
+ 114 006a 2F81     		strh	r7, [r5, #8]	@ movhi
+ 115              		.loc 1 52 0
+ 116 006c FFF7FEFF 		bl	TIM_OC3Init
+ 117              	.LVL4:
+  53:src/servo.c   **** 	TIM_OC4Init(TIM4, &TIM_OCInitStructure);
+ 118              		.loc 1 53 0
+ 119 0070 2946     		mov	r1, r5
+ 120 0072 2046     		mov	r0, r4
+ 121 0074 FFF7FEFF 		bl	TIM_OC4Init
+ 122              	.LVL5:
+  54:src/servo.c   **** 	
+  55:src/servo.c   **** 	TIM_OC3PreloadConfig(TIM4, TIM_OCPreload_Enable);
+ 123              		.loc 1 55 0
+ 124 0078 2046     		mov	r0, r4
+ 125 007a 0821     		movs	r1, #8
+ 126 007c FFF7FEFF 		bl	TIM_OC3PreloadConfig
+ 127              	.LVL6:
+  56:src/servo.c   **** 	TIM_OC4PreloadConfig(TIM4, TIM_OCPreload_Enable);
+ 128              		.loc 1 56 0
+ 129 0080 2046     		mov	r0, r4
+ 130 0082 0821     		movs	r1, #8
+ 131 0084 FFF7FEFF 		bl	TIM_OC4PreloadConfig
+ 132              	.LVL7:
+  57:src/servo.c   **** 
+  58:src/servo.c   **** 	TIM_ARRPreloadConfig(TIM4, ENABLE);
+ 133              		.loc 1 58 0
+ 134 0088 3146     		mov	r1, r6
+ 135 008a 2046     		mov	r0, r4
+ 136 008c FFF7FEFF 		bl	TIM_ARRPreloadConfig
+ 137              	.LVL8:
+  59:src/servo.c   **** 
+  60:src/servo.c   **** 	/* TIM Main Output Enable */
+  61:src/servo.c   **** 	TIM_CtrlPWMOutputs(TIM4, ENABLE);
+ 138              		.loc 1 61 0
+ 139 0090 3146     		mov	r1, r6
+ 140 0092 2046     		mov	r0, r4
+ 141 0094 FFF7FEFF 		bl	TIM_CtrlPWMOutputs
+ 142              	.LVL9:
+  62:src/servo.c   **** 
+  63:src/servo.c   **** 	/* TIM enable counter */
+  64:src/servo.c   **** 	TIM_Cmd(TIM4, ENABLE);
+ 143              		.loc 1 64 0
+ 144 0098 3146     		mov	r1, r6
+ 145 009a 2046     		mov	r0, r4
+ 146 009c FFF7FEFF 		bl	TIM_Cmd
+ 147              	.LVL10:
+  65:src/servo.c   **** }
+ 148              		.loc 1 65 0
+ 149 00a0 03B0     		add	sp, sp, #12
+ 150              	.LCFI1:
+ 151              		.cfi_def_cfa_offset 20
+ 152              		@ sp needed
+ 153 00a2 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 154              	.L3:
+ 155              		.align	2
+ 156              	.L2:
+ 157 00a4 000C0140 		.word	1073810432
+ 158 00a8 00000000 		.word	TIM_TimeBaseStructure
+ 159 00ac 00000000 		.word	TIM_OCInitStructure
+ 160              		.cfi_endproc
+ 161              	.LFE29:
+ 163              		.align	1
+ 164              		.global	servo_set
+ 165              		.thumb
+ 166              		.thumb_func
+ 168              	servo_set:
+ 169              	.LFB30:
+  66:src/servo.c   **** 
+  67:src/servo.c   **** 
+  68:src/servo.c   **** void servo_set(uint8_t id, uint8_t val){
+ 170              		.loc 1 68 0
+ 171              		.cfi_startproc
+ 172              		@ args = 0, pretend = 0, frame = 0
+ 173              		@ frame_needed = 0, uses_anonymous_args = 0
+ 174              		@ link register save eliminated.
+ 175              	.LVL11:
+ 176 00b0 B429     		cmp	r1, #180
+ 177 00b2 28BF     		it	cs
+ 178 00b4 B421     		movcs	r1, #180
+ 179              	.LVL12:
+  69:src/servo.c   **** 	if(val > 180){
+  70:src/servo.c   **** 		val = 180;
+  71:src/servo.c   **** 	}else if(val < 0){
+  72:src/servo.c   **** 		val = 0;
+  73:src/servo.c   **** 	}
+  74:src/servo.c   **** 	if(id == 0)
+ 180              		.loc 1 74 0
+ 181 00b6 58B9     		cbnz	r0, .L5
+  75:src/servo.c   **** 		TIM4->CCR3 = val * (MAX - MIN) / 180 + MIN;
+ 182              		.loc 1 75 0
+ 183 00b8 4FF49652 		mov	r2, #4800
+ 184 00bc 5143     		muls	r1, r2, r1
+ 185              	.LVL13:
+ 186 00be B423     		movs	r3, #180
+ 187 00c0 91FBF3F3 		sdiv	r3, r1, r3
+ 188 00c4 0A4A     		ldr	r2, .L8
+ 189 00c6 03F5FA63 		add	r3, r3, #2000
+ 190 00ca 9BB2     		uxth	r3, r3
+ 191 00cc 9387     		strh	r3, [r2, #60]	@ movhi
+ 192 00ce 7047     		bx	lr
+ 193              	.LVL14:
+ 194              	.L5:
+  76:src/servo.c   **** 	else if(id == 1)
+ 195              		.loc 1 76 0
+ 196 00d0 0128     		cmp	r0, #1
+ 197 00d2 0BD1     		bne	.L4
+  77:src/servo.c   **** 		TIM4->CCR4 = val * (MAX - MIN) / 180 + MIN;
+ 198              		.loc 1 77 0
+ 199 00d4 4FF49652 		mov	r2, #4800
+ 200 00d8 5143     		muls	r1, r2, r1
+ 201              	.LVL15:
+ 202 00da B423     		movs	r3, #180
+ 203 00dc 91FBF3F3 		sdiv	r3, r1, r3
+ 204 00e0 034A     		ldr	r2, .L8
+ 205 00e2 03F5FA63 		add	r3, r3, #2000
+ 206 00e6 9BB2     		uxth	r3, r3
+ 207 00e8 A2F84030 		strh	r3, [r2, #64]	@ movhi
+ 208              	.L4:
+ 209 00ec 7047     		bx	lr
+ 210              	.L9:
+ 211 00ee 00BF     		.align	2
+ 212              	.L8:
+ 213 00f0 00080040 		.word	1073743872
+ 214              		.cfi_endproc
+ 215              	.LFE30:
+ 217              		.comm	TIM_OCInitStructure,16,2
+ 218              		.comm	TIM_TimeBaseStructure,10,2
+ 219              	.Letext0:
+ 220              		.file 2 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
+ 221              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 222              		.file 4 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
+ 223              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
+ 224              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_tim.h"
+ 225              		.file 7 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 servo.c
+     /tmp/ccx67Sn5.s:19     .text:00000000 $t
+     /tmp/ccx67Sn5.s:24     .text:00000000 SERVO_Init
+     /tmp/ccx67Sn5.s:157    .text:000000a4 $d
+                            *COM*:0000000a TIM_TimeBaseStructure
+                            *COM*:00000010 TIM_OCInitStructure
+     /tmp/ccx67Sn5.s:163    .text:000000b0 $t
+     /tmp/ccx67Sn5.s:168    .text:000000b0 servo_set
+     /tmp/ccx67Sn5.s:213    .text:000000f0 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+GPIO_Init
+TIM_TimeBaseInit
+TIM_OCStructInit
+TIM_OC3Init
+TIM_OC4Init
+TIM_OC3PreloadConfig
+TIM_OC4PreloadConfig
+TIM_ARRPreloadConfig
+TIM_CtrlPWMOutputs
+TIM_Cmd

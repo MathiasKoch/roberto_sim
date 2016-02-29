@@ -1,0 +1,1601 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"motors.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.align	1
+  20              		.global	motor_set_speed
+  21              		.thumb
+  22              		.thumb_func
+  24              	motor_set_speed:
+  25              	.LFB30:
+  26              		.file 1 "src/motors.c"
+   1:src/motors.c  **** 
+   2:src/motors.c  **** 
+   3:src/motors.c  **** #include <stdio.h>
+   4:src/motors.c  **** #include <stdbool.h>
+   5:src/motors.c  **** #include <stdint.h>
+   6:src/motors.c  **** 
+   7:src/motors.c  **** #include <stm32f10x.h>
+   8:src/motors.c  **** #include "motors.h"
+   9:src/motors.c  **** 
+  10:src/motors.c  **** 
+  11:src/motors.c  **** #define DEBUG_PRINT(args...) printf(args)
+  12:src/motors.c  **** 
+  13:src/motors.c  **** TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+  14:src/motors.c  **** TIM_OCInitTypeDef  TIM_OCInitStructure;
+  15:src/motors.c  **** 
+  16:src/motors.c  **** #define PERIOD 14399
+  17:src/motors.c  **** #define PRESCALER 0
+  18:src/motors.c  **** #define CLOCKDIV 0
+  19:src/motors.c  **** 
+  20:src/motors.c  **** void MOTOR_Init(void){
+  21:src/motors.c  **** 
+  22:src/motors.c  **** 	GPIO_InitTypeDef GPIO_InitStructure;
+  23:src/motors.c  **** 
+  24:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
+  25:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+  26:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  27:src/motors.c  **** 	GPIO_Init(GPIOC, &GPIO_InitStructure);
+  28:src/motors.c  **** 
+  29:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
+  30:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+  31:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  32:src/motors.c  **** 	GPIO_Init(GPIOC, &GPIO_InitStructure);
+  33:src/motors.c  **** 
+  34:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14;
+  35:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+  36:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  37:src/motors.c  **** 	GPIO_Init(GPIOC, &GPIO_InitStructure);
+  38:src/motors.c  **** 
+  39:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
+  40:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+  41:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  42:src/motors.c  **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+  43:src/motors.c  **** 
+  44:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
+  45:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+  46:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  47:src/motors.c  **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+  48:src/motors.c  **** 
+  49:src/motors.c  **** 
+  50:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_Period = PERIOD; // ie 0..29999
+  51:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_Prescaler = PRESCALER;
+  52:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_ClockDivision = CLOCKDIV;
+  53:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+  54:src/motors.c  **** 
+  55:src/motors.c  **** 	TIM_TimeBaseInit(TIM1, &TIM_TimeBaseStructure);
+  56:src/motors.c  **** 
+  57:src/motors.c  **** 	TIM_OCStructInit(&TIM_OCInitStructure); // clears the other 4 fields not used here
+  58:src/motors.c  **** 
+  59:src/motors.c  **** 	/* PWM1 Mode configuration: Channel1 */
+  60:src/motors.c  **** 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+  61:src/motors.c  **** 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+  62:src/motors.c  **** 	TIM_OCInitStructure.TIM_Pulse = 0x0000;
+  63:src/motors.c  **** 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+  64:src/motors.c  **** 
+  65:src/motors.c  **** 	TIM_OC1Init(TIM1, &TIM_OCInitStructure);
+  66:src/motors.c  **** 	TIM_OC1PreloadConfig(TIM1, TIM_OCPreload_Enable);
+  67:src/motors.c  **** 
+  68:src/motors.c  **** 	TIM_ARRPreloadConfig(TIM1, ENABLE);
+  69:src/motors.c  **** 
+  70:src/motors.c  **** 	TIM_CtrlPWMOutputs(TIM1, ENABLE);
+  71:src/motors.c  **** 
+  72:src/motors.c  **** 	TIM_Cmd(TIM1, ENABLE);
+  73:src/motors.c  **** 
+  74:src/motors.c  **** 
+  75:src/motors.c  **** 
+  76:src/motors.c  **** 
+  77:src/motors.c  **** 	// IN2_A
+  78:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
+  79:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+  80:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  81:src/motors.c  **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+  82:src/motors.c  **** 
+  83:src/motors.c  **** 	// IN2_B
+  84:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+  85:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+  86:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  87:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+  88:src/motors.c  **** 
+  89:src/motors.c  **** 	// EN2_A
+  90:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
+  91:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+  92:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  93:src/motors.c  **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+  94:src/motors.c  **** 
+  95:src/motors.c  **** 	// EN2_B
+  96:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
+  97:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+  98:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  99:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 100:src/motors.c  **** 
+ 101:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
+ 102:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+ 103:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 104:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 105:src/motors.c  **** 
+ 106:src/motors.c  **** 
+ 107:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_Period = PERIOD; // ie 0..29999
+ 108:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_Prescaler = PRESCALER;
+ 109:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_ClockDivision = CLOCKDIV;
+ 110:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+ 111:src/motors.c  **** 
+ 112:src/motors.c  **** 	TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
+ 113:src/motors.c  **** 
+ 114:src/motors.c  **** 	TIM_OCStructInit(&TIM_OCInitStructure); // clears the other 4 fields not used here
+ 115:src/motors.c  **** 
+ 116:src/motors.c  **** 	/* PWM1 Mode configuration: Channel1 */
+ 117:src/motors.c  **** 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+ 118:src/motors.c  **** 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+ 119:src/motors.c  **** 	TIM_OCInitStructure.TIM_Pulse = 0x0000;
+ 120:src/motors.c  **** 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+ 121:src/motors.c  **** 
+ 122:src/motors.c  **** 	TIM_OC4Init(TIM3, &TIM_OCInitStructure);
+ 123:src/motors.c  **** 	TIM_OC4PreloadConfig(TIM3, TIM_OCPreload_Enable);
+ 124:src/motors.c  **** 
+ 125:src/motors.c  **** 	TIM_ARRPreloadConfig(TIM3, ENABLE);
+ 126:src/motors.c  **** 
+ 127:src/motors.c  **** 	TIM_CtrlPWMOutputs(TIM3, ENABLE);
+ 128:src/motors.c  **** 
+ 129:src/motors.c  **** 	TIM_Cmd(TIM3, ENABLE);
+ 130:src/motors.c  **** 
+ 131:src/motors.c  **** 
+ 132:src/motors.c  **** 
+ 133:src/motors.c  **** 
+ 134:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;
+ 135:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+ 136:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 137:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 138:src/motors.c  **** 
+ 139:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
+ 140:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+ 141:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 142:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 143:src/motors.c  **** 
+ 144:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
+ 145:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 146:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 147:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 148:src/motors.c  **** 
+ 149:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14;
+ 150:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 151:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 152:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 153:src/motors.c  **** 
+ 154:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
+ 155:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+ 156:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 157:src/motors.c  **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+ 158:src/motors.c  **** 
+ 159:src/motors.c  **** 
+ 160:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_Period = PERIOD; // ie 0..29999
+ 161:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_Prescaler = PRESCALER;
+ 162:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_ClockDivision = CLOCKDIV;
+ 163:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+ 164:src/motors.c  **** 
+ 165:src/motors.c  **** 	TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
+ 166:src/motors.c  **** 
+ 167:src/motors.c  **** 	TIM_OCStructInit(&TIM_OCInitStructure); // clears the other 4 fields not used here
+ 168:src/motors.c  **** 
+ 169:src/motors.c  **** 	/* PWM1 Mode configuration: Channel1 */
+ 170:src/motors.c  **** 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+ 171:src/motors.c  **** 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+ 172:src/motors.c  **** 	TIM_OCInitStructure.TIM_Pulse = 0x0000;
+ 173:src/motors.c  **** 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+ 174:src/motors.c  **** 
+ 175:src/motors.c  **** 	TIM_OC4Init(TIM2, &TIM_OCInitStructure);
+ 176:src/motors.c  **** 	TIM_OC4PreloadConfig(TIM2, TIM_OCPreload_Enable);
+ 177:src/motors.c  **** 
+ 178:src/motors.c  **** 	TIM_ARRPreloadConfig(TIM2, ENABLE);
+ 179:src/motors.c  **** 
+ 180:src/motors.c  **** 	TIM_CtrlPWMOutputs(TIM2, ENABLE);
+ 181:src/motors.c  **** 
+ 182:src/motors.c  **** 	TIM_Cmd(TIM2, ENABLE);
+ 183:src/motors.c  **** 
+ 184:src/motors.c  **** 
+ 185:src/motors.c  **** 	GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
+ 186:src/motors.c  **** 
+ 187:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
+ 188:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+ 189:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 190:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 191:src/motors.c  **** 
+ 192:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
+ 193:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+ 194:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 195:src/motors.c  **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+ 196:src/motors.c  **** 
+ 197:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
+ 198:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 199:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 200:src/motors.c  **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+ 201:src/motors.c  **** 
+ 202:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
+ 203:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 204:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 205:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 206:src/motors.c  **** 
+ 207:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;
+ 208:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+ 209:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 210:src/motors.c  **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+ 211:src/motors.c  **** 
+ 212:src/motors.c  **** 
+ 213:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_Period = PERIOD*2; // ie 0..29999
+ 214:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_Prescaler = PRESCALER;
+ 215:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_ClockDivision = CLOCKDIV;
+ 216:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+ 217:src/motors.c  **** 
+ 218:src/motors.c  **** 	TIM_TimeBaseInit(TIM1, &TIM_TimeBaseStructure);
+ 219:src/motors.c  **** 
+ 220:src/motors.c  **** 	TIM_OCStructInit(&TIM_OCInitStructure); // clears the other 4 fields not used here
+ 221:src/motors.c  **** 
+ 222:src/motors.c  **** 	/* PWM1 Mode configuration: Channel1 */
+ 223:src/motors.c  **** 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+ 224:src/motors.c  **** 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+ 225:src/motors.c  **** 	TIM_OCInitStructure.TIM_Pulse = 0x0000;
+ 226:src/motors.c  **** 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+ 227:src/motors.c  **** 
+ 228:src/motors.c  **** 	TIM_OC4Init(TIM1, &TIM_OCInitStructure);
+ 229:src/motors.c  **** 	TIM_OC4PreloadConfig(TIM1, TIM_OCPreload_Enable);
+ 230:src/motors.c  **** 
+ 231:src/motors.c  **** 	TIM_ARRPreloadConfig(TIM1, ENABLE);
+ 232:src/motors.c  **** 
+ 233:src/motors.c  **** 	TIM_CtrlPWMOutputs(TIM1, ENABLE);
+ 234:src/motors.c  **** 
+ 235:src/motors.c  **** 	TIM_Cmd(TIM1, ENABLE);
+ 236:src/motors.c  **** 
+ 237:src/motors.c  **** 
+ 238:src/motors.c  **** 	motor_set_speed(0, 7000, DIR_FORWARD);
+ 239:src/motors.c  **** 	motor_set_speed(1, 7000, DIR_REVERSE);
+ 240:src/motors.c  **** 	motor_set_speed(2, 7000, DIR_REVERSE);
+ 241:src/motors.c  **** 	motor_set_speed(3, 7000, DIR_REVERSE);
+ 242:src/motors.c  **** }
+ 243:src/motors.c  **** 
+ 244:src/motors.c  **** uint8_t motor_set_speed(int motor_id, uint16_t speed, int dir){
+  27              		.loc 1 244 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              	.LVL0:
+  32 0000 70B5     		push	{r4, r5, r6, lr}
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 16
+  35              		.cfi_offset 4, -16
+  36              		.cfi_offset 5, -12
+  37              		.cfi_offset 6, -8
+  38              		.cfi_offset 14, -4
+  39              		.loc 1 244 0
+  40 0002 0C46     		mov	r4, r1
+  41 0004 1546     		mov	r5, r2
+ 245:src/motors.c  **** 	/*if(speed < 0)
+ 246:src/motors.c  **** 		speed = 0;
+ 247:src/motors.c  **** 	if(speed > PERIOD)
+ 248:src/motors.c  **** 		speed = PERIOD;*/
+ 249:src/motors.c  **** 
+ 250:src/motors.c  **** 	if(motor_id == 0){
+  42              		.loc 1 250 0
+  43 0006 0646     		mov	r6, r0
+  44 0008 0028     		cmp	r0, #0
+  45 000a 3ED1     		bne	.L2
+ 251:src/motors.c  **** 		if(speed > 0){
+ 252:src/motors.c  **** 			GPIO_WriteBit(GPIOC, GPIO_Pin_14, 1);
+  46              		.loc 1 252 0
+  47 000c 0122     		movs	r2, #1
+  48              	.LVL1:
+  49 000e 4FF48041 		mov	r1, #16384
+  50              	.LVL2:
+  51 0012 7748     		ldr	r0, .L25
+  52              	.LVL3:
+ 251:src/motors.c  **** 		if(speed > 0){
+  53              		.loc 1 251 0
+  54 0014 0CB3     		cbz	r4, .L3
+  55              		.loc 1 252 0
+  56 0016 FFF7FEFF 		bl	GPIO_WriteBit
+  57              	.LVL4:
+ 253:src/motors.c  **** 			GPIO_WriteBit(GPIOA, GPIO_Pin_0, 1);
+  58              		.loc 1 253 0
+  59 001a 0122     		movs	r2, #1
+  60 001c 1146     		mov	r1, r2
+  61 001e 7548     		ldr	r0, .L25+4
+  62 0020 FFF7FEFF 		bl	GPIO_WriteBit
+  63              	.LVL5:
+ 254:src/motors.c  **** 
+ 255:src/motors.c  **** 			if(dir == DIR_FORWARD){
+  64              		.loc 1 255 0
+  65 0024 55B9     		cbnz	r5, .L4
+ 256:src/motors.c  **** 				GPIO_SetBits(GPIOC, GPIO_Pin_13);
+  66              		.loc 1 256 0
+  67 0026 4FF40051 		mov	r1, #8192
+  68 002a 7148     		ldr	r0, .L25
+  69 002c FFF7FEFF 		bl	GPIO_SetBits
+  70              	.LVL6:
+ 257:src/motors.c  **** 				GPIO_ResetBits(GPIOC, GPIO_Pin_15);
+  71              		.loc 1 257 0
+  72 0030 4FF40041 		mov	r1, #32768
+  73 0034 6E48     		ldr	r0, .L25
+  74 0036 FFF7FEFF 		bl	GPIO_ResetBits
+  75              	.LVL7:
+  76 003a 21E0     		b	.L5
+  77              	.L4:
+ 258:src/motors.c  **** 			}else if(dir == DIR_REVERSE){
+  78              		.loc 1 258 0
+  79 003c 012D     		cmp	r5, #1
+  80 003e 01D0     		beq	.L6
+  81              	.L12:
+ 259:src/motors.c  **** 				GPIO_ResetBits(GPIOC, GPIO_Pin_13);
+ 260:src/motors.c  **** 				GPIO_SetBits(GPIOC, GPIO_Pin_15);
+ 261:src/motors.c  **** 			}else{
+ 262:src/motors.c  **** 				return ERROR_DIR_INAVAILABLE;
+  82              		.loc 1 262 0
+  83 0040 0220     		movs	r0, #2
+  84 0042 70BD     		pop	{r4, r5, r6, pc}
+  85              	.LVL8:
+  86              	.L6:
+ 259:src/motors.c  **** 				GPIO_ResetBits(GPIOC, GPIO_Pin_13);
+  87              		.loc 1 259 0
+  88 0044 4FF40051 		mov	r1, #8192
+  89 0048 6948     		ldr	r0, .L25
+  90 004a FFF7FEFF 		bl	GPIO_ResetBits
+  91              	.LVL9:
+ 260:src/motors.c  **** 			}else{
+  92              		.loc 1 260 0
+  93 004e 4FF40041 		mov	r1, #32768
+  94 0052 6748     		ldr	r0, .L25
+  95 0054 FFF7FEFF 		bl	GPIO_SetBits
+  96              	.LVL10:
+  97 0058 12E0     		b	.L5
+  98              	.L3:
+ 263:src/motors.c  **** 			}
+ 264:src/motors.c  **** 		}else{
+ 265:src/motors.c  **** 			GPIO_WriteBit(GPIOC, GPIO_Pin_14, 1);
+  99              		.loc 1 265 0
+ 100 005a FFF7FEFF 		bl	GPIO_WriteBit
+ 101              	.LVL11:
+ 266:src/motors.c  **** 			GPIO_WriteBit(GPIOA, GPIO_Pin_0, 1);
+ 102              		.loc 1 266 0
+ 103 005e 0122     		movs	r2, #1
+ 104 0060 1146     		mov	r1, r2
+ 105 0062 6448     		ldr	r0, .L25+4
+ 106 0064 FFF7FEFF 		bl	GPIO_WriteBit
+ 107              	.LVL12:
+ 267:src/motors.c  **** 
+ 268:src/motors.c  **** 			// Break to GND
+ 269:src/motors.c  **** 			GPIO_WriteBit(GPIOC, GPIO_Pin_13, 0);
+ 108              		.loc 1 269 0
+ 109 0068 2246     		mov	r2, r4
+ 110 006a 4FF40051 		mov	r1, #8192
+ 111 006e 6048     		ldr	r0, .L25
+ 112 0070 FFF7FEFF 		bl	GPIO_WriteBit
+ 113              	.LVL13:
+ 270:src/motors.c  **** 			GPIO_WriteBit(GPIOC, GPIO_Pin_15, 0);
+ 114              		.loc 1 270 0
+ 115 0074 2246     		mov	r2, r4
+ 116 0076 4FF40041 		mov	r1, #32768
+ 117 007a 5D48     		ldr	r0, .L25
+ 118 007c FFF7FEFF 		bl	GPIO_WriteBit
+ 119              	.LVL14:
+ 120              	.L5:
+ 271:src/motors.c  **** 		}
+ 272:src/motors.c  **** 
+ 273:src/motors.c  **** 
+ 274:src/motors.c  **** 		TIM1->CCR1 = (uint32_t)speed*2;
+ 121              		.loc 1 274 0
+ 122 0080 6400     		lsls	r4, r4, #1
+ 123 0082 5D4B     		ldr	r3, .L25+8
+ 124 0084 A4B2     		uxth	r4, r4
+ 125 0086 9C86     		strh	r4, [r3, #52]	@ movhi
+ 126 0088 ADE0     		b	.L23
+ 127              	.LVL15:
+ 128              	.L2:
+ 275:src/motors.c  **** 	}else if(motor_id == 1){
+ 129              		.loc 1 275 0
+ 130 008a 0128     		cmp	r0, #1
+ 131 008c 34D1     		bne	.L8
+ 276:src/motors.c  **** 		if(speed != 0){
+ 277:src/motors.c  **** 			GPIO_WriteBit(GPIOA, GPIO_Pin_5, 1);
+ 132              		.loc 1 277 0
+ 133 008e 0246     		mov	r2, r0
+ 134              	.LVL16:
+ 135 0090 2021     		movs	r1, #32
+ 136              	.LVL17:
+ 137 0092 5848     		ldr	r0, .L25+4
+ 138              	.LVL18:
+ 276:src/motors.c  **** 		if(speed != 0){
+ 139              		.loc 1 276 0
+ 140 0094 E4B1     		cbz	r4, .L9
+ 141              	.LVL19:
+ 142              		.loc 1 277 0
+ 143 0096 FFF7FEFF 		bl	GPIO_WriteBit
+ 144              	.LVL20:
+ 278:src/motors.c  **** 			GPIO_WriteBit(GPIOB, GPIO_Pin_10, 1);
+ 145              		.loc 1 278 0
+ 146 009a 3246     		mov	r2, r6
+ 147 009c 4FF48061 		mov	r1, #1024
+ 148 00a0 5648     		ldr	r0, .L25+12
+ 149 00a2 FFF7FEFF 		bl	GPIO_WriteBit
+ 150              	.LVL21:
+ 279:src/motors.c  **** 
+ 280:src/motors.c  **** 			if(dir == DIR_FORWARD){
+ 151              		.loc 1 280 0
+ 152 00a6 45B9     		cbnz	r5, .L10
+ 281:src/motors.c  **** 				GPIO_SetBits(GPIOA, GPIO_Pin_4);
+ 153              		.loc 1 281 0
+ 154 00a8 1021     		movs	r1, #16
+ 155 00aa 5248     		ldr	r0, .L25+4
+ 156 00ac FFF7FEFF 		bl	GPIO_SetBits
+ 157              	.LVL22:
+ 282:src/motors.c  **** 				GPIO_ResetBits(GPIOB, GPIO_Pin_2);
+ 158              		.loc 1 282 0
+ 159 00b0 0421     		movs	r1, #4
+ 160 00b2 5248     		ldr	r0, .L25+12
+ 161 00b4 FFF7FEFF 		bl	GPIO_ResetBits
+ 162              	.LVL23:
+ 163 00b8 1CE0     		b	.L11
+ 164              	.L10:
+ 283:src/motors.c  **** 			}else if(dir == DIR_REVERSE){
+ 165              		.loc 1 283 0
+ 166 00ba 012D     		cmp	r5, #1
+ 167 00bc C0D1     		bne	.L12
+ 284:src/motors.c  **** 				GPIO_ResetBits(GPIOA, GPIO_Pin_4);
+ 168              		.loc 1 284 0
+ 169 00be 1021     		movs	r1, #16
+ 170 00c0 4C48     		ldr	r0, .L25+4
+ 171 00c2 FFF7FEFF 		bl	GPIO_ResetBits
+ 172              	.LVL24:
+ 285:src/motors.c  **** 				GPIO_SetBits(GPIOB, GPIO_Pin_2);
+ 173              		.loc 1 285 0
+ 174 00c6 0421     		movs	r1, #4
+ 175 00c8 4C48     		ldr	r0, .L25+12
+ 176 00ca FFF7FEFF 		bl	GPIO_SetBits
+ 177              	.LVL25:
+ 178 00ce 11E0     		b	.L11
+ 179              	.LVL26:
+ 180              	.L9:
+ 286:src/motors.c  **** 			}else{
+ 287:src/motors.c  **** 				return ERROR_DIR_INAVAILABLE;
+ 288:src/motors.c  **** 			}	
+ 289:src/motors.c  **** 		}else{
+ 290:src/motors.c  **** 			GPIO_WriteBit(GPIOA, GPIO_Pin_5, 1);
+ 181              		.loc 1 290 0
+ 182 00d0 FFF7FEFF 		bl	GPIO_WriteBit
+ 183              	.LVL27:
+ 291:src/motors.c  **** 			GPIO_WriteBit(GPIOB, GPIO_Pin_10, 1);
+ 184              		.loc 1 291 0
+ 185 00d4 3246     		mov	r2, r6
+ 186 00d6 4FF48061 		mov	r1, #1024
+ 187 00da 4848     		ldr	r0, .L25+12
+ 188 00dc FFF7FEFF 		bl	GPIO_WriteBit
+ 189              	.LVL28:
+ 292:src/motors.c  **** 
+ 293:src/motors.c  **** 			// Break to GND
+ 294:src/motors.c  **** 			GPIO_WriteBit(GPIOA, GPIO_Pin_4, 0);
+ 190              		.loc 1 294 0
+ 191 00e0 2246     		mov	r2, r4
+ 192 00e2 1021     		movs	r1, #16
+ 193 00e4 4348     		ldr	r0, .L25+4
+ 194 00e6 FFF7FEFF 		bl	GPIO_WriteBit
+ 195              	.LVL29:
+ 295:src/motors.c  **** 			GPIO_WriteBit(GPIOB, GPIO_Pin_2, 0);
+ 196              		.loc 1 295 0
+ 197 00ea 2246     		mov	r2, r4
+ 198 00ec 0421     		movs	r1, #4
+ 199 00ee 4348     		ldr	r0, .L25+12
+ 200 00f0 FFF7FEFF 		bl	GPIO_WriteBit
+ 201              	.LVL30:
+ 202              	.L11:
+ 296:src/motors.c  **** 		}
+ 297:src/motors.c  **** 
+ 298:src/motors.c  **** 		TIM3->CCR4 = (uint32_t)speed;
+ 203              		.loc 1 298 0
+ 204 00f4 424B     		ldr	r3, .L25+16
+ 205 00f6 74E0     		b	.L22
+ 206              	.LVL31:
+ 207              	.L8:
+ 299:src/motors.c  **** 	}else if(motor_id == 2){
+ 208              		.loc 1 299 0
+ 209 00f8 0228     		cmp	r0, #2
+ 210 00fa 3ED1     		bne	.L13
+ 300:src/motors.c  **** 		if(speed != 0){
+ 211              		.loc 1 300 0
+ 212 00fc 11B3     		cbz	r1, .L14
+ 301:src/motors.c  **** 			GPIO_SetBits(GPIOB, GPIO_Pin_12);
+ 213              		.loc 1 301 0
+ 214 00fe 4FF48051 		mov	r1, #4096
+ 215              	.LVL32:
+ 216 0102 3E48     		ldr	r0, .L25+12
+ 217              	.LVL33:
+ 218 0104 FFF7FEFF 		bl	GPIO_SetBits
+ 219              	.LVL34:
+ 302:src/motors.c  **** 			GPIO_SetBits(GPIOB, GPIO_Pin_14);
+ 220              		.loc 1 302 0
+ 221 0108 4FF48041 		mov	r1, #16384
+ 222 010c 3B48     		ldr	r0, .L25+12
+ 223 010e FFF7FEFF 		bl	GPIO_SetBits
+ 224              	.LVL35:
+ 303:src/motors.c  **** 
+ 304:src/motors.c  **** 			if(dir == DIR_FORWARD){
+ 225              		.loc 1 304 0
+ 226 0112 55B9     		cbnz	r5, .L15
+ 305:src/motors.c  **** 				GPIO_SetBits(GPIOB, GPIO_Pin_11);
+ 227              		.loc 1 305 0
+ 228 0114 4FF40061 		mov	r1, #2048
+ 229 0118 3848     		ldr	r0, .L25+12
+ 230 011a FFF7FEFF 		bl	GPIO_SetBits
+ 231              	.LVL36:
+ 306:src/motors.c  **** 				GPIO_ResetBits(GPIOB, GPIO_Pin_13);
+ 232              		.loc 1 306 0
+ 233 011e 4FF40051 		mov	r1, #8192
+ 234 0122 3648     		ldr	r0, .L25+12
+ 235 0124 FFF7FEFF 		bl	GPIO_ResetBits
+ 236              	.LVL37:
+ 237 0128 24E0     		b	.L16
+ 238              	.L15:
+ 307:src/motors.c  **** 			}else if(dir == DIR_REVERSE){
+ 239              		.loc 1 307 0
+ 240 012a 012D     		cmp	r5, #1
+ 241 012c 88D1     		bne	.L12
+ 308:src/motors.c  **** 				GPIO_ResetBits(GPIOB, GPIO_Pin_11);
+ 242              		.loc 1 308 0
+ 243 012e 4FF40061 		mov	r1, #2048
+ 244 0132 3248     		ldr	r0, .L25+12
+ 245 0134 FFF7FEFF 		bl	GPIO_ResetBits
+ 246              	.LVL38:
+ 309:src/motors.c  **** 				GPIO_SetBits(GPIOB, GPIO_Pin_13);
+ 247              		.loc 1 309 0
+ 248 0138 4FF40051 		mov	r1, #8192
+ 249 013c 2F48     		ldr	r0, .L25+12
+ 250 013e FFF7FEFF 		bl	GPIO_SetBits
+ 251              	.LVL39:
+ 252 0142 17E0     		b	.L16
+ 253              	.LVL40:
+ 254              	.L14:
+ 310:src/motors.c  **** 			}else{
+ 311:src/motors.c  **** 				return ERROR_DIR_INAVAILABLE;
+ 312:src/motors.c  **** 			}	
+ 313:src/motors.c  **** 		}else{
+ 314:src/motors.c  **** 			GPIO_WriteBit(GPIOB, GPIO_Pin_12, 1);
+ 255              		.loc 1 314 0
+ 256 0144 0122     		movs	r2, #1
+ 257              	.LVL41:
+ 258 0146 4FF48051 		mov	r1, #4096
+ 259              	.LVL42:
+ 260 014a 2C48     		ldr	r0, .L25+12
+ 261              	.LVL43:
+ 262 014c FFF7FEFF 		bl	GPIO_WriteBit
+ 263              	.LVL44:
+ 315:src/motors.c  **** 			GPIO_WriteBit(GPIOB, GPIO_Pin_14, 1);
+ 264              		.loc 1 315 0
+ 265 0150 0122     		movs	r2, #1
+ 266 0152 4FF48041 		mov	r1, #16384
+ 267 0156 2948     		ldr	r0, .L25+12
+ 268 0158 FFF7FEFF 		bl	GPIO_WriteBit
+ 269              	.LVL45:
+ 316:src/motors.c  **** 
+ 317:src/motors.c  **** 			// Break to GND
+ 318:src/motors.c  **** 			GPIO_WriteBit(GPIOB, GPIO_Pin_11, 0);
+ 270              		.loc 1 318 0
+ 271 015c 2246     		mov	r2, r4
+ 272 015e 4FF40061 		mov	r1, #2048
+ 273 0162 2648     		ldr	r0, .L25+12
+ 274 0164 FFF7FEFF 		bl	GPIO_WriteBit
+ 275              	.LVL46:
+ 319:src/motors.c  **** 			GPIO_WriteBit(GPIOB, GPIO_Pin_13, 0);
+ 276              		.loc 1 319 0
+ 277 0168 2246     		mov	r2, r4
+ 278 016a 4FF40051 		mov	r1, #8192
+ 279 016e 2348     		ldr	r0, .L25+12
+ 280 0170 FFF7FEFF 		bl	GPIO_WriteBit
+ 281              	.LVL47:
+ 282              	.L16:
+ 320:src/motors.c  **** 		}
+ 321:src/motors.c  **** 
+ 322:src/motors.c  **** 		TIM2->CCR4 = (uint32_t)speed;
+ 283              		.loc 1 322 0
+ 284 0174 4FF08043 		mov	r3, #1073741824
+ 285 0178 33E0     		b	.L22
+ 286              	.LVL48:
+ 287              	.L13:
+ 323:src/motors.c  **** 	}else if(motor_id == 3){
+ 288              		.loc 1 323 0
+ 289 017a 0328     		cmp	r0, #3
+ 290 017c 35D1     		bne	.L20
+ 324:src/motors.c  **** 		if(speed != 0){
+ 325:src/motors.c  **** 			GPIO_SetBits(GPIOA, GPIO_Pin_12);
+ 291              		.loc 1 325 0
+ 292 017e 4FF48051 		mov	r1, #4096
+ 293              	.LVL49:
+ 294 0182 1C48     		ldr	r0, .L25+4
+ 295              	.LVL50:
+ 324:src/motors.c  **** 		if(speed != 0){
+ 296              		.loc 1 324 0
+ 297 0184 D4B1     		cbz	r4, .L17
+ 298              		.loc 1 325 0
+ 299 0186 FFF7FEFF 		bl	GPIO_SetBits
+ 300              	.LVL51:
+ 326:src/motors.c  **** 			GPIO_SetBits(GPIOB, GPIO_Pin_3);
+ 301              		.loc 1 326 0
+ 302 018a 0821     		movs	r1, #8
+ 303 018c 1B48     		ldr	r0, .L25+12
+ 304 018e FFF7FEFF 		bl	GPIO_SetBits
+ 305              	.LVL52:
+ 327:src/motors.c  **** 
+ 328:src/motors.c  **** 			if(dir == DIR_FORWARD){
+ 306              		.loc 1 328 0
+ 307 0192 2DB9     		cbnz	r5, .L18
+ 329:src/motors.c  **** 				GPIO_SetBits(GPIOB, GPIO_Pin_15);
+ 308              		.loc 1 329 0
+ 309 0194 4FF40041 		mov	r1, #32768
+ 310 0198 1848     		ldr	r0, .L25+12
+ 311 019a FFF7FEFF 		bl	GPIO_SetBits
+ 312              	.LVL53:
+ 313 019e 18E0     		b	.L21
+ 314              	.L18:
+ 330:src/motors.c  **** 				GPIO_ResetBits(GPIOA, GPIO_Pin_15);
+ 331:src/motors.c  **** 			}else if(dir == DIR_REVERSE){
+ 315              		.loc 1 331 0
+ 316 01a0 012D     		cmp	r5, #1
+ 317 01a2 7FF44DAF 		bne	.L12
+ 332:src/motors.c  **** 				GPIO_ResetBits(GPIOB, GPIO_Pin_15);
+ 318              		.loc 1 332 0
+ 319 01a6 4FF40041 		mov	r1, #32768
+ 320 01aa 1448     		ldr	r0, .L25+12
+ 321 01ac FFF7FEFF 		bl	GPIO_ResetBits
+ 322              	.LVL54:
+ 333:src/motors.c  **** 				GPIO_SetBits(GPIOA, GPIO_Pin_15);
+ 323              		.loc 1 333 0
+ 324 01b0 4FF40041 		mov	r1, #32768
+ 325 01b4 0F48     		ldr	r0, .L25+4
+ 326 01b6 FFF7FEFF 		bl	GPIO_SetBits
+ 327              	.LVL55:
+ 328 01ba 0FE0     		b	.L19
+ 329              	.LVL56:
+ 330              	.L17:
+ 334:src/motors.c  **** 			}else{
+ 335:src/motors.c  **** 				return ERROR_DIR_INAVAILABLE;
+ 336:src/motors.c  **** 			}
+ 337:src/motors.c  **** 		}else{
+ 338:src/motors.c  **** 			GPIO_SetBits(GPIOA, GPIO_Pin_12);
+ 331              		.loc 1 338 0
+ 332 01bc FFF7FEFF 		bl	GPIO_SetBits
+ 333              	.LVL57:
+ 339:src/motors.c  **** 			GPIO_SetBits(GPIOB, GPIO_Pin_3);
+ 334              		.loc 1 339 0
+ 335 01c0 0821     		movs	r1, #8
+ 336 01c2 0E48     		ldr	r0, .L25+12
+ 337 01c4 FFF7FEFF 		bl	GPIO_SetBits
+ 338              	.LVL58:
+ 340:src/motors.c  **** 
+ 341:src/motors.c  **** 			// Break to GND
+ 342:src/motors.c  **** 			GPIO_ResetBits(GPIOB, GPIO_Pin_15);
+ 339              		.loc 1 342 0
+ 340 01c8 4FF40041 		mov	r1, #32768
+ 341 01cc 0B48     		ldr	r0, .L25+12
+ 342 01ce FFF7FEFF 		bl	GPIO_ResetBits
+ 343              	.LVL59:
+ 344              	.L21:
+ 343:src/motors.c  **** 			GPIO_ResetBits(GPIOA, GPIO_Pin_15);
+ 345              		.loc 1 343 0
+ 346 01d2 4FF40041 		mov	r1, #32768
+ 347 01d6 0748     		ldr	r0, .L25+4
+ 348 01d8 FFF7FEFF 		bl	GPIO_ResetBits
+ 349              	.LVL60:
+ 350              	.L19:
+ 344:src/motors.c  **** 		}	
+ 345:src/motors.c  **** 
+ 346:src/motors.c  **** 		TIM1->CCR4 = (uint32_t)speed*2;
+ 351              		.loc 1 346 0
+ 352 01dc 6400     		lsls	r4, r4, #1
+ 353 01de 064B     		ldr	r3, .L25+8
+ 354 01e0 A4B2     		uxth	r4, r4
+ 355              	.L22:
+ 356 01e2 A3F84040 		strh	r4, [r3, #64]	@ movhi
+ 357              	.L23:
+ 347:src/motors.c  **** 	}else{
+ 348:src/motors.c  **** 		return ERROR_MOTOR_NOT_EXISTING;
+ 349:src/motors.c  **** 	}
+ 350:src/motors.c  **** 
+ 351:src/motors.c  **** 	return SUCCESS;
+ 358              		.loc 1 351 0
+ 359 01e6 0020     		movs	r0, #0
+ 360 01e8 70BD     		pop	{r4, r5, r6, pc}
+ 361              	.LVL61:
+ 362              	.L20:
+ 348:src/motors.c  **** 	}
+ 363              		.loc 1 348 0
+ 364 01ea 0120     		movs	r0, #1
+ 365              	.LVL62:
+ 352:src/motors.c  **** }...
+ 366              		.loc 1 352 0
+ 367 01ec 70BD     		pop	{r4, r5, r6, pc}
+ 368              	.LVL63:
+ 369              	.L26:
+ 370 01ee 00BF     		.align	2
+ 371              	.L25:
+ 372 01f0 00100140 		.word	1073811456
+ 373 01f4 00080140 		.word	1073809408
+ 374 01f8 002C0140 		.word	1073818624
+ 375 01fc 000C0140 		.word	1073810432
+ 376 0200 00040040 		.word	1073742848
+ 377              		.cfi_endproc
+ 378              	.LFE30:
+ 380              		.align	1
+ 381              		.global	MOTOR_Init
+ 382              		.thumb
+ 383              		.thumb_func
+ 385              	MOTOR_Init:
+ 386              	.LFB29:
+  20:src/motors.c  **** void MOTOR_Init(void){
+ 387              		.loc 1 20 0
+ 388              		.cfi_startproc
+ 389              		@ args = 0, pretend = 0, frame = 16
+ 390              		@ frame_needed = 0, uses_anonymous_args = 0
+ 391 0204 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 392              	.LCFI1:
+ 393              		.cfi_def_cfa_offset 36
+ 394              		.cfi_offset 4, -36
+ 395              		.cfi_offset 5, -32
+ 396              		.cfi_offset 6, -28
+ 397              		.cfi_offset 7, -24
+ 398              		.cfi_offset 8, -20
+ 399              		.cfi_offset 9, -16
+ 400              		.cfi_offset 10, -12
+ 401              		.cfi_offset 11, -8
+ 402              		.cfi_offset 14, -4
+  27:src/motors.c  **** 	GPIO_Init(GPIOC, &GPIO_InitStructure);
+ 403              		.loc 1 27 0
+ 404 0208 D94C     		ldr	r4, .L28
+  20:src/motors.c  **** void MOTOR_Init(void){
+ 405              		.loc 1 20 0
+ 406 020a 85B0     		sub	sp, sp, #20
+ 407              	.LCFI2:
+ 408              		.cfi_def_cfa_offset 56
+  26:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 409              		.loc 1 26 0
+ 410 020c 0326     		movs	r6, #3
+  25:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+ 411              		.loc 1 25 0
+ 412 020e 4FF0100A 		mov	r10, #16
+  24:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
+ 413              		.loc 1 24 0
+ 414 0212 4FF40052 		mov	r2, #8192
+  27:src/motors.c  **** 	GPIO_Init(GPIOC, &GPIO_InitStructure);
+ 415              		.loc 1 27 0
+ 416 0216 03A9     		add	r1, sp, #12
+ 417 0218 2046     		mov	r0, r4
+  24:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
+ 418              		.loc 1 24 0
+ 419 021a ADF80C20 		strh	r2, [sp, #12]	@ movhi
+ 420 021e 0192     		str	r2, [sp, #4]
+  25:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+ 421              		.loc 1 25 0
+ 422 0220 8DF80FA0 		strb	r10, [sp, #15]
+  26:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 423              		.loc 1 26 0
+ 424 0224 8DF80E60 		strb	r6, [sp, #14]
+  27:src/motors.c  **** 	GPIO_Init(GPIOC, &GPIO_InitStructure);
+ 425              		.loc 1 27 0
+ 426 0228 FFF7FEFF 		bl	GPIO_Init
+ 427              	.LVL64:
+  29:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
+ 428              		.loc 1 29 0
+ 429 022c 48F20003 		movw	r3, 32768	@ movhi
+  32:src/motors.c  **** 	GPIO_Init(GPIOC, &GPIO_InitStructure);
+ 430              		.loc 1 32 0
+ 431 0230 03A9     		add	r1, sp, #12
+ 432 0232 2046     		mov	r0, r4
+  29:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
+ 433              		.loc 1 29 0
+ 434 0234 ADF80C30 		strh	r3, [sp, #12]	@ movhi
+  30:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+ 435              		.loc 1 30 0
+ 436 0238 8DF80FA0 		strb	r10, [sp, #15]
+  31:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 437              		.loc 1 31 0
+ 438 023c 8DF80E60 		strb	r6, [sp, #14]
+  32:src/motors.c  **** 	GPIO_Init(GPIOC, &GPIO_InitStructure);
+ 439              		.loc 1 32 0
+ 440 0240 FFF7FEFF 		bl	GPIO_Init
+ 441              	.LVL65:
+  34:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14;
+ 442              		.loc 1 34 0
+ 443 0244 4FF48043 		mov	r3, #16384	@ movhi
+ 444 0248 ADF80C30 		strh	r3, [sp, #12]	@ movhi
+  35:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 445              		.loc 1 35 0
+ 446 024c 4FF01403 		mov	r3, #20
+  37:src/motors.c  **** 	GPIO_Init(GPIOC, &GPIO_InitStructure);
+ 447              		.loc 1 37 0
+ 448 0250 03A9     		add	r1, sp, #12
+ 449 0252 2046     		mov	r0, r4
+  35:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 450              		.loc 1 35 0
+ 451 0254 8DF80F30 		strb	r3, [sp, #15]
+  36:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 452              		.loc 1 36 0
+ 453 0258 8DF80E60 		strb	r6, [sp, #14]
+  37:src/motors.c  **** 	GPIO_Init(GPIOC, &GPIO_InitStructure);
+ 454              		.loc 1 37 0
+ 455 025c FFF7FEFF 		bl	GPIO_Init
+ 456              	.LVL66:
+  40:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 457              		.loc 1 40 0
+ 458 0260 4FF01403 		mov	r3, #20
+  39:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
+ 459              		.loc 1 39 0
+ 460 0264 0125     		movs	r5, #1
+  42:src/motors.c  **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+ 461              		.loc 1 42 0
+ 462 0266 03A9     		add	r1, sp, #12
+ 463 0268 C248     		ldr	r0, .L28+4
+  40:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 464              		.loc 1 40 0
+ 465 026a 8DF80F30 		strb	r3, [sp, #15]
+  39:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
+ 466              		.loc 1 39 0
+ 467 026e ADF80C50 		strh	r5, [sp, #12]	@ movhi
+  41:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 468              		.loc 1 41 0
+ 469 0272 8DF80E60 		strb	r6, [sp, #14]
+  42:src/motors.c  **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+ 470              		.loc 1 42 0
+ 471 0276 FFF7FEFF 		bl	GPIO_Init
+ 472              	.LVL67:
+  44:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
+ 473              		.loc 1 44 0
+ 474 027a 4FF48073 		mov	r3, #256
+ 475 027e ADF80C30 		strh	r3, [sp, #12]	@ movhi
+  45:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+ 476              		.loc 1 45 0
+ 477 0282 4FF01803 		mov	r3, #24
+  47:src/motors.c  **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+ 478              		.loc 1 47 0
+ 479 0286 03A9     		add	r1, sp, #12
+ 480 0288 BA48     		ldr	r0, .L28+4
+  45:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+ 481              		.loc 1 45 0
+ 482 028a 8DF80F30 		strb	r3, [sp, #15]
+  46:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 483              		.loc 1 46 0
+ 484 028e 8DF80E60 		strb	r6, [sp, #14]
+  47:src/motors.c  **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+ 485              		.loc 1 47 0
+ 486 0292 FFF7FEFF 		bl	GPIO_Init
+ 487              	.LVL68:
+  50:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_Period = PERIOD; // ie 0..29999
+ 488              		.loc 1 50 0
+ 489 0296 43F63F02 		movw	r2, 14399	@ movhi
+  55:src/motors.c  **** 	TIM_TimeBaseInit(TIM1, &TIM_TimeBaseStructure);
+ 490              		.loc 1 55 0
+ 491 029a DFF8E882 		ldr	r8, .L28+20
+  50:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_Period = PERIOD; // ie 0..29999
+ 492              		.loc 1 50 0
+ 493 029e B64B     		ldr	r3, .L28+8
+  57:src/motors.c  **** 	TIM_OCStructInit(&TIM_OCInitStructure); // clears the other 4 fields not used here
+ 494              		.loc 1 57 0
+ 495 02a0 B64C     		ldr	r4, .L28+12
+  51:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_Prescaler = PRESCALER;
+ 496              		.loc 1 51 0
+ 497 02a2 0027     		movs	r7, #0
+  55:src/motors.c  **** 	TIM_TimeBaseInit(TIM1, &TIM_TimeBaseStructure);
+ 498              		.loc 1 55 0
+ 499 02a4 1946     		mov	r1, r3
+ 500 02a6 4046     		mov	r0, r8
+  50:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_Period = PERIOD; // ie 0..29999
+ 501              		.loc 1 50 0
+ 502 02a8 9A80     		strh	r2, [r3, #4]	@ movhi
+  51:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_Prescaler = PRESCALER;
+ 503              		.loc 1 51 0
+ 504 02aa 1F80     		strh	r7, [r3]	@ movhi
+  52:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_ClockDivision = CLOCKDIV;
+ 505              		.loc 1 52 0
+ 506 02ac DF80     		strh	r7, [r3, #6]	@ movhi
+  53:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+ 507              		.loc 1 53 0
+ 508 02ae 5F80     		strh	r7, [r3, #2]	@ movhi
+  55:src/motors.c  **** 	TIM_TimeBaseInit(TIM1, &TIM_TimeBaseStructure);
+ 509              		.loc 1 55 0
+ 510 02b0 0093     		str	r3, [sp]
+ 511 02b2 FFF7FEFF 		bl	TIM_TimeBaseInit
+ 512              	.LVL69:
+  57:src/motors.c  **** 	TIM_OCStructInit(&TIM_OCInitStructure); // clears the other 4 fields not used here
+ 513              		.loc 1 57 0
+ 514 02b6 2046     		mov	r0, r4
+ 515 02b8 FFF7FEFF 		bl	TIM_OCStructInit
+ 516              	.LVL70:
+  60:src/motors.c  **** 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+ 517              		.loc 1 60 0
+ 518 02bc 4FF06003 		mov	r3, #96	@ movhi
+  65:src/motors.c  **** 	TIM_OC1Init(TIM1, &TIM_OCInitStructure);
+ 519              		.loc 1 65 0
+ 520 02c0 2146     		mov	r1, r4
+ 521 02c2 4046     		mov	r0, r8
+  60:src/motors.c  **** 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+ 522              		.loc 1 60 0
+ 523 02c4 2380     		strh	r3, [r4]	@ movhi
+  61:src/motors.c  **** 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+ 524              		.loc 1 61 0
+ 525 02c6 6580     		strh	r5, [r4, #2]	@ movhi
+  62:src/motors.c  **** 	TIM_OCInitStructure.TIM_Pulse = 0x0000;
+ 526              		.loc 1 62 0
+ 527 02c8 E780     		strh	r7, [r4, #6]	@ movhi
+  63:src/motors.c  **** 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+ 528              		.loc 1 63 0
+ 529 02ca 2781     		strh	r7, [r4, #8]	@ movhi
+  65:src/motors.c  **** 	TIM_OC1Init(TIM1, &TIM_OCInitStructure);
+ 530              		.loc 1 65 0
+ 531 02cc FFF7FEFF 		bl	TIM_OC1Init
+ 532              	.LVL71:
+  66:src/motors.c  **** 	TIM_OC1PreloadConfig(TIM1, TIM_OCPreload_Enable);
+ 533              		.loc 1 66 0
+ 534 02d0 4046     		mov	r0, r8
+ 535 02d2 0821     		movs	r1, #8
+ 536 02d4 FFF7FEFF 		bl	TIM_OC1PreloadConfig
+ 537              	.LVL72:
+  68:src/motors.c  **** 	TIM_ARRPreloadConfig(TIM1, ENABLE);
+ 538              		.loc 1 68 0
+ 539 02d8 2946     		mov	r1, r5
+ 540 02da 4046     		mov	r0, r8
+ 541 02dc FFF7FEFF 		bl	TIM_ARRPreloadConfig
+ 542              	.LVL73:
+  70:src/motors.c  **** 	TIM_CtrlPWMOutputs(TIM1, ENABLE);
+ 543              		.loc 1 70 0
+ 544 02e0 2946     		mov	r1, r5
+ 545 02e2 4046     		mov	r0, r8
+ 546 02e4 FFF7FEFF 		bl	TIM_CtrlPWMOutputs
+ 547              	.LVL74:
+  72:src/motors.c  **** 	TIM_Cmd(TIM1, ENABLE);
+ 548              		.loc 1 72 0
+ 549 02e8 2946     		mov	r1, r5
+ 550 02ea 4046     		mov	r0, r8
+ 551 02ec FFF7FEFF 		bl	TIM_Cmd
+ 552              	.LVL75:
+  87:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 553              		.loc 1 87 0
+ 554 02f0 DFF89492 		ldr	r9, .L28+24
+  81:src/motors.c  **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+ 555              		.loc 1 81 0
+ 556 02f4 03A9     		add	r1, sp, #12
+ 557 02f6 9F48     		ldr	r0, .L28+4
+  78:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
+ 558              		.loc 1 78 0
+ 559 02f8 ADF80CA0 		strh	r10, [sp, #12]	@ movhi
+  79:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+ 560              		.loc 1 79 0
+ 561 02fc 8DF80FA0 		strb	r10, [sp, #15]
+  80:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 562              		.loc 1 80 0
+ 563 0300 8DF80E60 		strb	r6, [sp, #14]
+  81:src/motors.c  **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+ 564              		.loc 1 81 0
+ 565 0304 FFF7FEFF 		bl	GPIO_Init
+ 566              	.LVL76:
+  84:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+ 567              		.loc 1 84 0
+ 568 0308 0421     		movs	r1, #4
+ 569 030a ADF80C10 		strh	r1, [sp, #12]	@ movhi
+  87:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 570              		.loc 1 87 0
+ 571 030e 4846     		mov	r0, r9
+ 572 0310 03A9     		add	r1, sp, #12
+  85:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+ 573              		.loc 1 85 0
+ 574 0312 8DF80FA0 		strb	r10, [sp, #15]
+  86:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 575              		.loc 1 86 0
+ 576 0316 8DF80E60 		strb	r6, [sp, #14]
+  87:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 577              		.loc 1 87 0
+ 578 031a FFF7FEFF 		bl	GPIO_Init
+ 579              	.LVL77:
+  91:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 580              		.loc 1 91 0
+ 581 031e 4FF01403 		mov	r3, #20
+  90:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
+ 582              		.loc 1 90 0
+ 583 0322 2021     		movs	r1, #32
+ 584 0324 ADF80C10 		strh	r1, [sp, #12]	@ movhi
+  93:src/motors.c  **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+ 585              		.loc 1 93 0
+ 586 0328 9248     		ldr	r0, .L28+4
+ 587 032a 03A9     		add	r1, sp, #12
+  91:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 588              		.loc 1 91 0
+ 589 032c 8DF80F30 		strb	r3, [sp, #15]
+  92:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 590              		.loc 1 92 0
+ 591 0330 8DF80E60 		strb	r6, [sp, #14]
+  93:src/motors.c  **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+ 592              		.loc 1 93 0
+ 593 0334 FFF7FEFF 		bl	GPIO_Init
+ 594              	.LVL78:
+  97:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 595              		.loc 1 97 0
+ 596 0338 4FF01403 		mov	r3, #20
+  96:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
+ 597              		.loc 1 96 0
+ 598 033c 4FF48061 		mov	r1, #1024
+ 599 0340 ADF80C10 		strh	r1, [sp, #12]	@ movhi
+  99:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 600              		.loc 1 99 0
+ 601 0344 4846     		mov	r0, r9
+ 602 0346 03A9     		add	r1, sp, #12
+  97:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 603              		.loc 1 97 0
+ 604 0348 8DF80F30 		strb	r3, [sp, #15]
+  98:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 605              		.loc 1 98 0
+ 606 034c 8DF80E60 		strb	r6, [sp, #14]
+  99:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 607              		.loc 1 99 0
+ 608 0350 FFF7FEFF 		bl	GPIO_Init
+ 609              	.LVL79:
+ 101:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
+ 610              		.loc 1 101 0
+ 611 0354 4FF00203 		mov	r3, #2	@ movhi
+ 612 0358 ADF80C30 		strh	r3, [sp, #12]	@ movhi
+ 102:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+ 613              		.loc 1 102 0
+ 614 035c 4FF01803 		mov	r3, #24
+ 104:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 615              		.loc 1 104 0
+ 616 0360 03A9     		add	r1, sp, #12
+ 617 0362 4846     		mov	r0, r9
+ 102:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+ 618              		.loc 1 102 0
+ 619 0364 8DF80F30 		strb	r3, [sp, #15]
+ 103:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 620              		.loc 1 103 0
+ 621 0368 8DF80E60 		strb	r6, [sp, #14]
+ 104:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 622              		.loc 1 104 0
+ 623 036c FFF7FEFF 		bl	GPIO_Init
+ 624              	.LVL80:
+ 107:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_Period = PERIOD; // ie 0..29999
+ 625              		.loc 1 107 0
+ 626 0370 43F63F02 		movw	r2, 14399	@ movhi
+ 627 0374 009B     		ldr	r3, [sp]
+ 112:src/motors.c  **** 	TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
+ 628              		.loc 1 112 0
+ 629 0376 DFF814B2 		ldr	fp, .L28+28
+ 630 037a 1946     		mov	r1, r3
+ 631 037c 5846     		mov	r0, fp
+ 107:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_Period = PERIOD; // ie 0..29999
+ 632              		.loc 1 107 0
+ 633 037e 9A80     		strh	r2, [r3, #4]	@ movhi
+ 108:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_Prescaler = PRESCALER;
+ 634              		.loc 1 108 0
+ 635 0380 1F80     		strh	r7, [r3]	@ movhi
+ 109:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_ClockDivision = CLOCKDIV;
+ 636              		.loc 1 109 0
+ 637 0382 DF80     		strh	r7, [r3, #6]	@ movhi
+ 110:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+ 638              		.loc 1 110 0
+ 639 0384 5F80     		strh	r7, [r3, #2]	@ movhi
+ 112:src/motors.c  **** 	TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
+ 640              		.loc 1 112 0
+ 641 0386 FFF7FEFF 		bl	TIM_TimeBaseInit
+ 642              	.LVL81:
+ 114:src/motors.c  **** 	TIM_OCStructInit(&TIM_OCInitStructure); // clears the other 4 fields not used here
+ 643              		.loc 1 114 0
+ 644 038a 2046     		mov	r0, r4
+ 645 038c FFF7FEFF 		bl	TIM_OCStructInit
+ 646              	.LVL82:
+ 117:src/motors.c  **** 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+ 647              		.loc 1 117 0
+ 648 0390 4FF06003 		mov	r3, #96	@ movhi
+ 122:src/motors.c  **** 	TIM_OC4Init(TIM3, &TIM_OCInitStructure);
+ 649              		.loc 1 122 0
+ 650 0394 2146     		mov	r1, r4
+ 651 0396 5846     		mov	r0, fp
+ 117:src/motors.c  **** 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+ 652              		.loc 1 117 0
+ 653 0398 2380     		strh	r3, [r4]	@ movhi
+ 118:src/motors.c  **** 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+ 654              		.loc 1 118 0
+ 655 039a 6580     		strh	r5, [r4, #2]	@ movhi
+ 119:src/motors.c  **** 	TIM_OCInitStructure.TIM_Pulse = 0x0000;
+ 656              		.loc 1 119 0
+ 657 039c E780     		strh	r7, [r4, #6]	@ movhi
+ 120:src/motors.c  **** 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+ 658              		.loc 1 120 0
+ 659 039e 2781     		strh	r7, [r4, #8]	@ movhi
+ 122:src/motors.c  **** 	TIM_OC4Init(TIM3, &TIM_OCInitStructure);
+ 660              		.loc 1 122 0
+ 661 03a0 FFF7FEFF 		bl	TIM_OC4Init
+ 662              	.LVL83:
+ 123:src/motors.c  **** 	TIM_OC4PreloadConfig(TIM3, TIM_OCPreload_Enable);
+ 663              		.loc 1 123 0
+ 664 03a4 5846     		mov	r0, fp
+ 665 03a6 0821     		movs	r1, #8
+ 666 03a8 FFF7FEFF 		bl	TIM_OC4PreloadConfig
+ 667              	.LVL84:
+ 125:src/motors.c  **** 	TIM_ARRPreloadConfig(TIM3, ENABLE);
+ 668              		.loc 1 125 0
+ 669 03ac 2946     		mov	r1, r5
+ 670 03ae 5846     		mov	r0, fp
+ 671 03b0 FFF7FEFF 		bl	TIM_ARRPreloadConfig
+ 672              	.LVL85:
+ 127:src/motors.c  **** 	TIM_CtrlPWMOutputs(TIM3, ENABLE);
+ 673              		.loc 1 127 0
+ 674 03b4 2946     		mov	r1, r5
+ 675 03b6 5846     		mov	r0, fp
+ 676 03b8 FFF7FEFF 		bl	TIM_CtrlPWMOutputs
+ 677              	.LVL86:
+ 129:src/motors.c  **** 	TIM_Cmd(TIM3, ENABLE);
+ 678              		.loc 1 129 0
+ 679 03bc 2946     		mov	r1, r5
+ 680 03be 5846     		mov	r0, fp
+ 681 03c0 FFF7FEFF 		bl	TIM_Cmd
+ 682              	.LVL87:
+ 134:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;
+ 683              		.loc 1 134 0
+ 684 03c4 4FF40063 		mov	r3, #2048	@ movhi
+ 137:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 685              		.loc 1 137 0
+ 686 03c8 03A9     		add	r1, sp, #12
+ 687 03ca 4846     		mov	r0, r9
+ 134:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;
+ 688              		.loc 1 134 0
+ 689 03cc ADF80C30 		strh	r3, [sp, #12]	@ movhi
+ 135:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+ 690              		.loc 1 135 0
+ 691 03d0 8DF80FA0 		strb	r10, [sp, #15]
+ 136:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 692              		.loc 1 136 0
+ 693 03d4 8DF80E60 		strb	r6, [sp, #14]
+ 137:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 694              		.loc 1 137 0
+ 695 03d8 FFF7FEFF 		bl	GPIO_Init
+ 696              	.LVL88:
+ 139:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
+ 697              		.loc 1 139 0
+ 698 03dc 019A     		ldr	r2, [sp, #4]
+ 142:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 699              		.loc 1 142 0
+ 700 03de 03A9     		add	r1, sp, #12
+ 701 03e0 4846     		mov	r0, r9
+ 139:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
+ 702              		.loc 1 139 0
+ 703 03e2 ADF80C20 		strh	r2, [sp, #12]	@ movhi
+ 140:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+ 704              		.loc 1 140 0
+ 705 03e6 8DF80FA0 		strb	r10, [sp, #15]
+ 141:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 706              		.loc 1 141 0
+ 707 03ea 8DF80E60 		strb	r6, [sp, #14]
+ 142:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 708              		.loc 1 142 0
+ 709 03ee FFF7FEFF 		bl	GPIO_Init
+ 710              	.LVL89:
+ 145:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 711              		.loc 1 145 0
+ 712 03f2 4FF01403 		mov	r3, #20
+ 144:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
+ 713              		.loc 1 144 0
+ 714 03f6 4FF48052 		mov	r2, #4096
+ 147:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 715              		.loc 1 147 0
+ 716 03fa 03A9     		add	r1, sp, #12
+ 717 03fc 4846     		mov	r0, r9
+ 144:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
+ 718              		.loc 1 144 0
+ 719 03fe ADF80C20 		strh	r2, [sp, #12]	@ movhi
+ 720 0402 0192     		str	r2, [sp, #4]
+ 145:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 721              		.loc 1 145 0
+ 722 0404 8DF80F30 		strb	r3, [sp, #15]
+ 146:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 723              		.loc 1 146 0
+ 724 0408 8DF80E60 		strb	r6, [sp, #14]
+ 147:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 725              		.loc 1 147 0
+ 726 040c FFF7FEFF 		bl	GPIO_Init
+ 727              	.LVL90:
+ 149:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14;
+ 728              		.loc 1 149 0
+ 729 0410 4FF48043 		mov	r3, #16384	@ movhi
+ 730 0414 ADF80C30 		strh	r3, [sp, #12]	@ movhi
+ 150:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 731              		.loc 1 150 0
+ 732 0418 4FF01403 		mov	r3, #20
+ 152:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 733              		.loc 1 152 0
+ 734 041c 03A9     		add	r1, sp, #12
+ 735 041e 4846     		mov	r0, r9
+ 150:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 736              		.loc 1 150 0
+ 737 0420 8DF80F30 		strb	r3, [sp, #15]
+ 151:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 738              		.loc 1 151 0
+ 739 0424 8DF80E60 		strb	r6, [sp, #14]
+ 152:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 740              		.loc 1 152 0
+ 741 0428 FFF7FEFF 		bl	GPIO_Init
+ 742              	.LVL91:
+ 155:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+ 743              		.loc 1 155 0
+ 744 042c 4FF01803 		mov	r3, #24
+ 154:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
+ 745              		.loc 1 154 0
+ 746 0430 4FF0080B 		mov	fp, #8
+ 157:src/motors.c  **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+ 747              		.loc 1 157 0
+ 748 0434 03A9     		add	r1, sp, #12
+ 749 0436 4F48     		ldr	r0, .L28+4
+ 155:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+ 750              		.loc 1 155 0
+ 751 0438 8DF80F30 		strb	r3, [sp, #15]
+ 154:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
+ 752              		.loc 1 154 0
+ 753 043c ADF80CB0 		strh	fp, [sp, #12]	@ movhi
+ 156:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 754              		.loc 1 156 0
+ 755 0440 8DF80E60 		strb	r6, [sp, #14]
+ 157:src/motors.c  **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+ 756              		.loc 1 157 0
+ 757 0444 FFF7FEFF 		bl	GPIO_Init
+ 758              	.LVL92:
+ 160:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_Period = PERIOD; // ie 0..29999
+ 759              		.loc 1 160 0
+ 760 0448 43F63F02 		movw	r2, 14399	@ movhi
+ 761 044c 009B     		ldr	r3, [sp]
+ 165:src/motors.c  **** 	TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
+ 762              		.loc 1 165 0
+ 763 044e 4FF08040 		mov	r0, #1073741824
+ 764 0452 1946     		mov	r1, r3
+ 160:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_Period = PERIOD; // ie 0..29999
+ 765              		.loc 1 160 0
+ 766 0454 9A80     		strh	r2, [r3, #4]	@ movhi
+ 161:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_Prescaler = PRESCALER;
+ 767              		.loc 1 161 0
+ 768 0456 1F80     		strh	r7, [r3]	@ movhi
+ 162:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_ClockDivision = CLOCKDIV;
+ 769              		.loc 1 162 0
+ 770 0458 DF80     		strh	r7, [r3, #6]	@ movhi
+ 163:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+ 771              		.loc 1 163 0
+ 772 045a 5F80     		strh	r7, [r3, #2]	@ movhi
+ 165:src/motors.c  **** 	TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
+ 773              		.loc 1 165 0
+ 774 045c FFF7FEFF 		bl	TIM_TimeBaseInit
+ 775              	.LVL93:
+ 167:src/motors.c  **** 	TIM_OCStructInit(&TIM_OCInitStructure); // clears the other 4 fields not used here
+ 776              		.loc 1 167 0
+ 777 0460 2046     		mov	r0, r4
+ 778 0462 FFF7FEFF 		bl	TIM_OCStructInit
+ 779              	.LVL94:
+ 170:src/motors.c  **** 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+ 780              		.loc 1 170 0
+ 781 0466 4FF06003 		mov	r3, #96	@ movhi
+ 175:src/motors.c  **** 	TIM_OC4Init(TIM2, &TIM_OCInitStructure);
+ 782              		.loc 1 175 0
+ 783 046a 2146     		mov	r1, r4
+ 784 046c 4FF08040 		mov	r0, #1073741824
+ 170:src/motors.c  **** 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+ 785              		.loc 1 170 0
+ 786 0470 2380     		strh	r3, [r4]	@ movhi
+ 171:src/motors.c  **** 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+ 787              		.loc 1 171 0
+ 788 0472 6580     		strh	r5, [r4, #2]	@ movhi
+ 172:src/motors.c  **** 	TIM_OCInitStructure.TIM_Pulse = 0x0000;
+ 789              		.loc 1 172 0
+ 790 0474 E780     		strh	r7, [r4, #6]	@ movhi
+ 173:src/motors.c  **** 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+ 791              		.loc 1 173 0
+ 792 0476 2781     		strh	r7, [r4, #8]	@ movhi
+ 175:src/motors.c  **** 	TIM_OC4Init(TIM2, &TIM_OCInitStructure);
+ 793              		.loc 1 175 0
+ 794 0478 FFF7FEFF 		bl	TIM_OC4Init
+ 795              	.LVL95:
+ 176:src/motors.c  **** 	TIM_OC4PreloadConfig(TIM2, TIM_OCPreload_Enable);
+ 796              		.loc 1 176 0
+ 797 047c 5946     		mov	r1, fp
+ 798 047e 4FF08040 		mov	r0, #1073741824
+ 799 0482 FFF7FEFF 		bl	TIM_OC4PreloadConfig
+ 800              	.LVL96:
+ 178:src/motors.c  **** 	TIM_ARRPreloadConfig(TIM2, ENABLE);
+ 801              		.loc 1 178 0
+ 802 0486 2946     		mov	r1, r5
+ 803 0488 4FF08040 		mov	r0, #1073741824
+ 804 048c FFF7FEFF 		bl	TIM_ARRPreloadConfig
+ 805              	.LVL97:
+ 180:src/motors.c  **** 	TIM_CtrlPWMOutputs(TIM2, ENABLE);
+ 806              		.loc 1 180 0
+ 807 0490 2946     		mov	r1, r5
+ 808 0492 4FF08040 		mov	r0, #1073741824
+ 809 0496 FFF7FEFF 		bl	TIM_CtrlPWMOutputs
+ 810              	.LVL98:
+ 182:src/motors.c  **** 	TIM_Cmd(TIM2, ENABLE);
+ 811              		.loc 1 182 0
+ 812 049a 2946     		mov	r1, r5
+ 813 049c 4FF08040 		mov	r0, #1073741824
+ 814 04a0 FFF7FEFF 		bl	TIM_Cmd
+ 815              	.LVL99:
+ 185:src/motors.c  **** 	GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
+ 816              		.loc 1 185 0
+ 817 04a4 2946     		mov	r1, r5
+ 818 04a6 3648     		ldr	r0, .L28+16
+ 819 04a8 FFF7FEFF 		bl	GPIO_PinRemapConfig
+ 820              	.LVL100:
+ 187:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
+ 821              		.loc 1 187 0
+ 822 04ac 48F20003 		movw	r3, 32768	@ movhi
+ 190:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 823              		.loc 1 190 0
+ 824 04b0 03A9     		add	r1, sp, #12
+ 825 04b2 4846     		mov	r0, r9
+ 187:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
+ 826              		.loc 1 187 0
+ 827 04b4 ADF80C30 		strh	r3, [sp, #12]	@ movhi
+ 188:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+ 828              		.loc 1 188 0
+ 829 04b8 8DF80FA0 		strb	r10, [sp, #15]
+ 189:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 830              		.loc 1 189 0
+ 831 04bc 8DF80E60 		strb	r6, [sp, #14]
+ 190:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 832              		.loc 1 190 0
+ 833 04c0 FFF7FEFF 		bl	GPIO_Init
+ 834              	.LVL101:
+ 192:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
+ 835              		.loc 1 192 0
+ 836 04c4 48F20003 		movw	r3, 32768	@ movhi
+ 195:src/motors.c  **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+ 837              		.loc 1 195 0
+ 838 04c8 03A9     		add	r1, sp, #12
+ 839 04ca 2A48     		ldr	r0, .L28+4
+ 192:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
+ 840              		.loc 1 192 0
+ 841 04cc ADF80C30 		strh	r3, [sp, #12]	@ movhi
+ 193:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+ 842              		.loc 1 193 0
+ 843 04d0 8DF80FA0 		strb	r10, [sp, #15]
+ 194:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 844              		.loc 1 194 0
+ 845 04d4 8DF80E60 		strb	r6, [sp, #14]
+ 195:src/motors.c  **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+ 846              		.loc 1 195 0
+ 847 04d8 FFF7FEFF 		bl	GPIO_Init
+ 848              	.LVL102:
+ 198:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 849              		.loc 1 198 0
+ 850 04dc 4FF01403 		mov	r3, #20
+ 197:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
+ 851              		.loc 1 197 0
+ 852 04e0 019A     		ldr	r2, [sp, #4]
+ 200:src/motors.c  **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+ 853              		.loc 1 200 0
+ 854 04e2 03A9     		add	r1, sp, #12
+ 855 04e4 2348     		ldr	r0, .L28+4
+ 197:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
+ 856              		.loc 1 197 0
+ 857 04e6 ADF80C20 		strh	r2, [sp, #12]	@ movhi
+ 198:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 858              		.loc 1 198 0
+ 859 04ea 8DF80F30 		strb	r3, [sp, #15]
+ 199:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 860              		.loc 1 199 0
+ 861 04ee 8DF80E60 		strb	r6, [sp, #14]
+ 200:src/motors.c  **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+ 862              		.loc 1 200 0
+ 863 04f2 FFF7FEFF 		bl	GPIO_Init
+ 864              	.LVL103:
+ 203:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 865              		.loc 1 203 0
+ 866 04f6 4FF01403 		mov	r3, #20
+ 205:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 867              		.loc 1 205 0
+ 868 04fa 03A9     		add	r1, sp, #12
+ 869 04fc 4846     		mov	r0, r9
+ 203:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 870              		.loc 1 203 0
+ 871 04fe 8DF80F30 		strb	r3, [sp, #15]
+ 202:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
+ 872              		.loc 1 202 0
+ 873 0502 ADF80CB0 		strh	fp, [sp, #12]	@ movhi
+ 204:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 874              		.loc 1 204 0
+ 875 0506 8DF80E60 		strb	r6, [sp, #14]
+ 205:src/motors.c  **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 876              		.loc 1 205 0
+ 877 050a FFF7FEFF 		bl	GPIO_Init
+ 878              	.LVL104:
+ 207:src/motors.c  **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;
+ 879              		.loc 1 207 0
+ 880 050e 4FF40063 		mov	r3, #2048	@ movhi
+ 881 0512 ADF80C30 		strh	r3, [sp, #12]	@ movhi
+ 208:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+ 882              		.loc 1 208 0
+ 883 0516 4FF01803 		mov	r3, #24
+ 210:src/motors.c  **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+ 884              		.loc 1 210 0
+ 885 051a 03A9     		add	r1, sp, #12
+ 886 051c 1548     		ldr	r0, .L28+4
+ 208:src/motors.c  **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+ 887              		.loc 1 208 0
+ 888 051e 8DF80F30 		strb	r3, [sp, #15]
+ 209:src/motors.c  **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 889              		.loc 1 209 0
+ 890 0522 8DF80E60 		strb	r6, [sp, #14]
+ 210:src/motors.c  **** 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+ 891              		.loc 1 210 0
+ 892 0526 FFF7FEFF 		bl	GPIO_Init
+ 893              	.LVL105:
+ 213:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_Period = PERIOD*2; // ie 0..29999
+ 894              		.loc 1 213 0
+ 895 052a 47F27E02 		movw	r2, #28798
+ 896 052e 009B     		ldr	r3, [sp]
+ 218:src/motors.c  **** 	TIM_TimeBaseInit(TIM1, &TIM_TimeBaseStructure);
+ 897              		.loc 1 218 0
+ 898 0530 4046     		mov	r0, r8
+ 899 0532 1946     		mov	r1, r3
+ 213:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_Period = PERIOD*2; // ie 0..29999
+ 900              		.loc 1 213 0
+ 901 0534 9A80     		strh	r2, [r3, #4]	@ movhi
+ 214:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_Prescaler = PRESCALER;
+ 902              		.loc 1 214 0
+ 903 0536 1F80     		strh	r7, [r3]	@ movhi
+ 215:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_ClockDivision = CLOCKDIV;
+ 904              		.loc 1 215 0
+ 905 0538 DF80     		strh	r7, [r3, #6]	@ movhi
+ 216:src/motors.c  **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+ 906              		.loc 1 216 0
+ 907 053a 5F80     		strh	r7, [r3, #2]	@ movhi
+ 218:src/motors.c  **** 	TIM_TimeBaseInit(TIM1, &TIM_TimeBaseStructure);
+ 908              		.loc 1 218 0
+ 909 053c FFF7FEFF 		bl	TIM_TimeBaseInit
+ 910              	.LVL106:
+ 220:src/motors.c  **** 	TIM_OCStructInit(&TIM_OCInitStructure); // clears the other 4 fields not used here
+ 911              		.loc 1 220 0
+ 912 0540 2046     		mov	r0, r4
+ 913 0542 FFF7FEFF 		bl	TIM_OCStructInit
+ 914              	.LVL107:
+ 223:src/motors.c  **** 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+ 915              		.loc 1 223 0
+ 916 0546 4FF06003 		mov	r3, #96	@ movhi
+ 228:src/motors.c  **** 	TIM_OC4Init(TIM1, &TIM_OCInitStructure);
+ 917              		.loc 1 228 0
+ 918 054a 2146     		mov	r1, r4
+ 919 054c 4046     		mov	r0, r8
+ 223:src/motors.c  **** 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+ 920              		.loc 1 223 0
+ 921 054e 2380     		strh	r3, [r4]	@ movhi
+ 224:src/motors.c  **** 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+ 922              		.loc 1 224 0
+ 923 0550 6580     		strh	r5, [r4, #2]	@ movhi
+ 225:src/motors.c  **** 	TIM_OCInitStructure.TIM_Pulse = 0x0000;
+ 924              		.loc 1 225 0
+ 925 0552 E780     		strh	r7, [r4, #6]	@ movhi
+ 226:src/motors.c  **** 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+ 926              		.loc 1 226 0
+ 927 0554 2781     		strh	r7, [r4, #8]	@ movhi
+ 228:src/motors.c  **** 	TIM_OC4Init(TIM1, &TIM_OCInitStructure);
+ 928              		.loc 1 228 0
+ 929 0556 FFF7FEFF 		bl	TIM_OC4Init
+ 930              	.LVL108:
+ 229:src/motors.c  **** 	TIM_OC4PreloadConfig(TIM1, TIM_OCPreload_Enable);
+ 931              		.loc 1 229 0
+ 932 055a 5946     		mov	r1, fp
+ 933 055c 4046     		mov	r0, r8
+ 934 055e FFF7FEFF 		bl	TIM_OC4PreloadConfig
+ 935              	.LVL109:
+ 231:src/motors.c  **** 	TIM_ARRPreloadConfig(TIM1, ENABLE);
+ 936              		.loc 1 231 0
+ 937 0562 2946     		mov	r1, r5
+ 938 0564 4046     		mov	r0, r8
+ 939 0566 FFF7FEFF 		bl	TIM_ARRPreloadConfig
+ 940              	.LVL110:
+ 233:src/motors.c  **** 	TIM_CtrlPWMOutputs(TIM1, ENABLE);
+ 941              		.loc 1 233 0
+ 942 056a 2946     		mov	r1, r5
+ 943 056c 4046     		mov	r0, r8
+ 944 056e 0FE0     		b	.L29
+ 945              	.L30:
+ 946              		.align	2
+ 947              	.L28:
+ 948 0570 00100140 		.word	1073811456
+ 949 0574 00080140 		.word	1073809408
+ 950 0578 00000000 		.word	TIM_TimeBaseStructure
+ 951 057c 00000000 		.word	TIM_OCInitStructure
+ 952 0580 00023000 		.word	3146240
+ 953 0584 002C0140 		.word	1073818624
+ 954 0588 000C0140 		.word	1073810432
+ 955 058c 00040040 		.word	1073742848
+ 956              	.L29:
+ 957 0590 FFF7FEFF 		bl	TIM_CtrlPWMOutputs
+ 958              	.LVL111:
+ 235:src/motors.c  **** 	TIM_Cmd(TIM1, ENABLE);
+ 959              		.loc 1 235 0
+ 960 0594 2946     		mov	r1, r5
+ 961 0596 4046     		mov	r0, r8
+ 962 0598 FFF7FEFF 		bl	TIM_Cmd
+ 963              	.LVL112:
+ 238:src/motors.c  **** 	motor_set_speed(0, 7000, DIR_FORWARD);
+ 964              		.loc 1 238 0
+ 965 059c 3A46     		mov	r2, r7
+ 966 059e 41F65831 		movw	r1, #7000
+ 967 05a2 3846     		mov	r0, r7
+ 968 05a4 FFF7FEFF 		bl	motor_set_speed
+ 969              	.LVL113:
+ 239:src/motors.c  **** 	motor_set_speed(1, 7000, DIR_REVERSE);
+ 970              		.loc 1 239 0
+ 971 05a8 2A46     		mov	r2, r5
+ 972 05aa 41F65831 		movw	r1, #7000
+ 973 05ae 2846     		mov	r0, r5
+ 974 05b0 FFF7FEFF 		bl	motor_set_speed
+ 975              	.LVL114:
+ 240:src/motors.c  **** 	motor_set_speed(2, 7000, DIR_REVERSE);
+ 976              		.loc 1 240 0
+ 977 05b4 2A46     		mov	r2, r5
+ 978 05b6 41F65831 		movw	r1, #7000
+ 979 05ba 0220     		movs	r0, #2
+ 980 05bc FFF7FEFF 		bl	motor_set_speed
+ 981              	.LVL115:
+ 241:src/motors.c  **** 	motor_set_speed(3, 7000, DIR_REVERSE);
+ 982              		.loc 1 241 0
+ 983 05c0 2A46     		mov	r2, r5
+ 984 05c2 41F65831 		movw	r1, #7000
+ 985 05c6 3046     		mov	r0, r6
+ 986 05c8 FFF7FEFF 		bl	motor_set_speed
+ 987              	.LVL116:
+ 242:src/motors.c  **** }
+ 988              		.loc 1 242 0
+ 989 05cc 05B0     		add	sp, sp, #20
+ 990              	.LCFI3:
+ 991              		.cfi_def_cfa_offset 36
+ 992              		@ sp needed
+ 993 05ce BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 994              		.cfi_endproc
+ 995              	.LFE29:
+ 997              		.comm	TIM_OCInitStructure,16,2
+ 998              		.comm	TIM_TimeBaseStructure,10,2
+ 999              	.Letext0:
+ 1000              		.file 2 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
+ 1001              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 1002              		.file 4 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
+ 1003              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
+ 1004              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_tim.h"
+ 1005              		.file 7 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 motors.c
+     /tmp/ccXQKL3R.s:19     .text:00000000 $t
+     /tmp/ccXQKL3R.s:24     .text:00000000 motor_set_speed
+     /tmp/ccXQKL3R.s:372    .text:000001f0 $d
+     /tmp/ccXQKL3R.s:380    .text:00000204 $t
+     /tmp/ccXQKL3R.s:385    .text:00000204 MOTOR_Init
+     /tmp/ccXQKL3R.s:948    .text:00000570 $d
+                            *COM*:0000000a TIM_TimeBaseStructure
+                            *COM*:00000010 TIM_OCInitStructure
+     /tmp/ccXQKL3R.s:957    .text:00000590 $t
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+GPIO_WriteBit
+GPIO_SetBits
+GPIO_ResetBits
+GPIO_Init
+TIM_TimeBaseInit
+TIM_OCStructInit
+TIM_OC1Init
+TIM_OC1PreloadConfig
+TIM_ARRPreloadConfig
+TIM_CtrlPWMOutputs
+TIM_Cmd
+TIM_OC4Init
+TIM_OC4PreloadConfig
+GPIO_PinRemapConfig

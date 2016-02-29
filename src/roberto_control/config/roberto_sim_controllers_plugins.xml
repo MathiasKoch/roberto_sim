@@ -1,0 +1,19 @@
+<library path="lib/libroberto_control">
+
+  <class name="roberto_control/RobertoPositionController" 
+	 type="roberto_control::RobertoPositionController" 
+	 base_class_type="controller_interface::ControllerBase">
+    <description>
+      The RobertoPositionController tracks position commands for the entire Roberto robot. It expects a EffortJointInterface type of hardware interface.
+    </description>
+  </class>
+
+  <class name="roberto_control/RobertoVelocityController" 
+	 type="roberto_control::RobertoVelocityController" 
+	 base_class_type="controller_interface::ControllerBase">
+    <description>
+      The RobertoVelocityController tracks velocity commands for the entire Roberto robot. It expects a EffortJointInterface type of hardware interface.
+    </description>
+  </class>
+
+</library>
