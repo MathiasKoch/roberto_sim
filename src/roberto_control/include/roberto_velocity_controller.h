@@ -51,7 +51,7 @@
 #include <controller_interface/controller.h>
 #include <realtime_tools/realtime_buffer.h>
 
-#include <roberto_control/JointCommand.h> // the input command
+#include <roberto_msgs/JointCommand.h> // the input command
 
 #include <effort_controllers/joint_velocity_controller.h> // used for controlling individual joints
 
@@ -76,7 +76,7 @@ namespace roberto_control
     ros::NodeHandle nh_;
 
     // Last commanded velocity
-    realtime_tools::RealtimeBuffer<roberto_control::JointCommand> velocity_command_buffer_; 
+    realtime_tools::RealtimeBuffer<roberto_msgs::JointCommand> velocity_command_buffer_; 
 
     size_t n_joints_;
     std::string topic_name;
@@ -94,7 +94,7 @@ namespace roberto_control
      * @brief Callback from a recieved goal from the published topic message
      * @param msg trajectory goal
      */
-    void commandCB(const roberto_control::JointCommandConstPtr& msg);
+    void commandCB(const roberto_msgs::JointCommandConstPtr& msg);
 
     // Create an effort-based joint velocity controller for every joint
     std::vector< 

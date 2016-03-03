@@ -17,12 +17,17 @@
 
 
   <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roberto_msgs</build_depend>
+  <build_depend>roscpp</build_depend>
 
+  <run_depend>roscpp</run_depend>
   <run_depend>roberto_description</run_depend>
+  <run_depend>roberto_msgs</run_depend>
   <run_depend>roberto_control</run_depend>
   <run_depend>gazebo_ros</run_depend> 
 
 
   <export>
+    <gazebo_ros plugin_path="${prefix}/lib" gazebo_media_path="${prefix}" />
   </export>
 </package>

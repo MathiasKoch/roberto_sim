@@ -3,23 +3,13 @@ project(roberto_control)
 
 find_package(catkin REQUIRED COMPONENTS 
 	roscpp 
-  controller_interface
-  control_toolbox
-  effort_controllers
-	std_msgs 
-	genmsg
-	message_generation
-  gazebo_ros
-  gazebo_ros_control
+	controller_interface
+	control_toolbox
+	effort_controllers
+	gazebo_ros
+	gazebo_ros_control
 )
 
-
-add_message_files(DIRECTORY msg FILES 
-					MotorState.msg
-          JointCommand.msg)
-
-
-generate_messages(DEPENDENCIES std_msgs)
 
 find_package(Boost REQUIRED COMPONENTS system)
 find_package(PkgConfig REQUIRED)
@@ -39,8 +29,6 @@ find_package(gazebo REQUIRED)
 
 catkin_package(
   CATKIN_DEPENDS
-  message_runtime 
-  std_msgs
   gazebo_ros_control
   controller_interface
   control_toolbox
@@ -85,28 +73,8 @@ add_dependencies(${PROJECT_NAME}
 )
 
 add_library(roberto_gazebo_mimic_joint_plugin src/mimic_joint_plugin.cpp)
+
 target_link_libraries(roberto_gazebo_mimic_joint_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
-
-add_library(roberto_gazebo_ros_control
-  src/motor_plugin.cpp
-)
-
-target_link_libraries(roberto_gazebo_ros_control
-  ${catkin_LIBRARIES}
-  ${GAZEBO_LIBRARIES}
-  gazebo_ros_control
-)
-
-add_dependencies(
-  roberto_gazebo_ros_control
-  ${catkin_EXPORTED_TARGETS}
-)
-
-install(
-  TARGETS roberto_gazebo_ros_control
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-)
-
 
 
 install(

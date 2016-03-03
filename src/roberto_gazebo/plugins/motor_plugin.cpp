@@ -45,8 +45,6 @@
 #include <boost/bind.hpp>
 #include <math.h>
 
-#include <roberto_control/MotorState.h>
-#include <roberto_control/JointCommand.h>
 
 namespace gazebo{
 
@@ -124,7 +122,7 @@ void MotorDrivePlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf){
 
   // ROS: Subscribe to the velocity command topic (usually "cmd_vel")
   ros::SubscribeOptions so =
-      ros::SubscribeOptions::create<roberto_control::MotorState>(topicName, 1,
+      ros::SubscribeOptions::create<roberto_msgs::MotorState>(topicName, 1,
                                                           boost::bind(&MotorDrivePlugin::cmdVelCallback, this, _1),
                                                           ros::VoidPtr(), &queue_);
 
@@ -132,7 +130,7 @@ void MotorDrivePlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf){
   sub_ = rosnode_->subscribe(so);
   pub_ = rosnode_->advertise<nav_msgs::Odometry>("odom", 1);
 
-  servo_pub = rosnode_->advertise<roberto_control::JointCommand>("servo_joint_position_controller/command", 1);
+  servo_pub = rosnode_->advertise<roberto_msgs::JointCommand>("servo_joint_position_controller/command", 1);
 
   // Initialize the controller
   // Reset odometric pose
@@ -257,7 +255,7 @@ void MotorDrivePlugin::GetPositionCmd(){
   lock.unlock();
 }
 
-void MotorDrivePlugin::cmdVelCallback(const roberto_control::MotorStateConstPtr & cmd_msg){
+void MotorDrivePlugin::cmdVelCallback(const roberto_msgs::MotorStateConstPtr & cmd_msg){
   lock.lock();
 
   heading_ = cmd_msg->heading_angle;
