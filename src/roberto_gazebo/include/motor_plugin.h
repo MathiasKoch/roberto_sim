@@ -48,8 +48,8 @@
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
 
-#include <roberto_control/MotorState.h>
-#include <roberto_control/JointCommand.h>
+#include <roberto_msgs/MotorState.h>
+#include <roberto_msgs/JointCommand.h>
 
 #include <effort_controllers/joint_position_controller.h> // used for controlling individual joints
 
@@ -102,7 +102,7 @@ private:
   nav_msgs::Odometry odom_;
   std::string tf_prefix_;
 
-  roberto_control::JointCommand servo_JC;
+  roberto_msgs::JointCommand servo_JC;
 
   boost::mutex lock;
 
@@ -122,7 +122,7 @@ private:
   void QueueThread();
 
   // MotorDrive stuff
-  void cmdVelCallback(const roberto_control::MotorStateConstPtr & cmd_msg);
+  void cmdVelCallback(const roberto_msgs::MotorStateConstPtr & cmd_msg);
 
   double speed_;
   double acceleration_;

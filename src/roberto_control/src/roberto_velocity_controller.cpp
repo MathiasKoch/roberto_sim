@@ -123,13 +123,13 @@ bool RobertoVelocityController::init(
     ros::NodeHandle nh_base("~");
 
     // Create command subscriber custom to baxter  
-    velocity_command_sub_ = nh_base.subscribe<roberto_control::JointCommand>
+    velocity_command_sub_ = nh_base.subscribe<roberto_msgs::JointCommand>
       (topic_name, 1, &RobertoVelocityController::commandCB, this);
   }
   else // default "command" topic
   {
     // Create command subscriber custom to baxter  
-    velocity_command_sub_ = nh_.subscribe<roberto_control::JointCommand>
+    velocity_command_sub_ = nh_.subscribe<roberto_msgs::JointCommand>
       ("command", 1, &RobertoVelocityController::commandCB, this);
   }
 
@@ -140,7 +140,7 @@ bool RobertoVelocityController::init(
 
 void RobertoVelocityController::starting(const ros::Time& time)
 {
-  roberto_control::JointCommand initial_command;
+  roberto_msgs::JointCommand initial_command;
 
   // Fill in the initial command
   for(int i=0; i<n_joints_; i++)
@@ -185,7 +185,7 @@ void RobertoVelocityController::updateCommands()
   new_command_ = false;
 
   // Get latest command
-  const roberto_control::JointCommand &command = *(velocity_command_buffer_.readFromRT());
+  const roberto_msgs::JointCommand &command = *(velocity_command_buffer_.readFromRT());
 
   // Error check message data
   if( command.command.size() != command.names.size() )
@@ -211,7 +211,7 @@ void RobertoVelocityController::updateCommands()
   }
 }
 
-void RobertoVelocityController::commandCB(const roberto_control::JointCommandConstPtr& msg)
+void RobertoVelocityController::commandCB(const roberto_msgs::JointCommandConstPtr& msg)
 {
   // the writeFromNonRT can be used in RT, if you have the guarantee that
   //  * no non-rt thread is calling the same function (we're not subscribing to ros callbacks)
