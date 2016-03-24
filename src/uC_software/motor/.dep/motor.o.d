@@ -1,4 +1,4 @@
-src/motors.o: src/motors.c \
+src/motor.o: src/motor.cpp inc/motor.h \
  /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/stdio.h \
  /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/_ansi.h \
  /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/newlib.h \
@@ -23,12 +23,11 @@ src/motors.o: src/motors.c \
  /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/timespec.h \
  /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_timespec.h \
  /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/stdio.h \
- /opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stdbool.h \
+ inc/motorSettings.h lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h \
+ lib/CMSIS/CM3/CoreSupport/core_cm3.h \
  /opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stdint.h \
  /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/stdint.h \
  /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_intsup.h \
- lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h \
- lib/CMSIS/CM3/CoreSupport/core_cm3.h \
  lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.h \
  inc/f1/stm32f10x_conf.h \
  lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_adc.h \
@@ -46,7 +45,15 @@ src/motors.o: src/motors.c \
  lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_spi.h \
  lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_tim.h \
  lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_usart.h \
- lib/STM32F10x_StdPeriph_Driver/inc/misc.h inc/motors.h
+ lib/STM32F10x_StdPeriph_Driver/inc/misc.h inc/servo.h inc/motor.h \
+ inc/DCMotor.h \
+ /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/stdlib.h \
+ /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/stdlib.h \
+ /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/alloca.h \
+ inc/encoder.h \
+ /opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stdbool.h
+
+inc/motor.h:
 
 /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/stdio.h:
 
@@ -96,17 +103,17 @@ src/motors.o: src/motors.c \
 
 /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/stdio.h:
 
-/opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stdbool.h:
+inc/motorSettings.h:
+
+lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h:
+
+lib/CMSIS/CM3/CoreSupport/core_cm3.h:
 
 /opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stdint.h:
 
 /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/stdint.h:
 
 /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_intsup.h:
-
-lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h:
-
-lib/CMSIS/CM3/CoreSupport/core_cm3.h:
 
 lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.h:
 
@@ -144,4 +151,18 @@ lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_usart.h:
 
 lib/STM32F10x_StdPeriph_Driver/inc/misc.h:
 
-inc/motors.h:
+inc/servo.h:
+
+inc/motor.h:
+
+inc/DCMotor.h:
+
+/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/stdlib.h:
+
+/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/stdlib.h:
+
+/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/alloca.h:
+
+inc/encoder.h:
+
+/opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stdbool.h:

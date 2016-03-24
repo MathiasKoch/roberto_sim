@@ -1,0 +1,198 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"motorSettings.cpp"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.align	1
+  20              		.global	_ZN13motorSettingsC2Ev
+  21              		.thumb
+  22              		.thumb_func
+  24              	_ZN13motorSettingsC2Ev:
+  25              		.fnstart
+  26              	.LFB31:
+  27              		.file 1 "src/motorSettings.cpp"
+   1:src/motorSettings.cpp **** #include "motorSettings.h"
+   2:src/motorSettings.cpp **** #include "servo.h"
+   3:src/motorSettings.cpp **** //#include "dcMotor.h"
+   4:src/motorSettings.cpp **** 
+   5:src/motorSettings.cpp **** 
+   6:src/motorSettings.cpp **** motorSettings::motorSettings()
+  28              		.loc 1 6 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33              	.LVL0:
+  34              	.LBB2:
+   7:src/motorSettings.cpp **** {
+   8:src/motorSettings.cpp ****     //  preset general defaults
+   9:src/motorSettings.cpp **** 
+  10:src/motorSettings.cpp ****     m_motorType = 0;
+  35              		.loc 1 10 0
+  36 0000 0022     		movs	r2, #0
+  37 0002 0260     		str	r2, [r0]
+  38              	.LBE2:
+  11:src/motorSettings.cpp **** 
+  12:src/motorSettings.cpp ****     //  motor defaults
+  13:src/motorSettings.cpp **** 
+  14:src/motorSettings.cpp ****     /*m_MPU9150GyroAccelSampleRate = 50;
+  15:src/motorSettings.cpp ****     m_MPU9150CompassSampleRate = 25;
+  16:src/motorSettings.cpp ****     m_MPU9150GyroAccelLpf = MPU9150_LPF_20;
+  17:src/motorSettings.cpp ****     m_MPU9150GyroFsr = MPU9150_GYROFSR_1000;
+  18:src/motorSettings.cpp ****     m_MPU9150AccelFsr = MPU9150_ACCELFSR_8;*/
+  19:src/motorSettings.cpp **** }
+  39              		.loc 1 19 0
+  40 0004 7047     		bx	lr
+  41              		.cfi_endproc
+  42              	.LFE31:
+  43              		.cantunwind
+  44              		.fnend
+  46              		.global	_ZN13motorSettingsC1Ev
+  47              		.thumb_set _ZN13motorSettingsC1Ev,_ZN13motorSettingsC2Ev
+  48              		.align	1
+  49              		.global	_ZN13motorSettingsC2EiPcP11TIM_TypeDefi
+  50              		.thumb
+  51              		.thumb_func
+  53              	_ZN13motorSettingsC2EiPcP11TIM_TypeDefi:
+  54              		.fnstart
+  55              	.LFB34:
+  20:src/motorSettings.cpp **** 
+  21:src/motorSettings.cpp **** motorSettings::motorSettings(int type, char* name, TIM_TypeDef* timer, int timerChannel)
+  56              		.loc 1 21 0
+  57              		.cfi_startproc
+  58              		@ args = 4, pretend = 0, frame = 0
+  59              		@ frame_needed = 0, uses_anonymous_args = 0
+  60              	.LVL1:
+  61 0006 10B5     		push	{r4, lr}
+  62              	.LCFI0:
+  63              		.cfi_def_cfa_offset 8
+  64              		.cfi_offset 4, -8
+  65              		.cfi_offset 14, -4
+  66              	.LBB3:
+  22:src/motorSettings.cpp **** {
+  23:src/motorSettings.cpp ****     //  preset general defaults
+  24:src/motorSettings.cpp **** 
+  25:src/motorSettings.cpp ****     m_motorType = type;
+  26:src/motorSettings.cpp ****     m_motorName = name;
+  27:src/motorSettings.cpp ****     m_Timer = timer;
+  67              		.loc 1 27 0
+  68 0008 80E80E00 		stmia	r0, {r1, r2, r3}
+  28:src/motorSettings.cpp ****     m_TimerChannel = timerChannel;
+  69              		.loc 1 28 0
+  70 000c 029B     		ldr	r3, [sp, #8]
+  71              	.LVL2:
+  72 000e C360     		str	r3, [r0, #12]
+  73              	.LBE3:
+  29:src/motorSettings.cpp **** 
+  30:src/motorSettings.cpp ****     //  motor defaults
+  31:src/motorSettings.cpp **** 
+  32:src/motorSettings.cpp ****     /*m_MPU9150GyroAccelSampleRate = 50;
+  33:src/motorSettings.cpp ****     m_MPU9150CompassSampleRate = 25;
+  34:src/motorSettings.cpp ****     m_MPU9150GyroAccelLpf = MPU9150_LPF_20;
+  35:src/motorSettings.cpp ****     m_MPU9150GyroFsr = MPU9150_GYROFSR_1000;
+  36:src/motorSettings.cpp ****     m_MPU9150AccelFsr = MPU9150_ACCELFSR_8;*/
+  37:src/motorSettings.cpp **** }
+  74              		.loc 1 37 0
+  75 0010 10BD     		pop	{r4, pc}
+  76              		.cfi_endproc
+  77              	.LFE34:
+  78              		.cantunwind
+  79              		.fnend
+  81              		.global	_ZN13motorSettingsC1EiPcP11TIM_TypeDefi
+  82              		.thumb_set _ZN13motorSettingsC1EiPcP11TIM_TypeDefi,_ZN13motorSettingsC2EiPcP11TIM_TypeDefi
+  83              		.align	1
+  84              		.global	_ZN13motorSettings9setDCPinsEiP12GPIO_TypeDefiS1_iS1_iS1_iS1_
+  85              		.thumb
+  86              		.thumb_func
+  88              	_ZN13motorSettings9setDCPinsEiP12GPIO_TypeDefiS1_iS1_iS1_iS1_:
+  89              		.fnstart
+  90              	.LFB36:
+  38:src/motorSettings.cpp **** 
+  39:src/motorSettings.cpp **** void motorSettings::setDCPins(int m_DCInAPin_, GPIO_TypeDef* m_DCInAPort_, int m_DCEnAPin_, GPIO_Ty
+  40:src/motorSettings.cpp ****                                  int m_DCInBPin_, GPIO_TypeDef* m_DCInBPort_, int m_DCEnBPin_, 
+  41:src/motorSettings.cpp ****                                  GPIO_TypeDef* m_DCEnBPort_, int m_DCPWMPin_, GPIO_TypeDef* m_DCPWM
+  91              		.loc 1 41 0
+  92              		.cfi_startproc
+  93              		@ args = 28, pretend = 0, frame = 0
+  94              		@ frame_needed = 0, uses_anonymous_args = 0
+  95              		@ link register save eliminated.
+  96              	.LVL3:
+  42:src/motorSettings.cpp **** 
+  43:src/motorSettings.cpp ****     m_DCInAPin = m_DCInAPin_;
+  44:src/motorSettings.cpp ****     m_DCInAPort = m_DCInAPort_;
+  45:src/motorSettings.cpp ****     m_DCEnAPin = m_DCEnAPin_;
+  97              		.loc 1 45 0
+  98 0012 8362     		str	r3, [r0, #40]
+  46:src/motorSettings.cpp ****     m_DCEnAPort = m_DCEnAPort_;
+  99              		.loc 1 46 0
+ 100 0014 009B     		ldr	r3, [sp]
+ 101              	.LVL4:
+  43:src/motorSettings.cpp ****     m_DCInAPort = m_DCInAPort_;
+ 102              		.loc 1 43 0
+ 103 0016 0162     		str	r1, [r0, #32]
+ 104              		.loc 1 46 0
+ 105 0018 C362     		str	r3, [r0, #44]
+  47:src/motorSettings.cpp ****     m_DCInBPin = m_DCInBPin_;
+ 106              		.loc 1 47 0
+ 107 001a 019B     		ldr	r3, [sp, #4]
+  44:src/motorSettings.cpp ****     m_DCEnAPin = m_DCEnAPin_;
+ 108              		.loc 1 44 0
+ 109 001c 4262     		str	r2, [r0, #36]
+ 110              		.loc 1 47 0
+ 111 001e 0363     		str	r3, [r0, #48]
+  48:src/motorSettings.cpp ****     m_DCInBPort = m_DCInBPort_;
+ 112              		.loc 1 48 0
+ 113 0020 029B     		ldr	r3, [sp, #8]
+ 114 0022 4363     		str	r3, [r0, #52]
+  49:src/motorSettings.cpp ****     m_DCEnBPin = m_DCEnBPin_;
+ 115              		.loc 1 49 0
+ 116 0024 039B     		ldr	r3, [sp, #12]
+ 117 0026 8363     		str	r3, [r0, #56]
+  50:src/motorSettings.cpp ****     m_DCEnBPort = m_DCEnBPort_;
+ 118              		.loc 1 50 0
+ 119 0028 049B     		ldr	r3, [sp, #16]
+ 120 002a C363     		str	r3, [r0, #60]
+  51:src/motorSettings.cpp ****     m_DCPWMPin = m_DCPWMPin_;
+ 121              		.loc 1 51 0
+ 122 002c 059B     		ldr	r3, [sp, #20]
+ 123 002e 0364     		str	r3, [r0, #64]
+  52:src/motorSettings.cpp ****     m_DCPWMPort = m_DCPWMPort_;
+ 124              		.loc 1 52 0
+ 125 0030 069B     		ldr	r3, [sp, #24]
+ 126 0032 4364     		str	r3, [r0, #68]
+ 127 0034 7047     		bx	lr
+ 128              		.cfi_endproc
+ 129              	.LFE36:
+ 130              		.cantunwind
+ 131              		.fnend
+ 133              	.Letext0:
+ 134              		.file 2 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
+ 135              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 136              		.file 4 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
+ 137              		.file 5 "./inc/motorSettings.h"
+ 138              		.file 6 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 motorSettings.cpp
+     /tmp/cc4FcqKf.s:19     .text:00000000 $t
+     /tmp/cc4FcqKf.s:24     .text:00000000 _ZN13motorSettingsC2Ev
+                       .ARM.exidx:00000000 $d
+     /tmp/cc4FcqKf.s:24     .text:00000000 _ZN13motorSettingsC1Ev
+     /tmp/cc4FcqKf.s:53     .text:00000006 _ZN13motorSettingsC2EiPcP11TIM_TypeDefi
+     /tmp/cc4FcqKf.s:53     .text:00000006 _ZN13motorSettingsC1EiPcP11TIM_TypeDefi
+     /tmp/cc4FcqKf.s:88     .text:00000012 _ZN13motorSettings9setDCPinsEiP12GPIO_TypeDefiS1_iS1_iS1_iS1_
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

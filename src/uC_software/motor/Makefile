@@ -57,8 +57,6 @@ TARGET = motors
 # List C source files here. (C dependencies are automatically generated.)
 # use file-extension c for "c-only"-files
 SRC =  ./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.c
-SRC += ./src/motors.c
-SRC += ./src/servo.c
 SRC += ./src/led.c
 SRC += ./src/encoder.c
 SRC += ./src/stm32_time.c
@@ -76,6 +74,10 @@ SRCARM =
 # List C++ source files here.
 # use file-extension cpp for C++-files
 CPPSRC =  ./src/main.cpp
+CPPSRC += ./src/motor.cpp
+CPPSRC += ./src/servo.cpp
+CPPSRC += ./src/DCMotor.cpp
+CPPSRC += ./src/motorSettings.cpp
 CPPSRC += ./lib/ros_lib/duration.cpp
 CPPSRC += ./lib/ros_lib/time.cpp
 

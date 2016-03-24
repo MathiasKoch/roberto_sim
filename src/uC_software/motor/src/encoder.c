@@ -3,14 +3,6 @@
 #include "encoder.h"
 
 
-extern __IO uint32_t TimeOut;
-extern __IO uint8_t Rx_Idx;
-extern __IO uint8_t NumberOfByteToReceive;
-extern  uint8_t RxBuffer[];
-extern  uint8_t slaveAddress;
-__IO uint8_t GenerateStartStatus = 0x00;
-
-
 void I2C1_Init(void){
     GPIO_InitTypeDef  GPIO_InitStructure;
     I2C_InitTypeDef  I2C_InitStructure;

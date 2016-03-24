@@ -46,11 +46,10 @@ src/main.o: src/main.cpp \
  /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/timespec.h \
  /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_timespec.h \
  /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/stdio.h \
- inc/servo.h \
+ inc/motor.h inc/motorSettings.h inc/led.h \
  /opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stdbool.h \
- inc/motors.h inc/led.h inc/pid.h inc/encoder.h inc/stm32_time.h \
- lib/ros_lib/ros.h lib/ros_lib/ros/node_handle.h \
- lib/ros_lib/std_msgs/Time.h \
+ inc/pid.h inc/encoder.h inc/stm32_time.h lib/ros_lib/ros.h \
+ lib/ros_lib/ros/node_handle.h lib/ros_lib/std_msgs/Time.h \
  /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/string.h \
  /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/string.h \
  /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/stdlib.h \
@@ -64,8 +63,8 @@ src/main.o: src/main.cpp \
  lib/ros_lib/ros/publisher.h lib/ros_lib/ros/node_handle.h \
  lib/ros_lib/ros/subscriber.h lib/ros_lib/ros/service_server.h \
  lib/ros_lib/ros/service_client.h lib/ros_lib/ArduinoHardware.h \
- lib/ros_lib/std_msgs/String.h lib/ros_lib/std_msgs/Empty.h \
- lib/ros_lib/std_msgs/UInt16.h lib/ros_lib/std_msgs/Int16.h
+ lib/ros_lib/std_msgs/String.h lib/ros_lib/std_msgs/UInt8.h \
+ lib/ros_lib/roberto_msgs/MotorState.h lib/ros_lib/std_msgs/Header.h
 
 lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h:
 
@@ -161,13 +160,13 @@ lib/STM32F10x_StdPeriph_Driver/inc/misc.h:
 
 /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/stdio.h:
 
-inc/servo.h:
+inc/motor.h:
 
-/opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stdbool.h:
-
-inc/motors.h:
+inc/motorSettings.h:
 
 inc/led.h:
+
+/opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stdbool.h:
 
 inc/pid.h:
 
@@ -221,8 +220,8 @@ lib/ros_lib/ArduinoHardware.h:
 
 lib/ros_lib/std_msgs/String.h:
 
-lib/ros_lib/std_msgs/Empty.h:
+lib/ros_lib/std_msgs/UInt8.h:
 
-lib/ros_lib/std_msgs/UInt16.h:
+lib/ros_lib/roberto_msgs/MotorState.h:
 
-lib/ros_lib/std_msgs/Int16.h:
+lib/ros_lib/std_msgs/Header.h:
