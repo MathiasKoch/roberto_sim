@@ -12,331 +12,800 @@
   12              		.eabi_attribute 18, 4
   13              		.thumb
   14              		.syntax unified
-  15              		.file	"servo.c"
+  15              		.file	"servo.cpp"
   16              		.text
   17              	.Ltext0:
   18              		.cfi_sections	.debug_frame
-  19              		.align	1
-  20              		.global	SERVO_Init
-  21              		.thumb
-  22              		.thumb_func
-  24              	SERVO_Init:
-  25              	.LFB29:
-  26              		.file 1 "src/servo.c"
-   1:src/servo.c   **** 
-   2:src/servo.c   **** #include <stdio.h>
-   3:src/servo.c   **** #include <stdbool.h>
-   4:src/servo.c   **** #include <stdint.h>
-   5:src/servo.c   **** 
-   6:src/servo.c   **** #include <stm32f10x.h>
-   7:src/servo.c   **** #include "servo.h"
-   8:src/servo.c   **** 
-   9:src/servo.c   **** 
-  10:src/servo.c   **** #define DEBUG_PRINT(args...) printf(args)
-  11:src/servo.c   **** 
-  12:src/servo.c   **** 
-  13:src/servo.c   **** TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
-  14:src/servo.c   **** TIM_OCInitTypeDef  TIM_OCInitStructure;
-  15:src/servo.c   **** 
-  16:src/servo.c   **** #define MAX 6800
-  17:src/servo.c   **** #define MIN 2000
-  18:src/servo.c   **** 
-  19:src/servo.c   **** 
-  20:src/servo.c   **** void SERVO_Init(){
-  27              		.loc 1 20 0
-  28              		.cfi_startproc
-  29              		@ args = 0, pretend = 0, frame = 8
-  30              		@ frame_needed = 0, uses_anonymous_args = 0
-  31 0000 F7B5     		push	{r0, r1, r2, r4, r5, r6, r7, lr}
-  32              	.LCFI0:
-  33              		.cfi_def_cfa_offset 32
-  34              		.cfi_offset 4, -20
-  35              		.cfi_offset 5, -16
-  36              		.cfi_offset 6, -12
-  37              		.cfi_offset 7, -8
-  38              		.cfi_offset 14, -4
-  21:src/servo.c   **** 
-  22:src/servo.c   **** 	GPIO_InitTypeDef GPIO_InitStructure;
-  23:src/servo.c   **** 
-  24:src/servo.c   **** 	/*Configure GPIO pin : PB8 */
-  25:src/servo.c   **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
-  26:src/servo.c   **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-  27:src/servo.c   **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  28:src/servo.c   **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
-  39              		.loc 1 28 0
-  40 0002 284C     		ldr	r4, .L2
-  25:src/servo.c   **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-  41              		.loc 1 25 0
-  42 0004 4FF48073 		mov	r3, #256
-  26:src/servo.c   **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  43              		.loc 1 26 0
-  44 0008 1826     		movs	r6, #24
-  27:src/servo.c   **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
-  45              		.loc 1 27 0
-  46 000a 0325     		movs	r5, #3
-  47              		.loc 1 28 0
-  48 000c 01A9     		add	r1, sp, #4
-  49 000e 2046     		mov	r0, r4
-  25:src/servo.c   **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-  50              		.loc 1 25 0
-  51 0010 ADF80430 		strh	r3, [sp, #4]	@ movhi
-  26:src/servo.c   **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  52              		.loc 1 26 0
-  53 0014 8DF80760 		strb	r6, [sp, #7]
-  27:src/servo.c   **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
-  54              		.loc 1 27 0
-  55 0018 8DF80650 		strb	r5, [sp, #6]
-  56              		.loc 1 28 0
-  57 001c FFF7FEFF 		bl	GPIO_Init
-  58              	.LVL0:
-  29:src/servo.c   **** 
-  30:src/servo.c   **** 	/*Configure GPIO pin : PB9 */
-  31:src/servo.c   **** 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
-  59              		.loc 1 31 0
-  60 0020 4FF40073 		mov	r3, #512
-  32:src/servo.c   **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-  33:src/servo.c   **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  34:src/servo.c   **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
-  61              		.loc 1 34 0
-  62 0024 01A9     		add	r1, sp, #4
-  63 0026 2046     		mov	r0, r4
-  31:src/servo.c   **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-  64              		.loc 1 31 0
-  65 0028 ADF80430 		strh	r3, [sp, #4]	@ movhi
-  32:src/servo.c   **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-  66              		.loc 1 32 0
-  67 002c 8DF80760 		strb	r6, [sp, #7]
-  33:src/servo.c   **** 	GPIO_Init(GPIOB, &GPIO_InitStructure);
-  68              		.loc 1 33 0
-  69 0030 8DF80650 		strb	r5, [sp, #6]
-  70              		.loc 1 34 0
-  71 0034 FFF7FEFF 		bl	GPIO_Init
-  72              	.LVL1:
-  35:src/servo.c   **** 
-  36:src/servo.c   **** 
-  37:src/servo.c   **** 	TIM_TimeBaseStructure.TIM_Period = 59999; // ie 0..29999
-  73              		.loc 1 37 0
-  74 0038 4EF65F23 		movw	r3, #59999
-  75 003c 1A49     		ldr	r1, .L2+4
-  38:src/servo.c   **** 	TIM_TimeBaseStructure.TIM_Prescaler = 23;
-  39:src/servo.c   **** 	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
-  40:src/servo.c   **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-  41:src/servo.c   **** 
-  42:src/servo.c   **** 	TIM_TimeBaseInit(TIM4, &TIM_TimeBaseStructure);
-  76              		.loc 1 42 0
-  77 003e A4F58234 		sub	r4, r4, #66560
-  43:src/servo.c   **** 
-  44:src/servo.c   **** 	TIM_OCStructInit(&TIM_OCInitStructure); // clears the other 4 fields not used here
-  78              		.loc 1 44 0
-  79 0042 1A4D     		ldr	r5, .L2+8
-  39:src/servo.c   **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-  80              		.loc 1 39 0
-  81 0044 0027     		movs	r7, #0
-  37:src/servo.c   **** 	TIM_TimeBaseStructure.TIM_Prescaler = 23;
-  82              		.loc 1 37 0
-  83 0046 8B80     		strh	r3, [r1, #4]	@ movhi
-  42:src/servo.c   **** 
-  84              		.loc 1 42 0
-  85 0048 2046     		mov	r0, r4
-  38:src/servo.c   **** 	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
-  86              		.loc 1 38 0
-  87 004a 1723     		movs	r3, #23
-  88 004c 0B80     		strh	r3, [r1]	@ movhi
-  39:src/servo.c   **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-  89              		.loc 1 39 0
-  90 004e CF80     		strh	r7, [r1, #6]	@ movhi
-  40:src/servo.c   **** 
-  91              		.loc 1 40 0
-  92 0050 4F80     		strh	r7, [r1, #2]	@ movhi
-  42:src/servo.c   **** 
-  93              		.loc 1 42 0
-  94 0052 FFF7FEFF 		bl	TIM_TimeBaseInit
-  95              	.LVL2:
-  96              		.loc 1 44 0
-  97 0056 2846     		mov	r0, r5
-  98 0058 FFF7FEFF 		bl	TIM_OCStructInit
-  99              	.LVL3:
-  45:src/servo.c   **** 
-  46:src/servo.c   **** 	/* PWM1 Mode configuration: Channel1 */
-  47:src/servo.c   **** 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
-  48:src/servo.c   **** 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
- 100              		.loc 1 48 0
- 101 005c 0126     		movs	r6, #1
-  47:src/servo.c   **** 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
- 102              		.loc 1 47 0
- 103 005e 6023     		movs	r3, #96
-  49:src/servo.c   **** 	TIM_OCInitStructure.TIM_Pulse = 0x0000;
-  50:src/servo.c   **** 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
-  51:src/servo.c   **** 
-  52:src/servo.c   **** 	TIM_OC3Init(TIM4, &TIM_OCInitStructure);
- 104              		.loc 1 52 0
- 105 0060 2946     		mov	r1, r5
- 106 0062 2046     		mov	r0, r4
-  47:src/servo.c   **** 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
- 107              		.loc 1 47 0
- 108 0064 2B80     		strh	r3, [r5]	@ movhi
-  48:src/servo.c   **** 	TIM_OCInitStructure.TIM_Pulse = 0x0000;
- 109              		.loc 1 48 0
- 110 0066 6E80     		strh	r6, [r5, #2]	@ movhi
-  49:src/servo.c   **** 	TIM_OCInitStructure.TIM_Pulse = 0x0000;
- 111              		.loc 1 49 0
- 112 0068 EF80     		strh	r7, [r5, #6]	@ movhi
-  50:src/servo.c   **** 
- 113              		.loc 1 50 0
- 114 006a 2F81     		strh	r7, [r5, #8]	@ movhi
- 115              		.loc 1 52 0
- 116 006c FFF7FEFF 		bl	TIM_OC3Init
- 117              	.LVL4:
-  53:src/servo.c   **** 	TIM_OC4Init(TIM4, &TIM_OCInitStructure);
- 118              		.loc 1 53 0
- 119 0070 2946     		mov	r1, r5
- 120 0072 2046     		mov	r0, r4
- 121 0074 FFF7FEFF 		bl	TIM_OC4Init
- 122              	.LVL5:
-  54:src/servo.c   **** 	
-  55:src/servo.c   **** 	TIM_OC3PreloadConfig(TIM4, TIM_OCPreload_Enable);
- 123              		.loc 1 55 0
- 124 0078 2046     		mov	r0, r4
- 125 007a 0821     		movs	r1, #8
- 126 007c FFF7FEFF 		bl	TIM_OC3PreloadConfig
- 127              	.LVL6:
-  56:src/servo.c   **** 	TIM_OC4PreloadConfig(TIM4, TIM_OCPreload_Enable);
- 128              		.loc 1 56 0
- 129 0080 2046     		mov	r0, r4
- 130 0082 0821     		movs	r1, #8
- 131 0084 FFF7FEFF 		bl	TIM_OC4PreloadConfig
- 132              	.LVL7:
-  57:src/servo.c   **** 
-  58:src/servo.c   **** 	TIM_ARRPreloadConfig(TIM4, ENABLE);
- 133              		.loc 1 58 0
- 134 0088 3146     		mov	r1, r6
- 135 008a 2046     		mov	r0, r4
- 136 008c FFF7FEFF 		bl	TIM_ARRPreloadConfig
- 137              	.LVL8:
-  59:src/servo.c   **** 
-  60:src/servo.c   **** 	/* TIM Main Output Enable */
-  61:src/servo.c   **** 	TIM_CtrlPWMOutputs(TIM4, ENABLE);
- 138              		.loc 1 61 0
- 139 0090 3146     		mov	r1, r6
- 140 0092 2046     		mov	r0, r4
- 141 0094 FFF7FEFF 		bl	TIM_CtrlPWMOutputs
- 142              	.LVL9:
-  62:src/servo.c   **** 
-  63:src/servo.c   **** 	/* TIM enable counter */
-  64:src/servo.c   **** 	TIM_Cmd(TIM4, ENABLE);
- 143              		.loc 1 64 0
- 144 0098 3146     		mov	r1, r6
- 145 009a 2046     		mov	r0, r4
- 146 009c FFF7FEFF 		bl	TIM_Cmd
- 147              	.LVL10:
-  65:src/servo.c   **** }
- 148              		.loc 1 65 0
- 149 00a0 03B0     		add	sp, sp, #12
- 150              	.LCFI1:
- 151              		.cfi_def_cfa_offset 20
- 152              		@ sp needed
- 153 00a2 F0BD     		pop	{r4, r5, r6, r7, pc}
- 154              	.L3:
- 155              		.align	2
- 156              	.L2:
- 157 00a4 000C0140 		.word	1073810432
- 158 00a8 00000000 		.word	TIM_TimeBaseStructure
- 159 00ac 00000000 		.word	TIM_OCInitStructure
- 160              		.cfi_endproc
- 161              	.LFE29:
- 163              		.align	1
- 164              		.global	servo_set
- 165              		.thumb
- 166              		.thumb_func
- 168              	servo_set:
- 169              	.LFB30:
-  66:src/servo.c   **** 
-  67:src/servo.c   **** 
-  68:src/servo.c   **** void servo_set(uint8_t id, uint8_t val){
- 170              		.loc 1 68 0
- 171              		.cfi_startproc
- 172              		@ args = 0, pretend = 0, frame = 0
- 173              		@ frame_needed = 0, uses_anonymous_args = 0
- 174              		@ link register save eliminated.
- 175              	.LVL11:
- 176 00b0 B429     		cmp	r1, #180
- 177 00b2 28BF     		it	cs
- 178 00b4 B421     		movcs	r1, #180
- 179              	.LVL12:
-  69:src/servo.c   **** 	if(val > 180){
-  70:src/servo.c   **** 		val = 180;
-  71:src/servo.c   **** 	}else if(val < 0){
-  72:src/servo.c   **** 		val = 0;
-  73:src/servo.c   **** 	}
-  74:src/servo.c   **** 	if(id == 0)
- 180              		.loc 1 74 0
- 181 00b6 58B9     		cbnz	r0, .L5
-  75:src/servo.c   **** 		TIM4->CCR3 = val * (MAX - MIN) / 180 + MIN;
- 182              		.loc 1 75 0
- 183 00b8 4FF49652 		mov	r2, #4800
- 184 00bc 5143     		muls	r1, r2, r1
- 185              	.LVL13:
- 186 00be B423     		movs	r3, #180
- 187 00c0 91FBF3F3 		sdiv	r3, r1, r3
- 188 00c4 0A4A     		ldr	r2, .L8
- 189 00c6 03F5FA63 		add	r3, r3, #2000
- 190 00ca 9BB2     		uxth	r3, r3
- 191 00cc 9387     		strh	r3, [r2, #60]	@ movhi
- 192 00ce 7047     		bx	lr
- 193              	.LVL14:
- 194              	.L5:
-  76:src/servo.c   **** 	else if(id == 1)
- 195              		.loc 1 76 0
- 196 00d0 0128     		cmp	r0, #1
- 197 00d2 0BD1     		bne	.L4
-  77:src/servo.c   **** 		TIM4->CCR4 = val * (MAX - MIN) / 180 + MIN;
- 198              		.loc 1 77 0
- 199 00d4 4FF49652 		mov	r2, #4800
- 200 00d8 5143     		muls	r1, r2, r1
- 201              	.LVL15:
- 202 00da B423     		movs	r3, #180
- 203 00dc 91FBF3F3 		sdiv	r3, r1, r3
- 204 00e0 034A     		ldr	r2, .L8
- 205 00e2 03F5FA63 		add	r3, r3, #2000
- 206 00e6 9BB2     		uxth	r3, r3
- 207 00e8 A2F84030 		strh	r3, [r2, #64]	@ movhi
- 208              	.L4:
- 209 00ec 7047     		bx	lr
- 210              	.L9:
- 211 00ee 00BF     		.align	2
- 212              	.L8:
- 213 00f0 00080040 		.word	1073743872
- 214              		.cfi_endproc
- 215              	.LFE30:
- 217              		.comm	TIM_OCInitStructure,16,2
- 218              		.comm	TIM_TimeBaseStructure,10,2
- 219              	.Letext0:
- 220              		.file 2 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
- 221              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
- 222              		.file 4 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
- 223              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
- 224              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_tim.h"
- 225              		.file 7 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
+  19              		.section	.text._ZN5servo9motorTypeEv,"axG",%progbits,_ZN5servo9motorTypeEv,comdat
+  20              		.align	1
+  21              		.weak	_ZN5servo9motorTypeEv
+  22              		.thumb
+  23              		.thumb_func
+  25              	_ZN5servo9motorTypeEv:
+  26              		.fnstart
+  27              	.LFB29:
+  28              		.file 1 "./inc/servo.h"
+   1:./inc/servo.h **** 
+   2:./inc/servo.h **** #ifndef _servo_H
+   3:./inc/servo.h **** #define	_servo_H
+   4:./inc/servo.h **** 
+   5:./inc/servo.h **** #include <stm32f10x.h>
+   6:./inc/servo.h **** #include "motor.h"
+   7:./inc/servo.h **** 
+   8:./inc/servo.h **** class servo : public motor
+   9:./inc/servo.h **** {
+  10:./inc/servo.h **** public:
+  11:./inc/servo.h ****     servo(motorSettings *settings);
+  12:./inc/servo.h ****     ~servo();
+  13:./inc/servo.h **** 
+  14:./inc/servo.h ****     virtual void setReference(float setPoint);
+  15:./inc/servo.h ****     virtual float getReference();
+  16:./inc/servo.h ****     virtual char* motorName();
+  17:./inc/servo.h ****     virtual uint16_t update(float dt);
+  18:./inc/servo.h **** 
+  19:./inc/servo.h ****     virtual int motorType() { return MOTOR_TYPE_SERVO; }
+  29              		.loc 1 19 0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+  34              	.LVL0:
+  35              		.loc 1 19 0
+  36 0000 0120     		movs	r0, #1
+  37              	.LVL1:
+  38 0002 7047     		bx	lr
+  39              		.cfi_endproc
+  40              	.LFE29:
+  41              		.cantunwind
+  42              		.fnend
+  44              		.global	__aeabi_f2iz
+  45              		.text
+  46              		.align	1
+  47              		.global	_ZN5servo12setReferenceEf
+  48              		.thumb
+  49              		.thumb_func
+  51              	_ZN5servo12setReferenceEf:
+  52              		.fnstart
+  53              	.LFB38:
+  54              		.file 2 "src/servo.cpp"
+   1:src/servo.cpp **** 
+   2:src/servo.cpp **** #include "servo.h"
+   3:src/servo.cpp **** #include "motorSettings.h"
+   4:src/servo.cpp **** 
+   5:src/servo.cpp **** 
+   6:src/servo.cpp **** servo::servo(motorSettings *settings) : motor(settings)
+   7:src/servo.cpp **** {
+   8:src/servo.cpp **** 
+   9:src/servo.cpp **** }
+  10:src/servo.cpp **** 
+  11:src/servo.cpp **** servo::~servo()
+  12:src/servo.cpp **** {
+  13:src/servo.cpp **** }
+  14:src/servo.cpp **** 
+  15:src/servo.cpp **** bool servo::motorInit()
+  16:src/servo.cpp **** {
+  17:src/servo.cpp **** 
+  18:src/servo.cpp **** 	GPIO_InitTypeDef GPIO_InitStructure;
+  19:src/servo.cpp **** 
+  20:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Pin = m_settings->m_ServoPin;
+  21:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+  22:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  23:src/servo.cpp **** 	GPIO_Init(m_settings->m_ServoPort, &GPIO_InitStructure);
+  24:src/servo.cpp **** 
+  25:src/servo.cpp **** 
+  26:src/servo.cpp **** 
+  27:src/servo.cpp **** 
+  28:src/servo.cpp **** 	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
+  29:src/servo.cpp **** 	TIM_TimeBaseStructure.TIM_Period = 59999; // ie 0..29999
+  30:src/servo.cpp **** 	TIM_TimeBaseStructure.TIM_Prescaler = 23;
+  31:src/servo.cpp **** 	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
+  32:src/servo.cpp **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+  33:src/servo.cpp **** 
+  34:src/servo.cpp **** 	TIM_TimeBaseInit(m_settings->m_Timer, &TIM_TimeBaseStructure);
+  35:src/servo.cpp **** 
+  36:src/servo.cpp **** 
+  37:src/servo.cpp **** 	TIM_OCInitTypeDef TIM_OCInitStructure;
+  38:src/servo.cpp **** 	TIM_OCStructInit(&TIM_OCInitStructure); // clears the other 4 fields not used here
+  39:src/servo.cpp **** 
+  40:src/servo.cpp **** 	/* PWM1 Mode configuration: Channel1 */
+  41:src/servo.cpp **** 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+  42:src/servo.cpp **** 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+  43:src/servo.cpp **** 	TIM_OCInitStructure.TIM_Pulse = 0x0000;
+  44:src/servo.cpp **** 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+  45:src/servo.cpp **** 
+  46:src/servo.cpp **** 	switch(m_settings->m_TimerChannel){
+  47:src/servo.cpp **** 		case 1:
+  48:src/servo.cpp **** 			TIM_OC1Init(m_settings->m_Timer, &TIM_OCInitStructure);
+  49:src/servo.cpp **** 			TIM_OC1PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
+  50:src/servo.cpp **** 			break;
+  51:src/servo.cpp **** 		case 2:
+  52:src/servo.cpp **** 			TIM_OC2Init(m_settings->m_Timer, &TIM_OCInitStructure);
+  53:src/servo.cpp **** 			TIM_OC2PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
+  54:src/servo.cpp **** 			break;
+  55:src/servo.cpp **** 		case 3:
+  56:src/servo.cpp **** 			TIM_OC3Init(m_settings->m_Timer, &TIM_OCInitStructure);
+  57:src/servo.cpp **** 			TIM_OC3PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
+  58:src/servo.cpp **** 			break;
+  59:src/servo.cpp **** 		case 4:
+  60:src/servo.cpp **** 			TIM_OC4Init(m_settings->m_Timer, &TIM_OCInitStructure);
+  61:src/servo.cpp **** 			TIM_OC4PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
+  62:src/servo.cpp **** 			break;
+  63:src/servo.cpp **** 		default:
+  64:src/servo.cpp **** 			return false;
+  65:src/servo.cpp **** 	}
+  66:src/servo.cpp **** 
+  67:src/servo.cpp **** 
+  68:src/servo.cpp **** 	TIM_ARRPreloadConfig(m_settings->m_Timer, ENABLE);
+  69:src/servo.cpp **** 
+  70:src/servo.cpp **** 	/* TIM Main Output Enable */
+  71:src/servo.cpp **** 	TIM_CtrlPWMOutputs(m_settings->m_Timer, ENABLE);
+  72:src/servo.cpp **** 
+  73:src/servo.cpp **** 	/* TIM enable counter */
+  74:src/servo.cpp **** 	TIM_Cmd(m_settings->m_Timer, ENABLE);
+  75:src/servo.cpp **** 
+  76:src/servo.cpp **** 	return true;
+  77:src/servo.cpp **** }
+  78:src/servo.cpp **** 
+  79:src/servo.cpp **** void servo::setReference(float setPoint){
+  55              		.loc 2 79 0
+  56              		.cfi_startproc
+  57              		@ args = 0, pretend = 0, frame = 0
+  58              		@ frame_needed = 0, uses_anonymous_args = 0
+  59              	.LVL2:
+  60 0000 10B5     		push	{r4, lr}
+  61              	.LCFI0:
+  62              		.cfi_def_cfa_offset 8
+  63              		.cfi_offset 4, -8
+  64              		.cfi_offset 14, -4
+  65              		.loc 2 79 0
+  66 0002 0446     		mov	r4, r0
+  80:src/servo.cpp **** 	pos = (int)setPoint;
+  67              		.loc 2 80 0
+  68 0004 0846     		mov	r0, r1
+  69              	.LVL3:
+  70 0006 FFF7FEFF 		bl	__aeabi_f2iz
+  71              	.LVL4:
+  81:src/servo.cpp **** 	if(pos > 180){
+  72              		.loc 2 81 0
+  73 000a B428     		cmp	r0, #180
+  74 000c 01DD     		ble	.L3
+  82:src/servo.cpp **** 		pos = 180;
+  75              		.loc 2 82 0
+  76 000e B423     		movs	r3, #180
+  77 0010 04E0     		b	.L6
+  78              	.L3:
+  83:src/servo.cpp **** 	}else if(pos < 0){
+  79              		.loc 2 83 0
+  80 0012 0028     		cmp	r0, #0
+  81 0014 01DB     		blt	.L5
+  80:src/servo.cpp **** 	if(pos > 180){
+  82              		.loc 2 80 0
+  83 0016 A060     		str	r0, [r4, #8]
+  84 0018 10BD     		pop	{r4, pc}
+  85              	.LVL5:
+  86              	.L5:
+  84:src/servo.cpp **** 		pos = 0;
+  87              		.loc 2 84 0
+  88 001a 0023     		movs	r3, #0
+  89              	.L6:
+  90 001c A360     		str	r3, [r4, #8]
+  91 001e 10BD     		pop	{r4, pc}
+  92              		.cfi_endproc
+  93              	.LFE38:
+  94              		.cantunwind
+  95              		.fnend
+  97              		.global	__aeabi_i2f
+  98              		.align	1
+  99              		.global	_ZN5servo12getReferenceEv
+ 100              		.thumb
+ 101              		.thumb_func
+ 103              	_ZN5servo12getReferenceEv:
+ 104              		.fnstart
+ 105              	.LFB39:
+  85:src/servo.cpp **** 	}
+  86:src/servo.cpp **** }
+  87:src/servo.cpp **** 
+  88:src/servo.cpp **** float servo::getReference(){
+ 106              		.loc 2 88 0
+ 107              		.cfi_startproc
+ 108              		@ args = 0, pretend = 0, frame = 0
+ 109              		@ frame_needed = 0, uses_anonymous_args = 0
+ 110              	.LVL6:
+ 111 0020 08B5     		push	{r3, lr}
+ 112              	.LCFI1:
+ 113              		.cfi_def_cfa_offset 8
+ 114              		.cfi_offset 3, -8
+ 115              		.cfi_offset 14, -4
+  89:src/servo.cpp **** 	return (float)pos;
+ 116              		.loc 2 89 0
+ 117 0022 8068     		ldr	r0, [r0, #8]
+ 118              	.LVL7:
+ 119 0024 FFF7FEFF 		bl	__aeabi_i2f
+ 120              	.LVL8:
+  90:src/servo.cpp **** }
+ 121              		.loc 2 90 0
+ 122 0028 08BD     		pop	{r3, pc}
+ 123              		.cfi_endproc
+ 124              	.LFE39:
+ 125              		.cantunwind
+ 126              		.fnend
+ 128              		.align	1
+ 129              		.global	_ZN5servo9motorNameEv
+ 130              		.thumb
+ 131              		.thumb_func
+ 133              	_ZN5servo9motorNameEv:
+ 134              		.fnstart
+ 135              	.LFB40:
+  91:src/servo.cpp **** char* servo::motorName(){
+ 136              		.loc 2 91 0
+ 137              		.cfi_startproc
+ 138              		@ args = 0, pretend = 0, frame = 0
+ 139              		@ frame_needed = 0, uses_anonymous_args = 0
+ 140              		@ link register save eliminated.
+ 141              	.LVL9:
+  92:src/servo.cpp **** 	return m_settings->m_motorName;
+ 142              		.loc 2 92 0
+ 143 002a 4368     		ldr	r3, [r0, #4]
+  93:src/servo.cpp **** }
+ 144              		.loc 2 93 0
+ 145 002c 5868     		ldr	r0, [r3, #4]
+ 146              	.LVL10:
+ 147 002e 7047     		bx	lr
+ 148              		.cfi_endproc
+ 149              	.LFE40:
+ 150              		.cantunwind
+ 151              		.fnend
+ 153              		.align	1
+ 154              		.global	_ZN5servo6updateEf
+ 155              		.thumb
+ 156              		.thumb_func
+ 158              	_ZN5servo6updateEf:
+ 159              		.fnstart
+ 160              	.LFB41:
+  94:src/servo.cpp **** 
+  95:src/servo.cpp **** uint16_t servo::update(float dt){
+ 161              		.loc 2 95 0
+ 162              		.cfi_startproc
+ 163              		@ args = 0, pretend = 0, frame = 0
+ 164              		@ frame_needed = 0, uses_anonymous_args = 0
+ 165              	.LVL11:
+  96:src/servo.cpp **** 	switch(m_settings->m_TimerChannel){
+ 166              		.loc 2 96 0
+ 167 0030 4368     		ldr	r3, [r0, #4]
+  95:src/servo.cpp **** 	switch(m_settings->m_TimerChannel){
+ 168              		.loc 2 95 0
+ 169 0032 10B5     		push	{r4, lr}
+ 170              	.LCFI2:
+ 171              		.cfi_def_cfa_offset 8
+ 172              		.cfi_offset 4, -8
+ 173              		.cfi_offset 14, -4
+ 174              		.loc 2 96 0
+ 175 0034 DA68     		ldr	r2, [r3, #12]
+ 176 0036 013A     		subs	r2, r2, #1
+ 177 0038 032A     		cmp	r2, #3
+ 178 003a 37D8     		bhi	.L11
+ 179 003c DFE802F0 		tbb	[pc, r2]
+ 180              	.LVL12:
+ 181              	.L13:
+ 182 0040 02       		.byte	(.L12-.L13)/2
+ 183 0041 0F       		.byte	(.L14-.L13)/2
+ 184 0042 1C       		.byte	(.L15-.L13)/2
+ 185 0043 29       		.byte	(.L16-.L13)/2
+ 186              		.p2align 1
+ 187              	.L12:
+  97:src/servo.cpp **** 		case 1:
+  98:src/servo.cpp **** 			(m_settings->m_Timer)->CCR1 = pos * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) 
+ 188              		.loc 2 98 0
+ 189 0044 5A69     		ldr	r2, [r3, #20]
+ 190 0046 9C68     		ldr	r4, [r3, #8]
+ 191 0048 1B69     		ldr	r3, [r3, #16]
+ 192 004a 8168     		ldr	r1, [r0, #8]
+ 193 004c 9B1A     		subs	r3, r3, r2
+ 194 004e 4B43     		muls	r3, r1, r3
+ 195 0050 B421     		movs	r1, #180
+ 196 0052 93FBF1F3 		sdiv	r3, r3, r1
+ 197 0056 1A44     		add	r2, r2, r3
+ 198 0058 92B2     		uxth	r2, r2
+ 199 005a A286     		strh	r2, [r4, #52]	@ movhi
+  99:src/servo.cpp **** 			break;
+ 200              		.loc 2 99 0
+ 201 005c 26E0     		b	.L11
+ 202              	.L14:
+ 100:src/servo.cpp **** 		case 2:
+ 101:src/servo.cpp **** 			(m_settings->m_Timer)->CCR2 = pos * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) 
+ 203              		.loc 2 101 0
+ 204 005e 5A69     		ldr	r2, [r3, #20]
+ 205 0060 9C68     		ldr	r4, [r3, #8]
+ 206 0062 1B69     		ldr	r3, [r3, #16]
+ 207 0064 8168     		ldr	r1, [r0, #8]
+ 208 0066 9B1A     		subs	r3, r3, r2
+ 209 0068 4B43     		muls	r3, r1, r3
+ 210 006a B421     		movs	r1, #180
+ 211 006c 93FBF1F3 		sdiv	r3, r3, r1
+ 212 0070 1A44     		add	r2, r2, r3
+ 213 0072 92B2     		uxth	r2, r2
+ 214 0074 2287     		strh	r2, [r4, #56]	@ movhi
+ 102:src/servo.cpp **** 			break;
+ 215              		.loc 2 102 0
+ 216 0076 19E0     		b	.L11
+ 217              	.L15:
+ 103:src/servo.cpp **** 		case 3:
+ 104:src/servo.cpp **** 			(m_settings->m_Timer)->CCR3 = pos * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) 
+ 218              		.loc 2 104 0
+ 219 0078 5A69     		ldr	r2, [r3, #20]
+ 220 007a 9C68     		ldr	r4, [r3, #8]
+ 221 007c 1B69     		ldr	r3, [r3, #16]
+ 222 007e 8168     		ldr	r1, [r0, #8]
+ 223 0080 9B1A     		subs	r3, r3, r2
+ 224 0082 4B43     		muls	r3, r1, r3
+ 225 0084 B421     		movs	r1, #180
+ 226 0086 93FBF1F3 		sdiv	r3, r3, r1
+ 227 008a 1A44     		add	r2, r2, r3
+ 228 008c 92B2     		uxth	r2, r2
+ 229 008e A287     		strh	r2, [r4, #60]	@ movhi
+ 105:src/servo.cpp **** 			break;
+ 230              		.loc 2 105 0
+ 231 0090 0CE0     		b	.L11
+ 232              	.L16:
+ 106:src/servo.cpp **** 		case 4:
+ 107:src/servo.cpp **** 			(m_settings->m_Timer)->CCR4 = pos * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) 
+ 233              		.loc 2 107 0
+ 234 0092 5A69     		ldr	r2, [r3, #20]
+ 235 0094 9C68     		ldr	r4, [r3, #8]
+ 236 0096 1B69     		ldr	r3, [r3, #16]
+ 237 0098 8168     		ldr	r1, [r0, #8]
+ 238 009a 9B1A     		subs	r3, r3, r2
+ 239 009c 4B43     		muls	r3, r1, r3
+ 240 009e B421     		movs	r1, #180
+ 241 00a0 93FBF1F3 		sdiv	r3, r3, r1
+ 242 00a4 1A44     		add	r2, r2, r3
+ 243 00a6 92B2     		uxth	r2, r2
+ 244 00a8 A4F84020 		strh	r2, [r4, #64]	@ movhi
+ 245              	.L11:
+ 108:src/servo.cpp **** 			break;
+ 109:src/servo.cpp **** 	}
+ 110:src/servo.cpp **** 	return 0;
+ 111:src/servo.cpp **** }...
+ 246              		.loc 2 111 0
+ 247 00ac 0020     		movs	r0, #0
+ 248              	.LVL13:
+ 249 00ae 10BD     		pop	{r4, pc}
+ 250              		.cfi_endproc
+ 251              	.LFE41:
+ 252              		.cantunwind
+ 253              		.fnend
+ 255              		.align	1
+ 256              		.global	_ZN5servoD2Ev
+ 257              		.thumb
+ 258              		.thumb_func
+ 260              	_ZN5servoD2Ev:
+ 261              		.fnstart
+ 262              	.LFB34:
+  11:src/servo.cpp **** servo::~servo()
+ 263              		.loc 2 11 0
+ 264              		.cfi_startproc
+ 265              		@ args = 0, pretend = 0, frame = 0
+ 266              		@ frame_needed = 0, uses_anonymous_args = 0
+ 267              	.LVL14:
+ 268 00b0 10B5     		push	{r4, lr}
+ 269              		.save {r4, lr}
+ 270              	.LCFI3:
+ 271              		.cfi_def_cfa_offset 8
+ 272              		.cfi_offset 4, -8
+ 273              		.cfi_offset 14, -4
+  11:src/servo.cpp **** servo::~servo()
+ 274              		.loc 2 11 0
+ 275 00b2 0446     		mov	r4, r0
+ 276              	.LBB2:
+ 277 00b4 024B     		ldr	r3, .L18
+ 278 00b6 0360     		str	r3, [r0]
+ 279 00b8 FFF7FEFF 		bl	_ZN5motorD2Ev
+ 280              	.LVL15:
+ 281              	.LBE2:
+  13:src/servo.cpp **** }
+ 282              		.loc 2 13 0
+ 283 00bc 2046     		mov	r0, r4
+ 284 00be 10BD     		pop	{r4, pc}
+ 285              	.LVL16:
+ 286              	.L19:
+ 287              		.align	2
+ 288              	.L18:
+ 289 00c0 08000000 		.word	.LANCHOR0+8
+ 290              		.cfi_endproc
+ 291              	.LFE34:
+ 292              		.fnend
+ 294              		.global	_ZN5servoD1Ev
+ 295              		.thumb_set _ZN5servoD1Ev,_ZN5servoD2Ev
+ 296              		.align	1
+ 297              		.global	_ZN5servoD0Ev
+ 298              		.thumb
+ 299              		.thumb_func
+ 301              	_ZN5servoD0Ev:
+ 302              		.fnstart
+ 303              	.LFB36:
+  11:src/servo.cpp **** servo::~servo()
+ 304              		.loc 2 11 0
+ 305              		.cfi_startproc
+ 306              		@ args = 0, pretend = 0, frame = 0
+ 307              		@ frame_needed = 0, uses_anonymous_args = 0
+ 308              	.LVL17:
+ 309 00c4 10B5     		push	{r4, lr}
+ 310              		.save {r4, lr}
+ 311              	.LCFI4:
+ 312              		.cfi_def_cfa_offset 8
+ 313              		.cfi_offset 4, -8
+ 314              		.cfi_offset 14, -4
+  11:src/servo.cpp **** servo::~servo()
+ 315              		.loc 2 11 0
+ 316 00c6 0446     		mov	r4, r0
+  13:src/servo.cpp **** }
+ 317              		.loc 2 13 0
+ 318 00c8 FFF7FEFF 		bl	_ZN5servoD1Ev
+ 319              	.LVL18:
+ 320 00cc 2046     		mov	r0, r4
+ 321 00ce FFF7FEFF 		bl	_ZdlPv
+ 322              	.LVL19:
+ 323 00d2 2046     		mov	r0, r4
+ 324 00d4 10BD     		pop	{r4, pc}
+ 325              		.cfi_endproc
+ 326              	.LFE36:
+ 327              		.fnend
+ 329              		.align	1
+ 330              		.global	_ZN5servo9motorInitEv
+ 331              		.thumb
+ 332              		.thumb_func
+ 334              	_ZN5servo9motorInitEv:
+ 335              		.fnstart
+ 336              	.LFB37:
+  16:src/servo.cpp **** {
+ 337              		.loc 2 16 0
+ 338              		.cfi_startproc
+ 339              		@ args = 0, pretend = 0, frame = 32
+ 340              		@ frame_needed = 0, uses_anonymous_args = 0
+ 341              	.LVL20:
+ 342 00d6 30B5     		push	{r4, r5, lr}
+ 343              		.save {r4, r5, lr}
+ 344              	.LCFI5:
+ 345              		.cfi_def_cfa_offset 12
+ 346              		.cfi_offset 4, -12
+ 347              		.cfi_offset 5, -8
+ 348              		.cfi_offset 14, -4
+  20:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Pin = m_settings->m_ServoPin;
+ 349              		.loc 2 20 0
+ 350 00d8 4368     		ldr	r3, [r0, #4]
+  16:src/servo.cpp **** {
+ 351              		.loc 2 16 0
+ 352              		.pad #36
+ 353 00da 89B0     		sub	sp, sp, #36
+ 354              	.LCFI6:
+ 355              		.cfi_def_cfa_offset 48
+  20:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Pin = m_settings->m_ServoPin;
+ 356              		.loc 2 20 0
+ 357 00dc 9A69     		ldr	r2, [r3, #24]
+  16:src/servo.cpp **** {
+ 358              		.loc 2 16 0
+ 359 00de 0446     		mov	r4, r0
+  20:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Pin = m_settings->m_ServoPin;
+ 360              		.loc 2 20 0
+ 361 00e0 ADF80020 		strh	r2, [sp]	@ movhi
+  21:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+ 362              		.loc 2 21 0
+ 363 00e4 1822     		movs	r2, #24
+  23:src/servo.cpp **** 	GPIO_Init(m_settings->m_ServoPort, &GPIO_InitStructure);
+ 364              		.loc 2 23 0
+ 365 00e6 D869     		ldr	r0, [r3, #28]
+ 366              	.LVL21:
+  21:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+ 367              		.loc 2 21 0
+ 368 00e8 8DF80320 		strb	r2, [sp, #3]
+  23:src/servo.cpp **** 	GPIO_Init(m_settings->m_ServoPort, &GPIO_InitStructure);
+ 369              		.loc 2 23 0
+ 370 00ec 6946     		mov	r1, sp
+  22:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 371              		.loc 2 22 0
+ 372 00ee 0322     		movs	r2, #3
+ 373 00f0 8DF80220 		strb	r2, [sp, #2]
+  23:src/servo.cpp **** 	GPIO_Init(m_settings->m_ServoPort, &GPIO_InitStructure);
+ 374              		.loc 2 23 0
+ 375 00f4 FFF7FEFF 		bl	GPIO_Init
+ 376              	.LVL22:
+  29:src/servo.cpp **** 	TIM_TimeBaseStructure.TIM_Period = 59999; // ie 0..29999
+ 377              		.loc 2 29 0
+ 378 00f8 4EF65F23 		movw	r3, #59999
+ 379 00fc ADF80830 		strh	r3, [sp, #8]	@ movhi
+  30:src/servo.cpp **** 	TIM_TimeBaseStructure.TIM_Prescaler = 23;
+ 380              		.loc 2 30 0
+ 381 0100 1723     		movs	r3, #23
+ 382 0102 ADF80430 		strh	r3, [sp, #4]	@ movhi
+  34:src/servo.cpp **** 	TIM_TimeBaseInit(m_settings->m_Timer, &TIM_TimeBaseStructure);
+ 383              		.loc 2 34 0
+ 384 0106 6368     		ldr	r3, [r4, #4]
+  31:src/servo.cpp **** 	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
+ 385              		.loc 2 31 0
+ 386 0108 0025     		movs	r5, #0
+  34:src/servo.cpp **** 	TIM_TimeBaseInit(m_settings->m_Timer, &TIM_TimeBaseStructure);
+ 387              		.loc 2 34 0
+ 388 010a 9868     		ldr	r0, [r3, #8]
+ 389 010c 01A9     		add	r1, sp, #4
+  31:src/servo.cpp **** 	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
+ 390              		.loc 2 31 0
+ 391 010e ADF80A50 		strh	r5, [sp, #10]	@ movhi
+  32:src/servo.cpp **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+ 392              		.loc 2 32 0
+ 393 0112 ADF80650 		strh	r5, [sp, #6]	@ movhi
+  34:src/servo.cpp **** 	TIM_TimeBaseInit(m_settings->m_Timer, &TIM_TimeBaseStructure);
+ 394              		.loc 2 34 0
+ 395 0116 FFF7FEFF 		bl	TIM_TimeBaseInit
+ 396              	.LVL23:
+  38:src/servo.cpp **** 	TIM_OCStructInit(&TIM_OCInitStructure); // clears the other 4 fields not used here
+ 397              		.loc 2 38 0
+ 398 011a 04A8     		add	r0, sp, #16
+ 399 011c FFF7FEFF 		bl	TIM_OCStructInit
+ 400              	.LVL24:
+  41:src/servo.cpp **** 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+ 401              		.loc 2 41 0
+ 402 0120 6023     		movs	r3, #96
+ 403 0122 ADF81030 		strh	r3, [sp, #16]	@ movhi
+  42:src/servo.cpp **** 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+ 404              		.loc 2 42 0
+ 405 0126 0123     		movs	r3, #1
+ 406 0128 ADF81230 		strh	r3, [sp, #18]	@ movhi
+  46:src/servo.cpp **** 	switch(m_settings->m_TimerChannel){
+ 407              		.loc 2 46 0
+ 408 012c 6368     		ldr	r3, [r4, #4]
+  43:src/servo.cpp **** 	TIM_OCInitStructure.TIM_Pulse = 0x0000;
+ 409              		.loc 2 43 0
+ 410 012e ADF81650 		strh	r5, [sp, #22]	@ movhi
+  46:src/servo.cpp **** 	switch(m_settings->m_TimerChannel){
+ 411              		.loc 2 46 0
+ 412 0132 DA68     		ldr	r2, [r3, #12]
+  44:src/servo.cpp **** 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+ 413              		.loc 2 44 0
+ 414 0134 ADF81850 		strh	r5, [sp, #24]	@ movhi
+  46:src/servo.cpp **** 	switch(m_settings->m_TimerChannel){
+ 415              		.loc 2 46 0
+ 416 0138 013A     		subs	r2, r2, #1
+ 417 013a 032A     		cmp	r2, #3
+ 418 013c 3BD8     		bhi	.L29
+ 419 013e DFE802F0 		tbb	[pc, r2]
+ 420              	.L24:
+ 421 0142 02       		.byte	(.L23-.L24)/2
+ 422 0143 0C       		.byte	(.L25-.L24)/2
+ 423 0144 16       		.byte	(.L26-.L24)/2
+ 424 0145 20       		.byte	(.L27-.L24)/2
+ 425              		.p2align 1
+ 426              	.L23:
+  48:src/servo.cpp **** 			TIM_OC1Init(m_settings->m_Timer, &TIM_OCInitStructure);
+ 427              		.loc 2 48 0
+ 428 0146 04A9     		add	r1, sp, #16
+ 429 0148 9868     		ldr	r0, [r3, #8]
+ 430 014a FFF7FEFF 		bl	TIM_OC1Init
+ 431              	.LVL25:
+  49:src/servo.cpp **** 			TIM_OC1PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
+ 432              		.loc 2 49 0
+ 433 014e 6368     		ldr	r3, [r4, #4]
+ 434 0150 0821     		movs	r1, #8
+ 435 0152 9868     		ldr	r0, [r3, #8]
+ 436 0154 FFF7FEFF 		bl	TIM_OC1PreloadConfig
+ 437              	.LVL26:
+ 438 0158 1CE0     		b	.L28
+ 439              	.L25:
+  52:src/servo.cpp **** 			TIM_OC2Init(m_settings->m_Timer, &TIM_OCInitStructure);
+ 440              		.loc 2 52 0
+ 441 015a 04A9     		add	r1, sp, #16
+ 442 015c 9868     		ldr	r0, [r3, #8]
+ 443 015e FFF7FEFF 		bl	TIM_OC2Init
+ 444              	.LVL27:
+  53:src/servo.cpp **** 			TIM_OC2PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
+ 445              		.loc 2 53 0
+ 446 0162 6368     		ldr	r3, [r4, #4]
+ 447 0164 0821     		movs	r1, #8
+ 448 0166 9868     		ldr	r0, [r3, #8]
+ 449 0168 FFF7FEFF 		bl	TIM_OC2PreloadConfig
+ 450              	.LVL28:
+ 451 016c 12E0     		b	.L28
+ 452              	.L26:
+  56:src/servo.cpp **** 			TIM_OC3Init(m_settings->m_Timer, &TIM_OCInitStructure);
+ 453              		.loc 2 56 0
+ 454 016e 04A9     		add	r1, sp, #16
+ 455 0170 9868     		ldr	r0, [r3, #8]
+ 456 0172 FFF7FEFF 		bl	TIM_OC3Init
+ 457              	.LVL29:
+  57:src/servo.cpp **** 			TIM_OC3PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
+ 458              		.loc 2 57 0
+ 459 0176 6368     		ldr	r3, [r4, #4]
+ 460 0178 0821     		movs	r1, #8
+ 461 017a 9868     		ldr	r0, [r3, #8]
+ 462 017c FFF7FEFF 		bl	TIM_OC3PreloadConfig
+ 463              	.LVL30:
+ 464 0180 08E0     		b	.L28
+ 465              	.L27:
+  60:src/servo.cpp **** 			TIM_OC4Init(m_settings->m_Timer, &TIM_OCInitStructure);
+ 466              		.loc 2 60 0
+ 467 0182 9868     		ldr	r0, [r3, #8]
+ 468 0184 04A9     		add	r1, sp, #16
+ 469 0186 FFF7FEFF 		bl	TIM_OC4Init
+ 470              	.LVL31:
+  61:src/servo.cpp **** 			TIM_OC4PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
+ 471              		.loc 2 61 0
+ 472 018a 6368     		ldr	r3, [r4, #4]
+ 473 018c 0821     		movs	r1, #8
+ 474 018e 9868     		ldr	r0, [r3, #8]
+ 475 0190 FFF7FEFF 		bl	TIM_OC4PreloadConfig
+ 476              	.LVL32:
+ 477              	.L28:
+  68:src/servo.cpp **** 	TIM_ARRPreloadConfig(m_settings->m_Timer, ENABLE);
+ 478              		.loc 2 68 0
+ 479 0194 6368     		ldr	r3, [r4, #4]
+ 480 0196 0121     		movs	r1, #1
+ 481 0198 9868     		ldr	r0, [r3, #8]
+ 482 019a FFF7FEFF 		bl	TIM_ARRPreloadConfig
+ 483              	.LVL33:
+  71:src/servo.cpp **** 	TIM_CtrlPWMOutputs(m_settings->m_Timer, ENABLE);
+ 484              		.loc 2 71 0
+ 485 019e 6368     		ldr	r3, [r4, #4]
+ 486 01a0 0121     		movs	r1, #1
+ 487 01a2 9868     		ldr	r0, [r3, #8]
+ 488 01a4 FFF7FEFF 		bl	TIM_CtrlPWMOutputs
+ 489              	.LVL34:
+  74:src/servo.cpp **** 	TIM_Cmd(m_settings->m_Timer, ENABLE);
+ 490              		.loc 2 74 0
+ 491 01a8 6368     		ldr	r3, [r4, #4]
+ 492 01aa 0121     		movs	r1, #1
+ 493 01ac 9868     		ldr	r0, [r3, #8]
+ 494 01ae FFF7FEFF 		bl	TIM_Cmd
+ 495              	.LVL35:
+  76:src/servo.cpp **** 	return true;
+ 496              		.loc 2 76 0
+ 497 01b2 0120     		movs	r0, #1
+ 498 01b4 00E0     		b	.L22
+ 499              	.L29:
+  64:src/servo.cpp **** 			return false;
+ 500              		.loc 2 64 0
+ 501 01b6 0020     		movs	r0, #0
+ 502              	.L22:
+  77:src/servo.cpp **** }
+ 503              		.loc 2 77 0
+ 504 01b8 09B0     		add	sp, sp, #36
+ 505              	.LCFI7:
+ 506              		.cfi_def_cfa_offset 12
+ 507              		@ sp needed
+ 508 01ba 30BD     		pop	{r4, r5, pc}
+ 509              		.cfi_endproc
+ 510              	.LFE37:
+ 511              		.fnend
+ 513              		.align	1
+ 514              		.global	_ZN5servoC2EP13motorSettings
+ 515              		.thumb
+ 516              		.thumb_func
+ 518              	_ZN5servoC2EP13motorSettings:
+ 519              		.fnstart
+ 520              	.LFB31:
+   6:src/servo.cpp **** servo::servo(motorSettings *settings) : motor(settings)
+ 521              		.loc 2 6 0
+ 522              		.cfi_startproc
+ 523              		@ args = 0, pretend = 0, frame = 0
+ 524              		@ frame_needed = 0, uses_anonymous_args = 0
+ 525              	.LVL36:
+ 526 01bc 10B5     		push	{r4, lr}
+ 527              		.save {r4, lr}
+ 528              	.LCFI8:
+ 529              		.cfi_def_cfa_offset 8
+ 530              		.cfi_offset 4, -8
+ 531              		.cfi_offset 14, -4
+   6:src/servo.cpp **** servo::servo(motorSettings *settings) : motor(settings)
+ 532              		.loc 2 6 0
+ 533 01be 0446     		mov	r4, r0
+ 534              	.LBB3:
+ 535 01c0 FFF7FEFF 		bl	_ZN5motorC2EP13motorSettings
+ 536              	.LVL37:
+ 537 01c4 014B     		ldr	r3, .L31
+ 538              	.LBE3:
+   9:src/servo.cpp **** }
+ 539              		.loc 2 9 0
+ 540 01c6 2046     		mov	r0, r4
+ 541              	.LBB4:
+   6:src/servo.cpp **** servo::servo(motorSettings *settings) : motor(settings)
+ 542              		.loc 2 6 0
+ 543 01c8 2360     		str	r3, [r4]
+ 544              	.LBE4:
+   9:src/servo.cpp **** }
+ 545              		.loc 2 9 0
+ 546 01ca 10BD     		pop	{r4, pc}
+ 547              	.LVL38:
+ 548              	.L32:
+ 549              		.align	2
+ 550              	.L31:
+ 551 01cc 08000000 		.word	.LANCHOR0+8
+ 552              		.cfi_endproc
+ 553              	.LFE31:
+ 554              		.fnend
+ 556              		.global	_ZN5servoC1EP13motorSettings
+ 557              		.thumb_set _ZN5servoC1EP13motorSettings,_ZN5servoC2EP13motorSettings
+ 558              		.global	_ZTS5servo
+ 559              		.global	_ZTI5servo
+ 560              		.global	_ZTV5servo
+ 561              		.section	.rodata
+ 562              		.align	2
+ 563              		.set	.LANCHOR0,. + 0
+ 566              	_ZTV5servo:
+ 567 0000 00000000 		.word	0
+ 568 0004 00000000 		.word	_ZTI5servo
+ 569 0008 00000000 		.word	_ZN5servoD1Ev
+ 570 000c 00000000 		.word	_ZN5servoD0Ev
+ 571 0010 00000000 		.word	_ZN5servo9motorTypeEv
+ 572 0014 00000000 		.word	_ZN5servo9motorInitEv
+ 573 0018 00000000 		.word	_ZN5servo9motorNameEv
+ 574 001c 00000000 		.word	_ZN5servo12setReferenceEf
+ 575 0020 00000000 		.word	_ZN5servo12getReferenceEv
+ 576 0024 00000000 		.word	_ZN5servo6updateEf
+ 579              	_ZTS5servo:
+ 580 0028 35736572 		.ascii	"5servo\000"
+ 580      766F00
+ 581 002f 00       		.space	1
+ 584              	_ZTI5servo:
+ 585 0030 08000000 		.word	_ZTVN10__cxxabiv120__si_class_type_infoE+8
+ 586 0034 00000000 		.word	_ZTS5servo
+ 587 0038 00000000 		.word	_ZTI5motor
+ 588              		.text
+ 589              	.Letext0:
+ 590              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
+ 591              		.file 4 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 592              		.file 5 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
+ 593              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
+ 594              		.file 7 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_tim.h"
+ 595              		.file 8 "./inc/motorSettings.h"
+ 596              		.file 9 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 servo.c
-     /tmp/ccx67Sn5.s:19     .text:00000000 $t
-     /tmp/ccx67Sn5.s:24     .text:00000000 SERVO_Init
-     /tmp/ccx67Sn5.s:157    .text:000000a4 $d
-                            *COM*:0000000a TIM_TimeBaseStructure
-                            *COM*:00000010 TIM_OCInitStructure
-     /tmp/ccx67Sn5.s:163    .text:000000b0 $t
-     /tmp/ccx67Sn5.s:168    .text:000000b0 servo_set
-     /tmp/ccx67Sn5.s:213    .text:000000f0 $d
+                            *ABS*:00000000 servo.cpp
+     /tmp/ccA1tsAx.s:20     .text._ZN5servo9motorTypeEv:00000000 $t
+     /tmp/ccA1tsAx.s:25     .text._ZN5servo9motorTypeEv:00000000 _ZN5servo9motorTypeEv
+.ARM.exidx.text._ZN5servo9motorTypeEv:00000000 $d
+     /tmp/ccA1tsAx.s:46     .text:00000000 $t
+     /tmp/ccA1tsAx.s:51     .text:00000000 _ZN5servo12setReferenceEf
+                       .ARM.exidx:00000000 $d
+     /tmp/ccA1tsAx.s:103    .text:00000020 _ZN5servo12getReferenceEv
+     /tmp/ccA1tsAx.s:133    .text:0000002a _ZN5servo9motorNameEv
+     /tmp/ccA1tsAx.s:158    .text:00000030 _ZN5servo6updateEf
+     /tmp/ccA1tsAx.s:182    .text:00000040 $d
+     /tmp/ccA1tsAx.s:186    .text:00000044 $t
+     /tmp/ccA1tsAx.s:260    .text:000000b0 _ZN5servoD2Ev
+     /tmp/ccA1tsAx.s:289    .text:000000c0 $d
+     /tmp/ccA1tsAx.s:260    .text:000000b0 _ZN5servoD1Ev
+     /tmp/ccA1tsAx.s:296    .text:000000c4 $t
+     /tmp/ccA1tsAx.s:301    .text:000000c4 _ZN5servoD0Ev
+     /tmp/ccA1tsAx.s:334    .text:000000d6 _ZN5servo9motorInitEv
+     /tmp/ccA1tsAx.s:421    .text:00000142 $d
+     /tmp/ccA1tsAx.s:425    .text:00000146 $t
+     /tmp/ccA1tsAx.s:518    .text:000001bc _ZN5servoC2EP13motorSettings
+     /tmp/ccA1tsAx.s:551    .text:000001cc $d
+     /tmp/ccA1tsAx.s:518    .text:000001bc _ZN5servoC1EP13motorSettings
+     /tmp/ccA1tsAx.s:579    .rodata:00000028 _ZTS5servo
+     /tmp/ccA1tsAx.s:584    .rodata:00000030 _ZTI5servo
+     /tmp/ccA1tsAx.s:566    .rodata:00000000 _ZTV5servo
+     /tmp/ccA1tsAx.s:562    .rodata:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS
+__aeabi_f2iz
+__aeabi_i2f
+_ZN5motorD2Ev
+__aeabi_unwind_cpp_pr0
+_ZdlPv
 GPIO_Init
 TIM_TimeBaseInit
 TIM_OCStructInit
+TIM_OC1Init
+TIM_OC1PreloadConfig
+TIM_OC2Init
+TIM_OC2PreloadConfig
 TIM_OC3Init
-TIM_OC4Init
 TIM_OC3PreloadConfig
+TIM_OC4Init
 TIM_OC4PreloadConfig
 TIM_ARRPreloadConfig
 TIM_CtrlPWMOutputs
 TIM_Cmd
+_ZN5motorC2EP13motorSettings
+_ZTVN10__cxxabiv120__si_class_type_infoE
+_ZTI5motor

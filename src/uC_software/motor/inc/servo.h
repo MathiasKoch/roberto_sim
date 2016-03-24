@@ -1,23 +1,27 @@
 
-#ifndef SERVO_H
-#define SERVO_H
+#ifndef _servo_H
+#define	_servo_H
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-
-#include <stdbool.h>
 #include <stm32f10x.h>
+#include "motor.h"
 
+class servo : public motor
+{
+public:
+    servo(motorSettings *settings);
+    ~servo();
 
-void SERVO_Init();
+    virtual void setReference(float setPoint);
+    virtual float getReference();
+    virtual char* motorName();
+    virtual uint16_t update(float dt);
 
-void servo_set(uint8_t id, uint8_t val);
+    virtual int motorType() { return MOTOR_TYPE_SERVO; }
+    virtual bool motorInit();
 
-#ifdef __cplusplus
-}
-#endif
+private:
+	int pos;
 
+};
 
-#endif // SERVO_H
+#endif // _servo_H

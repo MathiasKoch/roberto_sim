@@ -319,24 +319,24 @@
  185              		.file 5 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f10x_crc.c
-     /tmp/cckZ48TS.s:19     .text:00000000 $t
-     /tmp/cckZ48TS.s:24     .text:00000000 CRC_ResetDR
-     /tmp/cckZ48TS.s:40     .text:00000008 $d
-     /tmp/cckZ48TS.s:44     .text:0000000c $t
-     /tmp/cckZ48TS.s:49     .text:0000000c CRC_CalcCRC
-     /tmp/cckZ48TS.s:68     .text:00000014 $d
-     /tmp/cckZ48TS.s:72     .text:00000018 $t
-     /tmp/cckZ48TS.s:77     .text:00000018 CRC_CalcBlockCRC
-     /tmp/cckZ48TS.s:105    .text:00000030 $d
-     /tmp/cckZ48TS.s:109    .text:00000034 $t
-     /tmp/cckZ48TS.s:114    .text:00000034 CRC_GetCRC
-     /tmp/cckZ48TS.s:129    .text:0000003c $d
-     /tmp/cckZ48TS.s:133    .text:00000040 $t
-     /tmp/cckZ48TS.s:138    .text:00000040 CRC_SetIDRegister
-     /tmp/cckZ48TS.s:153    .text:00000048 $d
-     /tmp/cckZ48TS.s:157    .text:0000004c $t
-     /tmp/cckZ48TS.s:162    .text:0000004c CRC_GetIDRegister
-     /tmp/cckZ48TS.s:177    .text:00000054 $d
+     /tmp/cckpOq80.s:19     .text:00000000 $t
+     /tmp/cckpOq80.s:24     .text:00000000 CRC_ResetDR
+     /tmp/cckpOq80.s:40     .text:00000008 $d
+     /tmp/cckpOq80.s:44     .text:0000000c $t
+     /tmp/cckpOq80.s:49     .text:0000000c CRC_CalcCRC
+     /tmp/cckpOq80.s:68     .text:00000014 $d
+     /tmp/cckpOq80.s:72     .text:00000018 $t
+     /tmp/cckpOq80.s:77     .text:00000018 CRC_CalcBlockCRC
+     /tmp/cckpOq80.s:105    .text:00000030 $d
+     /tmp/cckpOq80.s:109    .text:00000034 $t
+     /tmp/cckpOq80.s:114    .text:00000034 CRC_GetCRC
+     /tmp/cckpOq80.s:129    .text:0000003c $d
+     /tmp/cckpOq80.s:133    .text:00000040 $t
+     /tmp/cckpOq80.s:138    .text:00000040 CRC_SetIDRegister
+     /tmp/cckpOq80.s:153    .text:00000048 $d
+     /tmp/cckpOq80.s:157    .text:0000004c $t
+     /tmp/cckpOq80.s:162    .text:0000004c CRC_GetIDRegister
+     /tmp/cckpOq80.s:177    .text:00000054 $d
                      .debug_frame:00000010 $d
 
 NO UNDEFINED SYMBOLS

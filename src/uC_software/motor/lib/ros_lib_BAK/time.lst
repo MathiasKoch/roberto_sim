@@ -1,0 +1,278 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"time.cpp"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.align	1
+  20              		.global	_ZN3ros16normalizeSecNSecERmS0_
+  21              		.thumb
+  22              		.thumb_func
+  24              	_ZN3ros16normalizeSecNSecERmS0_:
+  25              		.fnstart
+  26              	.LFB17:
+  27              		.file 1 "lib/ros_lib/time.cpp"
+   1:lib/ros_lib/time.cpp **** /*
+   2:lib/ros_lib/time.cpp ****  * Software License Agreement (BSD License)
+   3:lib/ros_lib/time.cpp ****  *
+   4:lib/ros_lib/time.cpp ****  * Copyright (c) 2011, Willow Garage, Inc.
+   5:lib/ros_lib/time.cpp ****  * All rights reserved.
+   6:lib/ros_lib/time.cpp ****  *
+   7:lib/ros_lib/time.cpp ****  * Redistribution and use in source and binary forms, with or without
+   8:lib/ros_lib/time.cpp ****  * modification, are permitted provided that the following conditions
+   9:lib/ros_lib/time.cpp ****  * are met:
+  10:lib/ros_lib/time.cpp ****  *
+  11:lib/ros_lib/time.cpp ****  *  * Redistributions of source code must retain the above copyright
+  12:lib/ros_lib/time.cpp ****  *    notice, this list of conditions and the following disclaimer.
+  13:lib/ros_lib/time.cpp ****  *  * Redistributions in binary form must reproduce the above
+  14:lib/ros_lib/time.cpp ****  *    copyright notice, this list of conditions and the following
+  15:lib/ros_lib/time.cpp ****  *    disclaimer in the documentation and/or other materials provided
+  16:lib/ros_lib/time.cpp ****  *    with the distribution.
+  17:lib/ros_lib/time.cpp ****  *  * Neither the name of Willow Garage, Inc. nor the names of its
+  18:lib/ros_lib/time.cpp ****  *    contributors may be used to endorse or promote prducts derived
+  19:lib/ros_lib/time.cpp ****  *    from this software without specific prior written permission.
+  20:lib/ros_lib/time.cpp ****  *
+  21:lib/ros_lib/time.cpp ****  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  22:lib/ros_lib/time.cpp ****  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  23:lib/ros_lib/time.cpp ****  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+  24:lib/ros_lib/time.cpp ****  * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+  25:lib/ros_lib/time.cpp ****  * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+  26:lib/ros_lib/time.cpp ****  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+  27:lib/ros_lib/time.cpp ****  * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  28:lib/ros_lib/time.cpp ****  * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+  29:lib/ros_lib/time.cpp ****  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+  30:lib/ros_lib/time.cpp ****  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+  31:lib/ros_lib/time.cpp ****  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  32:lib/ros_lib/time.cpp ****  * POSSIBILITY OF SUCH DAMAGE.
+  33:lib/ros_lib/time.cpp ****  */
+  34:lib/ros_lib/time.cpp **** 
+  35:lib/ros_lib/time.cpp **** #include "ros/time.h"
+  36:lib/ros_lib/time.cpp **** 
+  37:lib/ros_lib/time.cpp **** namespace ros
+  38:lib/ros_lib/time.cpp **** {
+  39:lib/ros_lib/time.cpp ****   void normalizeSecNSec(uint32_t& sec, uint32_t& nsec){
+  28              		.loc 1 39 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  33 0000 30B5     		push	{r4, r5, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 12
+  36              		.cfi_offset 4, -12
+  37              		.cfi_offset 5, -8
+  38              		.cfi_offset 14, -4
+  40:lib/ros_lib/time.cpp ****     uint32_t nsec_part= nsec % 1000000000UL;
+  39              		.loc 1 40 0
+  40 0002 0D68     		ldr	r5, [r1]
+  41              	.LVL1:
+  41:lib/ros_lib/time.cpp ****     uint32_t sec_part = nsec / 1000000000UL;
+  42:lib/ros_lib/time.cpp ****     sec += sec_part;
+  42              		.loc 1 42 0
+  43 0004 044C     		ldr	r4, .L2
+  44 0006 0268     		ldr	r2, [r0]
+  45 0008 B5FBF4F3 		udiv	r3, r5, r4
+  46              	.LVL2:
+  47 000c 1A44     		add	r2, r2, r3
+  43:lib/ros_lib/time.cpp ****     nsec = nsec_part;
+  48              		.loc 1 43 0
+  49 000e 04FB1353 		mls	r3, r4, r3, r5
+  50              	.LVL3:
+  42:lib/ros_lib/time.cpp ****     nsec = nsec_part;
+  51              		.loc 1 42 0
+  52 0012 0260     		str	r2, [r0]
+  53              		.loc 1 43 0
+  54 0014 0B60     		str	r3, [r1]
+  55 0016 30BD     		pop	{r4, r5, pc}
+  56              	.LVL4:
+  57              	.L3:
+  58              		.align	2
+  59              	.L2:
+  60 0018 00CA9A3B 		.word	1000000000
+  61              		.cfi_endproc
+  62              	.LFE17:
+  63              		.cantunwind
+  64              		.fnend
+  66              		.align	1
+  67              		.global	_ZN3ros4Time8fromNSecEl
+  68              		.thumb
+  69              		.thumb_func
+  71              	_ZN3ros4Time8fromNSecEl:
+  72              		.fnstart
+  73              	.LFB18:
+  44:lib/ros_lib/time.cpp ****   }
+  45:lib/ros_lib/time.cpp **** 
+  46:lib/ros_lib/time.cpp ****   Time& Time::fromNSec(int32_t t)
+  47:lib/ros_lib/time.cpp ****   {
+  74              		.loc 1 47 0
+  75              		.cfi_startproc
+  76              		@ args = 0, pretend = 0, frame = 0
+  77              		@ frame_needed = 0, uses_anonymous_args = 0
+  78              	.LVL5:
+  48:lib/ros_lib/time.cpp ****     sec = t / 1000000000;
+  79              		.loc 1 48 0
+  80 001c 064A     		ldr	r2, .L5
+  47:lib/ros_lib/time.cpp ****     sec = t / 1000000000;
+  81              		.loc 1 47 0
+  82 001e 10B5     		push	{r4, lr}
+  83              	.LCFI1:
+  84              		.cfi_def_cfa_offset 8
+  85              		.cfi_offset 4, -8
+  86              		.cfi_offset 14, -4
+  87              		.loc 1 48 0
+  88 0020 91FBF2F3 		sdiv	r3, r1, r2
+  89 0024 0360     		str	r3, [r0]
+  49:lib/ros_lib/time.cpp ****     nsec = t % 1000000000;
+  90              		.loc 1 49 0
+  91 0026 02FB1313 		mls	r3, r2, r3, r1
+  92 002a 0146     		mov	r1, r0
+  93              	.LVL6:
+  94 002c 41F8043F 		str	r3, [r1, #4]!
+  50:lib/ros_lib/time.cpp ****     normalizeSecNSec(sec, nsec);
+  95              		.loc 1 50 0
+  96 0030 FFF7FEFF 		bl	_ZN3ros16normalizeSecNSecERmS0_
+  97              	.LVL7:
+  51:lib/ros_lib/time.cpp ****     return *this;
+  52:lib/ros_lib/time.cpp ****   }
+  98              		.loc 1 52 0
+  99 0034 10BD     		pop	{r4, pc}
+ 100              	.L6:
+ 101 0036 00BF     		.align	2
+ 102              	.L5:
+ 103 0038 00CA9A3B 		.word	1000000000
+ 104              		.cfi_endproc
+ 105              	.LFE18:
+ 106              		.cantunwind
+ 107              		.fnend
+ 109              		.align	1
+ 110              		.global	_ZN3ros4TimepLERKNS_8DurationE
+ 111              		.thumb
+ 112              		.thumb_func
+ 114              	_ZN3ros4TimepLERKNS_8DurationE:
+ 115              		.fnstart
+ 116              	.LFB19:
+  53:lib/ros_lib/time.cpp **** 
+  54:lib/ros_lib/time.cpp ****   Time& Time::operator +=(const Duration &rhs)
+  55:lib/ros_lib/time.cpp ****   {
+ 117              		.loc 1 55 0
+ 118              		.cfi_startproc
+ 119              		@ args = 0, pretend = 0, frame = 0
+ 120              		@ frame_needed = 0, uses_anonymous_args = 0
+ 121              	.LVL8:
+  56:lib/ros_lib/time.cpp ****     sec += rhs.sec;
+ 122              		.loc 1 56 0
+ 123 003c 0268     		ldr	r2, [r0]
+ 124 003e 0B68     		ldr	r3, [r1]
+  55:lib/ros_lib/time.cpp ****     sec += rhs.sec;
+ 125              		.loc 1 55 0
+ 126 0040 10B5     		push	{r4, lr}
+ 127              	.LCFI2:
+ 128              		.cfi_def_cfa_offset 8
+ 129              		.cfi_offset 4, -8
+ 130              		.cfi_offset 14, -4
+ 131              		.loc 1 56 0
+ 132 0042 1344     		add	r3, r3, r2
+ 133 0044 0360     		str	r3, [r0]
+  57:lib/ros_lib/time.cpp ****     nsec += rhs.nsec;
+ 134              		.loc 1 57 0
+ 135 0046 4B68     		ldr	r3, [r1, #4]
+ 136 0048 0146     		mov	r1, r0
+ 137              	.LVL9:
+ 138 004a 4268     		ldr	r2, [r0, #4]
+ 139 004c 1344     		add	r3, r3, r2
+ 140 004e 41F8043F 		str	r3, [r1, #4]!
+  58:lib/ros_lib/time.cpp ****     normalizeSecNSec(sec, nsec);
+ 141              		.loc 1 58 0
+ 142 0052 FFF7FEFF 		bl	_ZN3ros16normalizeSecNSecERmS0_
+ 143              	.LVL10:
+  59:lib/ros_lib/time.cpp ****     return *this;
+  60:lib/ros_lib/time.cpp ****   }
+ 144              		.loc 1 60 0
+ 145 0056 10BD     		pop	{r4, pc}
+ 146              		.cfi_endproc
+ 147              	.LFE19:
+ 148              		.cantunwind
+ 149              		.fnend
+ 151              		.align	1
+ 152              		.global	_ZN3ros4TimemIERKNS_8DurationE
+ 153              		.thumb
+ 154              		.thumb_func
+ 156              	_ZN3ros4TimemIERKNS_8DurationE:
+ 157              		.fnstart
+ 158              	.LFB20:
+  61:lib/ros_lib/time.cpp **** 
+  62:lib/ros_lib/time.cpp ****   Time& Time::operator -=(const Duration &rhs){
+ 159              		.loc 1 62 0
+ 160              		.cfi_startproc
+ 161              		@ args = 0, pretend = 0, frame = 0
+ 162              		@ frame_needed = 0, uses_anonymous_args = 0
+ 163              	.LVL11:
+  63:lib/ros_lib/time.cpp ****     sec += -rhs.sec;
+ 164              		.loc 1 63 0
+ 165 0058 0368     		ldr	r3, [r0]
+ 166 005a 0A68     		ldr	r2, [r1]
+  62:lib/ros_lib/time.cpp ****     sec += -rhs.sec;
+ 167              		.loc 1 62 0
+ 168 005c 10B5     		push	{r4, lr}
+ 169              	.LCFI3:
+ 170              		.cfi_def_cfa_offset 8
+ 171              		.cfi_offset 4, -8
+ 172              		.cfi_offset 14, -4
+ 173              		.loc 1 63 0
+ 174 005e 9B1A     		subs	r3, r3, r2
+  64:lib/ros_lib/time.cpp ****     nsec += -rhs.nsec;
+ 175              		.loc 1 64 0
+ 176 0060 4A68     		ldr	r2, [r1, #4]
+ 177 0062 0146     		mov	r1, r0
+ 178              	.LVL12:
+  63:lib/ros_lib/time.cpp ****     sec += -rhs.sec;
+ 179              		.loc 1 63 0
+ 180 0064 0360     		str	r3, [r0]
+ 181              		.loc 1 64 0
+ 182 0066 4368     		ldr	r3, [r0, #4]
+ 183 0068 9B1A     		subs	r3, r3, r2
+ 184 006a 41F8043F 		str	r3, [r1, #4]!
+  65:lib/ros_lib/time.cpp ****     normalizeSecNSec(sec, nsec);
+ 185              		.loc 1 65 0
+ 186 006e FFF7FEFF 		bl	_ZN3ros16normalizeSecNSecERmS0_
+ 187              	.LVL13:
+  66:lib/ros_lib/time.cpp ****     return *this;
+  67:lib/ros_lib/time.cpp ****   }
+ 188              		.loc 1 67 0
+ 189 0072 10BD     		pop	{r4, pc}
+ 190              		.cfi_endproc
+ 191              	.LFE20:
+ 192              		.cantunwind
+ 193              		.fnend
+ 195              	.Letext0:
+ 196              		.file 2 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
+ 197              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 198              		.file 4 "./lib/ros_lib/ros/duration.h"
+ 199              		.file 5 "lib/ros_lib/ros/time.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 time.cpp
+     /tmp/ccD27cqk.s:19     .text:00000000 $t
+     /tmp/ccD27cqk.s:24     .text:00000000 _ZN3ros16normalizeSecNSecERmS0_
+     /tmp/ccD27cqk.s:60     .text:00000018 $d
+                       .ARM.exidx:00000000 $d
+     /tmp/ccD27cqk.s:66     .text:0000001c $t
+     /tmp/ccD27cqk.s:71     .text:0000001c _ZN3ros4Time8fromNSecEl
+     /tmp/ccD27cqk.s:103    .text:00000038 $d
+     /tmp/ccD27cqk.s:109    .text:0000003c $t
+     /tmp/ccD27cqk.s:114    .text:0000003c _ZN3ros4TimepLERKNS_8DurationE
+     /tmp/ccD27cqk.s:156    .text:00000058 _ZN3ros4TimemIERKNS_8DurationE
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

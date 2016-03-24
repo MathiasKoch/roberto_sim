@@ -2,8 +2,8 @@
 
 #include <stdio.h>
 
-#include "servo.h"
-#include "motors.h"
+#include "motor.h"
+#include "motorSettings.h"
 #include "led.h"
 #include "pid.h"
 #include "encoder.h"
@@ -12,125 +12,152 @@
 
 #include <ros.h>
 #include <std_msgs/String.h>
-#include <std_msgs/Empty.h>
-#include <std_msgs/UInt16.h>
-#include <std_msgs/Int16.h>
+#include <std_msgs/UInt8.h>
+#include <roberto_msgs/MotorState.h>
 
 
-#define RXBUFFERSIZE   0x02
 
 /* Private function prototypes -----------------------------------------------*/
-
 
 
 __IO uint8_t Rx_Idx = 0x00;
 uint8_t slaveAddress;
 uint8_t RxBuffer [RXBUFFERSIZE] = {0};
 __IO uint8_t NumberOfByteToReceive = 0x00;
+__IO uint8_t GenerateStartStatus = 0x00;
+
 
 
 ros::NodeHandle nh;
 
-void led_cb( const std_msgs::Empty& toggle_msg){
-  uint8_t led_bit = GPIO_ReadOutputDataBit(GPIOB, GPIO_Pin_5);
-  if(led_bit == (uint8_t)Bit_SET)
-      GPIO_ResetBits(GPIOB, GPIO_Pin_5);
-  else
-      GPIO_SetBits(GPIOB, GPIO_Pin_5);
-}
-
-void servo_cb( const std_msgs::UInt16& cmd_msg){
-  servo_set(0, cmd_msg.data);
-  servo_set(1, cmd_msg.data);
-}
-
-void motor_cb( const std_msgs::Int16& cmd_msg){
-  motor_set_speed(0, abs(cmd_msg.data), (cmd_msg.data > 0));
-  motor_set_speed(1, abs(cmd_msg.data), (cmd_msg.data > 0));
-  motor_set_speed(2, abs(cmd_msg.data), (cmd_msg.data > 0));
-  motor_set_speed(3, abs(cmd_msg.data), (cmd_msg.data > 0));
+void led_cb( const std_msgs::UInt8& cmd_msg){
+  led_set(cmd_msg.data);
 }
 
 
-ros::Subscriber<std_msgs::Int16> motor_sub("motor", &motor_cb);
-ros::Subscriber<std_msgs::UInt16> servo_sub("servo", &servo_cb);
-ros::Subscriber<std_msgs::Empty> led_sub("led", &led_cb);
+
+void motor_cb( const roberto_msgs::MotorState& cmd_msg){
+
+}
+
+
+ros::Subscriber<roberto_msgs::MotorState> motor_sub("motor", &motor_cb);
+ros::Subscriber<std_msgs::UInt8> led_sub("led", &led_cb);
 
 std_msgs::String str_msg;
 ros::Publisher chatter("encoder", &str_msg);
 
 char hello[25];
+char str[150];
 
 
-int main(void){
+int main(){
   /* System Clocks Configuration */
   RCC_Configuration();
 
+  nh.initNode();
+  nh.subscribe(motor_sub);
+  nh.subscribe(led_sub);
+  nh.advertise(chatter);
+
+  GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
   I2C1_Init();
   SysTick_Init();
   DEBUG_Init();
-  SERVO_Init();
-  MOTOR_Init();
   LED_Init();
 
+  delay(1000);
+
+  motorSettings SL(MOTOR_TYPE_SERVO, "servo_left", TIM4, 4);
+  SL.m_ServoPin = GPIO_Pin_9;
+  SL.m_ServoPort = GPIOB;
+
+  motorSettings SR(MOTOR_TYPE_SERVO, "servo_right", TIM4, 3);
+  SR.m_ServoPin = GPIO_Pin_8;
+  SR.m_ServoPort = GPIOB;
+
+  motorSettings FR(MOTOR_TYPE_DC_MOTOR, "front_right", TIM1, 1);
+  FR.setDCPins(GPIO_Pin_13, GPIOC, GPIO_Pin_14, GPIOC,
+              GPIO_Pin_15, GPIOC, GPIO_Pin_0, GPIOA,
+              GPIO_Pin_8, GPIOA);
+  FR.encoderAddr = (0x10 | 0x08);
+
+  motorSettings FL(MOTOR_TYPE_DC_MOTOR, "front_left", TIM3, 4);
+  FL.setDCPins(GPIO_Pin_2,GPIOB, GPIO_Pin_5,GPIOA,
+              GPIO_Pin_4, GPIOA,GPIO_Pin_10,GPIOB,
+              GPIO_Pin_1, GPIOB);
+  FL.encoderAddr = (0x10);
+
+  motorSettings RL(MOTOR_TYPE_DC_MOTOR, "rear_left", TIM2, 4);
+  RL.setDCPins(GPIO_Pin_11, GPIOB, GPIO_Pin_12, GPIOB,
+    GPIO_Pin_13, GPIOB, GPIO_Pin_14, GPIOB,
+    GPIO_Pin_3, GPIOA);
+
+  motorSettings RR(MOTOR_TYPE_DC_MOTOR, "rear_right", TIM1, 4);
+  RR.setDCPins(GPIO_Pin_15, GPIOB, GPIO_Pin_12,GPIOA,
+              GPIO_Pin_15, GPIOA, GPIO_Pin_3, GPIOB,
+              GPIO_Pin_11, GPIOA);
+
+  motor *servo_left = motor::createMotor(&SL);
+  if(!servo_left->motorInit()){
+    sprintf(str, "Unable to initialize motor: %s - [FAIL]\r\n", servo_left->motorName());
+    nh.logerror(str);
+  }
+
+  motor *servo_right = motor::createMotor(&SR);
+  if(!servo_right->motorInit()){
+    sprintf(str, "Unable to initialize motor: %s - [FAIL]\r\n", servo_right->motorName());
+    nh.logerror(str);
+  }
+
+  motor *front_left = motor::createMotor(&FL);
+  if(!front_left->motorInit()){
+    sprintf(str, "Unable to initialize motor: %s - [FAIL]\r\n", front_left->motorName());
+    nh.logerror(str);
+  }
+
+  motor *front_right = motor::createMotor(&FR);
+  if(!front_right->motorInit()){
+    sprintf(str, "Unable to initialize motor: %s - [FAIL]\r\n", front_right->motorName());
+    nh.logerror(str);
+  }
+
+  motor *rear_left = motor::createMotor(&RL);
+  if(!rear_left->motorInit()){
+    sprintf(str, "Unable to initialize motor: %s - [FAIL]\r\n", rear_left->motorName());
+    nh.logerror(str);
+  }
+
+  motor *rear_right = motor::createMotor(&RR);
+  if(!rear_right->motorInit()){
+    sprintf(str, "Unable to initialize motor: %s - [FAIL]\r\n", rear_right->motorName());
+    nh.logerror(str);
+  }
+
+  servo_left->setReference(90);
+  servo_right->setReference(100);
+
+  servo_left->update(1);
+  servo_right->update(1);
+  //rear_right->update(1);
+  //rear_left->update(1);
+  front_left->update(1);
+  front_right->update(1);
+
  
+  /*int16_t speed = 0;*/
 
-  //servo_set(0,90);
-  //servo_set(1,90);
+  
+  //led_set(200);
 
-  led_set(0);
-  /*int16_t speed = 0;
-
-  nh.initNode();
-  nh.subscribe(motor_sub);
-  nh.subscribe(servo_sub);
-  nh.subscribe(led_sub);
-  nh.advertise(chatter);*/
-  int cnt = 7000;
-  int dir = 1;
-
-  motor_set_speed(0, cnt, dir);
-  motor_set_speed(1, cnt, dir);
-  motor_set_speed(2, cnt, dir);
-  motor_set_speed(3, cnt, dir);
 
 
   while (1){
-    /*debug_toggle();
-    led_set(cnt);
-    if(dir)
-    	cnt+=10;
-    else
-    	cnt-=10;
-    if(cnt>255){
-    	dir = 0;
-    	cnt = 255;
-    }else if(cnt<40){
-    	dir = 1;
-    	cnt = 40;
-    }*/
+    debug_toggle();
 
 
-    /*NumberOfByteToReceive = RXBUFFERSIZE;
-    Rx_Idx = 0x00;
 
-    slaveAddress = SLAVE_ADDRESS1;
-    
-    I2C_ITConfig(I2C1, I2C_IT_EVT , ENABLE);
-    I2C_AcknowledgeConfig(I2C1, ENABLE);
-    I2C_GenerateSTART(I2C1, ENABLE);
-
-
-    // TODO: Add timeout here
-    while ((Rx_Idx < RXBUFFERSIZE)); 
-
-    speed = ((int16_t)((RxBuffer[0] << 8) | RxBuffer[1]));
-
-    if(speed > 8000)
-      speed = speed - 16384;
-
-
-    sprintf(hello, "Speed is: %d",speed);
+   /* sprintf(hello, "Speed is:");
     str_msg.data = hello;
     chatter.publish( &str_msg );*/
 
@@ -139,6 +166,7 @@ int main(void){
 
     delay(100);
   }
+  return 0;
 }
 
 void assert_failed(uint8_t* file, uint32_t line){

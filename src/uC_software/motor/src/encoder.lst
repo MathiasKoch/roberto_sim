@@ -28,16 +28,8 @@
    3:src/encoder.c **** #include "encoder.h"
    4:src/encoder.c **** 
    5:src/encoder.c **** 
-   6:src/encoder.c **** extern __IO uint32_t TimeOut;
-   7:src/encoder.c **** extern __IO uint8_t Rx_Idx;
-   8:src/encoder.c **** extern __IO uint8_t NumberOfByteToReceive;
-   9:src/encoder.c **** extern  uint8_t RxBuffer[];
-  10:src/encoder.c **** extern  uint8_t slaveAddress;
-  11:src/encoder.c **** __IO uint8_t GenerateStartStatus = 0x00;
-  12:src/encoder.c **** 
-  13:src/encoder.c **** 
-  14:src/encoder.c **** void I2C1_Init(void){
-  27              		.loc 1 14 0
+   6:src/encoder.c **** void I2C1_Init(void){
+  27              		.loc 1 6 0
   28              		.cfi_startproc
   29              		@ args = 0, pretend = 0, frame = 24
   30              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -46,90 +38,90 @@
   33              		.cfi_def_cfa_offset 8
   34              		.cfi_offset 4, -8
   35              		.cfi_offset 14, -4
-  15:src/encoder.c ****     GPIO_InitTypeDef  GPIO_InitStructure;
-  16:src/encoder.c ****     I2C_InitTypeDef  I2C_InitStructure;
-  17:src/encoder.c **** 
-  18:src/encoder.c ****     /* I2C1 clock enable */
-  19:src/encoder.c ****     RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C1, ENABLE);
-  36              		.loc 1 19 0
+   7:src/encoder.c ****     GPIO_InitTypeDef  GPIO_InitStructure;
+   8:src/encoder.c ****     I2C_InitTypeDef  I2C_InitStructure;
+   9:src/encoder.c **** 
+  10:src/encoder.c ****     /* I2C1 clock enable */
+  11:src/encoder.c ****     RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C1, ENABLE);
+  36              		.loc 1 11 0
   37 0002 0121     		movs	r1, #1
-  14:src/encoder.c ****     GPIO_InitTypeDef  GPIO_InitStructure;
-  38              		.loc 1 14 0
+   6:src/encoder.c ****     GPIO_InitTypeDef  GPIO_InitStructure;
+  38              		.loc 1 6 0
   39 0004 86B0     		sub	sp, sp, #24
   40              	.LCFI1:
   41              		.cfi_def_cfa_offset 32
-  42              		.loc 1 19 0
+  42              		.loc 1 11 0
   43 0006 4FF40010 		mov	r0, #2097152
   44 000a FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
   45              	.LVL0:
-  20:src/encoder.c **** 
-  21:src/encoder.c ****     /* I2C1 SDA and SCL configuration */
-  22:src/encoder.c ****     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6 | GPIO_Pin_7;
-  46              		.loc 1 22 0
+  12:src/encoder.c **** 
+  13:src/encoder.c ****     /* I2C1 SDA and SCL configuration */
+  14:src/encoder.c ****     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6 | GPIO_Pin_7;
+  46              		.loc 1 14 0
   47 000e C023     		movs	r3, #192
   48 0010 ADF80430 		strh	r3, [sp, #4]	@ movhi
-  23:src/encoder.c ****     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  49              		.loc 1 23 0
+  15:src/encoder.c ****     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  49              		.loc 1 15 0
   50 0014 0323     		movs	r3, #3
   51 0016 8DF80630 		strb	r3, [sp, #6]
-  24:src/encoder.c ****     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
-  25:src/encoder.c ****     GPIO_Init(GPIOB, &GPIO_InitStructure);
-  52              		.loc 1 25 0
+  16:src/encoder.c ****     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
+  17:src/encoder.c ****     GPIO_Init(GPIOB, &GPIO_InitStructure);
+  52              		.loc 1 17 0
   53 001a 01A9     		add	r1, sp, #4
-  24:src/encoder.c ****     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
-  54              		.loc 1 24 0
+  16:src/encoder.c ****     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
+  54              		.loc 1 16 0
   55 001c 1C23     		movs	r3, #28
-  56              		.loc 1 25 0
+  56              		.loc 1 17 0
   57 001e 1448     		ldr	r0, .L2
-  24:src/encoder.c ****     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
-  58              		.loc 1 24 0
+  16:src/encoder.c ****     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
+  58              		.loc 1 16 0
   59 0020 8DF80730 		strb	r3, [sp, #7]
-  60              		.loc 1 25 0
+  60              		.loc 1 17 0
   61 0024 FFF7FEFF 		bl	GPIO_Init
   62              	.LVL1:
-  26:src/encoder.c ****     /*SCL is pin06 and SDA is pin 07 for I2C1*/
-  27:src/encoder.c **** 
-  28:src/encoder.c ****     /* I2C1 configuration */
-  29:src/encoder.c ****     I2C_InitStructure.I2C_Mode = I2C_Mode_I2C;
-  30:src/encoder.c ****     I2C_InitStructure.I2C_DutyCycle = I2C_DutyCycle_2;
-  63              		.loc 1 30 0
+  18:src/encoder.c ****     /*SCL is pin06 and SDA is pin 07 for I2C1*/
+  19:src/encoder.c **** 
+  20:src/encoder.c ****     /* I2C1 configuration */
+  21:src/encoder.c ****     I2C_InitStructure.I2C_Mode = I2C_Mode_I2C;
+  22:src/encoder.c ****     I2C_InitStructure.I2C_DutyCycle = I2C_DutyCycle_2;
+  63              		.loc 1 22 0
   64 0028 4BF6FF72 		movw	r2, #49151
-  29:src/encoder.c ****     I2C_InitStructure.I2C_DutyCycle = I2C_DutyCycle_2;
-  65              		.loc 1 29 0
+  21:src/encoder.c ****     I2C_InitStructure.I2C_DutyCycle = I2C_DutyCycle_2;
+  65              		.loc 1 21 0
   66 002c 0023     		movs	r3, #0
   67 002e ADF80C30 		strh	r3, [sp, #12]	@ movhi
-  31:src/encoder.c ****     I2C_InitStructure.I2C_OwnAddress1 = 0x00;
-  68              		.loc 1 31 0
+  23:src/encoder.c ****     I2C_InitStructure.I2C_OwnAddress1 = 0x00;
+  68              		.loc 1 23 0
   69 0032 ADF81030 		strh	r3, [sp, #16]	@ movhi
-  32:src/encoder.c ****     I2C_InitStructure.I2C_Ack = I2C_Ack_Enable;
-  70              		.loc 1 32 0
+  24:src/encoder.c ****     I2C_InitStructure.I2C_Ack = I2C_Ack_Enable;
+  70              		.loc 1 24 0
   71 0036 4FF48063 		mov	r3, #1024
   72 003a ADF81230 		strh	r3, [sp, #18]	@ movhi
-  33:src/encoder.c ****     I2C_InitStructure.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
-  73              		.loc 1 33 0
+  25:src/encoder.c ****     I2C_InitStructure.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
+  73              		.loc 1 25 0
   74 003e 4FF48043 		mov	r3, #16384
   75 0042 ADF81430 		strh	r3, [sp, #20]	@ movhi
-  34:src/encoder.c ****     I2C_InitStructure.I2C_ClockSpeed = 100000;    // 100 kHz operation
-  35:src/encoder.c ****     I2C_Init(I2C1, &I2C_InitStructure);
-  76              		.loc 1 35 0
+  26:src/encoder.c ****     I2C_InitStructure.I2C_ClockSpeed = 100000;    // 100 kHz operation
+  27:src/encoder.c ****     I2C_Init(I2C1, &I2C_InitStructure);
+  76              		.loc 1 27 0
   77 0046 0B4C     		ldr	r4, .L2+4
-  34:src/encoder.c ****     I2C_InitStructure.I2C_ClockSpeed = 100000;    // 100 kHz operation
-  78              		.loc 1 34 0
+  26:src/encoder.c ****     I2C_InitStructure.I2C_ClockSpeed = 100000;    // 100 kHz operation
+  78              		.loc 1 26 0
   79 0048 0B4B     		ldr	r3, .L2+8
   80 004a 06A9     		add	r1, sp, #24
   81 004c 41F8103D 		str	r3, [r1, #-16]!
-  82              		.loc 1 35 0
+  82              		.loc 1 27 0
   83 0050 2046     		mov	r0, r4
-  30:src/encoder.c ****     I2C_InitStructure.I2C_OwnAddress1 = 0x00;
-  84              		.loc 1 30 0
+  22:src/encoder.c ****     I2C_InitStructure.I2C_OwnAddress1 = 0x00;
+  84              		.loc 1 22 0
   85 0052 ADF80E20 		strh	r2, [sp, #14]	@ movhi
-  86              		.loc 1 35 0
+  86              		.loc 1 27 0
   87 0056 FFF7FEFF 		bl	I2C_Init
   88              	.LVL2:
-  36:src/encoder.c **** 
-  37:src/encoder.c ****      /*enable I2C*/
-  38:src/encoder.c ****     I2C_Cmd(I2C1,ENABLE);
-  89              		.loc 1 38 0
+  28:src/encoder.c **** 
+  29:src/encoder.c ****      /*enable I2C*/
+  30:src/encoder.c ****     I2C_Cmd(I2C1,ENABLE);
+  89              		.loc 1 30 0
   90 005a 0121     		movs	r1, #1
   91 005c 2046     		mov	r0, r4
   92 005e FFF7FEFF 		bl	I2C_Cmd
@@ -1648,10 +1640,10 @@
  101              	.LVL4:
  102              	.LBE5:
  103              	.LBE4:
-  39:src/encoder.c **** 
-  40:src/encoder.c ****     NVIC_EnableIRQ(I2C1_EV_IRQn);
-  41:src/encoder.c **** }
- 104              		.loc 1 41 0
+  31:src/encoder.c **** 
+  32:src/encoder.c ****     NVIC_EnableIRQ(I2C1_EV_IRQn);
+  33:src/encoder.c **** }
+ 104              		.loc 1 33 0
  105 006a 06B0     		add	sp, sp, #24
  106              	.LCFI2:
  107              		.cfi_def_cfa_offset 8
@@ -1672,9 +1664,9 @@
  123              		.thumb_func
  125              	I2C1_EV_IRQHandler:
  126              	.LFB30:
-  42:src/encoder.c **** 
-  43:src/encoder.c **** void I2C1_EV_IRQHandler(void){
- 127              		.loc 1 43 0
+  34:src/encoder.c **** 
+  35:src/encoder.c **** void I2C1_EV_IRQHandler(void){
+ 127              		.loc 1 35 0
  128              		.cfi_startproc
  129              		@ args = 0, pretend = 0, frame = 0
  130              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -1687,9 +1679,9 @@
  137              		.cfi_offset 6, -12
  138              		.cfi_offset 7, -8
  139              		.cfi_offset 14, -4
-  44:src/encoder.c ****   /* Check on EV5 */
-  45:src/encoder.c ****   if(I2C_GetITStatus(I2C1, I2C_IT_SB)== SET){
- 140              		.loc 1 45 0
+  36:src/encoder.c ****   /* Check on EV5 */
+  37:src/encoder.c ****   if(I2C_GetITStatus(I2C1, I2C_IT_SB)== SET){
+ 140              		.loc 1 37 0
  141 0082 5B49     		ldr	r1, .L22
  142 0084 5B48     		ldr	r0, .L22+4
  143 0086 FFF7FEFF 		bl	I2C_GetITStatus
@@ -1697,9 +1689,9 @@
  145 008a 0128     		cmp	r0, #1
  146 008c 0446     		mov	r4, r0
  147 008e 10D1     		bne	.L5
-  46:src/encoder.c ****     /* Send slave Address for read */
-  47:src/encoder.c ****     I2C_Send7bitAddress(I2C1, slaveAddress<<1, I2C_Direction_Receiver);
- 148              		.loc 1 47 0
+  38:src/encoder.c ****     /* Send slave Address for read */
+  39:src/encoder.c ****     I2C_Send7bitAddress(I2C1, slaveAddress<<1, I2C_Direction_Receiver);
+ 148              		.loc 1 39 0
  149 0090 594B     		ldr	r3, .L22+8
  150 0092 0246     		mov	r2, r0
  151 0094 1978     		ldrb	r1, [r3]	@ zero_extendqisi2
@@ -1708,119 +1700,119 @@
  154 009a 01F0FE01 		and	r1, r1, #254
  155 009e FFF7FEFF 		bl	I2C_Send7bitAddress
  156              	.LVL6:
-  48:src/encoder.c ****     if (NumberOfByteToReceive == 0x03){
- 157              		.loc 1 48 0
+  40:src/encoder.c ****     if (NumberOfByteToReceive == 0x03){
+ 157              		.loc 1 40 0
  158 00a2 564B     		ldr	r3, .L22+12
  159 00a4 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
  160 00a6 032B     		cmp	r3, #3
  161 00a8 2BD0     		beq	.L20
-  49:src/encoder.c ****       /* Disable buffer Interrupts */
-  50:src/encoder.c ****       I2C_ITConfig(I2C1, I2C_IT_BUF , DISABLE);
-  51:src/encoder.c ****     }else{    	
-  52:src/encoder.c ****       /* Enable buffer Interrupts */
-  53:src/encoder.c ****       I2C_ITConfig(I2C1, I2C_IT_BUF , ENABLE);
- 162              		.loc 1 53 0
+  41:src/encoder.c ****       /* Disable buffer Interrupts */
+  42:src/encoder.c ****       I2C_ITConfig(I2C1, I2C_IT_BUF , DISABLE);
+  43:src/encoder.c ****     }else{    	
+  44:src/encoder.c ****       /* Enable buffer Interrupts */
+  45:src/encoder.c ****       I2C_ITConfig(I2C1, I2C_IT_BUF , ENABLE);
+ 162              		.loc 1 45 0
  163 00aa 2246     		mov	r2, r4
  164              	.L19:
  165 00ac 4FF48061 		mov	r1, #1024
  166 00b0 8AE0     		b	.L17
  167              	.L5:
-  54:src/encoder.c ****     }
-  55:src/encoder.c ****   }else if(I2C_GetITStatus(I2C1, I2C_IT_ADDR)== SET){
- 168              		.loc 1 55 0
+  46:src/encoder.c ****     }
+  47:src/encoder.c ****   }else if(I2C_GetITStatus(I2C1, I2C_IT_ADDR)== SET){
+ 168              		.loc 1 47 0
  169 00b2 5349     		ldr	r1, .L22+16
  170 00b4 4F48     		ldr	r0, .L22+4
  171 00b6 FFF7FEFF 		bl	I2C_GetITStatus
  172              	.LVL7:
  173 00ba 0128     		cmp	r0, #1
  174 00bc 23D1     		bne	.L7
-  56:src/encoder.c ****     if (NumberOfByteToReceive == 1){
- 175              		.loc 1 56 0
+  48:src/encoder.c ****     if (NumberOfByteToReceive == 1){
+ 175              		.loc 1 48 0
  176 00be 4F4C     		ldr	r4, .L22+12
  177 00c0 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
  178 00c2 012B     		cmp	r3, #1
  179 00c4 03D1     		bne	.L8
-  57:src/encoder.c ****       I2C_AcknowledgeConfig(I2C1, DISABLE);
- 180              		.loc 1 57 0
+  49:src/encoder.c ****       I2C_AcknowledgeConfig(I2C1, DISABLE);
+ 180              		.loc 1 49 0
  181 00c6 0021     		movs	r1, #0
  182 00c8 4A48     		ldr	r0, .L22+4
  183 00ca FFF7FEFF 		bl	I2C_AcknowledgeConfig
  184              	.LVL8:
  185              	.L8:
-  58:src/encoder.c ****     }
-  59:src/encoder.c ****     
-  60:src/encoder.c ****     /* Clear ADDR Register */
-  61:src/encoder.c ****     (void)(I2C1->SR1);
- 186              		.loc 1 61 0
+  50:src/encoder.c ****     }
+  51:src/encoder.c ****     
+  52:src/encoder.c ****     /* Clear ADDR Register */
+  53:src/encoder.c ****     (void)(I2C1->SR1);
+ 186              		.loc 1 53 0
  187 00ce 4948     		ldr	r0, .L22+4
  188 00d0 838A     		ldrh	r3, [r0, #20]
-  62:src/encoder.c ****     (void)(I2C1->SR2);  
- 189              		.loc 1 62 0
+  54:src/encoder.c ****     (void)(I2C1->SR2);  
+ 189              		.loc 1 54 0
  190 00d2 038B     		ldrh	r3, [r0, #24]
-  63:src/encoder.c ****     if (GenerateStartStatus == 0x00){ 
- 191              		.loc 1 63 0
+  55:src/encoder.c ****     if (GenerateStartStatus == 0x00){ 
+ 191              		.loc 1 55 0
  192 00d4 4B4B     		ldr	r3, .L22+20
  193 00d6 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
  194 00d8 002B     		cmp	r3, #0
  195 00da 40F08780 		bne	.L4
-  64:src/encoder.c ****       if (NumberOfByteToReceive == 1){
- 196              		.loc 1 64 0
+  56:src/encoder.c ****       if (NumberOfByteToReceive == 1){
+ 196              		.loc 1 56 0
  197 00de 2178     		ldrb	r1, [r4]	@ zero_extendqisi2
  198 00e0 C9B2     		uxtb	r1, r1
  199 00e2 0129     		cmp	r1, #1
  200 00e4 01D1     		bne	.L11
-  65:src/encoder.c ****          I2C_GenerateSTOP(I2C1, ENABLE);  
- 201              		.loc 1 65 0
+  57:src/encoder.c ****          I2C_GenerateSTOP(I2C1, ENABLE);  
+ 201              		.loc 1 57 0
  202 00e6 FFF7FEFF 		bl	I2C_GenerateSTOP
  203              	.LVL9:
  204              	.L11:
-  66:src/encoder.c ****       }  
-  67:src/encoder.c ****       if (NumberOfByteToReceive == 2){
- 205              		.loc 1 67 0
+  58:src/encoder.c ****       }  
+  59:src/encoder.c ****       if (NumberOfByteToReceive == 2){
+ 205              		.loc 1 59 0
  206 00ea 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
  207 00ec 022B     		cmp	r3, #2
  208 00ee 7DD1     		bne	.L4
-  68:src/encoder.c ****         I2C_AcknowledgeConfig(I2C1, DISABLE);
- 209              		.loc 1 68 0
+  60:src/encoder.c ****         I2C_AcknowledgeConfig(I2C1, DISABLE);
+ 209              		.loc 1 60 0
  210 00f0 0021     		movs	r1, #0
  211 00f2 4048     		ldr	r0, .L22+4
  212 00f4 FFF7FEFF 		bl	I2C_AcknowledgeConfig
  213              	.LVL10:
-  69:src/encoder.c ****         I2C_NACKPositionConfig(I2C1, I2C_NACKPosition_Next);
- 214              		.loc 1 69 0
+  61:src/encoder.c ****         I2C_NACKPositionConfig(I2C1, I2C_NACKPosition_Next);
+ 214              		.loc 1 61 0
  215 00f8 4FF40061 		mov	r1, #2048
  216 00fc 3D48     		ldr	r0, .L22+4
  217 00fe FFF7FEFF 		bl	I2C_NACKPositionConfig
  218              	.LVL11:
  219              	.L20:
-  70:src/encoder.c ****         /* Disable buffer Interrupts */
-  71:src/encoder.c ****         I2C_ITConfig(I2C1, I2C_IT_BUF , DISABLE);
- 220              		.loc 1 71 0
+  62:src/encoder.c ****         /* Disable buffer Interrupts */
+  63:src/encoder.c ****         I2C_ITConfig(I2C1, I2C_IT_BUF , DISABLE);
+ 220              		.loc 1 63 0
  221 0102 0022     		movs	r2, #0
  222 0104 D2E7     		b	.L19
  223              	.L7:
-  72:src/encoder.c ****       }
-  73:src/encoder.c ****     }
-  74:src/encoder.c ****   }else if((I2C_GetITStatus(I2C1, I2C_IT_RXNE)== SET)
- 224              		.loc 1 74 0
+  64:src/encoder.c ****       }
+  65:src/encoder.c ****     }
+  66:src/encoder.c ****   }else if((I2C_GetITStatus(I2C1, I2C_IT_RXNE)== SET)
+ 224              		.loc 1 66 0
  225 0106 4049     		ldr	r1, .L22+24
  226 0108 3A48     		ldr	r0, .L22+4
  227 010a FFF7FEFF 		bl	I2C_GetITStatus
  228              	.LVL12:
  229 010e 0128     		cmp	r0, #1
  230 0110 25D1     		bne	.L13
-  75:src/encoder.c ****   				&&(I2C_GetITStatus(I2C1, I2C_IT_BTF)== RESET)){  	
- 231              		.loc 1 75 0
+  67:src/encoder.c ****   				&&(I2C_GetITStatus(I2C1, I2C_IT_BTF)== RESET)){  	
+ 231              		.loc 1 67 0
  232 0112 3E49     		ldr	r1, .L22+28
  233 0114 3748     		ldr	r0, .L22+4
  234 0116 FFF7FEFF 		bl	I2C_GetITStatus
  235              	.LVL13:
  236 011a 0546     		mov	r5, r0
  237 011c F8B9     		cbnz	r0, .L13
-  76:src/encoder.c **** 
-  77:src/encoder.c ****     /* Store I2C received data */
-  78:src/encoder.c ****     RxBuffer[Rx_Idx++] = I2C_ReceiveData (I2C1);
- 238              		.loc 1 78 0
+  68:src/encoder.c **** 
+  69:src/encoder.c ****     /* Store I2C received data */
+  70:src/encoder.c ****     RxBuffer[Rx_Idx++] = I2C_ReceiveData (I2C1);
+ 238              		.loc 1 70 0
  239 011e 3C4A     		ldr	r2, .L22+32
  240 0120 3448     		ldr	r0, .L22+4
  241 0122 1478     		ldrb	r4, [r2]	@ zero_extendqisi2
@@ -1832,43 +1824,43 @@
  247              	.LVL14:
  248 0130 384B     		ldr	r3, .L22+36
  249 0132 1855     		strb	r0, [r3, r4]
-  79:src/encoder.c ****     NumberOfByteToReceive--;
- 250              		.loc 1 79 0
+  71:src/encoder.c ****     NumberOfByteToReceive--;
+ 250              		.loc 1 71 0
  251 0134 314B     		ldr	r3, .L22+12
  252 0136 1978     		ldrb	r1, [r3]	@ zero_extendqisi2
  253 0138 1C46     		mov	r4, r3
  254 013a 0139     		subs	r1, r1, #1
  255 013c C9B2     		uxtb	r1, r1
  256 013e 1970     		strb	r1, [r3]
-  80:src/encoder.c ****     
-  81:src/encoder.c ****     if (NumberOfByteToReceive == 0x03){
- 257              		.loc 1 81 0
+  72:src/encoder.c ****     
+  73:src/encoder.c ****     if (NumberOfByteToReceive == 0x03){
+ 257              		.loc 1 73 0
  258 0140 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
  259 0142 032A     		cmp	r2, #3
  260 0144 05D1     		bne	.L14
-  82:src/encoder.c ****       /* Disable buffer Interrupts */
-  83:src/encoder.c ****       I2C_ITConfig(I2C1, I2C_IT_BUF , DISABLE);
- 261              		.loc 1 83 0
+  74:src/encoder.c ****       /* Disable buffer Interrupts */
+  75:src/encoder.c ****       I2C_ITConfig(I2C1, I2C_IT_BUF , DISABLE);
+ 261              		.loc 1 75 0
  262 0146 2A46     		mov	r2, r5
  263 0148 4FF48061 		mov	r1, #1024
  264 014c 2948     		ldr	r0, .L22+4
  265 014e FFF7FEFF 		bl	I2C_ITConfig
  266              	.LVL15:
  267              	.L14:
-  84:src/encoder.c ****     }
-  85:src/encoder.c ****     if (NumberOfByteToReceive == 0x00){    	
- 268              		.loc 1 85 0
+  76:src/encoder.c ****     }
+  77:src/encoder.c ****     if (NumberOfByteToReceive == 0x00){    	
+ 268              		.loc 1 77 0
  269 0152 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
  270 0154 03F0FF02 		and	r2, r3, #255
  271 0158 002B     		cmp	r3, #0
  272 015a 47D1     		bne	.L4
  273 015c 32E0     		b	.L18
  274              	.L13:
-  86:src/encoder.c ****       /* Disable Error and Buffer Interrupts */
-  87:src/encoder.c ****       I2C_ITConfig(I2C1, (I2C_IT_EVT | I2C_IT_BUF), DISABLE);            
-  88:src/encoder.c ****     }
-  89:src/encoder.c ****   }else if(I2C_GetITStatus(I2C1, I2C_IT_BTF)== SET){ /* BUSY, MSL and RXNE flags */
- 275              		.loc 1 89 0
+  78:src/encoder.c ****       /* Disable Error and Buffer Interrupts */
+  79:src/encoder.c ****       I2C_ITConfig(I2C1, (I2C_IT_EVT | I2C_IT_BUF), DISABLE);            
+  80:src/encoder.c ****     }
+  81:src/encoder.c ****   }else if(I2C_GetITStatus(I2C1, I2C_IT_BTF)== SET){ /* BUSY, MSL and RXNE flags */
+ 275              		.loc 1 81 0
  276 015e 2B49     		ldr	r1, .L22+28
  277 0160 2448     		ldr	r0, .L22+4
  278 0162 FFF7FEFF 		bl	I2C_GetITStatus
@@ -1876,40 +1868,40 @@
  280 0166 0128     		cmp	r0, #1
  281 0168 0146     		mov	r1, r0
  282 016a 3FD1     		bne	.L4
-  90:src/encoder.c ****     /* if Three bytes remaining for reception */
-  91:src/encoder.c ****     if (NumberOfByteToReceive == 3){
- 283              		.loc 1 91 0
+  82:src/encoder.c ****     /* if Three bytes remaining for reception */
+  83:src/encoder.c ****     if (NumberOfByteToReceive == 3){
+ 283              		.loc 1 83 0
  284 016c 234C     		ldr	r4, .L22+12
  285 016e 284D     		ldr	r5, .L22+32
  286 0170 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
  287 0172 284F     		ldr	r7, .L22+36
  288 0174 032B     		cmp	r3, #3
  289 0176 04D1     		bne	.L15
-  92:src/encoder.c ****       I2C_AcknowledgeConfig(I2C1, DISABLE);
- 290              		.loc 1 92 0
+  84:src/encoder.c ****       I2C_AcknowledgeConfig(I2C1, DISABLE);
+ 290              		.loc 1 84 0
  291 0178 0021     		movs	r1, #0
  292 017a 1E48     		ldr	r0, .L22+4
  293 017c FFF7FEFF 		bl	I2C_AcknowledgeConfig
  294              	.LVL17:
  295 0180 27E0     		b	.L16
  296              	.L15:
-  93:src/encoder.c ****       /* Store I2C received data */
-  94:src/encoder.c ****       RxBuffer[Rx_Idx++] = I2C_ReceiveData (I2C1);
-  95:src/encoder.c ****       NumberOfByteToReceive--;        
-  96:src/encoder.c ****     }else if (NumberOfByteToReceive == 2){           
- 297              		.loc 1 96 0
+  85:src/encoder.c ****       /* Store I2C received data */
+  86:src/encoder.c ****       RxBuffer[Rx_Idx++] = I2C_ReceiveData (I2C1);
+  87:src/encoder.c ****       NumberOfByteToReceive--;        
+  88:src/encoder.c ****     }else if (NumberOfByteToReceive == 2){           
+ 297              		.loc 1 88 0
  298 0182 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
  299 0184 022B     		cmp	r3, #2
  300 0186 24D1     		bne	.L16
-  97:src/encoder.c ****       I2C_GenerateSTOP(I2C1, ENABLE);    
- 301              		.loc 1 97 0
+  89:src/encoder.c ****       I2C_GenerateSTOP(I2C1, ENABLE);    
+ 301              		.loc 1 89 0
  302 0188 1A48     		ldr	r0, .L22+4
  303 018a FFF7FEFF 		bl	I2C_GenerateSTOP
  304              	.LVL18:
-  98:src/encoder.c ****       
-  99:src/encoder.c ****       /* Store I2C received data */
- 100:src/encoder.c ****       RxBuffer[Rx_Idx++] = I2C_ReceiveData (I2C1);
- 305              		.loc 1 100 0
+  90:src/encoder.c ****       
+  91:src/encoder.c ****       /* Store I2C received data */
+  92:src/encoder.c ****       RxBuffer[Rx_Idx++] = I2C_ReceiveData (I2C1);
+ 305              		.loc 1 92 0
  306 018e 2E78     		ldrb	r6, [r5]	@ zero_extendqisi2
  307 0190 1848     		ldr	r0, .L22+4
  308 0192 F6B2     		uxtb	r6, r6
@@ -1918,19 +1910,19 @@
  311 0198 2B70     		strb	r3, [r5]
  312 019a FFF7FEFF 		bl	I2C_ReceiveData
  313              	.LVL19:
- 101:src/encoder.c ****       NumberOfByteToReceive--;
- 314              		.loc 1 101 0
+  93:src/encoder.c ****       NumberOfByteToReceive--;
+ 314              		.loc 1 93 0
  315 019e 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
- 100:src/encoder.c ****       NumberOfByteToReceive--;
- 316              		.loc 1 100 0
+  92:src/encoder.c ****       NumberOfByteToReceive--;
+ 316              		.loc 1 92 0
  317 01a0 B855     		strb	r0, [r7, r6]
- 318              		.loc 1 101 0
+ 318              		.loc 1 93 0
  319 01a2 013B     		subs	r3, r3, #1
  320 01a4 DBB2     		uxtb	r3, r3
  321 01a6 2370     		strb	r3, [r4]
- 102:src/encoder.c ****       /* Store I2C received data */
- 103:src/encoder.c ****       RxBuffer[Rx_Idx++] = I2C_ReceiveData (I2C1);
- 322              		.loc 1 103 0
+  94:src/encoder.c ****       /* Store I2C received data */
+  95:src/encoder.c ****       RxBuffer[Rx_Idx++] = I2C_ReceiveData (I2C1);
+ 322              		.loc 1 95 0
  323 01a8 2E78     		ldrb	r6, [r5]	@ zero_extendqisi2
  324 01aa 1248     		ldr	r0, .L22+4
  325 01ac F6B2     		uxtb	r6, r6
@@ -1939,32 +1931,32 @@
  328 01b2 2B70     		strb	r3, [r5]
  329 01b4 FFF7FEFF 		bl	I2C_ReceiveData
  330              	.LVL20:
- 104:src/encoder.c ****       NumberOfByteToReceive--;        
- 331              		.loc 1 104 0
+  96:src/encoder.c ****       NumberOfByteToReceive--;        
+ 331              		.loc 1 96 0
  332 01b8 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
- 103:src/encoder.c ****       NumberOfByteToReceive--;        
- 333              		.loc 1 103 0
+  95:src/encoder.c ****       NumberOfByteToReceive--;        
+ 333              		.loc 1 95 0
  334 01ba B855     		strb	r0, [r7, r6]
- 335              		.loc 1 104 0
+ 335              		.loc 1 96 0
  336 01bc 013B     		subs	r3, r3, #1
  337 01be DBB2     		uxtb	r3, r3
  338 01c0 2370     		strb	r3, [r4]
- 105:src/encoder.c ****       /* Disable Error and Buffer Interrupts */
- 106:src/encoder.c ****       I2C_ITConfig(I2C1, (I2C_IT_EVT | I2C_IT_BUF), DISABLE);            
- 339              		.loc 1 106 0
+  97:src/encoder.c ****       /* Disable Error and Buffer Interrupts */
+  98:src/encoder.c ****       I2C_ITConfig(I2C1, (I2C_IT_EVT | I2C_IT_BUF), DISABLE);            
+ 339              		.loc 1 98 0
  340 01c2 0022     		movs	r2, #0
  341              	.L18:
  342 01c4 4FF4C061 		mov	r1, #1536
  343              	.L17:
  344 01c8 0A48     		ldr	r0, .L22+4
- 107:src/encoder.c ****     }else{
- 108:src/encoder.c ****       /* Store I2C received data */
- 109:src/encoder.c ****       RxBuffer[Rx_Idx++] = I2C_ReceiveData (I2C1);
- 110:src/encoder.c ****       NumberOfByteToReceive--;
- 111:src/encoder.c ****     }
- 112:src/encoder.c ****   } 
- 113:src/encoder.c **** }...
- 345              		.loc 1 113 0
+  99:src/encoder.c ****     }else{
+ 100:src/encoder.c ****       /* Store I2C received data */
+ 101:src/encoder.c ****       RxBuffer[Rx_Idx++] = I2C_ReceiveData (I2C1);
+ 102:src/encoder.c ****       NumberOfByteToReceive--;
+ 103:src/encoder.c ****     }
+ 104:src/encoder.c ****   } 
+ 105:src/encoder.c **** }...
+ 345              		.loc 1 105 0
  346 01ca BDE8F840 		pop	{r3, r4, r5, r6, r7, lr}
  347              	.LCFI4:
  348              		.cfi_remember_state
@@ -1975,15 +1967,15 @@
  353              		.cfi_restore 4
  354              		.cfi_restore 3
  355              		.cfi_def_cfa_offset 0
- 106:src/encoder.c ****       I2C_ITConfig(I2C1, (I2C_IT_EVT | I2C_IT_BUF), DISABLE);            
- 356              		.loc 1 106 0
+  98:src/encoder.c ****       I2C_ITConfig(I2C1, (I2C_IT_EVT | I2C_IT_BUF), DISABLE);            
+ 356              		.loc 1 98 0
  357 01ce FFF7FEBF 		b	I2C_ITConfig
  358              	.LVL21:
  359              	.L16:
  360              	.LCFI5:
  361              		.cfi_restore_state
- 109:src/encoder.c ****       RxBuffer[Rx_Idx++] = I2C_ReceiveData (I2C1);
- 362              		.loc 1 109 0
+ 101:src/encoder.c ****       RxBuffer[Rx_Idx++] = I2C_ReceiveData (I2C1);
+ 362              		.loc 1 101 0
  363 01d2 2E78     		ldrb	r6, [r5]	@ zero_extendqisi2
  364 01d4 0748     		ldr	r0, .L22+4
  365 01d6 F6B2     		uxtb	r6, r6
@@ -1992,14 +1984,14 @@
  368 01dc 2B70     		strb	r3, [r5]
  369 01de FFF7FEFF 		bl	I2C_ReceiveData
  370              	.LVL22:
- 110:src/encoder.c ****       NumberOfByteToReceive--;
- 371              		.loc 1 110 0
+ 102:src/encoder.c ****       NumberOfByteToReceive--;
+ 371              		.loc 1 102 0
  372 01e2 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
- 109:src/encoder.c ****       RxBuffer[Rx_Idx++] = I2C_ReceiveData (I2C1);
- 373              		.loc 1 109 0
+ 101:src/encoder.c ****       RxBuffer[Rx_Idx++] = I2C_ReceiveData (I2C1);
+ 373              		.loc 1 101 0
  374 01e4 B855     		strb	r0, [r7, r6]
- 110:src/encoder.c ****       NumberOfByteToReceive--;
- 375              		.loc 1 110 0
+ 102:src/encoder.c ****       NumberOfByteToReceive--;
+ 375              		.loc 1 102 0
  376 01e6 013B     		subs	r3, r3, #1
  377 01e8 DBB2     		uxtb	r3, r3
  378 01ea 2370     		strb	r3, [r4]
@@ -2013,36 +2005,29 @@
  386 01f8 00000000 		.word	slaveAddress
  387 01fc 00000000 		.word	NumberOfByteToReceive
  388 0200 02000002 		.word	33554434
- 389 0204 00000000 		.word	.LANCHOR0
+ 389 0204 00000000 		.word	GenerateStartStatus
  390 0208 40000006 		.word	100663360
  391 020c 04000002 		.word	33554436
  392 0210 00000000 		.word	Rx_Idx
  393 0214 00000000 		.word	RxBuffer
  394              		.cfi_endproc
  395              	.LFE30:
- 397              		.global	GenerateStartStatus
- 398              		.bss
- 399              		.set	.LANCHOR0,. + 0
- 402              	GenerateStartStatus:
- 403 0000 00       		.space	1
- 404              		.text
- 405              	.Letext0:
- 406              		.file 3 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
- 407              		.file 4 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
- 408              		.file 5 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
- 409              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
- 410              		.file 7 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_i2c.h"
- 411              		.file 8 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
+ 397              	.Letext0:
+ 398              		.file 3 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
+ 399              		.file 4 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
+ 400              		.file 5 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 401              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
+ 402              		.file 7 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_i2c.h"
+ 403              		.file 8 "./inc/encoder.h"
+ 404              		.file 9 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 encoder.c
-     /tmp/ccO3UPCW.s:19     .text:00000000 $t
-     /tmp/ccO3UPCW.s:24     .text:00000000 I2C1_Init
-     /tmp/ccO3UPCW.s:113    .text:00000070 $d
-     /tmp/ccO3UPCW.s:120    .text:00000080 $t
-     /tmp/ccO3UPCW.s:125    .text:00000080 I2C1_EV_IRQHandler
-     /tmp/ccO3UPCW.s:384    .text:000001f0 $d
-     /tmp/ccO3UPCW.s:402    .bss:00000000 GenerateStartStatus
-     /tmp/ccO3UPCW.s:403    .bss:00000000 $d
+     /tmp/ccKAbZMc.s:19     .text:00000000 $t
+     /tmp/ccKAbZMc.s:24     .text:00000000 I2C1_Init
+     /tmp/ccKAbZMc.s:113    .text:00000070 $d
+     /tmp/ccKAbZMc.s:120    .text:00000080 $t
+     /tmp/ccKAbZMc.s:125    .text:00000080 I2C1_EV_IRQHandler
+     /tmp/ccKAbZMc.s:384    .text:000001f0 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS
@@ -2059,5 +2044,6 @@ I2C_ReceiveData
 I2C_ITConfig
 slaveAddress
 NumberOfByteToReceive
+GenerateStartStatus
 Rx_Idx
 RxBuffer

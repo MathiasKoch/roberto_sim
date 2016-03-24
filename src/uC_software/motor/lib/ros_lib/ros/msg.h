@@ -61,7 +61,7 @@ public:
    */
   static int serializeAvrFloat64(unsigned char* outbuffer, const float f)
   {
-    const int32_t* val = (const int32_t*) &f;
+    const int32_t* val = (int32_t*) &f;
     int32_t exp = ((*val >> 23) & 255);
     if (exp != 0)
     {
