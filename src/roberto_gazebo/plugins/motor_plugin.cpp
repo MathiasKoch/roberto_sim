@@ -95,6 +95,7 @@ void MotorDrivePlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf){
     this->topicName = _sdf->Get<std::string>("topicName");
   }
 
+  ROS_INFO("loading motor_plugin");
 
   motorCmd[FRONTRIGHT] = 0;
   motorCmd[FRONTLEFT] = 0;
@@ -131,6 +132,7 @@ void MotorDrivePlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf){
   pub_ = rosnode_->advertise<nav_msgs::Odometry>("odom", 1);
 
   servo_pub = rosnode_->advertise<roberto_msgs::JointCommand>("servo_joint_position_controller/command", 1);
+  motor_pub = rosnode_->advertise<roberto_msgs::JointCommand>("motor_joint_velocity_controller/command", 1);
 
   // Initialize the controller
   // Reset odometric pose
@@ -152,6 +154,7 @@ void MotorDrivePlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf){
 
 // Update the controller
 void MotorDrivePlugin::UpdateChild(){
+  //ROS_INFO("UpdateChild");
   double d1, d2, d3, d4;
   double dr, da;
   double dtime = this->world->GetSimTime().Double();
@@ -159,6 +162,7 @@ void MotorDrivePlugin::UpdateChild(){
   lastTime = dtime;
 
   GetPositionCmd();
+
 
   // Distance travelled by front wheels
   /*d1 = stepTime * wheelDiameter / 2 * joints[FRONTLEFT]->GetVelocity(0);
@@ -185,15 +189,32 @@ void MotorDrivePlugin::UpdateChild(){
   servo_JC.command.resize(2);
   
   servo_JC.names[0] = "servo_front_right";
-  servo_JC.command[0] = 0.0;
+  servo_JC.command[0] = 1.51; // set direction
 
   servo_JC.names[1] = "servo_front_left";
   servo_JC.command[1] = 0.0;
 
-
-  //servo_pub.publish(servo_JC);
+  servo_pub.publish(servo_JC);
 
   //PublishMotorCommands();
+  motor_JC.names.resize(4);
+  motor_JC.command.resize(4);
+  
+
+  motor_JC.names[0] = "front_right_wheel_hinge";
+  motor_JC.command[0] = 0.0;
+
+  motor_JC.names[1] = "front_left_wheel_hinge";
+  motor_JC.command[1] = 1.0;
+
+  motor_JC.names[2] = "rear_right_wheel_hinge";
+  motor_JC.command[2] = 0.0;
+
+  motor_JC.names[3] = "rear_left_wheel_hinge";
+  motor_JC.command[3] = 0.0;
+
+  motor_pub.publish(motor_JC);
+
   //write_position_data();
   //publish_odometry();
 }
@@ -257,7 +278,7 @@ void MotorDrivePlugin::GetPositionCmd(){
 
 void MotorDrivePlugin::cmdVelCallback(const roberto_msgs::MotorStateConstPtr & cmd_msg){
   lock.lock();
-
+  ROS_INFO("Callback");
   heading_ = cmd_msg->heading_angle;
   speed_ = cmd_msg->speed;
   acceleration_ = cmd_msg->acceleration;

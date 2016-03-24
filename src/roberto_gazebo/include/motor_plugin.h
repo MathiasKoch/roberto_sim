@@ -97,12 +97,14 @@ private:
   ros::NodeHandle* rosnode_;
   ros::Publisher pub_;
   ros::Publisher servo_pub;
+  ros::Publisher motor_pub;
   ros::Subscriber sub_;
   tf::TransformBroadcaster *transform_broadcaster_;
   nav_msgs::Odometry odom_;
   std::string tf_prefix_;
 
   roberto_msgs::JointCommand servo_JC;
+  roberto_msgs::JointCommand motor_JC;
 
   boost::mutex lock;
 

@@ -104,7 +104,7 @@ bool RobertoVelocityController::init(
       velocity_controllers_[i]->init(robot, joint_nh);
 
       // DEBUG
-      //velocity_controllers_[i]->printDebug();
+      velocity_controllers_[i]->printDebug();
 
     } // end of joint-namespaces
 

@@ -186,7 +186,7 @@ void RobertoPositionController::updateCommands(){
 
     if(name_it != joint_to_index_map_.end()){
       // Joint is in the map, so we'll update the joint position
-      ROS_INFO_STREAM_NAMED("update", "Updated servo " << command.names[i] << " with the command: " << command.command[i]);
+      //ROS_INFO_STREAM_NAMED("update", "Updated servo " << command.names[i] << " with the command: " << command.command[i]);
       position_controllers_[name_it->second]->setCommand( command.command[i] );
     }
   }
