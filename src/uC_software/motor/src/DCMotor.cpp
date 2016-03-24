@@ -95,27 +95,30 @@ bool DCMotor::motorInit()
 	initEncoder(m_settings->encoderAddr);
 
 	// Initialize PID regulator
-	KP = m_settings->Kp;
-	KI = m_settings->Ki;
-	KD = m_settings->Kd;
-	max = m_settings->MAX;
-	min = m_settings->MIN;
+	KP = m_settings->KP;
+	KI = m_settings->KI;
+	KD = m_settings->KD;
+	integralSaturation = m_settings->integralSaturation;
+
 	integral = 0;
 	error = 0;
+
+	wheelRadius = m_settings->wheelRadius;
 
 	return true;
 }
 
 void DCMotor::setReference(float setPoint){
 	speed = setPoint;
-	if(speed < 0)
-		speed = 0;
 
-	if(speed > PERIOD)
-		speed = PERIOD;
 }
 
 bool DCMotor::setSpeed(int s){
+	if(s < 0)
+		s = 0;
+
+	if(s > PERIOD)
+		s = PERIOD;
 
 	if(abs(s) > 0){
 		GPIO_SetBits(m_settings->m_DCEnAPort, m_settings->m_DCEnAPin);
@@ -174,7 +177,7 @@ void DCMotor::initEncoder(uint16_t addr){
 	encAddr = addr;
 }
 
-uint16_t DCMotor::readEncoder(){
+int32_t DCMotor::readEncoder(){
 	NumberOfByteToReceive = RXBUFFERSIZE;
     Rx_Idx = 0x00;
 
@@ -188,31 +191,33 @@ uint16_t DCMotor::readEncoder(){
     // TODO: Add timeout here
     while ((Rx_Idx < RXBUFFERSIZE)); 
 
-    return ((int16_t)((RxBuffer[0] << 8) | RxBuffer[1]));
+    return ((int32_t)((RxBuffer[0] << 24)|(RxBuffer[1] << 16)|(RxBuffer[2] << 8) | RxBuffer[3]));
 }
 
 float DCMotor::updateRegulator(float enc, float dt){
 	float error_new = speed-enc;
+	
 	integral += error_new*dt;
+	if (integral > integralSaturation){
+		integral = integralSaturation;
+	}else if (integral < -integralSaturation){
+		integral = -integralSaturation;
+	}
+	
 	float derivative = (error_new-error)/dt;
 	float output = (KP*error + KI*integral + KD*derivative);
-	if(output > max){
-		output = max;
-	}else if(output < min){
-		output = min;
-	}
 	error = error_new;
 	return output;
 }
 
-uint16_t DCMotor::update(float dt){
+float DCMotor::update(float dt){
 	// Read encoder
-	uint16_t encSpeed = readEncoder();		// rad/s
-	//float speed_si = encSpeed * wheelRadius;	// m/s
+	float encSpeed = readEncoder()*0.04793689962;		// rad/s
+	float speed_si = encSpeed * wheelRadius;	// m/s
 	// Update PID regulator
-	//int s = updateRegulator(speed_si, dt);		// m/s
+	int s = (int) updateRegulator(speed_si, dt);		// m/s
 	// Set motor speed to process value
-	setSpeed(0);		// m/s
+	setSpeed(s);		// m/s
 	// Return encoder values for publishing to localization
-	return encSpeed;
+	return speed_si;
 }

@@ -178,21 +178,60 @@
  129              	.LFE36:
  130              		.cantunwind
  131              		.fnend
- 133              	.Letext0:
- 134              		.file 2 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
- 135              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
- 136              		.file 4 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
- 137              		.file 5 "./inc/motorSettings.h"
- 138              		.file 6 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
+ 133              		.align	1
+ 134              		.global	_ZN13motorSettings12setRegulatorEffff
+ 135              		.thumb
+ 136              		.thumb_func
+ 138              	_ZN13motorSettings12setRegulatorEffff:
+ 139              		.fnstart
+ 140              	.LFB37:
+  53:src/motorSettings.cpp **** }
+  54:src/motorSettings.cpp **** 
+  55:src/motorSettings.cpp **** void motorSettings::setRegulator(float KP_, float KI_, float KD_, float integralSaturation_){
+ 141              		.loc 1 55 0
+ 142              		.cfi_startproc
+ 143              		@ args = 4, pretend = 0, frame = 0
+ 144              		@ frame_needed = 0, uses_anonymous_args = 0
+ 145              		@ link register save eliminated.
+ 146              	.LVL5:
+  56:src/motorSettings.cpp ****     KP = KP_;
+  57:src/motorSettings.cpp ****     KI = KI_;
+  58:src/motorSettings.cpp ****     KD = KD_;
+ 147              		.loc 1 58 0
+ 148 0036 4365     		str	r3, [r0, #84]	@ float
+  59:src/motorSettings.cpp ****     integralSaturation = integralSaturation_;
+ 149              		.loc 1 59 0
+ 150 0038 009B     		ldr	r3, [sp]	@ float
+ 151              	.LVL6:
+  56:src/motorSettings.cpp ****     KP = KP_;
+ 152              		.loc 1 56 0
+ 153 003a C164     		str	r1, [r0, #76]	@ float
+  57:src/motorSettings.cpp ****     KD = KD_;
+ 154              		.loc 1 57 0
+ 155 003c 0265     		str	r2, [r0, #80]	@ float
+ 156              		.loc 1 59 0
+ 157 003e 8365     		str	r3, [r0, #88]	@ float
+ 158 0040 7047     		bx	lr
+ 159              		.cfi_endproc
+ 160              	.LFE37:
+ 161              		.cantunwind
+ 162              		.fnend
+ 164              	.Letext0:
+ 165              		.file 2 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types
+ 166              		.file 3 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 167              		.file 4 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
+ 168              		.file 5 "./inc/motorSettings.h"
+ 169              		.file 6 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 motorSettings.cpp
-     /tmp/cc4FcqKf.s:19     .text:00000000 $t
-     /tmp/cc4FcqKf.s:24     .text:00000000 _ZN13motorSettingsC2Ev
+     /tmp/ccYdf0eJ.s:19     .text:00000000 $t
+     /tmp/ccYdf0eJ.s:24     .text:00000000 _ZN13motorSettingsC2Ev
                        .ARM.exidx:00000000 $d
-     /tmp/cc4FcqKf.s:24     .text:00000000 _ZN13motorSettingsC1Ev
-     /tmp/cc4FcqKf.s:53     .text:00000006 _ZN13motorSettingsC2EiPcP11TIM_TypeDefi
-     /tmp/cc4FcqKf.s:53     .text:00000006 _ZN13motorSettingsC1EiPcP11TIM_TypeDefi
-     /tmp/cc4FcqKf.s:88     .text:00000012 _ZN13motorSettings9setDCPinsEiP12GPIO_TypeDefiS1_iS1_iS1_iS1_
+     /tmp/ccYdf0eJ.s:24     .text:00000000 _ZN13motorSettingsC1Ev
+     /tmp/ccYdf0eJ.s:53     .text:00000006 _ZN13motorSettingsC2EiPcP11TIM_TypeDefi
+     /tmp/ccYdf0eJ.s:53     .text:00000006 _ZN13motorSettingsC1EiPcP11TIM_TypeDefi
+     /tmp/ccYdf0eJ.s:88     .text:00000012 _ZN13motorSettings9setDCPinsEiP12GPIO_TypeDefiS1_iS1_iS1_iS1_
+     /tmp/ccYdf0eJ.s:138    .text:00000036 _ZN13motorSettings12setRegulatorEffff
                      .debug_frame:00000010 $d
 
 NO UNDEFINED SYMBOLS

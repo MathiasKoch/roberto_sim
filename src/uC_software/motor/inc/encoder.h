@@ -16,7 +16,7 @@ extern "C"
 #define SLAVE_ADDRESS3 (0x10 | 0x08)
 #define SLAVE_ADDRESS4 (0x10 | 0x04 | 0x08)
 
-#define RXBUFFERSIZE   0x02
+#define RXBUFFERSIZE   0x04
 
 
 extern __IO uint32_t TimeOut;

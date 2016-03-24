@@ -1446,42 +1446,42 @@
  824              		.cfi_endproc
  825              	.LFE46:
  827              	.Letext0:
- 828              		.file 2 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
- 829              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 828              		.file 2 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types
+ 829              		.file 3 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
  830              		.file 4 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
  831              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
  832              		.file 6 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
  833              		.file 7 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f10x_gpio.c
-     /tmp/ccjWoaPv.s:19     .text:00000000 $t
-     /tmp/ccjWoaPv.s:24     .text:00000000 GPIO_DeInit
-     /tmp/ccjWoaPv.s:164    .text:0000009c $d
-     /tmp/ccjWoaPv.s:174    .text:000000b8 $t
-     /tmp/ccjWoaPv.s:179    .text:000000b8 GPIO_AFIODeInit
-     /tmp/ccjWoaPv.s:214    .text:000000ce GPIO_Init
-     /tmp/ccjWoaPv.s:370    .text:00000172 GPIO_StructInit
-     /tmp/ccjWoaPv.s:396    .text:00000182 GPIO_ReadInputDataBit
-     /tmp/ccjWoaPv.s:423    .text:0000018e GPIO_ReadInputData
-     /tmp/ccjWoaPv.s:445    .text:00000194 GPIO_ReadOutputDataBit
-     /tmp/ccjWoaPv.s:472    .text:000001a0 GPIO_ReadOutputData
-     /tmp/ccjWoaPv.s:494    .text:000001a6 GPIO_SetBits
-     /tmp/ccjWoaPv.s:513    .text:000001aa GPIO_ResetBits
-     /tmp/ccjWoaPv.s:532    .text:000001ae GPIO_WriteBit
-     /tmp/ccjWoaPv.s:557    .text:000001b8 GPIO_Write
-     /tmp/ccjWoaPv.s:576    .text:000001bc GPIO_PinLockConfig
-     /tmp/ccjWoaPv.s:607    .text:000001cc GPIO_EventOutputConfig
-     /tmp/ccjWoaPv.s:634    .text:000001e4 $d
-     /tmp/ccjWoaPv.s:638    .text:000001e8 $t
-     /tmp/ccjWoaPv.s:643    .text:000001e8 GPIO_EventOutputCmd
-     /tmp/ccjWoaPv.s:658    .text:000001f0 $d
-     /tmp/ccjWoaPv.s:662    .text:000001f4 $t
-     /tmp/ccjWoaPv.s:667    .text:000001f4 GPIO_PinRemapConfig
-     /tmp/ccjWoaPv.s:754    .text:00000250 $d
-     /tmp/ccjWoaPv.s:758    .text:00000254 $t
-     /tmp/ccjWoaPv.s:763    .text:00000254 GPIO_EXTILineConfig
-     /tmp/ccjWoaPv.s:808    .text:0000027e GPIO_ETH_MediaInterfaceConfig
-     /tmp/ccjWoaPv.s:823    .text:00000284 $d
+     /tmp/ccTbsnAc.s:19     .text:00000000 $t
+     /tmp/ccTbsnAc.s:24     .text:00000000 GPIO_DeInit
+     /tmp/ccTbsnAc.s:164    .text:0000009c $d
+     /tmp/ccTbsnAc.s:174    .text:000000b8 $t
+     /tmp/ccTbsnAc.s:179    .text:000000b8 GPIO_AFIODeInit
+     /tmp/ccTbsnAc.s:214    .text:000000ce GPIO_Init
+     /tmp/ccTbsnAc.s:370    .text:00000172 GPIO_StructInit
+     /tmp/ccTbsnAc.s:396    .text:00000182 GPIO_ReadInputDataBit
+     /tmp/ccTbsnAc.s:423    .text:0000018e GPIO_ReadInputData
+     /tmp/ccTbsnAc.s:445    .text:00000194 GPIO_ReadOutputDataBit
+     /tmp/ccTbsnAc.s:472    .text:000001a0 GPIO_ReadOutputData
+     /tmp/ccTbsnAc.s:494    .text:000001a6 GPIO_SetBits
+     /tmp/ccTbsnAc.s:513    .text:000001aa GPIO_ResetBits
+     /tmp/ccTbsnAc.s:532    .text:000001ae GPIO_WriteBit
+     /tmp/ccTbsnAc.s:557    .text:000001b8 GPIO_Write
+     /tmp/ccTbsnAc.s:576    .text:000001bc GPIO_PinLockConfig
+     /tmp/ccTbsnAc.s:607    .text:000001cc GPIO_EventOutputConfig
+     /tmp/ccTbsnAc.s:634    .text:000001e4 $d
+     /tmp/ccTbsnAc.s:638    .text:000001e8 $t
+     /tmp/ccTbsnAc.s:643    .text:000001e8 GPIO_EventOutputCmd
+     /tmp/ccTbsnAc.s:658    .text:000001f0 $d
+     /tmp/ccTbsnAc.s:662    .text:000001f4 $t
+     /tmp/ccTbsnAc.s:667    .text:000001f4 GPIO_PinRemapConfig
+     /tmp/ccTbsnAc.s:754    .text:00000250 $d
+     /tmp/ccTbsnAc.s:758    .text:00000254 $t
+     /tmp/ccTbsnAc.s:763    .text:00000254 GPIO_EXTILineConfig
+     /tmp/ccTbsnAc.s:808    .text:0000027e GPIO_ETH_MediaInterfaceConfig
+     /tmp/ccTbsnAc.s:823    .text:00000284 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

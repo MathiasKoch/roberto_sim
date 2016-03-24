@@ -2014,20 +2014,20 @@
  395              	.LFE30:
  397              	.Letext0:
  398              		.file 3 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
- 399              		.file 4 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
- 400              		.file 5 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 399              		.file 4 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types
+ 400              		.file 5 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
  401              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
  402              		.file 7 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_i2c.h"
  403              		.file 8 "./inc/encoder.h"
  404              		.file 9 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 encoder.c
-     /tmp/ccKAbZMc.s:19     .text:00000000 $t
-     /tmp/ccKAbZMc.s:24     .text:00000000 I2C1_Init
-     /tmp/ccKAbZMc.s:113    .text:00000070 $d
-     /tmp/ccKAbZMc.s:120    .text:00000080 $t
-     /tmp/ccKAbZMc.s:125    .text:00000080 I2C1_EV_IRQHandler
-     /tmp/ccKAbZMc.s:384    .text:000001f0 $d
+     /tmp/ccL4EVXC.s:19     .text:00000000 $t
+     /tmp/ccL4EVXC.s:24     .text:00000000 I2C1_Init
+     /tmp/ccL4EVXC.s:113    .text:00000070 $d
+     /tmp/ccL4EVXC.s:120    .text:00000080 $t
+     /tmp/ccL4EVXC.s:125    .text:00000080 I2C1_EV_IRQHandler
+     /tmp/ccL4EVXC.s:384    .text:000001f0 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

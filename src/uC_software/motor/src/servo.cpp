@@ -92,7 +92,7 @@ char* servo::motorName(){
 	return m_settings->m_motorName;
 }
 
-uint16_t servo::update(float dt){
+float servo::update(float dt){
 	switch(m_settings->m_TimerChannel){
 		case 1:
 			(m_settings->m_Timer)->CCR1 = pos * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) / 180 + m_settings->m_ServoLimitMin;

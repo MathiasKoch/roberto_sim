@@ -1945,60 +1945,60 @@
  1080              		.cfi_endproc
  1081              	.LFE47:
  1083              	.Letext0:
- 1084              		.file 2 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
- 1085              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 1084              		.file 2 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types
+ 1085              		.file 3 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
  1086              		.file 4 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
  1087              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_fsmc.h"
  1088              		.file 6 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f10x_fsmc.c
-     /tmp/cc11DaVm.s:19     .text:00000000 $t
-     /tmp/cc11DaVm.s:24     .text:00000000 FSMC_NORSRAMDeInit
-     /tmp/cc11DaVm.s:62     .text:00000028 FSMC_NANDDeInit
-     /tmp/cc11DaVm.s:91     .text:00000044 $d
-     /tmp/cc11DaVm.s:96     .text:0000004c $t
-     /tmp/cc11DaVm.s:101    .text:0000004c FSMC_PCCARDDeInit
-     /tmp/cc11DaVm.s:126    .text:00000064 $d
-     /tmp/cc11DaVm.s:130    .text:00000068 $t
-     /tmp/cc11DaVm.s:135    .text:00000068 FSMC_NORSRAMInit
-     /tmp/cc11DaVm.s:246    .text:00000120 FSMC_NANDInit
-     /tmp/cc11DaVm.s:330    .text:00000188 $d
-     /tmp/cc11DaVm.s:335    .text:00000190 $t
-     /tmp/cc11DaVm.s:340    .text:00000190 FSMC_PCCARDInit
-     /tmp/cc11DaVm.s:411    .text:000001f4 $d
-     /tmp/cc11DaVm.s:415    .text:000001f8 $t
-     /tmp/cc11DaVm.s:420    .text:000001f8 FSMC_NORSRAMStructInit
-     /tmp/cc11DaVm.s:509    .text:00000246 FSMC_NANDStructInit
-     /tmp/cc11DaVm.s:562    .text:00000270 FSMC_PCCARDStructInit
-     /tmp/cc11DaVm.s:615    .text:0000029a FSMC_NORSRAMCmd
-     /tmp/cc11DaVm.s:643    .text:000002b4 $d
-     /tmp/cc11DaVm.s:647    .text:000002b8 $t
-     /tmp/cc11DaVm.s:652    .text:000002b8 FSMC_NANDCmd
-     /tmp/cc11DaVm.s:690    .text:000002dc $d
-     /tmp/cc11DaVm.s:696    .text:000002e8 $t
-     /tmp/cc11DaVm.s:701    .text:000002e8 FSMC_PCCARDCmd
-     /tmp/cc11DaVm.s:727    .text:00000300 $d
-     /tmp/cc11DaVm.s:732    .text:00000308 $t
-     /tmp/cc11DaVm.s:737    .text:00000308 FSMC_NANDECCCmd
-     /tmp/cc11DaVm.s:775    .text:0000032c $d
-     /tmp/cc11DaVm.s:781    .text:00000338 $t
-     /tmp/cc11DaVm.s:786    .text:00000338 FSMC_GetECC
-     /tmp/cc11DaVm.s:808    .text:00000344 $d
-     /tmp/cc11DaVm.s:813    .text:0000034c $t
-     /tmp/cc11DaVm.s:818    .text:0000034c FSMC_ITConfig
-     /tmp/cc11DaVm.s:889    .text:0000038c $d
-     /tmp/cc11DaVm.s:895    .text:00000398 $t
-     /tmp/cc11DaVm.s:900    .text:00000398 FSMC_GetFlagStatus
-     /tmp/cc11DaVm.s:936    .text:000003b8 $d
-     /tmp/cc11DaVm.s:942    .text:000003c4 $t
-     /tmp/cc11DaVm.s:947    .text:000003c4 FSMC_ClearFlag
-     /tmp/cc11DaVm.s:980    .text:000003e4 $d
-     /tmp/cc11DaVm.s:986    .text:000003f0 $t
-     /tmp/cc11DaVm.s:991    .text:000003f0 FSMC_GetITStatus
-     /tmp/cc11DaVm.s:1034   .text:00000418 $d
-     /tmp/cc11DaVm.s:1040   .text:00000424 $t
-     /tmp/cc11DaVm.s:1045   .text:00000424 FSMC_ClearITPendingBit
-     /tmp/cc11DaVm.s:1077   .text:00000444 $d
+     /tmp/ccyotHff.s:19     .text:00000000 $t
+     /tmp/ccyotHff.s:24     .text:00000000 FSMC_NORSRAMDeInit
+     /tmp/ccyotHff.s:62     .text:00000028 FSMC_NANDDeInit
+     /tmp/ccyotHff.s:91     .text:00000044 $d
+     /tmp/ccyotHff.s:96     .text:0000004c $t
+     /tmp/ccyotHff.s:101    .text:0000004c FSMC_PCCARDDeInit
+     /tmp/ccyotHff.s:126    .text:00000064 $d
+     /tmp/ccyotHff.s:130    .text:00000068 $t
+     /tmp/ccyotHff.s:135    .text:00000068 FSMC_NORSRAMInit
+     /tmp/ccyotHff.s:246    .text:00000120 FSMC_NANDInit
+     /tmp/ccyotHff.s:330    .text:00000188 $d
+     /tmp/ccyotHff.s:335    .text:00000190 $t
+     /tmp/ccyotHff.s:340    .text:00000190 FSMC_PCCARDInit
+     /tmp/ccyotHff.s:411    .text:000001f4 $d
+     /tmp/ccyotHff.s:415    .text:000001f8 $t
+     /tmp/ccyotHff.s:420    .text:000001f8 FSMC_NORSRAMStructInit
+     /tmp/ccyotHff.s:509    .text:00000246 FSMC_NANDStructInit
+     /tmp/ccyotHff.s:562    .text:00000270 FSMC_PCCARDStructInit
+     /tmp/ccyotHff.s:615    .text:0000029a FSMC_NORSRAMCmd
+     /tmp/ccyotHff.s:643    .text:000002b4 $d
+     /tmp/ccyotHff.s:647    .text:000002b8 $t
+     /tmp/ccyotHff.s:652    .text:000002b8 FSMC_NANDCmd
+     /tmp/ccyotHff.s:690    .text:000002dc $d
+     /tmp/ccyotHff.s:696    .text:000002e8 $t
+     /tmp/ccyotHff.s:701    .text:000002e8 FSMC_PCCARDCmd
+     /tmp/ccyotHff.s:727    .text:00000300 $d
+     /tmp/ccyotHff.s:732    .text:00000308 $t
+     /tmp/ccyotHff.s:737    .text:00000308 FSMC_NANDECCCmd
+     /tmp/ccyotHff.s:775    .text:0000032c $d
+     /tmp/ccyotHff.s:781    .text:00000338 $t
+     /tmp/ccyotHff.s:786    .text:00000338 FSMC_GetECC
+     /tmp/ccyotHff.s:808    .text:00000344 $d
+     /tmp/ccyotHff.s:813    .text:0000034c $t
+     /tmp/ccyotHff.s:818    .text:0000034c FSMC_ITConfig
+     /tmp/ccyotHff.s:889    .text:0000038c $d
+     /tmp/ccyotHff.s:895    .text:00000398 $t
+     /tmp/ccyotHff.s:900    .text:00000398 FSMC_GetFlagStatus
+     /tmp/ccyotHff.s:936    .text:000003b8 $d
+     /tmp/ccyotHff.s:942    .text:000003c4 $t
+     /tmp/ccyotHff.s:947    .text:000003c4 FSMC_ClearFlag
+     /tmp/ccyotHff.s:980    .text:000003e4 $d
+     /tmp/ccyotHff.s:986    .text:000003f0 $t
+     /tmp/ccyotHff.s:991    .text:000003f0 FSMC_GetITStatus
+     /tmp/ccyotHff.s:1034   .text:00000418 $d
+     /tmp/ccyotHff.s:1040   .text:00000424 $t
+     /tmp/ccyotHff.s:1045   .text:00000424 FSMC_ClearITPendingBit
+     /tmp/ccyotHff.s:1077   .text:00000444 $d
                      .debug_frame:00000010 $d
 
 NO UNDEFINED SYMBOLS

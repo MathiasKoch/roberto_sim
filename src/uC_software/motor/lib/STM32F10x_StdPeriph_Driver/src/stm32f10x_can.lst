@@ -3088,50 +3088,50 @@
  1665              		.cfi_endproc
  1666              	.LFE52:
  1668              	.Letext0:
- 1669              		.file 2 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
- 1670              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 1669              		.file 2 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types
+ 1670              		.file 3 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
  1671              		.file 4 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
  1672              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_can.h"
  1673              		.file 6 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
  1674              		.file 7 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f10x_can.c
-     /tmp/ccgnPuRF.s:19     .text:00000000 $t
-     /tmp/ccgnPuRF.s:24     .text:00000000 CAN_DeInit
-     /tmp/ccgnPuRF.s:76     .text:00000030 $d
-     /tmp/ccgnPuRF.s:80     .text:00000034 $t
-     /tmp/ccgnPuRF.s:85     .text:00000034 CAN_Init
-     /tmp/ccgnPuRF.s:231    .text:0000010a CAN_FilterInit
-     /tmp/ccgnPuRF.s:379    .text:000001e4 $d
-     /tmp/ccgnPuRF.s:384    .text:000001ec $t
-     /tmp/ccgnPuRF.s:389    .text:000001ec CAN_StructInit
-     /tmp/ccgnPuRF.s:432    .text:0000020c CAN_SlaveStartBank
-     /tmp/ccgnPuRF.s:463    .text:00000244 $d
-     /tmp/ccgnPuRF.s:467    .text:00000248 $t
-     /tmp/ccgnPuRF.s:472    .text:00000248 CAN_DBGFreeze
-     /tmp/ccgnPuRF.s:501    .text:0000025a CAN_TTComModeCmd
-     /tmp/ccgnPuRF.s:554    .text:000002b2 CAN_Transmit
-     /tmp/ccgnPuRF.s:665    .text:0000034c CAN_TransmitStatus
-     /tmp/ccgnPuRF.s:732    .text:0000038c $d
-     /tmp/ccgnPuRF.s:738    .text:00000398 $t
-     /tmp/ccgnPuRF.s:743    .text:00000398 CAN_CancelTransmit
-     /tmp/ccgnPuRF.s:783    .text:000003be CAN_Receive
-     /tmp/ccgnPuRF.s:882    .text:00000454 CAN_FIFORelease
-     /tmp/ccgnPuRF.s:911    .text:0000046a CAN_MessagePending
-     /tmp/ccgnPuRF.s:952    .text:00000480 CAN_OperatingModeRequest
-     /tmp/ccgnPuRF.s:1069   .text:00000508 CAN_Sleep
-     /tmp/ccgnPuRF.s:1101   .text:00000522 CAN_WakeUp
-     /tmp/ccgnPuRF.s:1144   .text:00000544 CAN_GetLastErrorCode
-     /tmp/ccgnPuRF.s:1167   .text:0000054c CAN_GetReceiveErrorCounter
-     /tmp/ccgnPuRF.s:1190   .text:00000552 CAN_GetLSBTransmitErrorCounter
-     /tmp/ccgnPuRF.s:1213   .text:0000055a CAN_ITConfig
-     /tmp/ccgnPuRF.s:1245   .text:0000056a CAN_GetFlagStatus
-     /tmp/ccgnPuRF.s:1300   .text:0000059a CAN_ClearFlag
-     /tmp/ccgnPuRF.s:1346   .text:000005c4 $d
-     /tmp/ccgnPuRF.s:1350   .text:000005c8 $t
-     /tmp/ccgnPuRF.s:1355   .text:000005c8 CAN_GetITStatus
-     /tmp/ccgnPuRF.s:1571   .text:00000690 CAN_ClearITPendingBit
-     /tmp/ccgnPuRF.s:1664   .text:00000708 $d
+     /tmp/cc41v92q.s:19     .text:00000000 $t
+     /tmp/cc41v92q.s:24     .text:00000000 CAN_DeInit
+     /tmp/cc41v92q.s:76     .text:00000030 $d
+     /tmp/cc41v92q.s:80     .text:00000034 $t
+     /tmp/cc41v92q.s:85     .text:00000034 CAN_Init
+     /tmp/cc41v92q.s:231    .text:0000010a CAN_FilterInit
+     /tmp/cc41v92q.s:379    .text:000001e4 $d
+     /tmp/cc41v92q.s:384    .text:000001ec $t
+     /tmp/cc41v92q.s:389    .text:000001ec CAN_StructInit
+     /tmp/cc41v92q.s:432    .text:0000020c CAN_SlaveStartBank
+     /tmp/cc41v92q.s:463    .text:00000244 $d
+     /tmp/cc41v92q.s:467    .text:00000248 $t
+     /tmp/cc41v92q.s:472    .text:00000248 CAN_DBGFreeze
+     /tmp/cc41v92q.s:501    .text:0000025a CAN_TTComModeCmd
+     /tmp/cc41v92q.s:554    .text:000002b2 CAN_Transmit
+     /tmp/cc41v92q.s:665    .text:0000034c CAN_TransmitStatus
+     /tmp/cc41v92q.s:732    .text:0000038c $d
+     /tmp/cc41v92q.s:738    .text:00000398 $t
+     /tmp/cc41v92q.s:743    .text:00000398 CAN_CancelTransmit
+     /tmp/cc41v92q.s:783    .text:000003be CAN_Receive
+     /tmp/cc41v92q.s:882    .text:00000454 CAN_FIFORelease
+     /tmp/cc41v92q.s:911    .text:0000046a CAN_MessagePending
+     /tmp/cc41v92q.s:952    .text:00000480 CAN_OperatingModeRequest
+     /tmp/cc41v92q.s:1069   .text:00000508 CAN_Sleep
+     /tmp/cc41v92q.s:1101   .text:00000522 CAN_WakeUp
+     /tmp/cc41v92q.s:1144   .text:00000544 CAN_GetLastErrorCode
+     /tmp/cc41v92q.s:1167   .text:0000054c CAN_GetReceiveErrorCounter
+     /tmp/cc41v92q.s:1190   .text:00000552 CAN_GetLSBTransmitErrorCounter
+     /tmp/cc41v92q.s:1213   .text:0000055a CAN_ITConfig
+     /tmp/cc41v92q.s:1245   .text:0000056a CAN_GetFlagStatus
+     /tmp/cc41v92q.s:1300   .text:0000059a CAN_ClearFlag
+     /tmp/cc41v92q.s:1346   .text:000005c4 $d
+     /tmp/cc41v92q.s:1350   .text:000005c8 $t
+     /tmp/cc41v92q.s:1355   .text:000005c8 CAN_GetITStatus
+     /tmp/cc41v92q.s:1571   .text:00000690 CAN_ClearITPendingBit
+     /tmp/cc41v92q.s:1664   .text:00000708 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

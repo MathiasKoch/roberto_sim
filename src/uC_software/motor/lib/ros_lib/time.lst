@@ -257,22 +257,22 @@
  192              		.cantunwind
  193              		.fnend
  195              	.Letext0:
- 196              		.file 2 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
- 197              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 196              		.file 2 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types
+ 197              		.file 3 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
  198              		.file 4 "./lib/ros_lib/ros/duration.h"
  199              		.file 5 "lib/ros_lib/ros/time.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 time.cpp
-     /tmp/ccflJOua.s:19     .text:00000000 $t
-     /tmp/ccflJOua.s:24     .text:00000000 _ZN3ros16normalizeSecNSecERmS0_
-     /tmp/ccflJOua.s:60     .text:00000018 $d
+     /tmp/cczA1hOE.s:19     .text:00000000 $t
+     /tmp/cczA1hOE.s:24     .text:00000000 _ZN3ros16normalizeSecNSecERmS0_
+     /tmp/cczA1hOE.s:60     .text:00000018 $d
                        .ARM.exidx:00000000 $d
-     /tmp/ccflJOua.s:66     .text:0000001c $t
-     /tmp/ccflJOua.s:71     .text:0000001c _ZN3ros4Time8fromNSecEl
-     /tmp/ccflJOua.s:103    .text:00000038 $d
-     /tmp/ccflJOua.s:109    .text:0000003c $t
-     /tmp/ccflJOua.s:114    .text:0000003c _ZN3ros4TimepLERKNS_8DurationE
-     /tmp/ccflJOua.s:156    .text:00000058 _ZN3ros4TimemIERKNS_8DurationE
+     /tmp/cczA1hOE.s:66     .text:0000001c $t
+     /tmp/cczA1hOE.s:71     .text:0000001c _ZN3ros4Time8fromNSecEl
+     /tmp/cczA1hOE.s:103    .text:00000038 $d
+     /tmp/cczA1hOE.s:109    .text:0000003c $t
+     /tmp/cczA1hOE.s:114    .text:0000003c _ZN3ros4TimepLERKNS_8DurationE
+     /tmp/cczA1hOE.s:156    .text:00000058 _ZN3ros4TimemIERKNS_8DurationE
                      .debug_frame:00000010 $d
 
 NO UNDEFINED SYMBOLS

@@ -12,6 +12,7 @@
 
 #include <ros.h>
 #include <std_msgs/String.h>
+#include <std_msgs/Float32.h>
 #include <std_msgs/UInt8.h>
 #include <roberto_msgs/MotorState.h>
 
@@ -44,7 +45,7 @@ void motor_cb( const roberto_msgs::MotorState& cmd_msg){
 ros::Subscriber<roberto_msgs::MotorState> motor_sub("motor", &motor_cb);
 ros::Subscriber<std_msgs::UInt8> led_sub("led", &led_cb);
 
-std_msgs::String str_msg;
+std_msgs::Float32 str_msg;
 ros::Publisher chatter("encoder", &str_msg);
 
 char hello[25];
@@ -81,6 +82,8 @@ int main(){
               GPIO_Pin_15, GPIOC, GPIO_Pin_0, GPIOA,
               GPIO_Pin_8, GPIOA);
   FR.encoderAddr = (0x10 | 0x08);
+  FR.setRegulator(5000,5000,2,100000);
+  FR.wheelRadius = 0.04;
 
   motorSettings FL(MOTOR_TYPE_DC_MOTOR, "front_left", TIM3, 4);
   FL.setDCPins(GPIO_Pin_2,GPIOB, GPIO_Pin_5,GPIOA,
@@ -137,12 +140,12 @@ int main(){
   servo_left->setReference(90);
   servo_right->setReference(100);
 
-  servo_left->update(1);
-  servo_right->update(1);
+  //servo_left->update(1);
+  //servo_right->update(1);
   //rear_right->update(1);
   //rear_left->update(1);
-  front_left->update(1);
-  front_right->update(1);
+  //front_left->update(1);
+  //front_right->update(1);
 
  
   /*int16_t speed = 0;*/
@@ -155,16 +158,16 @@ int main(){
   while (1){
     debug_toggle();
 
+    front_right->setReference(2);
+    float s_ = front_right->update(0.1);
 
-
-   /* sprintf(hello, "Speed is:");
-    str_msg.data = hello;
-    chatter.publish( &str_msg );*/
+    //printf(hello, "Speed is: %d", (int)s_);
+    str_msg.data = s_;
+    chatter.publish( &str_msg );
 
     nh.spinOnce();
 
-
-    delay(100);
+    delay(10);
   }
   return 0;
 }

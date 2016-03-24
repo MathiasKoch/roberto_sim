@@ -1,4 +1,4 @@
-GAS LISTING /tmp/cc2a5OnR.s 			page 1
+GAS LISTING /tmp/cchqVnd5.s 			page 1
 
 
    1               		.file	"encoder.c"
@@ -7,7 +7,7 @@ GAS LISTING /tmp/cc2a5OnR.s 			page 1
    4               	__SREG__ = 0x3f
    5               	__tmp_reg__ = 0
    6               	__zero_reg__ = 1
-   7               		.stabs	"/home/mathias/ROS/roberto_sim/src/uC_software/encoder/",100,0,2,.Ltext0
+   7               		.stabs	"/home/emil/Roberto/roberto_sim/src/uC_software/encoder/",100,0,2,.Ltext0
    8               		.stabs	"encoder.c",100,0,2,.Ltext0
    9               		.text
   10               	.Ltext0:
@@ -58,7 +58,7 @@ GAS LISTING /tmp/cc2a5OnR.s 			page 1
   55               		.stabs	"_Sat unsigned _Accum:t(0,44)=r(0,1);4;0;",128,0,0,0
   56               		.stabs	"_Sat unsigned long _Accum:t(0,45)=r(0,1);8;0;",128,0,0,0
   57               		.stabs	"_Sat unsigned long long _Accum:t(0,46)=r(0,1);8;0;",128,0,0,0
-GAS LISTING /tmp/cc2a5OnR.s 			page 2
+GAS LISTING /tmp/cchqVnd5.s 			page 2
 
 
   58               		.stabs	"void:t(0,47)=(0,47)",128,0,0,0
@@ -117,11 +117,11 @@ GAS LISTING /tmp/cc2a5OnR.s 			page 1
  111               		.stabs	"TWI_slave.h",130,0,0,0
  112               		.stabs	"TWI_statusReg:T(9,1)=u1all:(0,11),0,8;:(9,2)=s1lastTransOK:(0,11),0,1;RxDataInBuf:(0,11),1
  113               		.stabn	162,0,0,0
- 114               		.stabs	"AS5048:t(0,48)=(0,49)=s8raw_angle:(5,4),0,16;prev_angle:(5,4),16,16;speed:(5,3),32,16;rota
-GAS LISTING /tmp/cc2a5OnR.s 			page 3
+ 114               		.stabs	"AS5048:t(0,48)=(0,49)=s10raw_angle:(5,4),0,16;prev_angle:(5,4),16,16;dTicks:(5,3),32,16;dt
+GAS LISTING /tmp/cchqVnd5.s 			page 3
 
 
- 115               		.stabs	"__vector_14:F(0,47)",36,0,37,__vector_14
+ 115               		.stabs	"__vector_14:F(0,47)",36,0,40,__vector_14
  116               	.global	__vector_14
  117               		.type	__vector_14, @function
  118               	__vector_14:
@@ -144,26 +144,29 @@ GAS LISTING /tmp/cc2a5OnR.s 			page 1
   16:encoder.c     **** #define COMP_NONE 0x02
   17:encoder.c     **** 
   18:encoder.c     **** #define TICKS_PR_ROT 16384
-  19:encoder.c     **** 
-  20:encoder.c     **** typedef struct{
-  21:encoder.c     **** 	uint16_t raw_angle;
-  22:encoder.c     **** 	uint16_t prev_angle;
-  23:encoder.c     **** 	int16_t speed;
-  24:encoder.c     **** 	uint16_t rotations;
-  25:encoder.c     **** } AS5048;
-  26:encoder.c     **** 
-  27:encoder.c     **** 
-  28:encoder.c     **** 
-  29:encoder.c     **** unsigned char TWI_Act_On_Failure_In_Last_Transmission(unsigned char TWIerrorMsg);
-  30:encoder.c     **** void compute(AS5048* enc);
+  19:encoder.c     **** #define TIMERFREQ 1000
+  20:encoder.c     **** #define TICKS_TO_RADIANS TIMERFREQ*2*3.14159265359/TICKS_PR_ROT 
+  21:encoder.c     **** 
+  22:encoder.c     **** typedef struct{
+  23:encoder.c     **** 	uint16_t raw_angle;
+  24:encoder.c     **** 	uint16_t prev_angle;
+  25:encoder.c     **** 	int16_t  dTicks;
+  26:encoder.c     **** 	int16_t  dt; //ms
+  27:encoder.c     **** 	uint16_t rotations;
+  28:encoder.c     **** } AS5048;
+  29:encoder.c     **** 
+  30:encoder.c     **** 
   31:encoder.c     **** 
-  32:encoder.c     **** volatile bool update = false;
-  33:encoder.c     **** 
+  32:encoder.c     **** unsigned char TWI_Act_On_Failure_In_Last_Transmission(unsigned char TWIerrorMsg);
+  33:encoder.c     **** void compute(AS5048* enc);
   34:encoder.c     **** 
-  35:encoder.c     **** 
+  35:encoder.c     **** volatile bool update = false;
   36:encoder.c     **** 
-  37:encoder.c     **** ISR(TIMER0_COMPA_vect) {
- 120               		.stabn	68,0,37,.LM0-.LFBB1
+  37:encoder.c     **** 
+  38:encoder.c     **** 
+  39:encoder.c     **** 
+  40:encoder.c     **** ISR(TIMER0_COMPA_vect) {
+ 120               		.stabn	68,0,40,.LM0-.LFBB1
  121               	.LM0:
  122               	.LFBB1:
  123 0000 1F92      		push r1
@@ -175,18 +178,18 @@ GAS LISTING /tmp/cc2a5OnR.s 			page 1
  129               	/* prologue: Signal */
  130               	/* frame size = 0 */
  131               	/* stack size = 4 */
+GAS LISTING /tmp/cchqVnd5.s 			page 4
+
+
  132               	.L__stack_usage = 4
-  38:encoder.c     ****     update = true;
- 133               		.stabn	68,0,38,.LM1-.LFBB1
-GAS LISTING /tmp/cc2a5OnR.s 			page 4
-
-
+  41:encoder.c     ****     update = true;
+ 133               		.stabn	68,0,41,.LM1-.LFBB1
  134               	.LM1:
  135 000c 81E0      		ldi r24,lo8(1)
  136 000e 8093 0000 		sts update,r24
  137               	/* epilogue start */
-  39:encoder.c     **** }
- 138               		.stabn	68,0,39,.LM2-.LFBB1
+  42:encoder.c     **** }
+ 138               		.stabn	68,0,42,.LM2-.LFBB1
  139               	.LM2:
  140 0012 8F91      		pop r24
  141 0014 0F90      		pop r0
@@ -198,433 +201,395 @@ GAS LISTING /tmp/cc2a5OnR.s 			page 1
  147               	.Lscope1:
  148               		.stabs	"",36,0,0,.Lscope1-.LFBB1
  149               		.stabd	78,0,0
- 150               		.stabs	"compute:F(0,47)",36,0,115,compute
- 151               		.stabs	"enc:P(0,50)=*(0,48)",64,0,115,30
- 152               	.global	compute
- 153               		.type	compute, @function
- 154               	compute:
- 155               		.stabd	46,0,0
-  40:encoder.c     **** 
-  41:encoder.c     **** int main(int argc, const char* argv[]){
-  42:encoder.c     **** 	unsigned char messageBuf[TWI_BUFFER_SIZE];
+ 150               		.section	.text.startup,"ax",@progbits
+ 151               		.stabs	"main:F(0,1)",36,0,44,main
+ 152               		.stabs	"argc:P(0,1)",64,0,44,24
+ 153               		.stabs	"argv:P(0,50)=*(0,51)=*(0,52)=k(0,2)",64,0,44,22
+ 154               	.global	main
+ 155               		.type	main, @function
+ 156               	main:
+ 157               		.stabd	46,0,0
   43:encoder.c     **** 
-  44:encoder.c     **** 
-  45:encoder.c     **** 	// Setup address pins as input
-  46:encoder.c     **** 	DDRD &= ~((1 << 2) | (1 << 3));		// PD2 & PD3
+  44:encoder.c     **** int main(int argc, const char* argv[]){
+ 158               		.stabn	68,0,44,.LM3-.LFBB2
+ 159               	.LM3:
+ 160               	.LFBB2:
+ 161 0000 CF93      		push r28
+ 162 0002 DF93      		push r29
+ 163 0004 00D0      		rcall .
+ 164 0006 00D0      		rcall .
+ 165 0008 CDB7      		in r28,__SP_L__
+ 166 000a DEB7      		in r29,__SP_H__
+ 167               	/* prologue: function */
+ 168               	/* frame size = 4 */
+ 169               	/* stack size = 6 */
+ 170               	.L__stack_usage = 6
+  45:encoder.c     **** 	unsigned char messageBuf[TWI_BUFFER_SIZE];
+  46:encoder.c     **** 
   47:encoder.c     **** 
-  48:encoder.c     ****   	unsigned char TWI_slaveAddress = (0x10 | (PIND & 0x04) | (PIND & 0x08));
-  49:encoder.c     **** 
+  48:encoder.c     **** 	// Setup address pins as input
+  49:encoder.c     **** 	DDRD &= ~((1 << 2) | (1 << 3));		// PD2 & PD3
+ 171               		.stabn	68,0,49,.LM4-.LFBB2
+ 172               	.LM4:
+ 173 000c 8AB1      		in r24,0xa
+ 174 000e 837F      		andi r24,lo8(-13)
+ 175 0010 8AB9      		out 0xa,r24
   50:encoder.c     **** 
-  51:encoder.c     **** 	// Initialise TWI module for slave operation. Include address and/or enable General Call.
-  52:encoder.c     **** 	TWI_Slave_Initialise((unsigned char)((TWI_slaveAddress<<TWI_ADR_BITS) | (FALSE<<TWI_GEN_BIT))); 
+  51:encoder.c     ****   	unsigned char TWI_slaveAddress = (0x10 | (PIND & 0x04) | (PIND & 0x08));
+ 176               		.stabn	68,0,51,.LM5-.LFBB2
+ 177               	.LM5:
+GAS LISTING /tmp/cchqVnd5.s 			page 5
+
+
+ 178 0012 89B1      		in r24,0x9
+ 179 0014 99B1      		in r25,0x9
+ 180 0016 8470      		andi r24,lo8(4)
+ 181 0018 9870      		andi r25,lo8(8)
+ 182 001a 892B      		or r24,r25
+ 183 001c 8061      		ori r24,lo8(16)
+  52:encoder.c     **** 
   53:encoder.c     **** 
-  54:encoder.c     **** 	AS5048A_Init();
-  55:encoder.c     **** 
-  56:encoder.c     **** 	AS5048 enc;
-  57:encoder.c     **** 	enc.raw_angle = 0;
-  58:encoder.c     **** 	enc.prev_angle = 0;
-  59:encoder.c     **** 	enc.rotations = 0;
-  60:encoder.c     **** 
-  61:encoder.c     **** 	
-  62:encoder.c     **** 
-  63:encoder.c     ****     // start timer0 at 1 kHz
-  64:encoder.c     **** 	TCCR0A |= (1 << WGM01);
-  65:encoder.c     ****     OCR0A = 0xFA;		
-  66:encoder.c     ****     TIMSK0=(1<<OCIE0A);
-  67:encoder.c     ****     TCCR0B |= (1<<CS01) | (1<<CS00);
-  68:encoder.c     **** 	               
-  69:encoder.c     **** 	sei();
-  70:encoder.c     **** 	
-  71:encoder.c     **** 
-  72:encoder.c     **** 
-  73:encoder.c     **** 	// Start the TWI transceiver to enable reseption of the first command from the TWI Master.
-GAS LISTING /tmp/cc2a5OnR.s 			page 5
+  54:encoder.c     **** 	// Initialise TWI module for slave operation. Include address and/or enable General Call.
+  55:encoder.c     **** 	TWI_Slave_Initialise((unsigned char)((TWI_slaveAddress<<TWI_ADR_BITS) | (FALSE<<TWI_GEN_BIT))); 
+ 184               		.stabn	68,0,55,.LM6-.LFBB2
+ 185               	.LM6:
+ 186 001e 880F      		lsl r24
+ 187 0020 0E94 0000 		call TWI_Slave_Initialise
+  56:encoder.c     **** 
+  57:encoder.c     **** 	AS5048A_Init();
+ 188               		.stabn	68,0,57,.LM7-.LFBB2
+ 189               	.LM7:
+ 190 0024 0E94 0000 		call AS5048A_Init
+  58:encoder.c     **** 
+  59:encoder.c     **** 	AS5048 enc;
+  60:encoder.c     **** 	enc.raw_angle = 0;
+  61:encoder.c     **** 	enc.prev_angle = 0;
+  62:encoder.c     **** 	enc.rotations = 0;
+  63:encoder.c     **** 	enc.dt = 0;
+  64:encoder.c     **** 	enc.dTicks = 0;
+  65:encoder.c     **** 	
+  66:encoder.c     ****     // start timer0 at 1 kHz
+  67:encoder.c     ****     //16MHz/(64*(OCR0A+1))
+  68:encoder.c     **** 	TCCR0A |= (1 << WGM01);
+ 191               		.stabn	68,0,68,.LM8-.LFBB2
+ 192               	.LM8:
+ 193 0028 84B5      		in r24,0x24
+ 194 002a 8260      		ori r24,lo8(2)
+ 195 002c 84BD      		out 0x24,r24
+  69:encoder.c     ****     OCR0A = 249;		
+ 196               		.stabn	68,0,69,.LM9-.LFBB2
+ 197               	.LM9:
+ 198 002e 89EF      		ldi r24,lo8(-7)
+ 199 0030 87BD      		out 0x27,r24
+  70:encoder.c     ****     TIMSK0=(1<<OCIE0A);
+ 200               		.stabn	68,0,70,.LM10-.LFBB2
+ 201               	.LM10:
+ 202 0032 82E0      		ldi r24,lo8(2)
+ 203 0034 8093 6E00 		sts 110,r24
+  71:encoder.c     ****     TCCR0B |= (1<<CS01) | (1<<CS00);
+ 204               		.stabn	68,0,71,.LM11-.LFBB2
+ 205               	.LM11:
+ 206 0038 85B5      		in r24,0x25
+ 207 003a 8360      		ori r24,lo8(3)
+ 208 003c 85BD      		out 0x25,r24
+  72:encoder.c     **** 	               
+  73:encoder.c     **** 	sei();
+ 209               		.stabn	68,0,73,.LM12-.LFBB2
+ 210               	.LM12:
+ 211               	/* #APP */
+ 212               	 ;  73 "encoder.c" 1
+GAS LISTING /tmp/cchqVnd5.s 			page 6
 
 
-  74:encoder.c     **** 	messageBuf[0] = 0x00;
-  75:encoder.c     **** 	messageBuf[1] = 0x00;
-  76:encoder.c     **** 	//messageBuf[2] = 0x00;
-  77:encoder.c     **** //	messageBuf[3] = 0x00;
-  78:encoder.c     **** //	messageBuf[4] = 0x00;
-  79:encoder.c     **** 	TWI_Start_Transceiver_With_Data(messageBuf, 2);
-  80:encoder.c     **** 
-  81:encoder.c     **** 	
+ 213 003e 7894      		sei
+ 214               	 ;  0 "" 2
+  74:encoder.c     **** 	
+  75:encoder.c     **** 	// Start the TWI transceiver to enable reseption of the first command from the TWI Master.
+  76:encoder.c     **** 	messageBuf[0] = 0x00;
+ 215               		.stabn	68,0,76,.LM13-.LFBB2
+ 216               	.LM13:
+ 217               	/* #NOAPP */
+ 218 0040 1982      		std Y+1,__zero_reg__
+  77:encoder.c     **** 	messageBuf[1] = 0x00;
+ 219               		.stabn	68,0,77,.LM14-.LFBB2
+ 220               	.LM14:
+ 221 0042 1A82      		std Y+2,__zero_reg__
+  78:encoder.c     **** 	//  messageBuf[2] = 0x00;
+  79:encoder.c     **** 	//	messageBuf[3] = 0x00;
+  80:encoder.c     **** 	//	messageBuf[4] = 0x00;
+  81:encoder.c     **** 	TWI_Start_Transceiver_With_Data(messageBuf, TWI_BUFFER_SIZE);
+ 222               		.stabn	68,0,81,.LM15-.LFBB2
+ 223               	.LM15:
+ 224 0044 64E0      		ldi r22,lo8(4)
+ 225 0046 CE01      		movw r24,r28
+ 226 0048 0196      		adiw r24,1
+ 227 004a 0E94 0000 		call TWI_Start_Transceiver_With_Data
+  63:encoder.c     **** 	enc.dt = 0;
+ 228               		.stabn	68,0,63,.LM16-.LFBB2
+ 229               	.LM16:
+ 230 004e E12C      		mov r14,__zero_reg__
+ 231 0050 F12C      		mov r15,__zero_reg__
+  64:encoder.c     **** 	enc.dTicks = 0;
+ 232               		.stabn	68,0,64,.LM17-.LFBB2
+ 233               	.LM17:
+ 234 0052 C12C      		mov r12,__zero_reg__
+ 235 0054 D12C      		mov r13,__zero_reg__
+  61:encoder.c     **** 	enc.prev_angle = 0;
+ 236               		.stabn	68,0,61,.LM18-.LFBB2
+ 237               	.LM18:
+ 238 0056 00E0      		ldi r16,0
+ 239 0058 10E0      		ldi r17,0
+ 240               	.L3:
   82:encoder.c     **** 
   83:encoder.c     **** 	while(1){
   84:encoder.c     **** 		if(update){
+ 241               		.stabn	68,0,84,.LM19-.LFBB2
+ 242               	.LM19:
+ 243 005a 8091 0000 		lds r24,update
+ 244 005e 8823      		tst r24
+ 245 0060 01F0      		breq .L4
   85:encoder.c     **** 			update = false;
+ 246               		.stabn	68,0,85,.LM20-.LFBB2
+ 247               	.LM20:
+ 248 0062 1092 0000 		sts update,__zero_reg__
   86:encoder.c     **** 			enc.raw_angle = AS5048A_getRawRotation();
-  87:encoder.c     **** 			compute(&enc);
-  88:encoder.c     **** 		}
-  89:encoder.c     **** 
-  90:encoder.c     **** 
-  91:encoder.c     **** 		// Check if the TWI Transceiver has completed an operation.
-  92:encoder.c     **** 		if(!TWI_Transceiver_Busy()){
-  93:encoder.c     **** 			// Check if the last operation was successful
-  94:encoder.c     **** 			if(TWI_statusReg.lastTransOK){
-  95:encoder.c     **** 				// Check if the TWI Transceiver has already been started.
-  96:encoder.c     **** 				// If not then restart it to prepare it for new receptions.             
-  97:encoder.c     **** 				if(!TWI_Transceiver_Busy()){
-  98:encoder.c     **** 					//messageBuf[0] = enc.rotations;
-  99:encoder.c     **** 					//messageBuf[0] = (enc.raw_angle  >> 8) & 0xFF;
- 100:encoder.c     **** 					//messageBuf[1] = enc.raw_angle  & 0xFF;
- 101:encoder.c     **** 					messageBuf[0] = (enc.speed  >> 8) & 0xFF;
- 102:encoder.c     **** 					messageBuf[1] = enc.speed  & 0xFF;
- 103:encoder.c     **** 					TWI_Start_Transceiver_With_Data(messageBuf, 2);
- 104:encoder.c     **** 				}
- 105:encoder.c     **** 			}else{ // Ends up here if the last operation completed unsuccessfully
- 106:encoder.c     **** 				TWI_Act_On_Failure_In_Last_Transmission(TWI_Get_State_Info());
- 107:encoder.c     **** 			}
- 108:encoder.c     **** 		}
- 109:encoder.c     **** 
- 110:encoder.c     **** 	}
- 111:encoder.c     **** 
- 112:encoder.c     **** 	return 0;
- 113:encoder.c     **** }
- 114:encoder.c     **** 
- 115:encoder.c     **** void compute(AS5048* enc){ 
- 156               		.stabn	68,0,115,.LM3-.LFBB2
- 157               	.LM3:
- 158               	.LFBB2:
- 159               	/* prologue: function */
- 160               	/* frame size = 0 */
- 161               	/* stack size = 0 */
- 162               	.L__stack_usage = 0
- 163 001e FC01      		movw r30,r24
- 116:encoder.c     **** 	// Shift to 16 bit to match overflow from 14 bit encoder
- 117:encoder.c     **** 	// Calculate speed and return to 14 bits again
- 118:encoder.c     **** 	enc->speed = ((enc->raw_angle<<2) - (enc->prev_angle<<2)) >>2;
- 164               		.stabn	68,0,118,.LM4-.LFBB2
- 165               	.LM4:
- 166 0020 2081      		ld r18,Z
- 167 0022 3181      		ldd r19,Z+1
-GAS LISTING /tmp/cc2a5OnR.s 			page 6
+ 249               		.stabn	68,0,86,.LM21-.LFBB2
+ 250               	.LM21:
+ 251 0066 0E94 0000 		call AS5048A_getRawRotation
+  87:encoder.c     **** 			
+  88:encoder.c     **** 			// Shift to 16 bit to match overflow from 14 bit encoder
+GAS LISTING /tmp/cchqVnd5.s 			page 7
 
 
- 168 0024 8281      		ldd r24,Z+2
- 169 0026 9381      		ldd r25,Z+3
- 170 0028 A901      		movw r20,r18
- 171 002a 481B      		sub r20,r24
- 172 002c 590B      		sbc r21,r25
- 173 002e CA01      		movw r24,r20
- 174 0030 9F73      		andi r25,63
- 175 0032 9583      		std Z+5,r25
- 176 0034 8483      		std Z+4,r24
- 119:encoder.c     **** 
- 120:encoder.c     **** 	// Update lagged position
- 121:encoder.c     **** 	enc->prev_angle = enc->raw_angle;
- 177               		.stabn	68,0,121,.LM5-.LFBB2
- 178               	.LM5:
- 179 0036 3383      		std Z+3,r19
- 180 0038 2283      		std Z+2,r18
- 181 003a 0895      		ret
- 182               		.size	compute, .-compute
- 183               	.Lscope2:
- 184               		.stabs	"",36,0,0,.Lscope2-.LFBB2
- 185               		.stabd	78,0,0
- 186               		.section	.text.startup,"ax",@progbits
- 187               		.stabs	"main:F(0,1)",36,0,41,main
- 188               		.stabs	"argc:P(0,1)",64,0,41,24
- 189               		.stabs	"argv:P(0,51)=*(0,52)=*(0,53)=k(0,2)",64,0,41,22
- 190               	.global	main
- 191               		.type	main, @function
- 192               	main:
- 193               		.stabd	46,0,0
-  41:encoder.c     **** int main(int argc, const char* argv[]){
- 194               		.stabn	68,0,41,.LM6-.LFBB3
- 195               	.LM6:
- 196               	.LFBB3:
- 197 0000 CF93      		push r28
- 198 0002 DF93      		push r29
- 199 0004 CDB7      		in r28,__SP_L__
- 200 0006 DEB7      		in r29,__SP_H__
- 201 0008 2A97      		sbiw r28,10
- 202 000a 0FB6      		in __tmp_reg__,__SREG__
- 203 000c F894      		cli
- 204 000e DEBF      		out __SP_H__,r29
- 205 0010 0FBE      		out __SREG__,__tmp_reg__
- 206 0012 CDBF      		out __SP_L__,r28
- 207               	/* prologue: function */
- 208               	/* frame size = 10 */
- 209               	/* stack size = 12 */
- 210               	.L__stack_usage = 12
-  46:encoder.c     **** 	DDRD &= ~((1 << 2) | (1 << 3));		// PD2 & PD3
- 211               		.stabn	68,0,46,.LM7-.LFBB3
- 212               	.LM7:
- 213 0014 8AB1      		in r24,0xa
- 214 0016 837F      		andi r24,lo8(-13)
- 215 0018 8AB9      		out 0xa,r24
-  48:encoder.c     ****   	unsigned char TWI_slaveAddress = (0x10 | (PIND & 0x04) | (PIND & 0x08));
- 216               		.stabn	68,0,48,.LM8-.LFBB3
- 217               	.LM8:
- 218 001a 89B1      		in r24,0x9
-GAS LISTING /tmp/cc2a5OnR.s 			page 7
+  89:encoder.c     **** 			// Calculate speed and return to 14 bits again
+  90:encoder.c     **** 			enc.dTicks += ((int16_t)((enc.raw_angle<<2) - (enc.prev_angle<<2)))>>2; //dTicks
+ 252               		.stabn	68,0,90,.LM22-.LFBB2
+ 253               	.LM22:
+ 254 006a 9C01      		movw r18,r24
+ 255 006c 201B      		sub r18,r16
+ 256 006e 310B      		sbc r19,r17
+ 257 0070 220F      		lsl r18
+ 258 0072 331F      		rol r19
+ 259 0074 220F      		lsl r18
+ 260 0076 331F      		rol r19
+ 261 0078 3595      		asr r19
+ 262 007a 2795      		ror r18
+ 263 007c 3595      		asr r19
+ 264 007e 2795      		ror r18
+ 265 0080 C20E      		add r12,r18
+ 266 0082 D31E      		adc r13,r19
+  91:encoder.c     **** 			// Update lagged position
+  92:encoder.c     **** 			enc.prev_angle = enc.raw_angle;
+  93:encoder.c     **** 			enc.dt += 1;
+ 267               		.stabn	68,0,93,.LM23-.LFBB2
+ 268               	.LM23:
+ 269 0084 2FEF      		ldi r18,-1
+ 270 0086 E21A      		sub r14,r18
+ 271 0088 F20A      		sbc r15,r18
+  92:encoder.c     **** 			enc.prev_angle = enc.raw_angle;
+ 272               		.stabn	68,0,92,.LM24-.LFBB2
+ 273               	.LM24:
+ 274 008a 8C01      		movw r16,r24
+ 275               	.L4:
+  94:encoder.c     **** 		}
+  95:encoder.c     **** 
+  96:encoder.c     **** 		// Check if the TWI Transceiver has completed an operation.
+  97:encoder.c     **** 		if(!TWI_Transceiver_Busy()){
+ 276               		.stabn	68,0,97,.LM25-.LFBB2
+ 277               	.LM25:
+ 278 008c 0E94 0000 		call TWI_Transceiver_Busy
+ 279 0090 8111      		cpse r24,__zero_reg__
+ 280 0092 00C0      		rjmp .L3
+  98:encoder.c     **** 			// Check if the last operation was successful
+  99:encoder.c     **** 			if(TWI_statusReg.lastTransOK){
+ 281               		.stabn	68,0,99,.LM26-.LFBB2
+ 282               	.LM26:
+ 283 0094 8091 0000 		lds r24,TWI_statusReg
+ 284 0098 80FF      		sbrs r24,0
+ 285 009a 00C0      		rjmp .L6
+ 100:encoder.c     **** 				// Check if the TWI Transceiver has already been started.
+ 101:encoder.c     **** 				// If not then restart it to prepare it for new receptions.             
+ 102:encoder.c     **** 				if(!TWI_Transceiver_Busy()){
+ 286               		.stabn	68,0,102,.LM27-.LFBB2
+ 287               	.LM27:
+ 288 009c 0E94 0000 		call TWI_Transceiver_Busy
+ 289 00a0 8111      		cpse r24,__zero_reg__
+ 290 00a2 00C0      		rjmp .L3
+ 291               	.LBB5:
+ 103:encoder.c     **** 					int32_t speed = enc.dTicks/enc.dt;///enc.dt*1000;
+ 292               		.stabn	68,0,103,.LM28-.LFBB2
+GAS LISTING /tmp/cchqVnd5.s 			page 8
 
 
- 219 001c 99B1      		in r25,0x9
- 220 001e 8470      		andi r24,lo8(4)
- 221 0020 9870      		andi r25,lo8(8)
- 222 0022 892B      		or r24,r25
- 223 0024 8061      		ori r24,lo8(16)
-  52:encoder.c     **** 	TWI_Slave_Initialise((unsigned char)((TWI_slaveAddress<<TWI_ADR_BITS) | (FALSE<<TWI_GEN_BIT))); 
- 224               		.stabn	68,0,52,.LM9-.LFBB3
- 225               	.LM9:
- 226 0026 880F      		lsl r24
- 227 0028 0E94 0000 		call TWI_Slave_Initialise
-  54:encoder.c     **** 	AS5048A_Init();
- 228               		.stabn	68,0,54,.LM10-.LFBB3
- 229               	.LM10:
- 230 002c 0E94 0000 		call AS5048A_Init
-  57:encoder.c     **** 	enc.raw_angle = 0;
- 231               		.stabn	68,0,57,.LM11-.LFBB3
- 232               	.LM11:
- 233 0030 1A82      		std Y+2,__zero_reg__
- 234 0032 1982      		std Y+1,__zero_reg__
-  58:encoder.c     **** 	enc.prev_angle = 0;
- 235               		.stabn	68,0,58,.LM12-.LFBB3
- 236               	.LM12:
- 237 0034 1C82      		std Y+4,__zero_reg__
- 238 0036 1B82      		std Y+3,__zero_reg__
-  59:encoder.c     **** 	enc.rotations = 0;
- 239               		.stabn	68,0,59,.LM13-.LFBB3
- 240               	.LM13:
- 241 0038 1886      		std Y+8,__zero_reg__
- 242 003a 1F82      		std Y+7,__zero_reg__
-  64:encoder.c     **** 	TCCR0A |= (1 << WGM01);
- 243               		.stabn	68,0,64,.LM14-.LFBB3
- 244               	.LM14:
- 245 003c 84B5      		in r24,0x24
- 246 003e 8260      		ori r24,lo8(2)
- 247 0040 84BD      		out 0x24,r24
-  65:encoder.c     ****     OCR0A = 0xFA;		
- 248               		.stabn	68,0,65,.LM15-.LFBB3
- 249               	.LM15:
- 250 0042 8AEF      		ldi r24,lo8(-6)
- 251 0044 87BD      		out 0x27,r24
-  66:encoder.c     ****     TIMSK0=(1<<OCIE0A);
- 252               		.stabn	68,0,66,.LM16-.LFBB3
- 253               	.LM16:
- 254 0046 82E0      		ldi r24,lo8(2)
- 255 0048 8093 6E00 		sts 110,r24
-  67:encoder.c     ****     TCCR0B |= (1<<CS01) | (1<<CS00);
- 256               		.stabn	68,0,67,.LM17-.LFBB3
- 257               	.LM17:
- 258 004c 85B5      		in r24,0x25
- 259 004e 8360      		ori r24,lo8(3)
- 260 0050 85BD      		out 0x25,r24
-  69:encoder.c     **** 	sei();
- 261               		.stabn	68,0,69,.LM18-.LFBB3
- 262               	.LM18:
- 263               	/* #APP */
- 264               	 ;  69 "encoder.c" 1
- 265 0052 7894      		sei
-GAS LISTING /tmp/cc2a5OnR.s 			page 8
+ 293               	.LM28:
+ 294 00a4 C601      		movw r24,r12
+ 295 00a6 B701      		movw r22,r14
+ 296 00a8 0E94 0000 		call __divmodhi4
+ 297 00ac 9B01      		movw r18,r22
+ 298 00ae CB01      		movw r24,r22
+ 299 00b0 AA27      		clr r26
+ 300 00b2 97FD      		sbrc r25,7
+ 301 00b4 A095      		com r26
+ 302 00b6 BA2F      		mov r27,r26
+ 104:encoder.c     **** 
+ 105:encoder.c     **** 					messageBuf[0] = (speed  >> 24) & 0xFF;
+ 303               		.stabn	68,0,105,.LM29-.LFBB2
+ 304               	.LM29:
+ 305 00b8 B983      		std Y+1,r27
+ 106:encoder.c     **** 					messageBuf[1] = (speed  >> 16) & 0xFF;
+ 306               		.stabn	68,0,106,.LM30-.LFBB2
+ 307               	.LM30:
+ 308 00ba AD01      		movw r20,r26
+ 309 00bc 7727      		clr r23
+ 310 00be 57FD      		sbrc r21,7
+ 311 00c0 7095      		com r23
+ 312 00c2 672F      		mov r22,r23
+ 313 00c4 4A83      		std Y+2,r20
+ 107:encoder.c     **** 					messageBuf[2] = (speed  >> 8) & 0xFF;
+ 314               		.stabn	68,0,107,.LM31-.LFBB2
+ 315               	.LM31:
+ 316 00c6 9B83      		std Y+3,r25
+ 108:encoder.c     **** 					messageBuf[3] = speed  & 0xFF;
+ 317               		.stabn	68,0,108,.LM32-.LFBB2
+ 318               	.LM32:
+ 319 00c8 2C83      		std Y+4,r18
+ 109:encoder.c     **** 					TWI_Start_Transceiver_With_Data(messageBuf, TWI_BUFFER_SIZE);
+ 320               		.stabn	68,0,109,.LM33-.LFBB2
+ 321               	.LM33:
+ 322 00ca 64E0      		ldi r22,lo8(4)
+ 323 00cc CE01      		movw r24,r28
+ 324 00ce 0196      		adiw r24,1
+ 325 00d0 0E94 0000 		call TWI_Start_Transceiver_With_Data
+ 110:encoder.c     **** 
+ 111:encoder.c     **** 					// Reset counters
+ 112:encoder.c     **** 					enc.dTicks = 0;
+ 113:encoder.c     **** 					enc.dt = 0;
+ 326               		.stabn	68,0,113,.LM34-.LFBB2
+ 327               	.LM34:
+ 328 00d4 E12C      		mov r14,__zero_reg__
+ 329 00d6 F12C      		mov r15,__zero_reg__
+ 112:encoder.c     **** 					enc.dTicks = 0;
+ 330               		.stabn	68,0,112,.LM35-.LFBB2
+ 331               	.LM35:
+ 332 00d8 C12C      		mov r12,__zero_reg__
+ 333 00da D12C      		mov r13,__zero_reg__
+ 334 00dc 00C0      		rjmp .L3
+ 335               	.L6:
+ 336               	.LBE5:
+ 114:encoder.c     **** 				}
+ 115:encoder.c     **** 			}else{ // Ends up here if the last operation completed unsuccessfully
+GAS LISTING /tmp/cchqVnd5.s 			page 9
 
 
- 266               	 ;  0 "" 2
-  74:encoder.c     **** 	messageBuf[0] = 0x00;
- 267               		.stabn	68,0,74,.LM19-.LFBB3
- 268               	.LM19:
- 269               	/* #NOAPP */
- 270 0054 1986      		std Y+9,__zero_reg__
-  75:encoder.c     **** 	messageBuf[1] = 0x00;
- 271               		.stabn	68,0,75,.LM20-.LFBB3
- 272               	.LM20:
- 273 0056 1A86      		std Y+10,__zero_reg__
- 274               	.L13:
-  79:encoder.c     **** 	TWI_Start_Transceiver_With_Data(messageBuf, 2);
- 275               		.stabn	68,0,79,.LM21-.LFBB3
- 276               	.LM21:
- 277 0058 62E0      		ldi r22,lo8(2)
- 278 005a CE01      		movw r24,r28
- 279 005c 0996      		adiw r24,9
- 280 005e 0E94 0000 		call TWI_Start_Transceiver_With_Data
- 281               	.L7:
-  84:encoder.c     **** 		if(update){
- 282               		.stabn	68,0,84,.LM22-.LFBB3
- 283               	.LM22:
- 284 0062 8091 0000 		lds r24,update
- 285 0066 8823      		tst r24
- 286 0068 01F0      		breq .L5
-  85:encoder.c     **** 			update = false;
- 287               		.stabn	68,0,85,.LM23-.LFBB3
- 288               	.LM23:
- 289 006a 1092 0000 		sts update,__zero_reg__
-  86:encoder.c     **** 			enc.raw_angle = AS5048A_getRawRotation();
- 290               		.stabn	68,0,86,.LM24-.LFBB3
- 291               	.LM24:
- 292 006e 0E94 0000 		call AS5048A_getRawRotation
- 293 0072 9A83      		std Y+2,r25
- 294 0074 8983      		std Y+1,r24
-  87:encoder.c     **** 			compute(&enc);
- 295               		.stabn	68,0,87,.LM25-.LFBB3
- 296               	.LM25:
- 297 0076 CE01      		movw r24,r28
- 298 0078 0196      		adiw r24,1
- 299 007a 0E94 0000 		call compute
- 300               	.L5:
-  92:encoder.c     **** 		if(!TWI_Transceiver_Busy()){
- 301               		.stabn	68,0,92,.LM26-.LFBB3
- 302               	.LM26:
- 303 007e 0E94 0000 		call TWI_Transceiver_Busy
- 304 0082 8111      		cpse r24,__zero_reg__
- 305 0084 00C0      		rjmp .L7
-  94:encoder.c     **** 			if(TWI_statusReg.lastTransOK){
- 306               		.stabn	68,0,94,.LM27-.LFBB3
- 307               	.LM27:
- 308 0086 8091 0000 		lds r24,TWI_statusReg
- 309 008a 80FF      		sbrs r24,0
- 310 008c 00C0      		rjmp .L8
-  97:encoder.c     **** 				if(!TWI_Transceiver_Busy()){
- 311               		.stabn	68,0,97,.LM28-.LFBB3
- 312               	.LM28:
-GAS LISTING /tmp/cc2a5OnR.s 			page 9
-
-
- 313 008e 0E94 0000 		call TWI_Transceiver_Busy
- 314 0092 8111      		cpse r24,__zero_reg__
- 315 0094 00C0      		rjmp .L7
- 101:encoder.c     **** 					messageBuf[0] = (enc.speed  >> 8) & 0xFF;
- 316               		.stabn	68,0,101,.LM29-.LFBB3
- 317               	.LM29:
- 318 0096 8D81      		ldd r24,Y+5
- 319 0098 9E81      		ldd r25,Y+6
- 320 009a 9987      		std Y+9,r25
- 102:encoder.c     **** 					messageBuf[1] = enc.speed  & 0xFF;
- 321               		.stabn	68,0,102,.LM30-.LFBB3
- 322               	.LM30:
- 323 009c 8A87      		std Y+10,r24
- 324 009e 00C0      		rjmp .L13
- 325               	.L8:
- 106:encoder.c     **** 				TWI_Act_On_Failure_In_Last_Transmission(TWI_Get_State_Info());
- 326               		.stabn	68,0,106,.LM31-.LFBB3
- 327               	.LM31:
- 328 00a0 0E94 0000 		call TWI_Get_State_Info
- 329               	.LBB4:
- 330               	.LBB5:
+ 116:encoder.c     **** 				TWI_Act_On_Failure_In_Last_Transmission(TWI_Get_State_Info());
+ 337               		.stabn	68,0,116,.LM36-.LFBB2
+ 338               	.LM36:
+ 339 00de 0E94 0000 		call TWI_Get_State_Info
+ 340               	.LBB6:
+ 341               	.LBB7:
+ 117:encoder.c     **** 			}
+ 118:encoder.c     **** 		}
+ 119:encoder.c     **** 	}
+ 120:encoder.c     **** 	return 0;
+ 121:encoder.c     **** }
  122:encoder.c     **** 
- 123:encoder.c     **** 	/*
- 124:encoder.c     **** 	if(enc->raw_angle - enc->prev_angle >= 8192){
- 125:encoder.c     **** 		enc->speed = (enc->prev_angle - enc->raw_angle);
- 126:encoder.c     **** 	}
- 127:encoder.c     **** 	if(enc->raw_angle - enc->prev_angle >= 8192){
- 128:encoder.c     **** 		enc->speed = -(enc->prev_angle - enc->raw_angle);
- 129:encoder.c     **** 	}
- 130:encoder.c     **** 	else{
- 131:encoder.c     **** 		//enc->speed = enc->raw_angle - enc->prev_angle;
- 132:encoder.c     **** 	}
- 133:encoder.c     **** 	*/
- 134:encoder.c     **** 
- 135:encoder.c     **** 	/*enc->speed = (enc->raw_angle - enc->prev_angle);
- 136:encoder.c     **** 	if((enc->raw_angle & 0x3000) == 0 && (enc->prev_angle & 0x3000) == 0x3000){
- 137:encoder.c     **** 		enc->rotations++;
- 138:encoder.c     **** 		enc->speed = (enc->raw_angle+0x2000 - enc->prev_angle-0x2000);
- 139:encoder.c     **** 	}else if((enc->raw_angle & 0x3000) == 0x3000 && (enc->prev_angle & 0x3000) == 0){
- 140:encoder.c     **** 		enc->rotations--;
- 141:encoder.c     **** 		enc->speed = (enc->raw_angle-0x2000 - enc->prev_angle+0x2000);
- 142:encoder.c     **** 	}*/
- 143:encoder.c     **** }
- 144:encoder.c     **** 
- 145:encoder.c     **** 
- 146:encoder.c     **** unsigned char TWI_Act_On_Failure_In_Last_Transmission(unsigned char TWIerrorMsg){
- 147:encoder.c     **** 	// A failure has occurred, use TWIerrorMsg to determine the nature of the failure
- 148:encoder.c     **** 	// and take appropriate actions.
- 149:encoder.c     **** 	// Se header file for a list of possible failures messages.
- 150:encoder.c     **** 
- 151:encoder.c     **** 	// This very simple example puts the error code on PORTB and restarts the transceiver with
- 152:encoder.c     **** 	// all the same data in the transmission buffers.
- 153:encoder.c     ****   	//PORTB = TWIerrorMsg;
- 154:encoder.c     ****   	TWI_Start_Transceiver();
- 331               		.stabn	68,0,154,.LM32-.LFBB3
- 332               	.LM32:
- 333 00a4 0E94 0000 		call TWI_Start_Transceiver
-GAS LISTING /tmp/cc2a5OnR.s 			page 10
+ 123:encoder.c     **** unsigned char TWI_Act_On_Failure_In_Last_Transmission(unsigned char TWIerrorMsg){
+ 124:encoder.c     **** 	// A failure has occurred, use TWIerrorMsg to determine the nature of the failure
+ 125:encoder.c     **** 	// and take appropriate actions.
+ 126:encoder.c     **** 	// Se header file for a list of possible failures messages.
+ 127:encoder.c     **** 
+ 128:encoder.c     **** 	// This very simple example puts the error code on PORTB and restarts the transceiver with
+ 129:encoder.c     **** 	// all the same data in the transmission buffers.
+ 130:encoder.c     ****   	//PORTB = TWIerrorMsg;
+ 131:encoder.c     ****   	TWI_Start_Transceiver();
+ 342               		.stabn	68,0,131,.LM37-.LFBB2
+ 343               	.LM37:
+ 344 00e2 0E94 0000 		call TWI_Start_Transceiver
+ 345 00e6 00C0      		rjmp .L3
+ 346               	.LBE7:
+ 347               	.LBE6:
+ 348               		.size	main, .-main
+ 349               		.stabs	"messageBuf:(0,53)=ar(0,54)=r(0,54);0;0177777;;0;3;(0,11)",128,0,45,1
+ 350               		.stabn	192,0,0,.LFBB2-.LFBB2
+ 351               		.stabs	"speed:r(5,5)",64,0,103,24
+ 352               		.stabn	192,0,0,.LBB5-.LFBB2
+ 353               		.stabn	224,0,0,.LBE5-.LFBB2
+ 354               		.stabn	224,0,0,.Lscope2-.LFBB2
+ 355               	.Lscope2:
+ 356               		.stabs	"",36,0,0,.Lscope2-.LFBB2
+ 357               		.stabd	78,0,0
+ 358               		.text
+ 359               		.stabs	"TWI_Act_On_Failure_In_Last_Transmission:F(0,11)",36,0,123,TWI_Act_On_Failure_In_Last_Trans
+ 360               		.stabs	"TWIerrorMsg:P(0,11)",64,0,123,24
+ 361               	.global	TWI_Act_On_Failure_In_Last_Transmission
+ 362               		.type	TWI_Act_On_Failure_In_Last_Transmission, @function
+ 363               	TWI_Act_On_Failure_In_Last_Transmission:
+ 364               		.stabd	46,0,0
+ 123:encoder.c     **** unsigned char TWI_Act_On_Failure_In_Last_Transmission(unsigned char TWIerrorMsg){
+ 365               		.stabn	68,0,123,.LM38-.LFBB3
+ 366               	.LM38:
+ 367               	.LFBB3:
+ 368 001e CF93      		push r28
+ 369 0020 DF93      		push r29
+ 370 0022 1F92      		push __zero_reg__
+ 371 0024 CDB7      		in r28,__SP_L__
+ 372 0026 DEB7      		in r29,__SP_H__
+ 373               	/* prologue: function */
+ 374               	/* frame size = 1 */
+ 375               	/* stack size = 3 */
+ 376               	.L__stack_usage = 3
+GAS LISTING /tmp/cchqVnd5.s 			page 10
 
 
- 334 00a8 00C0      		rjmp .L7
- 335               	.LBE5:
- 336               	.LBE4:
- 337               		.size	main, .-main
- 338               		.stabs	"messageBuf:(0,54)=ar(0,55)=r(0,55);0;0177777;;0;1;(0,11)",128,0,42,9
- 339               		.stabs	"enc:(0,48)",128,0,56,1
- 340               		.stabn	192,0,0,.LFBB3-.LFBB3
- 341               		.stabn	224,0,0,.Lscope3-.LFBB3
- 342               	.Lscope3:
- 343               		.stabs	"",36,0,0,.Lscope3-.LFBB3
- 344               		.stabd	78,0,0
- 345               		.text
- 346               		.stabs	"TWI_Act_On_Failure_In_Last_Transmission:F(0,11)",36,0,146,TWI_Act_On_Failure_In_Last_Trans
- 347               		.stabs	"TWIerrorMsg:P(0,11)",64,0,146,24
- 348               	.global	TWI_Act_On_Failure_In_Last_Transmission
- 349               		.type	TWI_Act_On_Failure_In_Last_Transmission, @function
- 350               	TWI_Act_On_Failure_In_Last_Transmission:
- 351               		.stabd	46,0,0
- 146:encoder.c     **** unsigned char TWI_Act_On_Failure_In_Last_Transmission(unsigned char TWIerrorMsg){
- 352               		.stabn	68,0,146,.LM33-.LFBB4
- 353               	.LM33:
- 354               	.LFBB4:
- 355 003c CF93      		push r28
- 356 003e DF93      		push r29
- 357 0040 1F92      		push __zero_reg__
- 358 0042 CDB7      		in r28,__SP_L__
- 359 0044 DEB7      		in r29,__SP_H__
- 360               	/* prologue: function */
- 361               	/* frame size = 1 */
- 362               	/* stack size = 3 */
- 363               	.L__stack_usage = 3
- 364               		.stabn	68,0,154,.LM34-.LFBB4
- 365               	.LM34:
- 366 0046 8983      		std Y+1,r24
- 367 0048 0E94 0000 		call TWI_Start_Transceiver
- 155:encoder.c     ****                     
- 156:encoder.c     ****   	return TWIerrorMsg; 
- 157:encoder.c     **** }...
- 368               		.stabn	68,0,157,.LM35-.LFBB4
- 369               	.LM35:
- 370 004c 8981      		ldd r24,Y+1
- 371               	/* epilogue start */
- 372 004e 0F90      		pop __tmp_reg__
- 373 0050 DF91      		pop r29
- 374 0052 CF91      		pop r28
- 375 0054 0895      		ret
- 376               		.size	TWI_Act_On_Failure_In_Last_Transmission, .-TWI_Act_On_Failure_In_Last_Transmission
- 377               	.Lscope4:
- 378               		.stabs	"",36,0,0,.Lscope4-.LFBB4
- 379               		.stabd	78,0,0
- 380               	.global	update
- 381               		.section .bss
- 382               		.type	update, @object
- 383               		.size	update, 1
- 384               	update:
- 385 0000 00        		.zero	1
- 386               		.comm	position,2,1
-GAS LISTING /tmp/cc2a5OnR.s 			page 11
-
-
- 387               		.comm	errorFlag,1,1
- 388               		.stabs	"errorFlag:G(5,2)",32,0,31,0
- 389               		.stabs	"position:G(5,4)",32,0,33,0
- 390               		.stabs	"update:G(0,56)=B(0,57)=@s8;-16;",32,0,32,0
- 391               		.text
- 392               		.stabs	"",100,0,0,.Letext0
- 393               	.Letext0:
- 394               		.ident	"GCC: (GNU) 4.8.2"
- 395               	.global __do_clear_bss
-GAS LISTING /tmp/cc2a5OnR.s 			page 12
+ 377               		.stabn	68,0,131,.LM39-.LFBB3
+ 378               	.LM39:
+ 379 0028 8983      		std Y+1,r24
+ 380 002a 0E94 0000 		call TWI_Start_Transceiver
+ 132:encoder.c     ****                     
+ 133:encoder.c     ****   	return TWIerrorMsg; 
+ 134:encoder.c     **** }...
+ 381               		.stabn	68,0,134,.LM40-.LFBB3
+ 382               	.LM40:
+ 383 002e 8981      		ldd r24,Y+1
+ 384               	/* epilogue start */
+ 385 0030 0F90      		pop __tmp_reg__
+ 386 0032 DF91      		pop r29
+ 387 0034 CF91      		pop r28
+ 388 0036 0895      		ret
+ 389               		.size	TWI_Act_On_Failure_In_Last_Transmission, .-TWI_Act_On_Failure_In_Last_Transmission
+ 390               	.Lscope3:
+ 391               		.stabs	"",36,0,0,.Lscope3-.LFBB3
+ 392               		.stabd	78,0,0
+ 393               	.global	update
+ 394               		.section .bss
+ 395               		.type	update, @object
+ 396               		.size	update, 1
+ 397               	update:
+ 398 0000 00        		.zero	1
+ 399               		.comm	position,2,1
+ 400               		.comm	errorFlag,1,1
+ 401               		.stabs	"errorFlag:G(5,2)",32,0,31,0
+ 402               		.stabs	"position:G(5,4)",32,0,33,0
+ 403               		.stabs	"update:G(0,55)=B(0,56)=@s8;-16;",32,0,35,0
+ 404               		.text
+ 405               		.stabs	"",100,0,0,.Letext0
+ 406               	.Letext0:
+ 407               		.ident	"GCC: (GNU) 4.8.2"
+ 408               	.global __do_clear_bss
+GAS LISTING /tmp/cchqVnd5.s 			page 11
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 encoder.c
-     /tmp/cc2a5OnR.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/cc2a5OnR.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/cc2a5OnR.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/cc2a5OnR.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/cc2a5OnR.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/cc2a5OnR.s:118    .text:0000000000000000 __vector_14
-     /tmp/cc2a5OnR.s:384    .bss:0000000000000000 update
-     /tmp/cc2a5OnR.s:154    .text:000000000000001e compute
-     /tmp/cc2a5OnR.s:192    .text.startup:0000000000000000 main
-     /tmp/cc2a5OnR.s:350    .text:000000000000003c TWI_Act_On_Failure_In_Last_Transmission
+     /tmp/cchqVnd5.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/cchqVnd5.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/cchqVnd5.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/cchqVnd5.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cchqVnd5.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cchqVnd5.s:118    .text:0000000000000000 __vector_14
+     /tmp/cchqVnd5.s:397    .bss:0000000000000000 update
+     /tmp/cchqVnd5.s:156    .text.startup:0000000000000000 main
+     /tmp/cchqVnd5.s:363    .text:000000000000001e TWI_Act_On_Failure_In_Last_Transmission
                             *COM*:0000000000000002 position
                             *COM*:0000000000000001 errorFlag
 
@@ -635,6 +600,7 @@ TWI_Start_Transceiver_With_Data
 AS5048A_getRawRotation
 TWI_Transceiver_Busy
 TWI_statusReg
+__divmodhi4
 TWI_Get_State_Info
 TWI_Start_Transceiver
 __do_clear_bss

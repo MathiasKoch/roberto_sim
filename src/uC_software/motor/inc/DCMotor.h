@@ -17,7 +17,7 @@ public:
     virtual void setReference(float setPoint);
     virtual float getReference();
     virtual char* motorName();
-    virtual uint16_t update(float dt);
+    virtual float update(float dt);
 
     virtual int motorType() { return MOTOR_TYPE_DC_MOTOR; }
     virtual bool motorInit();
@@ -25,7 +25,7 @@ public:
 private:
 	bool setSpeed(int s);
     void initEncoder(uint16_t addr);
-    uint16_t readEncoder();
+    int32_t readEncoder();
     float updateRegulator(float enc, float dt);
 	float speed;
     uint8_t encAddr;
@@ -35,8 +35,7 @@ private:
     float KP;
     float KI;
     float KD;
-    float max;
-    float min;
+    float integralSaturation;
     float error;
     float integral;
 

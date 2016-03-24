@@ -1170,31 +1170,31 @@
  488              		.cfi_endproc
  489              	.LFE41:
  491              	.Letext0:
- 492              		.file 2 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
- 493              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 492              		.file 2 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types
+ 493              		.file 3 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
  494              		.file 4 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
  495              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_dma.h"
  496              		.file 6 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f10x_dma.c
-     /tmp/ccQVls9c.s:19     .text:00000000 $t
-     /tmp/ccQVls9c.s:24     .text:00000000 DMA_DeInit
-     /tmp/ccQVls9c.s:167    .text:000000b8 $d
-     /tmp/ccQVls9c.s:184    .text:000000f0 $t
-     /tmp/ccQVls9c.s:189    .text:000000f0 DMA_Init
-     /tmp/ccQVls9c.s:255    .text:0000012c DMA_StructInit
-     /tmp/ccQVls9c.s:295    .text:00000146 DMA_Cmd
-     /tmp/ccQVls9c.s:325    .text:0000015c DMA_ITConfig
-     /tmp/ccQVls9c.s:357    .text:0000016c DMA_SetCurrDataCounter
-     /tmp/ccQVls9c.s:376    .text:00000170 DMA_GetCurrDataCounter
-     /tmp/ccQVls9c.s:398    .text:00000176 DMA_GetITStatus
-     /tmp/ccQVls9c.s:426    .text:0000018c $d
-     /tmp/ccQVls9c.s:431    .text:00000194 $t
-     /tmp/ccQVls9c.s:436    .text:00000194 DMA_GetFlagStatus
-     /tmp/ccQVls9c.s:451    .text:00000198 DMA_ClearITPendingBit
-     /tmp/ccQVls9c.s:471    .text:000001a4 $d
-     /tmp/ccQVls9c.s:476    .text:000001ac $t
-     /tmp/ccQVls9c.s:481    .text:000001ac DMA_ClearFlag
+     /tmp/ccAK4ciR.s:19     .text:00000000 $t
+     /tmp/ccAK4ciR.s:24     .text:00000000 DMA_DeInit
+     /tmp/ccAK4ciR.s:167    .text:000000b8 $d
+     /tmp/ccAK4ciR.s:184    .text:000000f0 $t
+     /tmp/ccAK4ciR.s:189    .text:000000f0 DMA_Init
+     /tmp/ccAK4ciR.s:255    .text:0000012c DMA_StructInit
+     /tmp/ccAK4ciR.s:295    .text:00000146 DMA_Cmd
+     /tmp/ccAK4ciR.s:325    .text:0000015c DMA_ITConfig
+     /tmp/ccAK4ciR.s:357    .text:0000016c DMA_SetCurrDataCounter
+     /tmp/ccAK4ciR.s:376    .text:00000170 DMA_GetCurrDataCounter
+     /tmp/ccAK4ciR.s:398    .text:00000176 DMA_GetITStatus
+     /tmp/ccAK4ciR.s:426    .text:0000018c $d
+     /tmp/ccAK4ciR.s:431    .text:00000194 $t
+     /tmp/ccAK4ciR.s:436    .text:00000194 DMA_GetFlagStatus
+     /tmp/ccAK4ciR.s:451    .text:00000198 DMA_ClearITPendingBit
+     /tmp/ccAK4ciR.s:471    .text:000001a4 $d
+     /tmp/ccAK4ciR.s:476    .text:000001ac $t
+     /tmp/ccAK4ciR.s:481    .text:000001ac DMA_ClearFlag
                      .debug_frame:00000010 $d
 
 NO UNDEFINED SYMBOLS

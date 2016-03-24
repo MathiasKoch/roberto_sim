@@ -90,7 +90,7 @@
   15:src/motor.cpp **** 	    case MOTOR_TYPE_DC_MOTOR:
   16:src/motor.cpp **** 	        return new DCMotor(settings);
   76              		.loc 1 16 0
-  77 002c 3020     		movs	r0, #48
+  77 002c 2C20     		movs	r0, #44
   78              	.LVL5:
   79              	.LEHB2:
   80 002e FFF7FEFF 		bl	_Znwj
@@ -288,29 +288,29 @@
  265 0034 00000000 		.word	_ZTS5motor
  266              		.text
  267              	.Letext0:
- 268              		.file 2 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
- 269              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 268              		.file 2 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types
+ 269              		.file 3 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
  270              		.file 4 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
  271              		.file 5 "./inc/motorSettings.h"
  272              		.file 6 "./inc/motor.h"
  273              		.file 7 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 motor.cpp
-     /tmp/cc2Ghfgp.s:19     .text:00000000 $t
-     /tmp/cc2Ghfgp.s:24     .text:00000000 _ZN5motor11createMotorEP13motorSettings
+     /tmp/ccR4avkk.s:19     .text:00000000 $t
+     /tmp/ccR4avkk.s:24     .text:00000000 _ZN5motor11createMotorEP13motorSettings
                        .ARM.extab:00000000 $d
                        .ARM.exidx:00000000 $d
-     /tmp/cc2Ghfgp.s:154    .text:00000050 _ZN5motorC2EP13motorSettings
-     /tmp/cc2Ghfgp.s:176    .text:00000058 $d
-     /tmp/cc2Ghfgp.s:154    .text:00000050 _ZN5motorC1EP13motorSettings
-     /tmp/cc2Ghfgp.s:184    .text:0000005c $t
-     /tmp/cc2Ghfgp.s:189    .text:0000005c _ZN5motorD2Ev
-     /tmp/cc2Ghfgp.s:189    .text:0000005c _ZN5motorD1Ev
-     /tmp/cc2Ghfgp.s:212    .text:0000005e _ZN5motorD0Ev
-     /tmp/cc2Ghfgp.s:258    .rodata:00000028 _ZTS5motor
-     /tmp/cc2Ghfgp.s:263    .rodata:00000030 _ZTI5motor
-     /tmp/cc2Ghfgp.s:245    .rodata:00000000 _ZTV5motor
-     /tmp/cc2Ghfgp.s:241    .rodata:00000000 $d
+     /tmp/ccR4avkk.s:154    .text:00000050 _ZN5motorC2EP13motorSettings
+     /tmp/ccR4avkk.s:176    .text:00000058 $d
+     /tmp/ccR4avkk.s:154    .text:00000050 _ZN5motorC1EP13motorSettings
+     /tmp/ccR4avkk.s:184    .text:0000005c $t
+     /tmp/ccR4avkk.s:189    .text:0000005c _ZN5motorD2Ev
+     /tmp/ccR4avkk.s:189    .text:0000005c _ZN5motorD1Ev
+     /tmp/ccR4avkk.s:212    .text:0000005e _ZN5motorD0Ev
+     /tmp/ccR4avkk.s:258    .rodata:00000028 _ZTS5motor
+     /tmp/ccR4avkk.s:263    .rodata:00000030 _ZTI5motor
+     /tmp/ccR4avkk.s:245    .rodata:00000000 _ZTV5motor
+     /tmp/ccR4avkk.s:241    .rodata:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

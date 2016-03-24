@@ -14,7 +14,7 @@ public:
     virtual void setReference(float setPoint);
     virtual float getReference();
     virtual char* motorName();
-    virtual uint16_t update(float dt);
+    virtual float update(float dt);
 
     virtual int motorType() { return MOTOR_TYPE_SERVO; }
     virtual bool motorInit();

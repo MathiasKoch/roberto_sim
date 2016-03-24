@@ -30,7 +30,7 @@ public:
     virtual char* motorName() = 0;                     // the name of the motor
     virtual void setReference(float setPoint) = 0;
     virtual float getReference() = 0;
-    virtual uint16_t update(float dt) = 0;
+    virtual float update(float dt) = 0;
 
 
 protected:
