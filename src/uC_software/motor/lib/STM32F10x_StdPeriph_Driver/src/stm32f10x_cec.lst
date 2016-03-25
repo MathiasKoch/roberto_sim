@@ -856,54 +856,54 @@
  456              		.cfi_endproc
  457              	.LFE42:
  459              	.Letext0:
- 460              		.file 2 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
- 461              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 460              		.file 2 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types
+ 461              		.file 3 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
  462              		.file 4 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
  463              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_cec.h"
  464              		.file 6 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
  465              		.file 7 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f10x_cec.c
-     /tmp/ccqWbl1i.s:19     .text:00000000 $t
-     /tmp/ccqWbl1i.s:24     .text:00000000 CEC_DeInit
-     /tmp/ccqWbl1i.s:60     .text:0000001a CEC_Init
-     /tmp/ccqWbl1i.s:93     .text:00000034 $d
-     /tmp/ccqWbl1i.s:97     .text:00000038 $t
-     /tmp/ccqWbl1i.s:102    .text:00000038 CEC_Cmd
-     /tmp/ccqWbl1i.s:127    .text:00000048 $d
-     /tmp/ccqWbl1i.s:132    .text:00000050 $t
-     /tmp/ccqWbl1i.s:137    .text:00000050 CEC_ITConfig
-     /tmp/ccqWbl1i.s:152    .text:00000058 $d
-     /tmp/ccqWbl1i.s:156    .text:0000005c $t
-     /tmp/ccqWbl1i.s:161    .text:0000005c CEC_OwnAddressConfig
-     /tmp/ccqWbl1i.s:176    .text:00000064 $d
-     /tmp/ccqWbl1i.s:180    .text:00000068 $t
-     /tmp/ccqWbl1i.s:185    .text:00000068 CEC_SetPrescaler
-     /tmp/ccqWbl1i.s:200    .text:00000070 $d
-     /tmp/ccqWbl1i.s:204    .text:00000074 $t
-     /tmp/ccqWbl1i.s:209    .text:00000074 CEC_SendDataByte
-     /tmp/ccqWbl1i.s:224    .text:0000007c $d
-     /tmp/ccqWbl1i.s:228    .text:00000080 $t
-     /tmp/ccqWbl1i.s:233    .text:00000080 CEC_ReceiveDataByte
-     /tmp/ccqWbl1i.s:249    .text:00000088 $d
-     /tmp/ccqWbl1i.s:253    .text:0000008c $t
-     /tmp/ccqWbl1i.s:258    .text:0000008c CEC_StartOfMessage
-     /tmp/ccqWbl1i.s:273    .text:00000094 $d
-     /tmp/ccqWbl1i.s:277    .text:00000098 $t
-     /tmp/ccqWbl1i.s:282    .text:00000098 CEC_EndOfMessageCmd
-     /tmp/ccqWbl1i.s:297    .text:000000a0 $d
-     /tmp/ccqWbl1i.s:301    .text:000000a4 $t
-     /tmp/ccqWbl1i.s:306    .text:000000a4 CEC_GetFlagStatus
-     /tmp/ccqWbl1i.s:341    .text:000000c0 $d
-     /tmp/ccqWbl1i.s:346    .text:000000c8 $t
-     /tmp/ccqWbl1i.s:351    .text:000000c8 CEC_ClearFlag
-     /tmp/ccqWbl1i.s:382    .text:000000e0 $d
-     /tmp/ccqWbl1i.s:386    .text:000000e4 $t
-     /tmp/ccqWbl1i.s:391    .text:000000e4 CEC_GetITStatus
-     /tmp/ccqWbl1i.s:416    .text:000000f4 $d
-     /tmp/ccqWbl1i.s:420    .text:000000f8 $t
-     /tmp/ccqWbl1i.s:425    .text:000000f8 CEC_ClearITPendingBit
-     /tmp/ccqWbl1i.s:455    .text:00000110 $d
+     /tmp/ccEI3S0g.s:19     .text:00000000 $t
+     /tmp/ccEI3S0g.s:24     .text:00000000 CEC_DeInit
+     /tmp/ccEI3S0g.s:60     .text:0000001a CEC_Init
+     /tmp/ccEI3S0g.s:93     .text:00000034 $d
+     /tmp/ccEI3S0g.s:97     .text:00000038 $t
+     /tmp/ccEI3S0g.s:102    .text:00000038 CEC_Cmd
+     /tmp/ccEI3S0g.s:127    .text:00000048 $d
+     /tmp/ccEI3S0g.s:132    .text:00000050 $t
+     /tmp/ccEI3S0g.s:137    .text:00000050 CEC_ITConfig
+     /tmp/ccEI3S0g.s:152    .text:00000058 $d
+     /tmp/ccEI3S0g.s:156    .text:0000005c $t
+     /tmp/ccEI3S0g.s:161    .text:0000005c CEC_OwnAddressConfig
+     /tmp/ccEI3S0g.s:176    .text:00000064 $d
+     /tmp/ccEI3S0g.s:180    .text:00000068 $t
+     /tmp/ccEI3S0g.s:185    .text:00000068 CEC_SetPrescaler
+     /tmp/ccEI3S0g.s:200    .text:00000070 $d
+     /tmp/ccEI3S0g.s:204    .text:00000074 $t
+     /tmp/ccEI3S0g.s:209    .text:00000074 CEC_SendDataByte
+     /tmp/ccEI3S0g.s:224    .text:0000007c $d
+     /tmp/ccEI3S0g.s:228    .text:00000080 $t
+     /tmp/ccEI3S0g.s:233    .text:00000080 CEC_ReceiveDataByte
+     /tmp/ccEI3S0g.s:249    .text:00000088 $d
+     /tmp/ccEI3S0g.s:253    .text:0000008c $t
+     /tmp/ccEI3S0g.s:258    .text:0000008c CEC_StartOfMessage
+     /tmp/ccEI3S0g.s:273    .text:00000094 $d
+     /tmp/ccEI3S0g.s:277    .text:00000098 $t
+     /tmp/ccEI3S0g.s:282    .text:00000098 CEC_EndOfMessageCmd
+     /tmp/ccEI3S0g.s:297    .text:000000a0 $d
+     /tmp/ccEI3S0g.s:301    .text:000000a4 $t
+     /tmp/ccEI3S0g.s:306    .text:000000a4 CEC_GetFlagStatus
+     /tmp/ccEI3S0g.s:341    .text:000000c0 $d
+     /tmp/ccEI3S0g.s:346    .text:000000c8 $t
+     /tmp/ccEI3S0g.s:351    .text:000000c8 CEC_ClearFlag
+     /tmp/ccEI3S0g.s:382    .text:000000e0 $d
+     /tmp/ccEI3S0g.s:386    .text:000000e4 $t
+     /tmp/ccEI3S0g.s:391    .text:000000e4 CEC_GetITStatus
+     /tmp/ccEI3S0g.s:416    .text:000000f4 $d
+     /tmp/ccEI3S0g.s:420    .text:000000f8 $t
+     /tmp/ccEI3S0g.s:425    .text:000000f8 CEC_ClearITPendingBit
+     /tmp/ccEI3S0g.s:455    .text:00000110 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

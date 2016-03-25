@@ -114,7 +114,7 @@ bool DCMotor::setSpeed(int s){
 	if(s > PERIOD)
 		s = PERIOD;
 
-	if(abs(s) > 3000){
+	if(abs(s) > 0){
 		GPIO_SetBits(m_settings->m_DCEnAPort, m_settings->m_DCEnAPin);
 		GPIO_SetBits(m_settings->m_DCEnBPort, m_settings->m_DCEnBPin);
 
@@ -135,9 +135,10 @@ bool DCMotor::setSpeed(int s){
 		GPIO_ResetBits(m_settings->m_DCInAPort, m_settings->m_DCInAPin);
 		GPIO_ResetBits(m_settings->m_DCInBPort, m_settings->m_DCInBPin);
 	}
+	
 
 	if(m_settings->m_Timer == TIM1)
-		s*=2;
+		s = s * 2;
 
 	switch(m_settings->m_TimerChannel){
 		case 1:
@@ -192,6 +193,7 @@ float DCMotor::updateRegulator(float enc, float dt){
 	float error_new = speed-enc;
 	
 	integral += error_new*dt;
+	
 	if (integral > m_settings->integralSaturation){
 		integral = m_settings->integralSaturation;
 	}else if (integral < -(m_settings->integralSaturation)){
@@ -206,12 +208,12 @@ float DCMotor::updateRegulator(float enc, float dt){
 
 float DCMotor::update(float dt){
 	// Read encoder
-	float encSpeed = readEncoder()*0.04793689962;		// rad/s
+	float encSpeed = readEncoder()*0.004793689962;		// rad/s
 	float speed_si = encSpeed * wheelRadius;	// m/s
 	// Update PID regulator
 	int s = (int) updateRegulator(speed_si, dt);		// m/s
 	// Set motor speed to process value
-	setSpeed(s);		// m/s
+	setSpeed(0);		// m/s
 	// Return encoder values for publishing to localization
 	return speed_si;
 }

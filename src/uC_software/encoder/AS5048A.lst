@@ -1,4 +1,4 @@
-GAS LISTING /tmp/ccd6a5e3.s 			page 1
+GAS LISTING /tmp/ccfBTpsL.s 			page 1
 
 
    1               		.file	"AS5048A.c"
@@ -7,7 +7,7 @@ GAS LISTING /tmp/ccd6a5e3.s 			page 1
    4               	__SREG__ = 0x3f
    5               	__tmp_reg__ = 0
    6               	__zero_reg__ = 1
-   7               		.stabs	"/home/mathias/Dropbox/RoboCup/Code/ENCODER/",100,0,2,.Ltext0
+   7               		.stabs	"/home/emil/Roberto/roberto_sim/src/uC_software/encoder/",100,0,2,.Ltext0
    8               		.stabs	"AS5048A.c",100,0,2,.Ltext0
    9               		.text
   10               	.Ltext0:
@@ -58,7 +58,7 @@ GAS LISTING /tmp/ccd6a5e3.s 			page 1
   55               		.stabs	"_Sat unsigned _Accum:t(0,44)=r(0,1);4;0;",128,0,0,0
   56               		.stabs	"_Sat unsigned long _Accum:t(0,45)=r(0,1);8;0;",128,0,0,0
   57               		.stabs	"_Sat unsigned long long _Accum:t(0,46)=r(0,1);8;0;",128,0,0,0
-GAS LISTING /tmp/ccd6a5e3.s 			page 2
+GAS LISTING /tmp/ccfBTpsL.s 			page 2
 
 
   58               		.stabs	"void:t(0,47)=(0,47)",128,0,0,0
@@ -118,7 +118,7 @@ GAS LISTING /tmp/ccd6a5e3.s 			page 1
    6:AS5048A.c     **** /**
    7:AS5048A.c     ****  * Initialiser
    8:AS5048A.c     ****  * Sets up the SPI interface
-GAS LISTING /tmp/ccd6a5e3.s 			page 3
+GAS LISTING /tmp/ccfBTpsL.s 			page 3
 
 
    9:AS5048A.c     ****  */
@@ -178,7 +178,7 @@ GAS LISTING /tmp/ccd6a5e3.s 			page 1
   28:AS5048A.c     **** /**
   29:AS5048A.c     ****  * Closes the SPI connection
   30:AS5048A.c     ****  */
-GAS LISTING /tmp/ccd6a5e3.s 			page 4
+GAS LISTING /tmp/ccfBTpsL.s 			page 4
 
 
   31:AS5048A.c     **** void AS5048A_close(void){
@@ -238,7 +238,7 @@ GAS LISTING /tmp/ccd6a5e3.s 			page 1
  182 0020 2F5F      		subi r18,lo8(-(1))
  183               	.L4:
   45:AS5048A.c     **** 		value >>= 1;
-GAS LISTING /tmp/ccd6a5e3.s 			page 5
+GAS LISTING /tmp/ccfBTpsL.s 			page 5
 
 
  184               		.stabn	68,0,45,.LM12-.LFBB3
@@ -298,7 +298,7 @@ GAS LISTING /tmp/ccd6a5e3.s 			page 1
   73:AS5048A.c     **** uint16_t AS5048A_getRawRotation(void){
   74:AS5048A.c     **** 	return AS5048A_read(AS5048A_ANGLE);
   75:AS5048A.c     **** }
-GAS LISTING /tmp/ccd6a5e3.s 			page 6
+GAS LISTING /tmp/ccfBTpsL.s 			page 6
 
 
   76:AS5048A.c     **** 
@@ -358,7 +358,7 @@ GAS LISTING /tmp/ccd6a5e3.s 			page 1
  106:AS5048A.c     **** }
  107:AS5048A.c     **** 
  108:AS5048A.c     **** /*
-GAS LISTING /tmp/ccd6a5e3.s 			page 7
+GAS LISTING /tmp/ccfBTpsL.s 			page 7
 
 
  109:AS5048A.c     ****  * Returns the current zero position
@@ -418,7 +418,7 @@ GAS LISTING /tmp/ccd6a5e3.s 			page 1
  121:AS5048A.c     **** 
  122:AS5048A.c     **** /*
  123:AS5048A.c     ****  * Read a register from the sensor
-GAS LISTING /tmp/ccd6a5e3.s 			page 8
+GAS LISTING /tmp/ccfBTpsL.s 			page 8
 
 
  124:AS5048A.c     ****  * Takes the address of the register as a 16 bit uint16_t
@@ -478,7 +478,7 @@ GAS LISTING /tmp/ccd6a5e3.s 			page 1
  178:AS5048A.c     **** 	PORT_SPI |= (1<<DD_SS);
  179:AS5048A.c     **** 
  180:AS5048A.c     **** 	uint16_t dataToSend = 0b0000000000000000;
-GAS LISTING /tmp/ccd6a5e3.s 			page 9
+GAS LISTING /tmp/ccfBTpsL.s 			page 9
 
 
  181:AS5048A.c     **** 	dataToSend |= data;
@@ -538,7 +538,7 @@ GAS LISTING /tmp/ccd6a5e3.s 			page 1
  302               		.stabs	"AS5048A_read:F(5,4)",36,0,127,AS5048A_read
  303               	.global	AS5048A_read
  304               		.type	AS5048A_read, @function
-GAS LISTING /tmp/ccd6a5e3.s 			page 10
+GAS LISTING /tmp/ccfBTpsL.s 			page 10
 
 
  305               	AS5048A_read:
@@ -598,7 +598,7 @@ GAS LISTING /tmp/ccd6a5e3.s 			page 1
  349 0088 322F      		mov r19,r18
  350 008a 2227      		clr r18
  351 008c 282B      		or r18,r24
-GAS LISTING /tmp/ccd6a5e3.s 			page 11
+GAS LISTING /tmp/ccfBTpsL.s 			page 11
 
 
  151:AS5048A.c     **** }
@@ -658,7 +658,7 @@ GAS LISTING /tmp/ccd6a5e3.s 			page 1
  401 009e 0E94 0000 		call AS5048A_getRawRotation
   62:AS5048A.c     **** 	rotation = (int)data - (int)position;
  402               		.stabn	68,0,62,.LM41-.LFBB10
-GAS LISTING /tmp/ccd6a5e3.s 			page 12
+GAS LISTING /tmp/ccfBTpsL.s 			page 12
 
 
  403               	.LM41:
@@ -718,7 +718,7 @@ GAS LISTING /tmp/ccd6a5e3.s 			page 1
  452               		.type	AS5048A_getGain, @function
  453               	AS5048A_getGain:
  454               		.stabd	46,0,0
-GAS LISTING /tmp/ccd6a5e3.s 			page 13
+GAS LISTING /tmp/ccfBTpsL.s 			page 13
 
 
   89:AS5048A.c     **** uint8_t AS5048A_getGain(void){
@@ -778,7 +778,7 @@ GAS LISTING /tmp/ccd6a5e3.s 			page 1
  503 00d2 EF92      		push r14
  504 00d4 FF92      		push r15
  505 00d6 0F93      		push r16
-GAS LISTING /tmp/ccd6a5e3.s 			page 14
+GAS LISTING /tmp/ccfBTpsL.s 			page 14
 
 
  506 00d8 1F93      		push r17
@@ -838,7 +838,7 @@ GAS LISTING /tmp/ccd6a5e3.s 			page 1
  553               	.LM59:
  554 011c 2A98      		cbi 0x5,2
  190:AS5048A.c     **** 	spi_fast_shift(left_byte);
-GAS LISTING /tmp/ccd6a5e3.s 			page 15
+GAS LISTING /tmp/ccfBTpsL.s 			page 15
 
 
  555               		.stabn	68,0,190,.LM60-.LFBB14
@@ -898,7 +898,7 @@ GAS LISTING /tmp/ccd6a5e3.s 			page 1
  600 0156 FF90      		pop r15
  601 0158 EF90      		pop r14
  602 015a 0895      		ret
-GAS LISTING /tmp/ccd6a5e3.s 			page 16
+GAS LISTING /tmp/ccfBTpsL.s 			page 16
 
 
  603               		.size	AS5048A_write, .-AS5048A_write
@@ -917,32 +917,32 @@ GAS LISTING /tmp/ccd6a5e3.s 			page 1
  616               	.Letext0:
  617               		.ident	"GCC: (GNU) 4.8.2"
  618               	.global __do_clear_bss
-GAS LISTING /tmp/ccd6a5e3.s 			page 17
+GAS LISTING /tmp/ccfBTpsL.s 			page 17
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 AS5048A.c
-     /tmp/ccd6a5e3.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccd6a5e3.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccd6a5e3.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccd6a5e3.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccd6a5e3.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccd6a5e3.s:105    .text:0000000000000000 AS5048A_Init
-     /tmp/ccd6a5e3.s:140    .text:0000000000000016 AS5048A_close
-     /tmp/ccd6a5e3.s:161    .text:000000000000001a AS5048A_spiCalcEvenParity
-     /tmp/ccd6a5e3.s:208    .text:0000000000000030 AS5048A_setZeroPosition
+     /tmp/ccfBTpsL.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccfBTpsL.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccfBTpsL.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccfBTpsL.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccfBTpsL.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccfBTpsL.s:105    .text:0000000000000000 AS5048A_Init
+     /tmp/ccfBTpsL.s:140    .text:0000000000000016 AS5048A_close
+     /tmp/ccfBTpsL.s:161    .text:000000000000001a AS5048A_spiCalcEvenParity
+     /tmp/ccfBTpsL.s:208    .text:0000000000000030 AS5048A_setZeroPosition
                             *COM*:0000000000000002 position
-     /tmp/ccd6a5e3.s:232    .text:0000000000000042 AS5048A_getZeroPosition
-     /tmp/ccd6a5e3.s:253    .text:000000000000004c AS5048A_error
+     /tmp/ccfBTpsL.s:232    .text:0000000000000042 AS5048A_getZeroPosition
+     /tmp/ccfBTpsL.s:253    .text:000000000000004c AS5048A_error
                             *COM*:0000000000000001 errorFlag
-     /tmp/ccd6a5e3.s:274    .text:0000000000000052 spi_fast_shift
-     /tmp/ccd6a5e3.s:305    .text:000000000000005e AS5048A_read
-     /tmp/ccd6a5e3.s:369    .text:0000000000000096 AS5048A_getRawRotation
-     /tmp/ccd6a5e3.s:390    .text:000000000000009e AS5048A_getRotation
-     /tmp/ccd6a5e3.s:432    .text:00000000000000bc AS5048A_getState
-     /tmp/ccd6a5e3.s:453    .text:00000000000000c4 AS5048A_getGain
-     /tmp/ccd6a5e3.s:475    .text:00000000000000ca AS5048A_getErrors
-     /tmp/ccd6a5e3.s:498    .text:00000000000000d2 AS5048A_write
+     /tmp/ccfBTpsL.s:274    .text:0000000000000052 spi_fast_shift
+     /tmp/ccfBTpsL.s:305    .text:000000000000005e AS5048A_read
+     /tmp/ccfBTpsL.s:369    .text:0000000000000096 AS5048A_getRawRotation
+     /tmp/ccfBTpsL.s:390    .text:000000000000009e AS5048A_getRotation
+     /tmp/ccfBTpsL.s:432    .text:00000000000000bc AS5048A_getState
+     /tmp/ccfBTpsL.s:453    .text:00000000000000c4 AS5048A_getGain
+     /tmp/ccfBTpsL.s:475    .text:00000000000000ca AS5048A_getErrors
+     /tmp/ccfBTpsL.s:498    .text:00000000000000d2 AS5048A_write
 
 UNDEFINED SYMBOLS
 __udivmodhi4

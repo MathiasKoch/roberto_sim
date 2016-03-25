@@ -17,7 +17,6 @@
 
 #define TICKS_PR_ROT 16384
 #define TIMERFREQ 1000
-#define TICKS_TO_RADIANS TIMERFREQ*2*3.14159265359/TICKS_PR_ROT 
 
 typedef struct{
 	uint16_t raw_angle;
@@ -62,12 +61,12 @@ int main(int argc, const char* argv[]){
 	enc.dt = 0;
 	enc.dTicks = 0;
 	
-    // start timer0 at 1 kHz
-    //16MHz/(64*(OCR0A+1))
+    // start timer0 at 10 kHz
+    //16MHz/(8*(OCR0A+1))
 	TCCR0A |= (1 << WGM01);
-    OCR0A = 249;		
+    OCR0A = 199;		
     TIMSK0=(1<<OCIE0A);
-    TCCR0B |= (1<<CS01) | (1<<CS00);
+    TCCR0B |= (1<<CS01);// prescale 8 // | (1<<CS00); 
 	               
 	sei();
 	
@@ -99,7 +98,7 @@ int main(int argc, const char* argv[]){
 				// Check if the TWI Transceiver has already been started.
 				// If not then restart it to prepare it for new receptions.             
 				if(!TWI_Transceiver_Busy()){
-					int32_t speed = enc.dTicks/enc.dt;///enc.dt*1000;
+					int32_t speed = enc.dTicks/enc.dt;///enc.dt*10000;
 
 					messageBuf[0] = (speed  >> 24) & 0xFF;
 					messageBuf[1] = (speed  >> 16) & 0xFF;
@@ -108,11 +107,11 @@ int main(int argc, const char* argv[]){
 					
 					TWI_Start_Transceiver_With_Data(messageBuf, TWI_BUFFER_SIZE);
 					
-					if(TWI_statusReg.lastTransOK){
+					//if(TWI_statusReg.lastTransOK){
 						// Reset counters
 						enc.dTicks = 0;
 						enc.dt = 0;
-					}
+					//}
 				}
 			}else{ // Ends up here if the last operation completed unsuccessfully
 				TWI_Act_On_Failure_In_Last_Transmission(TWI_Get_State_Info());

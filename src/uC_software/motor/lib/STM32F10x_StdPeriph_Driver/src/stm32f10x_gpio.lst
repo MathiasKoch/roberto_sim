@@ -1446,42 +1446,42 @@
  824              		.cfi_endproc
  825              	.LFE46:
  827              	.Letext0:
- 828              		.file 2 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
- 829              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 828              		.file 2 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types
+ 829              		.file 3 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
  830              		.file 4 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
  831              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
  832              		.file 6 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
  833              		.file 7 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f10x_gpio.c
-     /tmp/ccIIoGbb.s:19     .text:00000000 $t
-     /tmp/ccIIoGbb.s:24     .text:00000000 GPIO_DeInit
-     /tmp/ccIIoGbb.s:164    .text:0000009c $d
-     /tmp/ccIIoGbb.s:174    .text:000000b8 $t
-     /tmp/ccIIoGbb.s:179    .text:000000b8 GPIO_AFIODeInit
-     /tmp/ccIIoGbb.s:214    .text:000000ce GPIO_Init
-     /tmp/ccIIoGbb.s:370    .text:00000172 GPIO_StructInit
-     /tmp/ccIIoGbb.s:396    .text:00000182 GPIO_ReadInputDataBit
-     /tmp/ccIIoGbb.s:423    .text:0000018e GPIO_ReadInputData
-     /tmp/ccIIoGbb.s:445    .text:00000194 GPIO_ReadOutputDataBit
-     /tmp/ccIIoGbb.s:472    .text:000001a0 GPIO_ReadOutputData
-     /tmp/ccIIoGbb.s:494    .text:000001a6 GPIO_SetBits
-     /tmp/ccIIoGbb.s:513    .text:000001aa GPIO_ResetBits
-     /tmp/ccIIoGbb.s:532    .text:000001ae GPIO_WriteBit
-     /tmp/ccIIoGbb.s:557    .text:000001b8 GPIO_Write
-     /tmp/ccIIoGbb.s:576    .text:000001bc GPIO_PinLockConfig
-     /tmp/ccIIoGbb.s:607    .text:000001cc GPIO_EventOutputConfig
-     /tmp/ccIIoGbb.s:634    .text:000001e4 $d
-     /tmp/ccIIoGbb.s:638    .text:000001e8 $t
-     /tmp/ccIIoGbb.s:643    .text:000001e8 GPIO_EventOutputCmd
-     /tmp/ccIIoGbb.s:658    .text:000001f0 $d
-     /tmp/ccIIoGbb.s:662    .text:000001f4 $t
-     /tmp/ccIIoGbb.s:667    .text:000001f4 GPIO_PinRemapConfig
-     /tmp/ccIIoGbb.s:754    .text:00000250 $d
-     /tmp/ccIIoGbb.s:758    .text:00000254 $t
-     /tmp/ccIIoGbb.s:763    .text:00000254 GPIO_EXTILineConfig
-     /tmp/ccIIoGbb.s:808    .text:0000027e GPIO_ETH_MediaInterfaceConfig
-     /tmp/ccIIoGbb.s:823    .text:00000284 $d
+     /tmp/ccIvdi90.s:19     .text:00000000 $t
+     /tmp/ccIvdi90.s:24     .text:00000000 GPIO_DeInit
+     /tmp/ccIvdi90.s:164    .text:0000009c $d
+     /tmp/ccIvdi90.s:174    .text:000000b8 $t
+     /tmp/ccIvdi90.s:179    .text:000000b8 GPIO_AFIODeInit
+     /tmp/ccIvdi90.s:214    .text:000000ce GPIO_Init
+     /tmp/ccIvdi90.s:370    .text:00000172 GPIO_StructInit
+     /tmp/ccIvdi90.s:396    .text:00000182 GPIO_ReadInputDataBit
+     /tmp/ccIvdi90.s:423    .text:0000018e GPIO_ReadInputData
+     /tmp/ccIvdi90.s:445    .text:00000194 GPIO_ReadOutputDataBit
+     /tmp/ccIvdi90.s:472    .text:000001a0 GPIO_ReadOutputData
+     /tmp/ccIvdi90.s:494    .text:000001a6 GPIO_SetBits
+     /tmp/ccIvdi90.s:513    .text:000001aa GPIO_ResetBits
+     /tmp/ccIvdi90.s:532    .text:000001ae GPIO_WriteBit
+     /tmp/ccIvdi90.s:557    .text:000001b8 GPIO_Write
+     /tmp/ccIvdi90.s:576    .text:000001bc GPIO_PinLockConfig
+     /tmp/ccIvdi90.s:607    .text:000001cc GPIO_EventOutputConfig
+     /tmp/ccIvdi90.s:634    .text:000001e4 $d
+     /tmp/ccIvdi90.s:638    .text:000001e8 $t
+     /tmp/ccIvdi90.s:643    .text:000001e8 GPIO_EventOutputCmd
+     /tmp/ccIvdi90.s:658    .text:000001f0 $d
+     /tmp/ccIvdi90.s:662    .text:000001f4 $t
+     /tmp/ccIvdi90.s:667    .text:000001f4 GPIO_PinRemapConfig
+     /tmp/ccIvdi90.s:754    .text:00000250 $d
+     /tmp/ccIvdi90.s:758    .text:00000254 $t
+     /tmp/ccIvdi90.s:763    .text:00000254 GPIO_EXTILineConfig
+     /tmp/ccIvdi90.s:808    .text:0000027e GPIO_ETH_MediaInterfaceConfig
+     /tmp/ccIvdi90.s:823    .text:00000284 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

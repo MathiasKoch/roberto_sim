@@ -10,8 +10,8 @@
 
 
 #include <ros.h>
-#include <std_msgs/String.h>
-#include <std_msgs/Float32.h>
+#include <std_msgs/MultiArrayDimension.h>
+#include <std_msgs/Float32MultiArray.h>
 #include <std_msgs/UInt8.h>
 #include <sensor_msgs/Joy.h>
 #include <roberto_msgs/MotorState.h>
@@ -55,7 +55,7 @@ void motor_cb( const sensor_msgs::Joy& cmd_msg){
 ros::Subscriber<sensor_msgs::Joy> motor_sub("joy", &motor_cb);
 ros::Subscriber<std_msgs::UInt8> led_sub("led", &led_cb);
 
-std_msgs::Float32 str_msg;
+std_msgs::Float32MultiArray str_msg;
 ros::Publisher chatter("encoder", &str_msg);
 
 char hello[25];
@@ -66,11 +66,15 @@ int main(){
   /* System Clocks Configuration */
   RCC_Configuration();
 
+  str_msg.data = (float *)malloc(sizeof(float)*4);
+  str_msg.data_length = 4;
+
   nh.initNode();
   nh.subscribe(motor_sub);
   nh.subscribe(led_sub);
   nh.advertise(chatter);
 
+  
   GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
   I2C1_Init();
   SysTick_Init();
@@ -80,7 +84,7 @@ int main(){
   float KP = 500;
   float KI = 500;
   float KD = 4;
-  float integralSaturation = 100000;
+  float integralSaturation = 10000;
   float wheelRadius = 0.04;
 
   delay(1000);
@@ -161,30 +165,31 @@ int main(){
     nh.logerror(str);
   }
 
+  
 
   
   //led_set(200);
 
   servo_left->setReference(90);
   servo_right->setReference(100);
-  front_right->setReference(0);
+  front_right->setReference(-2);
   front_left->setReference(0);
-  rear_right->setReference(0);
+  rear_right->setReference(2);
   rear_left->setReference(0);
+
+
 
   while (1){
     debug_toggle();
 
-    
     servo_left->update(0.1);
     servo_right->update(0.1);
-    float s_ = rear_right->update(0.1);
-    //rear_left->update(0.1);
-    //front_left->update(0.1);
-    //front_right->update(0.1);
+    
+    str_msg.data[0] = front_right->update(0.1);
+    str_msg.data[1] = front_left->update(0.1);
+    //str_msg.data[2] = rear_left->update(0.1);
+    str_msg.data[3] = rear_right->update(0.1);
 
-    //printf(hello, "Speed is: %d", (int)s_);
-    str_msg.data = s_;
     chatter.publish( &str_msg );
 
     nh.spinOnce();
