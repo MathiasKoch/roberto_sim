@@ -30,7 +30,6 @@ typedef struct{
 
 
 unsigned char TWI_Act_On_Failure_In_Last_Transmission(unsigned char TWIerrorMsg);
-void compute(AS5048* enc);
 
 volatile bool update = false;
 
@@ -106,6 +105,7 @@ int main(int argc, const char* argv[]){
 					messageBuf[1] = (speed  >> 16) & 0xFF;
 					messageBuf[2] = (speed  >> 8) & 0xFF;
 					messageBuf[3] =  speed  & 0xFF;
+					
 					TWI_Start_Transceiver_With_Data(messageBuf, TWI_BUFFER_SIZE);
 					
 					if(TWI_statusReg.lastTransOK){

@@ -11,10 +11,10 @@ extern "C"
 #include <stm32f10x.h>
 
 
-#define SLAVE_ADDRESS1 (0x10)
+/*#define SLAVE_ADDRESS1 (0x10)
 #define SLAVE_ADDRESS2 (0x10 | 0x04)
 #define SLAVE_ADDRESS3 (0x10 | 0x08)
-#define SLAVE_ADDRESS4 (0x10 | 0x04 | 0x08)
+#define SLAVE_ADDRESS4 (0x10 | 0x04 | 0x08)*/
 
 #define RXBUFFERSIZE   0x04
 
