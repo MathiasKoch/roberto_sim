@@ -105,12 +105,14 @@ int main(int argc, const char* argv[]){
 					messageBuf[0] = (speed  >> 24) & 0xFF;
 					messageBuf[1] = (speed  >> 16) & 0xFF;
 					messageBuf[2] = (speed  >> 8) & 0xFF;
-					messageBuf[3] = speed  & 0xFF;
+					messageBuf[3] =  speed  & 0xFF;
 					TWI_Start_Transceiver_With_Data(messageBuf, TWI_BUFFER_SIZE);
-
-					// Reset counters
-					enc.dTicks = 0;
-					enc.dt = 0;
+					
+					if(TWI_statusReg.lastTransOK){
+						// Reset counters
+						enc.dTicks = 0;
+						enc.dt = 0;
+					}
 				}
 			}else{ // Ends up here if the last operation completed unsuccessfully
 				TWI_Act_On_Failure_In_Last_Transmission(TWI_Get_State_Info());
