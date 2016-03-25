@@ -423,9 +423,9 @@ END GROUP
  .stab          0x00000000000015c0      0x984 AS5048A.o
                                         0xb4c (size before relaxing)
 
-.stabstr        0x0000000000000000     0x1313
+.stabstr        0x0000000000000000     0x1312
  *(.stabstr)
- .stabstr       0x0000000000000000     0x1313 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr5/crtm328p.o
+ .stabstr       0x0000000000000000     0x1312 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr5/crtm328p.o
 
 .stab.excl
  *(.stab.excl)

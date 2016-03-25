@@ -30,7 +30,6 @@ typedef struct{
 
 
 unsigned char TWI_Act_On_Failure_In_Last_Transmission(unsigned char TWIerrorMsg);
-void compute(AS5048* enc);
 
 volatile bool update = false;
 

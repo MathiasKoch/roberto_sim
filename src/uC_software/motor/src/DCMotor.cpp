@@ -94,12 +94,6 @@ bool DCMotor::motorInit()
 	// Initialize encoder
 	initEncoder(m_settings->encoderAddr);
 
-	// Initialize PID regulator
-	KP = m_settings->KP;
-	KI = m_settings->KI;
-	KD = m_settings->KD;
-	integralSaturation = m_settings->integralSaturation;
-
 	integral = 0;
 	error = 0;
 
@@ -114,13 +108,13 @@ void DCMotor::setReference(float setPoint){
 }
 
 bool DCMotor::setSpeed(int s){
-	if(s < 0)
-		s = 0;
+	if(s < -PERIOD)
+		s = -PERIOD;
 
 	if(s > PERIOD)
 		s = PERIOD;
 
-	if(abs(s) > 0){
+	if(abs(s) > 3000){
 		GPIO_SetBits(m_settings->m_DCEnAPort, m_settings->m_DCEnAPin);
 		GPIO_SetBits(m_settings->m_DCEnBPort, m_settings->m_DCEnBPin);
 
@@ -143,7 +137,7 @@ bool DCMotor::setSpeed(int s){
 	}
 
 	if(m_settings->m_Timer == TIM1)
-		s = s*2;
+		s*=2;
 
 	switch(m_settings->m_TimerChannel){
 		case 1:
@@ -198,14 +192,14 @@ float DCMotor::updateRegulator(float enc, float dt){
 	float error_new = speed-enc;
 	
 	integral += error_new*dt;
-	if (integral > integralSaturation){
-		integral = integralSaturation;
-	}else if (integral < -integralSaturation){
-		integral = -integralSaturation;
+	if (integral > m_settings->integralSaturation){
+		integral = m_settings->integralSaturation;
+	}else if (integral < -(m_settings->integralSaturation)){
+		integral = -(m_settings->integralSaturation);
 	}
 	
 	float derivative = (error_new-error)/dt;
-	float output = (KP*error + KI*integral + KD*derivative);
+	float output = (m_settings->KP*error + m_settings->KI*integral + m_settings->KD*derivative);
 	error = error_new;
 	return output;
 }

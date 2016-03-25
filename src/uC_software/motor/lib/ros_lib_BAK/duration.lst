@@ -320,14 +320,14 @@
  244              		.file 4 "lib/ros_lib/ros/duration.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 duration.cpp
-     /tmp/cclOzzyf.s:19     .text:00000000 $t
-     /tmp/cclOzzyf.s:24     .text:00000000 _ZN3ros22normalizeSecNSecSignedERlS0_
-     /tmp/cclOzzyf.s:86     .text:00000038 $d
+     /tmp/ccYYUn0C.s:19     .text:00000000 $t
+     /tmp/ccYYUn0C.s:24     .text:00000000 _ZN3ros22normalizeSecNSecSignedERlS0_
+     /tmp/ccYYUn0C.s:86     .text:00000038 $d
                        .ARM.exidx:00000000 $d
-     /tmp/cclOzzyf.s:92     .text:0000003c $t
-     /tmp/cclOzzyf.s:97     .text:0000003c _ZN3ros8DurationpLERKS0_
-     /tmp/cclOzzyf.s:139    .text:00000058 _ZN3ros8DurationmIERKS0_
-     /tmp/cclOzzyf.s:186    .text:00000074 _ZN3ros8DurationmLEd
+     /tmp/ccYYUn0C.s:92     .text:0000003c $t
+     /tmp/ccYYUn0C.s:97     .text:0000003c _ZN3ros8DurationpLERKS0_
+     /tmp/ccYYUn0C.s:139    .text:00000058 _ZN3ros8DurationmIERKS0_
+     /tmp/ccYYUn0C.s:186    .text:00000074 _ZN3ros8DurationmLEd
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

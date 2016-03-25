@@ -5,7 +5,6 @@
 #include "motor.h"
 #include "motorSettings.h"
 #include "led.h"
-#include "pid.h"
 #include "encoder.h"
 #include "stm32_time.h"
 
@@ -14,6 +13,7 @@
 #include <std_msgs/String.h>
 #include <std_msgs/Float32.h>
 #include <std_msgs/UInt8.h>
+#include <sensor_msgs/Joy.h>
 #include <roberto_msgs/MotorState.h>
 
 
@@ -27,6 +27,12 @@ uint8_t RxBuffer [RXBUFFERSIZE] = {0};
 __IO uint8_t NumberOfByteToReceive = 0x00;
 __IO uint8_t GenerateStartStatus = 0x00;
 
+motor *servo_left;
+motor *servo_right;
+motor *front_right;
+motor *front_left;
+motor *rear_right;
+motor *rear_left;
 
 
 ros::NodeHandle nh;
@@ -37,12 +43,16 @@ void led_cb( const std_msgs::UInt8& cmd_msg){
 
 
 
-void motor_cb( const roberto_msgs::MotorState& cmd_msg){
-
+void motor_cb( const sensor_msgs::Joy& cmd_msg){
+  front_right->setReference(cmd_msg.axes[1]*2);
+  front_left->setReference(cmd_msg.axes[1]*2);
+  rear_right->setReference(cmd_msg.axes[1]*2);
+  rear_left->setReference(cmd_msg.axes[1]*2);
 }
 
 
-ros::Subscriber<roberto_msgs::MotorState> motor_sub("motor", &motor_cb);
+//ros::Subscriber<roberto_msgs::MotorState> motor_sub("motor", &motor_cb);
+ros::Subscriber<sensor_msgs::Joy> motor_sub("joy", &motor_cb);
 ros::Subscriber<std_msgs::UInt8> led_sub("led", &led_cb);
 
 std_msgs::Float32 str_msg;
@@ -67,6 +77,12 @@ int main(){
   DEBUG_Init();
   LED_Init();
 
+  float KP = 500;
+  float KI = 500;
+  float KD = 4;
+  float integralSaturation = 100000;
+  float wheelRadius = 0.04;
+
   delay(1000);
 
   motorSettings SL(MOTOR_TYPE_SERVO, "servo_left", TIM4, 4);
@@ -82,84 +98,90 @@ int main(){
               GPIO_Pin_15, GPIOC, GPIO_Pin_0, GPIOA,
               GPIO_Pin_8, GPIOA);
   FR.encoderAddr = (0x10 | 0x08);
-  FR.setRegulator(5000,5000,2,100000);
-  FR.wheelRadius = 0.04;
+  FR.setRegulator(KP,KI,KD,integralSaturation);
+  FR.wheelRadius = wheelRadius;
 
   motorSettings FL(MOTOR_TYPE_DC_MOTOR, "front_left", TIM3, 4);
   FL.setDCPins(GPIO_Pin_2,GPIOB, GPIO_Pin_5,GPIOA,
               GPIO_Pin_4, GPIOA,GPIO_Pin_10,GPIOB,
               GPIO_Pin_1, GPIOB);
   FL.encoderAddr = (0x10);
+  FL.setRegulator(KP,KI,KD,integralSaturation);
+  FL.wheelRadius = wheelRadius;
 
   motorSettings RL(MOTOR_TYPE_DC_MOTOR, "rear_left", TIM2, 4);
   RL.setDCPins(GPIO_Pin_11, GPIOB, GPIO_Pin_12, GPIOB,
     GPIO_Pin_13, GPIOB, GPIO_Pin_14, GPIOB,
     GPIO_Pin_3, GPIOA);
+  RL.encoderAddr = (0x10 | 0x04);
+  RL.setRegulator(KP,KI,KD,integralSaturation);
+  RL.wheelRadius = wheelRadius;
 
   motorSettings RR(MOTOR_TYPE_DC_MOTOR, "rear_right", TIM1, 4);
   RR.setDCPins(GPIO_Pin_15, GPIOB, GPIO_Pin_12,GPIOA,
               GPIO_Pin_15, GPIOA, GPIO_Pin_3, GPIOB,
               GPIO_Pin_11, GPIOA);
+  RR.encoderAddr = (0x10 | 0x04 | 0x08);
+  RR.setRegulator(KP,KI,KD,integralSaturation);
+  RR.wheelRadius = wheelRadius;
 
-  motor *servo_left = motor::createMotor(&SL);
+  servo_left = motor::createMotor(&SL);
   if(!servo_left->motorInit()){
     sprintf(str, "Unable to initialize motor: %s - [FAIL]\r\n", servo_left->motorName());
     nh.logerror(str);
   }
 
-  motor *servo_right = motor::createMotor(&SR);
+  servo_right = motor::createMotor(&SR);
   if(!servo_right->motorInit()){
     sprintf(str, "Unable to initialize motor: %s - [FAIL]\r\n", servo_right->motorName());
     nh.logerror(str);
   }
 
-  motor *front_left = motor::createMotor(&FL);
+  front_left = motor::createMotor(&FL);
   if(!front_left->motorInit()){
     sprintf(str, "Unable to initialize motor: %s - [FAIL]\r\n", front_left->motorName());
     nh.logerror(str);
   }
 
-  motor *front_right = motor::createMotor(&FR);
+  front_right = motor::createMotor(&FR);
   if(!front_right->motorInit()){
     sprintf(str, "Unable to initialize motor: %s - [FAIL]\r\n", front_right->motorName());
     nh.logerror(str);
   }
 
-  motor *rear_left = motor::createMotor(&RL);
+  rear_left = motor::createMotor(&RL);
   if(!rear_left->motorInit()){
     sprintf(str, "Unable to initialize motor: %s - [FAIL]\r\n", rear_left->motorName());
     nh.logerror(str);
   }
 
-  motor *rear_right = motor::createMotor(&RR);
+  rear_right = motor::createMotor(&RR);
   if(!rear_right->motorInit()){
     sprintf(str, "Unable to initialize motor: %s - [FAIL]\r\n", rear_right->motorName());
     nh.logerror(str);
   }
 
-  servo_left->setReference(90);
-  servo_right->setReference(100);
-
-  //servo_left->update(1);
-  //servo_right->update(1);
-  //rear_right->update(1);
-  //rear_left->update(1);
-  //front_left->update(1);
-  //front_right->update(1);
-
- 
-  /*int16_t speed = 0;*/
 
   
   //led_set(200);
 
-
+  servo_left->setReference(90);
+  servo_right->setReference(100);
+  front_right->setReference(0);
+  front_left->setReference(0);
+  rear_right->setReference(0);
+  rear_left->setReference(0);
 
   while (1){
     debug_toggle();
 
-    front_right->setReference(2);
-    float s_ = front_right->update(0.1);
+    
+    servo_left->update(0.1);
+    servo_right->update(0.1);
+    float s_ = rear_right->update(0.1);
+    //rear_left->update(0.1);
+    //front_left->update(0.1);
+    //front_right->update(0.1);
 
     //printf(hello, "Speed is: %d", (int)s_);
     str_msg.data = s_;

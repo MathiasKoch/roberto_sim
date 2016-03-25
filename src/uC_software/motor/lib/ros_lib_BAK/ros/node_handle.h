@@ -432,7 +432,7 @@ namespace ros {
         message_out[1] = PROTOCOL_VER;
         message_out[2] = (uint8_t) ((uint16_t)l&255);
         message_out[3] = (uint8_t) ((uint16_t)l>>8);
-	      message_out[4] = 255 - ((message_out[2] + message_out[3])%256);
+	message_out[4] = 255 - ((message_out[2] + message_out[3])%256);
         message_out[5] = (uint8_t) ((int16_t)id&255);
         message_out[6] = (uint8_t) ((int16_t)id>>8);
 
