@@ -315,19 +315,19 @@
  238              		.cantunwind
  239              		.fnend
  241              	.Letext0:
- 242              		.file 2 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types
- 243              		.file 3 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 242              		.file 2 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
+ 243              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
  244              		.file 4 "lib/ros_lib/ros/duration.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 duration.cpp
-     /tmp/ccyJT3jN.s:19     .text:00000000 $t
-     /tmp/ccyJT3jN.s:24     .text:00000000 _ZN3ros22normalizeSecNSecSignedERlS0_
-     /tmp/ccyJT3jN.s:86     .text:00000038 $d
+     /tmp/ccUShQLO.s:19     .text:00000000 $t
+     /tmp/ccUShQLO.s:24     .text:00000000 _ZN3ros22normalizeSecNSecSignedERlS0_
+     /tmp/ccUShQLO.s:86     .text:00000038 $d
                        .ARM.exidx:00000000 $d
-     /tmp/ccyJT3jN.s:92     .text:0000003c $t
-     /tmp/ccyJT3jN.s:97     .text:0000003c _ZN3ros8DurationpLERKS0_
-     /tmp/ccyJT3jN.s:139    .text:00000058 _ZN3ros8DurationmIERKS0_
-     /tmp/ccyJT3jN.s:186    .text:00000074 _ZN3ros8DurationmLEd
+     /tmp/ccUShQLO.s:92     .text:0000003c $t
+     /tmp/ccUShQLO.s:97     .text:0000003c _ZN3ros8DurationpLERKS0_
+     /tmp/ccUShQLO.s:139    .text:00000058 _ZN3ros8DurationmIERKS0_
+     /tmp/ccUShQLO.s:186    .text:00000074 _ZN3ros8DurationmLEd
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

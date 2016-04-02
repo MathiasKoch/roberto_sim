@@ -246,21 +246,21 @@
  104              		.cfi_endproc
  105              	.LFE31:
  107              	.Letext0:
- 108              		.file 2 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types
- 109              		.file 3 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 108              		.file 2 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
+ 109              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
  110              		.file 4 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
  111              		.file 5 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f10x_dbgmcu.c
-     /tmp/cc2HH9gr.s:19     .text:00000000 $t
-     /tmp/cc2HH9gr.s:24     .text:00000000 DBGMCU_GetREVID
-     /tmp/cc2HH9gr.s:41     .text:00000008 $d
-     /tmp/cc2HH9gr.s:45     .text:0000000c $t
-     /tmp/cc2HH9gr.s:50     .text:0000000c DBGMCU_GetDEVID
-     /tmp/cc2HH9gr.s:66     .text:00000018 $d
-     /tmp/cc2HH9gr.s:70     .text:0000001c $t
-     /tmp/cc2HH9gr.s:75     .text:0000001c DBGMCU_Config
-     /tmp/cc2HH9gr.s:103    .text:00000030 $d
+     /tmp/ccBwZg6i.s:19     .text:00000000 $t
+     /tmp/ccBwZg6i.s:24     .text:00000000 DBGMCU_GetREVID
+     /tmp/ccBwZg6i.s:41     .text:00000008 $d
+     /tmp/ccBwZg6i.s:45     .text:0000000c $t
+     /tmp/ccBwZg6i.s:50     .text:0000000c DBGMCU_GetDEVID
+     /tmp/ccBwZg6i.s:66     .text:00000018 $d
+     /tmp/ccBwZg6i.s:70     .text:0000001c $t
+     /tmp/ccBwZg6i.s:75     .text:0000001c DBGMCU_Config
+     /tmp/ccBwZg6i.s:103    .text:00000030 $d
                      .debug_frame:00000010 $d
 
 NO UNDEFINED SYMBOLS

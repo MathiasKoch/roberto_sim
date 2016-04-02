@@ -43,6 +43,7 @@ public:
     int m_DCPWMPin;
     GPIO_TypeDef* m_DCPWMPort;
     uint16_t encoderAddr;
+    int encoder_timeout;
     
     float KP;
     float KI;

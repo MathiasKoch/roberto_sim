@@ -92,20 +92,31 @@ char* servo::motorName(){
 	return m_settings->m_motorName;
 }
 
-float servo::update(float dt){
+float servo::update(float dt, bool connected){
+	float LPF_Beta = 0.06;
+	int sp = pos * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) / 180 + m_settings->m_ServoLimitMin;
+	int curr, newVal;
 	switch(m_settings->m_TimerChannel){
 		case 1:
-			(m_settings->m_Timer)->CCR1 = pos * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) / 180 + m_settings->m_ServoLimitMin;
+			curr = (m_settings->m_Timer)->CCR1;
+			newVal = (int)(curr - (LPF_Beta * (curr - sp)));
+			(m_settings->m_Timer)->CCR1 = newVal;
 			break;
 		case 2:
-			(m_settings->m_Timer)->CCR2 = pos * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) / 180 + m_settings->m_ServoLimitMin;
+			curr = (m_settings->m_Timer)->CCR2;
+			newVal = (int)(curr - (LPF_Beta * (curr - sp)));
+			(m_settings->m_Timer)->CCR2 = newVal;
 			break;
 		case 3:
-			(m_settings->m_Timer)->CCR3 = pos * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) / 180 + m_settings->m_ServoLimitMin;
+			curr = (m_settings->m_Timer)->CCR3;
+			newVal = (int)(curr - (LPF_Beta * (curr - sp)));
+			(m_settings->m_Timer)->CCR3 = newVal;
 			break;
 		case 4:
-			(m_settings->m_Timer)->CCR4 = pos * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) / 180 + m_settings->m_ServoLimitMin;
+			curr = (m_settings->m_Timer)->CCR4;
+			newVal = (int)(curr - (LPF_Beta * (curr - sp)));
+			(m_settings->m_Timer)->CCR4 = newVal;
 			break;
 	}
-	return 0;
+	return newVal;
 }

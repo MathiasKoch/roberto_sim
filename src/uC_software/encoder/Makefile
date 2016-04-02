@@ -315,5 +315,19 @@ clean:
 	$(REMOVE) $(HEXTRG)
 	
 
+LFUSE = 0xff
+HFUSE = 0xde
+EFUSE = 0x05
+
+## Generic 
+FUSE_STRING = -U lfuse:w:$(LFUSE):m -U hfuse:w:$(HFUSE):m -U efuse:w:$(EFUSE):m 
+
+fuses: 
+	$(AVRDUDE) -c $(AVRDUDE_PROGRAMMERID) -p $(PROGRAMMER_MCU) \
+	           -P $(AVRDUDE_PORT) $(FUSE_STRING)
+show_fuses:
+	$(AVRDUDE) -c $(AVRDUDE_PROGRAMMERID) -p $(PROGRAMMER_MCU) -P $(AVRDUDE_PORT) -nv
+
+
 
 #####                    EOF                   #####

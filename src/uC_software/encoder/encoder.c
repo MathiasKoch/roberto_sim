@@ -32,19 +32,26 @@ unsigned char TWI_Act_On_Failure_In_Last_Transmission(unsigned char TWIerrorMsg)
 
 volatile bool update = false;
 
+uint8_t retryCnt = 0;
 
-
+unsigned char messageBuf[TWI_BUFFER_SIZE];
 
 ISR(TIMER0_COMPA_vect) {
     update = true;
 }
 
+void togglePin(){
+	PORTD ^= (1 << 6);
+}
+
 int main(int argc, const char* argv[]){
-	unsigned char messageBuf[TWI_BUFFER_SIZE];
 
 
 	// Setup address pins as input
 	DDRD &= ~((1 << 2) | (1 << 3));		// PD2 & PD3
+
+	// PD6 as output for togglePin()
+	DDRD |= (1 << 6);		// PD6
 
   	unsigned char TWI_slaveAddress = (0x10 | (PIND & 0x04) | (PIND & 0x08));
 
@@ -73,14 +80,15 @@ int main(int argc, const char* argv[]){
 	// Start the TWI transceiver to enable reseption of the first command from the TWI Master.
 	messageBuf[0] = 0x00;
 	messageBuf[1] = 0x00;
-	//  messageBuf[2] = 0x00;
-	//	messageBuf[3] = 0x00;
-	//	messageBuf[4] = 0x00;
+	messageBuf[2] = 0x00;
+	messageBuf[3] = 0x00;
+	messageBuf[4] = 0x00;
 	TWI_Start_Transceiver_With_Data(messageBuf, TWI_BUFFER_SIZE);
 
 	while(1){
 		if(update){
 			update = false;
+			togglePin();
 			enc.raw_angle = AS5048A_getRawRotation();
 			
 			// Shift to 16 bit to match overflow from 14 bit encoder
@@ -104,6 +112,7 @@ int main(int argc, const char* argv[]){
 					messageBuf[1] = (speed  >> 16) & 0xFF;
 					messageBuf[2] = (speed  >> 8) & 0xFF;
 					messageBuf[3] =  speed  & 0xFF;
+					messageBuf[4] =  0;
 					
 					TWI_Start_Transceiver_With_Data(messageBuf, TWI_BUFFER_SIZE);
 					
@@ -111,6 +120,7 @@ int main(int argc, const char* argv[]){
 						// Reset counters
 						enc.dTicks = 0;
 						enc.dt = 0;
+						retryCnt = 0;
 					//}
 				}
 			}else{ // Ends up here if the last operation completed unsuccessfully
@@ -129,6 +139,7 @@ unsigned char TWI_Act_On_Failure_In_Last_Transmission(unsigned char TWIerrorMsg)
 	// This very simple example puts the error code on PORTB and restarts the transceiver with
 	// all the same data in the transmission buffers.
   	//PORTB = TWIerrorMsg;
+	messageBuf[4] = ++retryCnt;
   	TWI_Start_Transceiver();
                     
   	return TWIerrorMsg; 

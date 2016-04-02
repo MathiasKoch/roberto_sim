@@ -4,8 +4,11 @@
 
 #include <stm32f10x.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include "motor.h"
 #include "encoder.h"
+#include "stm32_time.h"
 
 
 class DCMotor : public motor
@@ -17,7 +20,7 @@ public:
     virtual void setReference(float setPoint);
     virtual float getReference();
     virtual char* motorName();
-    virtual float update(float dt);
+    virtual float update(float dt, bool connected);
 
     virtual int motorType() { return MOTOR_TYPE_DC_MOTOR; }
     virtual bool motorInit();

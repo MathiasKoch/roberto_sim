@@ -654,47 +654,47 @@
  383              		.cfi_endproc
  384              	.LFE40:
  386              	.Letext0:
- 387              		.file 2 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types
- 388              		.file 3 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 387              		.file 2 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
+ 388              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
  389              		.file 4 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
  390              		.file 5 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
  391              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f10x_bkp.c
-     /tmp/ccEggBBW.s:19     .text:00000000 $t
-     /tmp/ccEggBBW.s:24     .text:00000000 BKP_DeInit
-     /tmp/ccEggBBW.s:58     .text:00000012 BKP_TamperPinLevelConfig
-     /tmp/ccEggBBW.s:73     .text:00000018 $d
-     /tmp/ccEggBBW.s:77     .text:0000001c $t
-     /tmp/ccEggBBW.s:82     .text:0000001c BKP_TamperPinCmd
-     /tmp/ccEggBBW.s:97     .text:00000024 $d
-     /tmp/ccEggBBW.s:101    .text:00000028 $t
-     /tmp/ccEggBBW.s:106    .text:00000028 BKP_ITConfig
-     /tmp/ccEggBBW.s:121    .text:00000030 $d
-     /tmp/ccEggBBW.s:125    .text:00000034 $t
-     /tmp/ccEggBBW.s:130    .text:00000034 BKP_RTCOutputConfig
-     /tmp/ccEggBBW.s:157    .text:00000048 $d
-     /tmp/ccEggBBW.s:161    .text:0000004c $t
-     /tmp/ccEggBBW.s:166    .text:0000004c BKP_SetRTCCalibrationValue
-     /tmp/ccEggBBW.s:193    .text:00000060 $d
-     /tmp/ccEggBBW.s:197    .text:00000064 $t
-     /tmp/ccEggBBW.s:202    .text:00000064 BKP_WriteBackupRegister
-     /tmp/ccEggBBW.s:236    .text:0000007c $d
-     /tmp/ccEggBBW.s:240    .text:00000080 $t
-     /tmp/ccEggBBW.s:245    .text:00000080 BKP_ReadBackupRegister
-     /tmp/ccEggBBW.s:280    .text:0000009c $d
-     /tmp/ccEggBBW.s:284    .text:000000a0 $t
-     /tmp/ccEggBBW.s:289    .text:000000a0 BKP_GetFlagStatus
-     /tmp/ccEggBBW.s:305    .text:000000a8 $d
-     /tmp/ccEggBBW.s:309    .text:000000ac $t
-     /tmp/ccEggBBW.s:314    .text:000000ac BKP_ClearFlag
-     /tmp/ccEggBBW.s:331    .text:000000bc $d
-     /tmp/ccEggBBW.s:335    .text:000000c0 $t
-     /tmp/ccEggBBW.s:340    .text:000000c0 BKP_GetITStatus
-     /tmp/ccEggBBW.s:356    .text:000000c8 $d
-     /tmp/ccEggBBW.s:360    .text:000000cc $t
-     /tmp/ccEggBBW.s:365    .text:000000cc BKP_ClearITPendingBit
-     /tmp/ccEggBBW.s:382    .text:000000dc $d
+     /tmp/ccG5wWKy.s:19     .text:00000000 $t
+     /tmp/ccG5wWKy.s:24     .text:00000000 BKP_DeInit
+     /tmp/ccG5wWKy.s:58     .text:00000012 BKP_TamperPinLevelConfig
+     /tmp/ccG5wWKy.s:73     .text:00000018 $d
+     /tmp/ccG5wWKy.s:77     .text:0000001c $t
+     /tmp/ccG5wWKy.s:82     .text:0000001c BKP_TamperPinCmd
+     /tmp/ccG5wWKy.s:97     .text:00000024 $d
+     /tmp/ccG5wWKy.s:101    .text:00000028 $t
+     /tmp/ccG5wWKy.s:106    .text:00000028 BKP_ITConfig
+     /tmp/ccG5wWKy.s:121    .text:00000030 $d
+     /tmp/ccG5wWKy.s:125    .text:00000034 $t
+     /tmp/ccG5wWKy.s:130    .text:00000034 BKP_RTCOutputConfig
+     /tmp/ccG5wWKy.s:157    .text:00000048 $d
+     /tmp/ccG5wWKy.s:161    .text:0000004c $t
+     /tmp/ccG5wWKy.s:166    .text:0000004c BKP_SetRTCCalibrationValue
+     /tmp/ccG5wWKy.s:193    .text:00000060 $d
+     /tmp/ccG5wWKy.s:197    .text:00000064 $t
+     /tmp/ccG5wWKy.s:202    .text:00000064 BKP_WriteBackupRegister
+     /tmp/ccG5wWKy.s:236    .text:0000007c $d
+     /tmp/ccG5wWKy.s:240    .text:00000080 $t
+     /tmp/ccG5wWKy.s:245    .text:00000080 BKP_ReadBackupRegister
+     /tmp/ccG5wWKy.s:280    .text:0000009c $d
+     /tmp/ccG5wWKy.s:284    .text:000000a0 $t
+     /tmp/ccG5wWKy.s:289    .text:000000a0 BKP_GetFlagStatus
+     /tmp/ccG5wWKy.s:305    .text:000000a8 $d
+     /tmp/ccG5wWKy.s:309    .text:000000ac $t
+     /tmp/ccG5wWKy.s:314    .text:000000ac BKP_ClearFlag
+     /tmp/ccG5wWKy.s:331    .text:000000bc $d
+     /tmp/ccG5wWKy.s:335    .text:000000c0 $t
+     /tmp/ccG5wWKy.s:340    .text:000000c0 BKP_GetITStatus
+     /tmp/ccG5wWKy.s:356    .text:000000c8 $d
+     /tmp/ccG5wWKy.s:360    .text:000000cc $t
+     /tmp/ccG5wWKy.s:365    .text:000000cc BKP_ClearITPendingBit
+     /tmp/ccG5wWKy.s:382    .text:000000dc $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

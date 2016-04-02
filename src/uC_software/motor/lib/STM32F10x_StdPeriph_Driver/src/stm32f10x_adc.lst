@@ -2563,59 +2563,59 @@
  1320              		.cfi_endproc
  1321              	.LFE64:
  1323              	.Letext0:
- 1324              		.file 2 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types
- 1325              		.file 3 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 1324              		.file 2 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
+ 1325              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
  1326              		.file 4 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
  1327              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_adc.h"
  1328              		.file 6 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
  1329              		.file 7 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f10x_adc.c
-     /tmp/cc0mZ4eF.s:19     .text:00000000 $t
-     /tmp/cc0mZ4eF.s:24     .text:00000000 ADC_DeInit
-     /tmp/cc0mZ4eF.s:100    .text:00000054 $d
-     /tmp/cc0mZ4eF.s:106    .text:00000060 $t
-     /tmp/cc0mZ4eF.s:111    .text:00000060 ADC_Init
-     /tmp/cc0mZ4eF.s:175    .text:000000a4 $d
-     /tmp/cc0mZ4eF.s:179    .text:000000a8 $t
-     /tmp/cc0mZ4eF.s:184    .text:000000a8 ADC_StructInit
-     /tmp/cc0mZ4eF.s:215    .text:000000ba ADC_Cmd
-     /tmp/cc0mZ4eF.s:244    .text:000000cc ADC_DMACmd
-     /tmp/cc0mZ4eF.s:273    .text:000000de ADC_ITConfig
-     /tmp/cc0mZ4eF.s:308    .text:000000f0 ADC_ResetCalibration
-     /tmp/cc0mZ4eF.s:329    .text:000000fa ADC_GetResetCalibrationStatus
-     /tmp/cc0mZ4eF.s:352    .text:00000102 ADC_StartCalibration
-     /tmp/cc0mZ4eF.s:373    .text:0000010c ADC_GetCalibrationStatus
-     /tmp/cc0mZ4eF.s:396    .text:00000114 ADC_SoftwareStartConvCmd
-     /tmp/cc0mZ4eF.s:425    .text:00000126 ADC_GetSoftwareStartConvStatus
-     /tmp/cc0mZ4eF.s:448    .text:0000012e ADC_DiscModeChannelCountConfig
-     /tmp/cc0mZ4eF.s:479    .text:0000013e ADC_DiscModeCmd
-     /tmp/cc0mZ4eF.s:508    .text:00000150 ADC_RegularChannelConfig
-     /tmp/cc0mZ4eF.s:662    .text:000001de ADC_ExternalTrigConvCmd
-     /tmp/cc0mZ4eF.s:691    .text:000001f0 ADC_GetConversionValue
-     /tmp/cc0mZ4eF.s:713    .text:000001f6 ADC_GetDualModeConversionValue
-     /tmp/cc0mZ4eF.s:728    .text:000001fc $d
-     /tmp/cc0mZ4eF.s:732    .text:00000200 $t
-     /tmp/cc0mZ4eF.s:737    .text:00000200 ADC_AutoInjectedConvCmd
-     /tmp/cc0mZ4eF.s:766    .text:00000212 ADC_InjectedDiscModeCmd
-     /tmp/cc0mZ4eF.s:795    .text:00000224 ADC_ExternalTrigInjectedConvConfig
-     /tmp/cc0mZ4eF.s:823    .text:00000230 ADC_ExternalTrigInjectedConvCmd
-     /tmp/cc0mZ4eF.s:852    .text:00000242 ADC_SoftwareStartInjectedConvCmd
-     /tmp/cc0mZ4eF.s:881    .text:00000254 ADC_GetSoftwareStartInjectedConvCmdStatus
-     /tmp/cc0mZ4eF.s:904    .text:0000025c ADC_InjectedChannelConfig
-     /tmp/cc0mZ4eF.s:1001   .text:000002b4 ADC_InjectedSequencerLengthConfig
-     /tmp/cc0mZ4eF.s:1032   .text:000002c4 ADC_SetInjectedOffset
-     /tmp/cc0mZ4eF.s:1070   .text:000002da ADC_GetInjectedConversionValue
-     /tmp/cc0mZ4eF.s:1111   .text:000002f4 ADC_AnalogWatchdogCmd
-     /tmp/cc0mZ4eF.s:1141   .text:00000304 ADC_AnalogWatchdogThresholdsConfig
-     /tmp/cc0mZ4eF.s:1162   .text:0000030a ADC_AnalogWatchdogSingleChannelConfig
-     /tmp/cc0mZ4eF.s:1190   .text:00000316 ADC_TempSensorVrefintCmd
-     /tmp/cc0mZ4eF.s:1215   .text:0000032c $d
-     /tmp/cc0mZ4eF.s:1219   .text:00000330 $t
-     /tmp/cc0mZ4eF.s:1224   .text:00000330 ADC_GetFlagStatus
-     /tmp/cc0mZ4eF.s:1251   .text:0000033c ADC_ClearFlag
-     /tmp/cc0mZ4eF.s:1272   .text:00000342 ADC_GetITStatus
-     /tmp/cc0mZ4eF.s:1307   .text:00000358 ADC_ClearITPendingBit
+     /tmp/ccEdpv0n.s:19     .text:00000000 $t
+     /tmp/ccEdpv0n.s:24     .text:00000000 ADC_DeInit
+     /tmp/ccEdpv0n.s:100    .text:00000054 $d
+     /tmp/ccEdpv0n.s:106    .text:00000060 $t
+     /tmp/ccEdpv0n.s:111    .text:00000060 ADC_Init
+     /tmp/ccEdpv0n.s:175    .text:000000a4 $d
+     /tmp/ccEdpv0n.s:179    .text:000000a8 $t
+     /tmp/ccEdpv0n.s:184    .text:000000a8 ADC_StructInit
+     /tmp/ccEdpv0n.s:215    .text:000000ba ADC_Cmd
+     /tmp/ccEdpv0n.s:244    .text:000000cc ADC_DMACmd
+     /tmp/ccEdpv0n.s:273    .text:000000de ADC_ITConfig
+     /tmp/ccEdpv0n.s:308    .text:000000f0 ADC_ResetCalibration
+     /tmp/ccEdpv0n.s:329    .text:000000fa ADC_GetResetCalibrationStatus
+     /tmp/ccEdpv0n.s:352    .text:00000102 ADC_StartCalibration
+     /tmp/ccEdpv0n.s:373    .text:0000010c ADC_GetCalibrationStatus
+     /tmp/ccEdpv0n.s:396    .text:00000114 ADC_SoftwareStartConvCmd
+     /tmp/ccEdpv0n.s:425    .text:00000126 ADC_GetSoftwareStartConvStatus
+     /tmp/ccEdpv0n.s:448    .text:0000012e ADC_DiscModeChannelCountConfig
+     /tmp/ccEdpv0n.s:479    .text:0000013e ADC_DiscModeCmd
+     /tmp/ccEdpv0n.s:508    .text:00000150 ADC_RegularChannelConfig
+     /tmp/ccEdpv0n.s:662    .text:000001de ADC_ExternalTrigConvCmd
+     /tmp/ccEdpv0n.s:691    .text:000001f0 ADC_GetConversionValue
+     /tmp/ccEdpv0n.s:713    .text:000001f6 ADC_GetDualModeConversionValue
+     /tmp/ccEdpv0n.s:728    .text:000001fc $d
+     /tmp/ccEdpv0n.s:732    .text:00000200 $t
+     /tmp/ccEdpv0n.s:737    .text:00000200 ADC_AutoInjectedConvCmd
+     /tmp/ccEdpv0n.s:766    .text:00000212 ADC_InjectedDiscModeCmd
+     /tmp/ccEdpv0n.s:795    .text:00000224 ADC_ExternalTrigInjectedConvConfig
+     /tmp/ccEdpv0n.s:823    .text:00000230 ADC_ExternalTrigInjectedConvCmd
+     /tmp/ccEdpv0n.s:852    .text:00000242 ADC_SoftwareStartInjectedConvCmd
+     /tmp/ccEdpv0n.s:881    .text:00000254 ADC_GetSoftwareStartInjectedConvCmdStatus
+     /tmp/ccEdpv0n.s:904    .text:0000025c ADC_InjectedChannelConfig
+     /tmp/ccEdpv0n.s:1001   .text:000002b4 ADC_InjectedSequencerLengthConfig
+     /tmp/ccEdpv0n.s:1032   .text:000002c4 ADC_SetInjectedOffset
+     /tmp/ccEdpv0n.s:1070   .text:000002da ADC_GetInjectedConversionValue
+     /tmp/ccEdpv0n.s:1111   .text:000002f4 ADC_AnalogWatchdogCmd
+     /tmp/ccEdpv0n.s:1141   .text:00000304 ADC_AnalogWatchdogThresholdsConfig
+     /tmp/ccEdpv0n.s:1162   .text:0000030a ADC_AnalogWatchdogSingleChannelConfig
+     /tmp/ccEdpv0n.s:1190   .text:00000316 ADC_TempSensorVrefintCmd
+     /tmp/ccEdpv0n.s:1215   .text:0000032c $d
+     /tmp/ccEdpv0n.s:1219   .text:00000330 $t
+     /tmp/ccEdpv0n.s:1224   .text:00000330 ADC_GetFlagStatus
+     /tmp/ccEdpv0n.s:1251   .text:0000033c ADC_ClearFlag
+     /tmp/ccEdpv0n.s:1272   .text:00000342 ADC_GetITStatus
+     /tmp/ccEdpv0n.s:1307   .text:00000358 ADC_ClearITPendingBit
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

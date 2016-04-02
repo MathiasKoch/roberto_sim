@@ -128,6 +128,8 @@ bool DCMotor::setSpeed(int s){
 			return false;
 		}
 	}else{
+		s = 0;
+
 		GPIO_SetBits(m_settings->m_DCEnAPort, m_settings->m_DCEnAPin);
 		GPIO_SetBits(m_settings->m_DCEnBPort, m_settings->m_DCEnBPin);
 
@@ -182,9 +184,17 @@ int32_t DCMotor::readEncoder(){
     I2C_AcknowledgeConfig(I2C1, ENABLE);
     I2C_GenerateSTART(I2C1, ENABLE);
 
+    // TODO: Implement actual error handling on timeout and retry count.. At the very least throw an error message!
+    uint32_t start = millis();
+    while ((Rx_Idx < RXBUFFERSIZE)){
+    	if((millis() - start) > (uint32_t)(m_settings->encoder_timeout)){
+    		return 0;
+    	}
+    } 
 
-    // TODO: Add timeout here
-    while ((Rx_Idx < RXBUFFERSIZE)); 
+    if(RxBuffer[4] > 5){
+    	return 0;
+    }
 
     return ((int32_t)((RxBuffer[0] << 24)|(RxBuffer[1] << 16)|(RxBuffer[2] << 8) | RxBuffer[3]));
 }
@@ -206,14 +216,20 @@ float DCMotor::updateRegulator(float enc, float dt){
 	return output;
 }
 
-float DCMotor::update(float dt){
+float DCMotor::update(float dt, bool connected){
 	// Read encoder
-	float encSpeed = readEncoder()*0.004793689962;		// rad/s
-	float speed_si = encSpeed * wheelRadius;	// m/s
-	// Update PID regulator
-	int s = (int) updateRegulator(speed_si, dt);		// m/s
-	// Set motor speed to process value
-	setSpeed(0);		// m/s
+	int s = 0;
+	float speed_si = -1;
+	if(connected){
+		float encSpeed = readEncoder()*0.04793689962;		// rad/s
+		speed_si = encSpeed * wheelRadius;	// m/s
+		if(strstr(m_settings->m_motorName, "left") > 0)
+			speed_si = speed_si * -1;
+		// Update PID regulator
+		s = (int) updateRegulator(speed_si, dt);		// m/s*/
+		// Set motor speed to process value
+	}
+	setSpeed(s);		// m/s
 	// Return encoder values for publishing to localization
 	return speed_si;
 }

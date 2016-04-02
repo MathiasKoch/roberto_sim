@@ -919,46 +919,46 @@
  493              		.cfi_endproc
  494              	.LFE40:
  496              	.Letext0:
- 497              		.file 2 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types
- 498              		.file 3 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 497              		.file 2 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
+ 498              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
  499              		.file 4 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
  500              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_dac.h"
  501              		.file 6 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
  502              		.file 7 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f10x_dac.c
-     /tmp/cclHZcnh.s:19     .text:00000000 $t
-     /tmp/cclHZcnh.s:24     .text:00000000 DAC_DeInit
-     /tmp/cclHZcnh.s:60     .text:0000001a DAC_Init
-     /tmp/cclHZcnh.s:104    .text:00000044 $d
-     /tmp/cclHZcnh.s:108    .text:00000048 $t
-     /tmp/cclHZcnh.s:113    .text:00000048 DAC_StructInit
-     /tmp/cclHZcnh.s:139    .text:00000054 DAC_Cmd
-     /tmp/cclHZcnh.s:170    .text:00000070 $d
-     /tmp/cclHZcnh.s:174    .text:00000074 $t
-     /tmp/cclHZcnh.s:179    .text:00000074 DAC_DMACmd
-     /tmp/cclHZcnh.s:210    .text:00000090 $d
-     /tmp/cclHZcnh.s:214    .text:00000094 $t
-     /tmp/cclHZcnh.s:219    .text:00000094 DAC_SoftwareTriggerCmd
-     /tmp/cclHZcnh.s:252    .text:000000b0 $d
-     /tmp/cclHZcnh.s:256    .text:000000b4 $t
-     /tmp/cclHZcnh.s:261    .text:000000b4 DAC_DualSoftwareTriggerCmd
-     /tmp/cclHZcnh.s:286    .text:000000c8 $d
-     /tmp/cclHZcnh.s:290    .text:000000cc $t
-     /tmp/cclHZcnh.s:295    .text:000000cc DAC_WaveGenerationCmd
-     /tmp/cclHZcnh.s:325    .text:000000e4 $d
-     /tmp/cclHZcnh.s:329    .text:000000e8 $t
-     /tmp/cclHZcnh.s:334    .text:000000e8 DAC_SetChannel1Data
-     /tmp/cclHZcnh.s:369    .text:00000104 $d
-     /tmp/cclHZcnh.s:373    .text:00000108 $t
-     /tmp/cclHZcnh.s:378    .text:00000108 DAC_SetChannel2Data
-     /tmp/cclHZcnh.s:413    .text:00000124 $d
-     /tmp/cclHZcnh.s:417    .text:00000128 $t
-     /tmp/cclHZcnh.s:422    .text:00000128 DAC_SetDualChannelData
-     /tmp/cclHZcnh.s:447    .text:0000013c $d
-     /tmp/cclHZcnh.s:451    .text:00000140 $t
-     /tmp/cclHZcnh.s:456    .text:00000140 DAC_GetDataOutputValue
-     /tmp/cclHZcnh.s:492    .text:00000160 $d
+     /tmp/ccoSQUs5.s:19     .text:00000000 $t
+     /tmp/ccoSQUs5.s:24     .text:00000000 DAC_DeInit
+     /tmp/ccoSQUs5.s:60     .text:0000001a DAC_Init
+     /tmp/ccoSQUs5.s:104    .text:00000044 $d
+     /tmp/ccoSQUs5.s:108    .text:00000048 $t
+     /tmp/ccoSQUs5.s:113    .text:00000048 DAC_StructInit
+     /tmp/ccoSQUs5.s:139    .text:00000054 DAC_Cmd
+     /tmp/ccoSQUs5.s:170    .text:00000070 $d
+     /tmp/ccoSQUs5.s:174    .text:00000074 $t
+     /tmp/ccoSQUs5.s:179    .text:00000074 DAC_DMACmd
+     /tmp/ccoSQUs5.s:210    .text:00000090 $d
+     /tmp/ccoSQUs5.s:214    .text:00000094 $t
+     /tmp/ccoSQUs5.s:219    .text:00000094 DAC_SoftwareTriggerCmd
+     /tmp/ccoSQUs5.s:252    .text:000000b0 $d
+     /tmp/ccoSQUs5.s:256    .text:000000b4 $t
+     /tmp/ccoSQUs5.s:261    .text:000000b4 DAC_DualSoftwareTriggerCmd
+     /tmp/ccoSQUs5.s:286    .text:000000c8 $d
+     /tmp/ccoSQUs5.s:290    .text:000000cc $t
+     /tmp/ccoSQUs5.s:295    .text:000000cc DAC_WaveGenerationCmd
+     /tmp/ccoSQUs5.s:325    .text:000000e4 $d
+     /tmp/ccoSQUs5.s:329    .text:000000e8 $t
+     /tmp/ccoSQUs5.s:334    .text:000000e8 DAC_SetChannel1Data
+     /tmp/ccoSQUs5.s:369    .text:00000104 $d
+     /tmp/ccoSQUs5.s:373    .text:00000108 $t
+     /tmp/ccoSQUs5.s:378    .text:00000108 DAC_SetChannel2Data
+     /tmp/ccoSQUs5.s:413    .text:00000124 $d
+     /tmp/ccoSQUs5.s:417    .text:00000128 $t
+     /tmp/ccoSQUs5.s:422    .text:00000128 DAC_SetDualChannelData
+     /tmp/ccoSQUs5.s:447    .text:0000013c $d
+     /tmp/ccoSQUs5.s:451    .text:00000140 $t
+     /tmp/ccoSQUs5.s:456    .text:00000140 DAC_GetDataOutputValue
+     /tmp/ccoSQUs5.s:492    .text:00000160 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

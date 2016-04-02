@@ -447,28 +447,28 @@
  235              		.cfi_endproc
  236              	.LFE33:
  238              	.Letext0:
- 239              		.file 2 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types
- 240              		.file 3 "/media/emil/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 239              		.file 2 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
+ 240              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
  241              		.file 4 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
  242              		.file 5 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
  243              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/misc.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 misc.c
-     /tmp/ccIGo8yv.s:19     .text:00000000 $t
-     /tmp/ccIGo8yv.s:24     .text:00000000 NVIC_PriorityGroupConfig
-     /tmp/ccIGo8yv.s:43     .text:00000010 $d
-     /tmp/ccIGo8yv.s:47     .text:00000014 $t
-     /tmp/ccIGo8yv.s:52     .text:00000014 NVIC_Init
-     /tmp/ccIGo8yv.s:136    .text:00000078 $d
-     /tmp/ccIGo8yv.s:141    .text:00000080 $t
-     /tmp/ccIGo8yv.s:146    .text:00000080 NVIC_SetVectorTable
-     /tmp/ccIGo8yv.s:166    .text:00000090 $d
-     /tmp/ccIGo8yv.s:170    .text:00000094 $t
-     /tmp/ccIGo8yv.s:175    .text:00000094 NVIC_SystemLPConfig
-     /tmp/ccIGo8yv.s:203    .text:000000a8 $d
-     /tmp/ccIGo8yv.s:207    .text:000000ac $t
-     /tmp/ccIGo8yv.s:212    .text:000000ac SysTick_CLKSourceConfig
-     /tmp/ccIGo8yv.s:234    .text:000000c0 $d
+     /tmp/cctrQhxm.s:19     .text:00000000 $t
+     /tmp/cctrQhxm.s:24     .text:00000000 NVIC_PriorityGroupConfig
+     /tmp/cctrQhxm.s:43     .text:00000010 $d
+     /tmp/cctrQhxm.s:47     .text:00000014 $t
+     /tmp/cctrQhxm.s:52     .text:00000014 NVIC_Init
+     /tmp/cctrQhxm.s:136    .text:00000078 $d
+     /tmp/cctrQhxm.s:141    .text:00000080 $t
+     /tmp/cctrQhxm.s:146    .text:00000080 NVIC_SetVectorTable
+     /tmp/cctrQhxm.s:166    .text:00000090 $d
+     /tmp/cctrQhxm.s:170    .text:00000094 $t
+     /tmp/cctrQhxm.s:175    .text:00000094 NVIC_SystemLPConfig
+     /tmp/cctrQhxm.s:203    .text:000000a8 $d
+     /tmp/cctrQhxm.s:207    .text:000000ac $t
+     /tmp/cctrQhxm.s:212    .text:000000ac SysTick_CLKSourceConfig
+     /tmp/cctrQhxm.s:234    .text:000000c0 $d
                      .debug_frame:00000010 $d
 
 NO UNDEFINED SYMBOLS
