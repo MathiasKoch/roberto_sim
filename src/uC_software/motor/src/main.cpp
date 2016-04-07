@@ -21,7 +21,7 @@
 #include <tf/transform_broadcaster.h>
 #include <ros/time.h>
 
-
+#define CMDMSGTIMEOUT 500 // millis
 
 /* Private function prototypes -----------------------------------------------*/
 
@@ -44,6 +44,7 @@ float d, L;
 
 float motorCmd[4];
 uint8_t currentMode;
+uint32_t lastMsg;
 
 ros::NodeHandle nh;
 
@@ -57,6 +58,7 @@ void led_cb( const std_msgs::UInt8& cmd_msg){
 
 
 void motor_cb( const roberto_msgs::MotorState& cmd_msg){
+  lastMsg = millis();
   uint8_t intMode = cmd_msg.mode;
   if(intMode == cmd_msg.DRIVE_MODE_AUTO){
 
@@ -304,7 +306,7 @@ int main(){
     auto sl = servo_left->update(0.1, connected);
     auto sr = servo_right->update(0.1, connected);
 
-    if(waitForServos){
+    if(waitForServos | lastMsg + CMDMSGTIMEOUT > start_time){
       if(std::get<2>(sr) == (int)servo_right->getReference() && std::get<2>(sl) == (int)servo_left->getReference()){
         waitForServos = false;
         front_right->setReference(motorCmd[0]);
