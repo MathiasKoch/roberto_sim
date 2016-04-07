@@ -166,7 +166,7 @@ float DCMotor::getReference(){
 	return speed;
 }
 
-char* DCMotor::motorName(){
+const char* DCMotor::motorName(){
 	return m_settings->m_motorName;
 }
 
@@ -174,9 +174,11 @@ void DCMotor::initEncoder(uint16_t addr){
 	encAddr = addr;
 }
 
-int32_t DCMotor::readEncoder(){
+std::tuple<int32_t, uint8_t, uint16_t> DCMotor::readEncoder(){
 	NumberOfByteToReceive = RXBUFFERSIZE;
     Rx_Idx = 0x00;
+    int32_t ret = -1;
+    uint16_t busyCount = 0;
 
     slaveAddress = encAddr;
     
@@ -185,18 +187,22 @@ int32_t DCMotor::readEncoder(){
     I2C_GenerateSTART(I2C1, ENABLE);
 
     // TODO: Implement actual error handling on timeout and retry count.. At the very least throw an error message!
-    uint32_t start = millis();
+    uint32_t start = micros();
     while ((Rx_Idx < RXBUFFERSIZE)){
-    	if((millis() - start) > (uint32_t)(m_settings->encoder_timeout)){
-    		return 0;
+    	if((micros() - start) >= (int32_t)2000){
+    		ret = 0;
+    		busyCount = 65535;
+    		break;
     	}
-    } 
-
-    if(RxBuffer[4] > 5){
-    	return 0;
+    }
+    if(ret == -1){
+    	ret = ((int32_t)((RxBuffer[0] << 24)|(RxBuffer[1] << 16)|(RxBuffer[2] << 8) | RxBuffer[3]));
+    	busyCount = (uint16_t)((RxBuffer[2] << 8) | RxBuffer[3]);
     }
 
-    return ((int32_t)((RxBuffer[0] << 24)|(RxBuffer[1] << 16)|(RxBuffer[2] << 8) | RxBuffer[3]));
+
+
+    return std::make_tuple(ret, RxBuffer[4], busyCount);
 }
 
 float DCMotor::updateRegulator(float enc, float dt){
@@ -216,20 +222,25 @@ float DCMotor::updateRegulator(float enc, float dt){
 	return output;
 }
 
-float DCMotor::update(float dt, bool connected){
+std::tuple<float, float, int, int> DCMotor::update(float dt, bool connected){
 	// Read encoder
 	int s = 0;
 	float speed_si = -1;
+	int32_t encoder_speed = 0;
+	uint16_t busyCount = 0;
+	uint8_t retryCount = 0;
 	if(connected){
-		float encSpeed = readEncoder()*0.04793689962;		// rad/s
+		std::tie(encoder_speed, retryCount, busyCount) = readEncoder();
+		float encSpeed = encoder_speed*0.04793689962;		// rad/s
 		speed_si = encSpeed * wheelRadius;	// m/s
 		if(strstr(m_settings->m_motorName, "left") > 0)
 			speed_si = speed_si * -1;
+
 		// Update PID regulator
 		s = (int) updateRegulator(speed_si, dt);		// m/s*/
 		// Set motor speed to process value
 	}
 	setSpeed(s);		// m/s
 	// Return encoder values for publishing to localization
-	return speed_si;
+	return std::make_tuple(speed_si, s, (int)retryCount, (int)busyCount);
 }

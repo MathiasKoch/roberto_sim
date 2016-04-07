@@ -19,8 +19,8 @@ public:
 
     virtual void setReference(float setPoint);
     virtual float getReference();
-    virtual char* motorName();
-    virtual float update(float dt, bool connected);
+    virtual const char* motorName();
+    virtual std::tuple<float, float, int, int> update(float dt, bool connected);
 
     virtual int motorType() { return MOTOR_TYPE_DC_MOTOR; }
     virtual bool motorInit();
@@ -28,7 +28,7 @@ public:
 private:
 	bool setSpeed(int s);
     void initEncoder(uint16_t addr);
-    int32_t readEncoder();
+    std::tuple<int32_t, uint8_t, uint16_t> readEncoder();
     float updateRegulator(float enc, float dt);
 	float speed;
     uint8_t encAddr;

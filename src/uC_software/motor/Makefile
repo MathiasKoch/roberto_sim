@@ -167,7 +167,7 @@ CONLYFLAGS += $(CSTANDARD)
 
 # flags only for C++ (arm-none-eabi-gcc)
 # CPPFLAGS = -fno-rtti -fno-exceptions
-CPPFLAGS = 
+CPPFLAGS = -std=c++11
 
 # Assembler flags.
 #  -Wa,...:   tell GCC to pass this to the assembler.

@@ -18,7 +18,7 @@ motorSettings::motorSettings()
     m_MPU9150AccelFsr = MPU9150_ACCELFSR_8;*/
 }
 
-motorSettings::motorSettings(int type, char* name, TIM_TypeDef* timer, int timerChannel)
+motorSettings::motorSettings(int type, const char* name, TIM_TypeDef* timer, int timerChannel)
 {
     //  preset general defaults
 

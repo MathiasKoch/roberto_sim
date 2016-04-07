@@ -77,22 +77,17 @@ bool servo::motorInit()
 }
 
 void servo::setReference(float setPoint){
-	pos = (int)setPoint;
-	if(pos > 180){
-		pos = 180;
-	}else if(pos < 0){
-		pos = 0;
-	}
+	//pos = (int)setPoint > 90? 90 : ( (int)setPoint < -MAX_ANGLE_PIVOT? -MAX_ANGLE_PIVOT : (int)setPoint);
 }
 
 float servo::getReference(){
 	return (float)pos;
 }
-char* servo::motorName(){
+const char* servo::motorName(){
 	return m_settings->m_motorName;
 }
 
-float servo::update(float dt, bool connected){
+std::tuple<float, float, int, int> servo::update(float dt, bool connected){
 	float LPF_Beta = 0.06;
 	int sp = pos * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) / 180 + m_settings->m_ServoLimitMin;
 	int curr, newVal;
@@ -118,5 +113,5 @@ float servo::update(float dt, bool connected){
 			(m_settings->m_Timer)->CCR4 = newVal;
 			break;
 	}
-	return newVal;
+	return std::make_tuple(0, 0.0, newVal, 0);
 }

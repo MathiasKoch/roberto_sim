@@ -10,7 +10,7 @@ void SysTick_Init(void) {
 	 *SystemFrequency/100000    10us        *
 	 *SystemFrequency/1000000   1us         *
 	 *****************************************/
-	while (SysTick_Config(SystemCoreClock / 1000) != 0); // One SysTick interrupt now equals 1us
+	while (SysTick_Config(SystemCoreClock / 1000000) != 0); // One SysTick interrupt now equals 1us
  
 }
  
@@ -28,11 +28,15 @@ void SysTick_Handler(void) {
 }*/
  
 void delay(uint32_t n) {
-	uint32_t i = sysTickCounter;
-	while ((sysTickCounter - i) < (n));
+	uint32_t i = millis();
+	while ((millis() - i) < (n));
 }
 
 uint32_t millis(void){
+	return sysTickCounter/1000;
+}
+
+uint32_t micros(void){
 	return sysTickCounter;
 }
 

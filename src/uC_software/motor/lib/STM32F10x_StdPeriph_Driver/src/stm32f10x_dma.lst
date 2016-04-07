@@ -1177,24 +1177,24 @@
  496              		.file 6 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f10x_dma.c
-     /tmp/ccCMubZb.s:19     .text:00000000 $t
-     /tmp/ccCMubZb.s:24     .text:00000000 DMA_DeInit
-     /tmp/ccCMubZb.s:167    .text:000000b8 $d
-     /tmp/ccCMubZb.s:184    .text:000000f0 $t
-     /tmp/ccCMubZb.s:189    .text:000000f0 DMA_Init
-     /tmp/ccCMubZb.s:255    .text:0000012c DMA_StructInit
-     /tmp/ccCMubZb.s:295    .text:00000146 DMA_Cmd
-     /tmp/ccCMubZb.s:325    .text:0000015c DMA_ITConfig
-     /tmp/ccCMubZb.s:357    .text:0000016c DMA_SetCurrDataCounter
-     /tmp/ccCMubZb.s:376    .text:00000170 DMA_GetCurrDataCounter
-     /tmp/ccCMubZb.s:398    .text:00000176 DMA_GetITStatus
-     /tmp/ccCMubZb.s:426    .text:0000018c $d
-     /tmp/ccCMubZb.s:431    .text:00000194 $t
-     /tmp/ccCMubZb.s:436    .text:00000194 DMA_GetFlagStatus
-     /tmp/ccCMubZb.s:451    .text:00000198 DMA_ClearITPendingBit
-     /tmp/ccCMubZb.s:471    .text:000001a4 $d
-     /tmp/ccCMubZb.s:476    .text:000001ac $t
-     /tmp/ccCMubZb.s:481    .text:000001ac DMA_ClearFlag
+     /tmp/ccZD9oLG.s:19     .text:00000000 $t
+     /tmp/ccZD9oLG.s:24     .text:00000000 DMA_DeInit
+     /tmp/ccZD9oLG.s:167    .text:000000b8 $d
+     /tmp/ccZD9oLG.s:184    .text:000000f0 $t
+     /tmp/ccZD9oLG.s:189    .text:000000f0 DMA_Init
+     /tmp/ccZD9oLG.s:255    .text:0000012c DMA_StructInit
+     /tmp/ccZD9oLG.s:295    .text:00000146 DMA_Cmd
+     /tmp/ccZD9oLG.s:325    .text:0000015c DMA_ITConfig
+     /tmp/ccZD9oLG.s:357    .text:0000016c DMA_SetCurrDataCounter
+     /tmp/ccZD9oLG.s:376    .text:00000170 DMA_GetCurrDataCounter
+     /tmp/ccZD9oLG.s:398    .text:00000176 DMA_GetITStatus
+     /tmp/ccZD9oLG.s:426    .text:0000018c $d
+     /tmp/ccZD9oLG.s:431    .text:00000194 $t
+     /tmp/ccZD9oLG.s:436    .text:00000194 DMA_GetFlagStatus
+     /tmp/ccZD9oLG.s:451    .text:00000198 DMA_ClearITPendingBit
+     /tmp/ccZD9oLG.s:471    .text:000001a4 $d
+     /tmp/ccZD9oLG.s:476    .text:000001ac $t
+     /tmp/ccZD9oLG.s:481    .text:000001ac DMA_ClearFlag
                      .debug_frame:00000010 $d
 
 NO UNDEFINED SYMBOLS

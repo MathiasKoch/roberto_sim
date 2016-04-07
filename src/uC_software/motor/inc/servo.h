@@ -13,8 +13,8 @@ public:
 
     virtual void setReference(float setPoint);
     virtual float getReference();
-    virtual char* motorName();
-    virtual float update(float dt, bool connected);
+    virtual const char* motorName();
+    virtual std::tuple<float, float, int, int> update(float dt, bool connected);
 
     virtual int motorType() { return MOTOR_TYPE_SERVO; }
     virtual bool motorInit();

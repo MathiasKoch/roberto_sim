@@ -18,6 +18,8 @@ void led_set(uint8_t val);
 void DEBUG_Init();
 void debug_toggle(void);
 
+void SHUTDOWN_Init(void);
+
 #ifdef __cplusplus
 }
 #endif

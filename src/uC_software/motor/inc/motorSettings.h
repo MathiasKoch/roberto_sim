@@ -9,14 +9,14 @@ class motorSettings
 {
 public:
     motorSettings();
-    motorSettings(int type, char* name, TIM_TypeDef* timer, int timerChannel);
+    motorSettings(int type, const char* name, TIM_TypeDef* timer, int timerChannel);
     //  These are the local variables
 
     void setDCPins(int m_DCInAPin_, GPIO_TypeDef* m_DCInAPort_, int m_DCEnAPin_, GPIO_TypeDef* m_DCEnAPort_, int m_DCInBPin_, GPIO_TypeDef* m_DCInBPort_, int m_DCEnBPin_, GPIO_TypeDef* m_DCEnBPort_, int m_DCPWMPin_, GPIO_TypeDef* m_DCPWMPort_);
     void setRegulator(float KP_, float KI_, float KD_, float integralSaturation_);
 
     int m_motorType;                                          // type code of motor in use
-    char *m_motorName;
+    const char *m_motorName;
 
     TIM_TypeDef* m_Timer;
     int m_TimerChannel;

@@ -22,7 +22,7 @@
   22              		.thumb_func
   24              	_ZN13motorSettingsC2Ev:
   25              		.fnstart
-  26              	.LFB31:
+  26              	.LFB1023:
   27              		.file 1 "src/motorSettings.cpp"
    1:src/motorSettings.cpp **** #include "motorSettings.h"
    2:src/motorSettings.cpp **** #include "servo.h"
@@ -57,20 +57,20 @@
   39              		.loc 1 19 0
   40 0004 7047     		bx	lr
   41              		.cfi_endproc
-  42              	.LFE31:
+  42              	.LFE1023:
   43              		.cantunwind
   44              		.fnend
   46              		.global	_ZN13motorSettingsC1Ev
   47              		.thumb_set _ZN13motorSettingsC1Ev,_ZN13motorSettingsC2Ev
   48              		.align	1
-  49              		.global	_ZN13motorSettingsC2EiPcP11TIM_TypeDefi
+  49              		.global	_ZN13motorSettingsC2EiPKcP11TIM_TypeDefi
   50              		.thumb
   51              		.thumb_func
-  53              	_ZN13motorSettingsC2EiPcP11TIM_TypeDefi:
+  53              	_ZN13motorSettingsC2EiPKcP11TIM_TypeDefi:
   54              		.fnstart
-  55              	.LFB34:
+  55              	.LFB1026:
   20:src/motorSettings.cpp **** 
-  21:src/motorSettings.cpp **** motorSettings::motorSettings(int type, char* name, TIM_TypeDef* timer, int timerChannel)
+  21:src/motorSettings.cpp **** motorSettings::motorSettings(int type, const char* name, TIM_TypeDef* timer, int timerChannel)
   56              		.loc 1 21 0
   57              		.cfi_startproc
   58              		@ args = 4, pretend = 0, frame = 0
@@ -108,18 +108,18 @@
   74              		.loc 1 37 0
   75 0010 10BD     		pop	{r4, pc}
   76              		.cfi_endproc
-  77              	.LFE34:
+  77              	.LFE1026:
   78              		.cantunwind
   79              		.fnend
-  81              		.global	_ZN13motorSettingsC1EiPcP11TIM_TypeDefi
-  82              		.thumb_set _ZN13motorSettingsC1EiPcP11TIM_TypeDefi,_ZN13motorSettingsC2EiPcP11TIM_TypeDefi
+  81              		.global	_ZN13motorSettingsC1EiPKcP11TIM_TypeDefi
+  82              		.thumb_set _ZN13motorSettingsC1EiPKcP11TIM_TypeDefi,_ZN13motorSettingsC2EiPKcP11TIM_TypeDefi
   83              		.align	1
   84              		.global	_ZN13motorSettings9setDCPinsEiP12GPIO_TypeDefiS1_iS1_iS1_iS1_
   85              		.thumb
   86              		.thumb_func
   88              	_ZN13motorSettings9setDCPinsEiP12GPIO_TypeDefiS1_iS1_iS1_iS1_:
   89              		.fnstart
-  90              	.LFB36:
+  90              	.LFB1028:
   38:src/motorSettings.cpp **** 
   39:src/motorSettings.cpp **** void motorSettings::setDCPins(int m_DCInAPin_, GPIO_TypeDef* m_DCInAPort_, int m_DCEnAPin_, GPIO_Ty
   40:src/motorSettings.cpp ****                                  int m_DCInBPin_, GPIO_TypeDef* m_DCInBPort_, int m_DCEnBPin_, 
@@ -175,7 +175,7 @@
  126 0032 4364     		str	r3, [r0, #68]
  127 0034 7047     		bx	lr
  128              		.cfi_endproc
- 129              	.LFE36:
+ 129              	.LFE1028:
  130              		.cantunwind
  131              		.fnend
  133              		.align	1
@@ -184,7 +184,7 @@
  136              		.thumb_func
  138              	_ZN13motorSettings12setRegulatorEffff:
  139              		.fnstart
- 140              	.LFB37:
+ 140              	.LFB1029:
   53:src/motorSettings.cpp **** }
   54:src/motorSettings.cpp **** 
   55:src/motorSettings.cpp **** void motorSettings::setRegulator(float KP_, float KI_, float KD_, float integralSaturation_){
@@ -213,25 +213,47 @@
  157 003e C365     		str	r3, [r0, #92]	@ float
  158 0040 7047     		bx	lr
  159              		.cfi_endproc
- 160              	.LFE37:
+ 160              	.LFE1029:
  161              		.cantunwind
  162              		.fnend
  164              	.Letext0:
  165              		.file 2 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
  166              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
- 167              		.file 4 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
- 168              		.file 5 "./inc/motorSettings.h"
- 169              		.file 6 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
+ 167              		.file 4 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/stdint.h"
+ 168              		.file 5 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
+ 169              		.file 6 "./inc/motorSettings.h"
+ 170              		.file 7 "/opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stddef.h"
+ 171              		.file 8 "/opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stdarg.h"
+ 172              		.file 9 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/lock.h"
+ 173              		.file 10 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_types.h"
+ 174              		.file 11 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/reent.h"
+ 175              		.file 12 "<built-in>"
+ 176              		.file 13 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/type_traits"
+ 177              		.file 14 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/exception_ptr.h"
+ 178              		.file 15 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/arm-none-eabi/armv7-m/
+ 179              		.file 16 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/debug/debug.h"
+ 180              		.file 17 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/cwchar"
+ 181              		.file 18 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/cstdint"
+ 182              		.file 19 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/clocale"
+ 183              		.file 20 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_pair.h"
+ 184              		.file 21 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/uses_allocator.h"
+ 185              		.file 22 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple"
+ 186              		.file 23 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/predefined_ops.h"
+ 187              		.file 24 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/ext/new_allocator.h"
+ 188              		.file 25 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/ext/numeric_traits.h"
+ 189              		.file 26 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/wchar.h"
+ 190              		.file 27 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/locale.h"
+ 191              		.file 28 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 motorSettings.cpp
-     /tmp/ccvznqRe.s:19     .text:00000000 $t
-     /tmp/ccvznqRe.s:24     .text:00000000 _ZN13motorSettingsC2Ev
+     /tmp/cc8CcAnD.s:19     .text:00000000 $t
+     /tmp/cc8CcAnD.s:24     .text:00000000 _ZN13motorSettingsC2Ev
                        .ARM.exidx:00000000 $d
-     /tmp/ccvznqRe.s:24     .text:00000000 _ZN13motorSettingsC1Ev
-     /tmp/ccvznqRe.s:53     .text:00000006 _ZN13motorSettingsC2EiPcP11TIM_TypeDefi
-     /tmp/ccvznqRe.s:53     .text:00000006 _ZN13motorSettingsC1EiPcP11TIM_TypeDefi
-     /tmp/ccvznqRe.s:88     .text:00000012 _ZN13motorSettings9setDCPinsEiP12GPIO_TypeDefiS1_iS1_iS1_iS1_
-     /tmp/ccvznqRe.s:138    .text:00000036 _ZN13motorSettings12setRegulatorEffff
+     /tmp/cc8CcAnD.s:24     .text:00000000 _ZN13motorSettingsC1Ev
+     /tmp/cc8CcAnD.s:53     .text:00000006 _ZN13motorSettingsC2EiPKcP11TIM_TypeDefi
+     /tmp/cc8CcAnD.s:53     .text:00000006 _ZN13motorSettingsC1EiPKcP11TIM_TypeDefi
+     /tmp/cc8CcAnD.s:88     .text:00000012 _ZN13motorSettings9setDCPinsEiP12GPIO_TypeDefiS1_iS1_iS1_iS1_
+     /tmp/cc8CcAnD.s:138    .text:00000036 _ZN13motorSettings12setRegulatorEffff
                      .debug_frame:00000010 $d
 
 NO UNDEFINED SYMBOLS
