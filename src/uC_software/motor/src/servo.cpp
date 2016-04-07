@@ -73,10 +73,17 @@ bool servo::motorInit()
 	/* TIM enable counter */
 	TIM_Cmd(m_settings->m_Timer, ENABLE);
 
+	// Setup Controller
+	float b_[] = {0.0029,    0.0087,    0.0087,    0.0029};
+	float a_[] = {1.0000,   -2.3741,    1.9294,   -0.5321};
+	std::copy(b_, b_ + 5, b);
+	std::copy(a_, a_ + 5, a);
+
 	return true;
 }
 
 void servo::setReference(float setPoint){
+	pos = (int) setPoint;
 	//pos = (int)setPoint > 90? 90 : ( (int)setPoint < -MAX_ANGLE_PIVOT? -MAX_ANGLE_PIVOT : (int)setPoint);
 }
 
@@ -88,30 +95,43 @@ const char* servo::motorName(){
 }
 
 std::tuple<float, float, int, int> servo::update(float dt, bool connected){
-	float LPF_Beta = 0.06;
-	int sp = pos * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) / 180 + m_settings->m_ServoLimitMin;
-	int curr, newVal;
+	int sp = pos * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) / 180 + m_settings->m_ServoLimitMin;	
+	sp = (int) filterUpdate(sp);
+
 	switch(m_settings->m_TimerChannel){
 		case 1:
-			curr = (m_settings->m_Timer)->CCR1;
-			newVal = (int)(curr - (LPF_Beta * (curr - sp)));
-			(m_settings->m_Timer)->CCR1 = newVal;
+			(m_settings->m_Timer)->CCR1 = sp;
 			break;
 		case 2:
-			curr = (m_settings->m_Timer)->CCR2;
-			newVal = (int)(curr - (LPF_Beta * (curr - sp)));
-			(m_settings->m_Timer)->CCR2 = newVal;
+			(m_settings->m_Timer)->CCR2 = sp;
 			break;
 		case 3:
-			curr = (m_settings->m_Timer)->CCR3;
-			newVal = (int)(curr - (LPF_Beta * (curr - sp)));
-			(m_settings->m_Timer)->CCR3 = newVal;
+			(m_settings->m_Timer)->CCR3 = sp;
 			break;
 		case 4:
-			curr = (m_settings->m_Timer)->CCR4;
-			newVal = (int)(curr - (LPF_Beta * (curr - sp)));
-			(m_settings->m_Timer)->CCR4 = newVal;
+			(m_settings->m_Timer)->CCR4 = sp;
 			break;
 	}
-	return std::make_tuple(0, 0.0, newVal, 0);
+	return std::make_tuple(0, 0.0, sp, 0);
+}
+
+float servo::filterUpdate(float sp){
+	int i;
+	for(i = 3; i>0; i++){
+		u[i-1] = u[i]; 
+	}
+	u[0] = sp; 
+	
+	float Y = b[0]*u[0];
+	for(i = 0; i<4; i++){
+		Y += b[1]*u[1];
+		Y -= a[1]*y[1];
+	}
+	Y /= a[0];
+
+	for(int j = 3; j>0; j++){
+		u[i-1] = y[i]; 
+	}
+	y[0] = Y;
+	return y[0];
 }

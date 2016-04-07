@@ -71,7 +71,7 @@
   59 001a 4361     		str	r3, [r0, #20]
   13:src/motor.cpp **** 	        return new servo(settings);
   60              		.loc 1 13 0
-  61 001c 0C20     		movs	r0, #12
+  61 001c 3C20     		movs	r0, #60
   62              	.LVL1:
   63              	.LEHB0:
   64 001e FFF7FEFF 		bl	_Znwj
@@ -319,21 +319,21 @@
  296              		.file 30 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/new"
 DEFINED SYMBOLS
                             *ABS*:00000000 motor.cpp
-     /tmp/cccvwQqT.s:19     .text:00000000 $t
-     /tmp/cccvwQqT.s:24     .text:00000000 _ZN5motor11createMotorEP13motorSettings
+     /tmp/cciJQ9D1.s:19     .text:00000000 $t
+     /tmp/cciJQ9D1.s:24     .text:00000000 _ZN5motor11createMotorEP13motorSettings
                        .ARM.extab:00000000 $d
                        .ARM.exidx:00000000 $d
-     /tmp/cccvwQqT.s:154    .text:00000050 _ZN5motorC2EP13motorSettings
-     /tmp/cccvwQqT.s:176    .text:00000058 $d
-     /tmp/cccvwQqT.s:154    .text:00000050 _ZN5motorC1EP13motorSettings
-     /tmp/cccvwQqT.s:184    .text:0000005c $t
-     /tmp/cccvwQqT.s:189    .text:0000005c _ZN5motorD2Ev
-     /tmp/cccvwQqT.s:189    .text:0000005c _ZN5motorD1Ev
-     /tmp/cccvwQqT.s:212    .text:0000005e _ZN5motorD0Ev
-     /tmp/cccvwQqT.s:258    .rodata:00000028 _ZTS5motor
-     /tmp/cccvwQqT.s:263    .rodata:00000030 _ZTI5motor
-     /tmp/cccvwQqT.s:245    .rodata:00000000 _ZTV5motor
-     /tmp/cccvwQqT.s:241    .rodata:00000000 $d
+     /tmp/cciJQ9D1.s:154    .text:00000050 _ZN5motorC2EP13motorSettings
+     /tmp/cciJQ9D1.s:176    .text:00000058 $d
+     /tmp/cciJQ9D1.s:154    .text:00000050 _ZN5motorC1EP13motorSettings
+     /tmp/cciJQ9D1.s:184    .text:0000005c $t
+     /tmp/cciJQ9D1.s:189    .text:0000005c _ZN5motorD2Ev
+     /tmp/cciJQ9D1.s:189    .text:0000005c _ZN5motorD1Ev
+     /tmp/cciJQ9D1.s:212    .text:0000005e _ZN5motorD0Ev
+     /tmp/cciJQ9D1.s:258    .rodata:00000028 _ZTS5motor
+     /tmp/cciJQ9D1.s:263    .rodata:00000030 _ZTI5motor
+     /tmp/cciJQ9D1.s:245    .rodata:00000000 _ZTV5motor
+     /tmp/cciJQ9D1.s:241    .rodata:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

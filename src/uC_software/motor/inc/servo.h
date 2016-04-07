@@ -21,6 +21,11 @@ public:
 
 private:
 	int pos;
+	float u[4];
+	float y[4];
+	float b[4];
+	float a[0];
+	float filterUpdate(float sp);
 
 };
 

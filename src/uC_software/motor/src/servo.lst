@@ -58,15 +58,16 @@
   40              	.LFE1021:
   41              		.cantunwind
   42              		.fnend
-  44              		.text
-  45              		.align	1
-  46              		.global	_ZN5servo12setReferenceEf
-  47              		.thumb
-  48              		.thumb_func
-  50              	_ZN5servo12setReferenceEf:
-  51              		.fnstart
-  52              	.LFB1030:
-  53              		.file 2 "src/servo.cpp"
+  44              		.global	__aeabi_f2iz
+  45              		.text
+  46              		.align	1
+  47              		.global	_ZN5servo12setReferenceEf
+  48              		.thumb
+  49              		.thumb_func
+  51              	_ZN5servo12setReferenceEf:
+  52              		.fnstart
+  53              	.LFB1030:
+  54              		.file 2 "src/servo.cpp"
    1:src/servo.cpp **** 
    2:src/servo.cpp **** #include "servo.h"
    3:src/servo.cpp **** #include "motorSettings.h"
@@ -142,925 +143,1156 @@
   73:src/servo.cpp **** 	/* TIM enable counter */
   74:src/servo.cpp **** 	TIM_Cmd(m_settings->m_Timer, ENABLE);
   75:src/servo.cpp **** 
-  76:src/servo.cpp **** 	return true;
-  77:src/servo.cpp **** }
-  78:src/servo.cpp **** 
-  79:src/servo.cpp **** void servo::setReference(float setPoint){
-  54              		.loc 2 79 0
-  55              		.cfi_startproc
-  56              		@ args = 0, pretend = 0, frame = 0
-  57              		@ frame_needed = 0, uses_anonymous_args = 0
-  58              		@ link register save eliminated.
+  76:src/servo.cpp **** 	// Setup Controller
+  77:src/servo.cpp **** 	float b_[] = {0.0029,    0.0087,    0.0087,    0.0029};
+  78:src/servo.cpp **** 	float a_[] = {1.0000,   -2.3741,    1.9294,   -0.5321};
+  79:src/servo.cpp **** 	std::copy(b_, b_ + 5, b);
+  80:src/servo.cpp **** 	std::copy(a_, a_ + 5, a);
+  81:src/servo.cpp **** 
+  82:src/servo.cpp **** 	return true;
+  83:src/servo.cpp **** }
+  84:src/servo.cpp **** 
+  85:src/servo.cpp **** void servo::setReference(float setPoint){
+  55              		.loc 2 85 0
+  56              		.cfi_startproc
+  57              		@ args = 0, pretend = 0, frame = 0
+  58              		@ frame_needed = 0, uses_anonymous_args = 0
   59              	.LVL2:
-  60 0000 7047     		bx	lr
-  61              		.cfi_endproc
-  62              	.LFE1030:
-  63              		.cantunwind
-  64              		.fnend
-  66              		.global	__aeabi_i2f
-  67              		.align	1
-  68              		.global	_ZN5servo12getReferenceEv
-  69              		.thumb
-  70              		.thumb_func
-  72              	_ZN5servo12getReferenceEv:
-  73              		.fnstart
-  74              	.LFB1031:
-  80:src/servo.cpp **** 	//pos = (int)setPoint > 90? 90 : ( (int)setPoint < -MAX_ANGLE_PIVOT? -MAX_ANGLE_PIVOT : (int)setPo
-  81:src/servo.cpp **** }
-  82:src/servo.cpp **** 
-  83:src/servo.cpp **** float servo::getReference(){
-  75              		.loc 2 83 0
-  76              		.cfi_startproc
-  77              		@ args = 0, pretend = 0, frame = 0
-  78              		@ frame_needed = 0, uses_anonymous_args = 0
-  79              	.LVL3:
-  80              		.loc 2 83 0
-  81 0002 08B5     		push	{r3, lr}
-  82              	.LCFI0:
-  83              		.cfi_def_cfa_offset 8
-  84              		.cfi_offset 3, -8
-  85              		.cfi_offset 14, -4
-  84:src/servo.cpp **** 	return (float)pos;
-  86              		.loc 2 84 0
-  87 0004 8068     		ldr	r0, [r0, #8]
-  88              	.LVL4:
-  89 0006 FFF7FEFF 		bl	__aeabi_i2f
-  90              	.LVL5:
-  85:src/servo.cpp **** }
-  91              		.loc 2 85 0
-  92 000a 08BD     		pop	{r3, pc}
-  93              		.cfi_endproc
-  94              	.LFE1031:
-  95              		.cantunwind
-  96              		.fnend
-  98              		.align	1
-  99              		.global	_ZN5servo9motorNameEv
- 100              		.thumb
- 101              		.thumb_func
- 103              	_ZN5servo9motorNameEv:
- 104              		.fnstart
- 105              	.LFB1032:
-  86:src/servo.cpp **** const char* servo::motorName(){
- 106              		.loc 2 86 0
- 107              		.cfi_startproc
- 108              		@ args = 0, pretend = 0, frame = 0
- 109              		@ frame_needed = 0, uses_anonymous_args = 0
- 110              		@ link register save eliminated.
- 111              	.LVL6:
-  87:src/servo.cpp **** 	return m_settings->m_motorName;
- 112              		.loc 2 87 0
- 113 000c 4368     		ldr	r3, [r0, #4]
+  60 0000 10B5     		push	{r4, lr}
+  61              	.LCFI0:
+  62              		.cfi_def_cfa_offset 8
+  63              		.cfi_offset 4, -8
+  64              		.cfi_offset 14, -4
+  65              		.loc 2 85 0
+  66 0002 0446     		mov	r4, r0
+  86:src/servo.cpp **** 	pos = (int) setPoint;
+  67              		.loc 2 86 0
+  68 0004 0846     		mov	r0, r1
+  69              	.LVL3:
+  70 0006 FFF7FEFF 		bl	__aeabi_f2iz
+  71              	.LVL4:
+  72 000a A060     		str	r0, [r4, #8]
+  73 000c 10BD     		pop	{r4, pc}
+  74              		.cfi_endproc
+  75              	.LFE1030:
+  76              		.cantunwind
+  77              		.fnend
+  79              		.global	__aeabi_i2f
+  80              		.align	1
+  81              		.global	_ZN5servo12getReferenceEv
+  82              		.thumb
+  83              		.thumb_func
+  85              	_ZN5servo12getReferenceEv:
+  86              		.fnstart
+  87              	.LFB1031:
+  87:src/servo.cpp **** 	//pos = (int)setPoint > 90? 90 : ( (int)setPoint < -MAX_ANGLE_PIVOT? -MAX_ANGLE_PIVOT : (int)setPo
   88:src/servo.cpp **** }
- 114              		.loc 2 88 0
- 115 000e 5868     		ldr	r0, [r3, #4]
- 116              	.LVL7:
- 117 0010 7047     		bx	lr
- 118              		.cfi_endproc
- 119              	.LFE1032:
- 120              		.cantunwind
- 121              		.fnend
- 123              		.global	__aeabi_fmul
- 124              		.global	__aeabi_fsub
- 125              		.global	__aeabi_f2iz
- 126              		.align	1
- 127              		.global	_ZN5servo6updateEfb
- 128              		.thumb
- 129              		.thumb_func
- 131              	_ZN5servo6updateEfb:
- 132              		.fnstart
- 133              	.LFB1033:
   89:src/servo.cpp **** 
-  90:src/servo.cpp **** std::tuple<float, float, int, int> servo::update(float dt, bool connected){
- 134              		.loc 2 90 0
- 135              		.cfi_startproc
- 136              		@ args = 0, pretend = 0, frame = 0
- 137              		@ frame_needed = 0, uses_anonymous_args = 0
- 138              	.LVL8:
-  91:src/servo.cpp **** 	float LPF_Beta = 0.06;
-  92:src/servo.cpp **** 	int sp = pos * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) / 180 + m_settings->m_S
- 139              		.loc 2 92 0
- 140 0012 4A68     		ldr	r2, [r1, #4]
- 141              	.LVL9:
-  90:src/servo.cpp **** 	float LPF_Beta = 0.06;
- 142              		.loc 2 90 0
- 143 0014 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
- 144              	.LCFI1:
- 145              		.cfi_def_cfa_offset 24
- 146              		.cfi_offset 4, -24
- 147              		.cfi_offset 5, -20
- 148              		.cfi_offset 6, -16
- 149              		.cfi_offset 7, -12
- 150              		.cfi_offset 8, -8
- 151              		.cfi_offset 14, -4
- 152              		.loc 2 92 0
- 153 0018 5769     		ldr	r7, [r2, #20]
-  90:src/servo.cpp **** 	float LPF_Beta = 0.06;
- 154              		.loc 2 90 0
- 155 001a 0546     		mov	r5, r0
- 156              		.loc 2 92 0
- 157 001c 1069     		ldr	r0, [r2, #16]
- 158              	.LVL10:
- 159 001e B424     		movs	r4, #180
- 160 0020 C61B     		subs	r6, r0, r7
- 161 0022 8868     		ldr	r0, [r1, #8]
- 162 0024 00FB06F1 		mul	r1, r0, r6
- 163              	.LVL11:
- 164 0028 91FBF4F1 		sdiv	r1, r1, r4
- 165 002c CC19     		adds	r4, r1, r7
- 166              	.LVL12:
-  93:src/servo.cpp **** 	int curr, newVal;
-  94:src/servo.cpp **** 	switch(m_settings->m_TimerChannel){
- 167              		.loc 2 94 0
- 168 002e D168     		ldr	r1, [r2, #12]
- 169 0030 0139     		subs	r1, r1, #1
- 170 0032 0329     		cmp	r1, #3
- 171 0034 60D8     		bhi	.L6
- 172 0036 DFE801F0 		tbb	[pc, r1]
- 173              	.L8:
- 174 003a 02       		.byte	(.L7-.L8)/2
- 175 003b 19       		.byte	(.L9-.L8)/2
- 176 003c 30       		.byte	(.L10-.L8)/2
- 177 003d 47       		.byte	(.L11-.L8)/2
- 178              		.p2align 1
- 179              	.L7:
-  95:src/servo.cpp **** 		case 1:
-  96:src/servo.cpp **** 			curr = (m_settings->m_Timer)->CCR1;
- 180              		.loc 2 96 0
- 181 003e 9768     		ldr	r7, [r2, #8]
- 182 0040 BE8E     		ldrh	r6, [r7, #52]
- 183 0042 B6B2     		uxth	r6, r6
- 184              	.LVL13:
-  97:src/servo.cpp **** 			newVal = (int)(curr - (LPF_Beta * (curr - sp)));
- 185              		.loc 2 97 0
- 186 0044 3046     		mov	r0, r6
- 187 0046 FFF7FEFF 		bl	__aeabi_i2f
- 188              	.LVL14:
- 189 004a 8046     		mov	r8, r0
- 190 004c 301B     		subs	r0, r6, r4
- 191 004e FFF7FEFF 		bl	__aeabi_i2f
- 192              	.LVL15:
- 193 0052 2E49     		ldr	r1, .L13
- 194 0054 FFF7FEFF 		bl	__aeabi_fmul
- 195              	.LVL16:
- 196 0058 0146     		mov	r1, r0
- 197 005a 4046     		mov	r0, r8
- 198 005c FFF7FEFF 		bl	__aeabi_fsub
- 199              	.LVL17:
- 200 0060 FFF7FEFF 		bl	__aeabi_f2iz
- 201              	.LVL18:
-  98:src/servo.cpp **** 			(m_settings->m_Timer)->CCR1 = newVal;
- 202              		.loc 2 98 0
- 203 0064 82B2     		uxth	r2, r0
-  97:src/servo.cpp **** 			newVal = (int)(curr - (LPF_Beta * (curr - sp)));
- 204              		.loc 2 97 0
- 205 0066 0346     		mov	r3, r0
- 206              	.LVL19:
- 207              		.loc 2 98 0
- 208 0068 BA86     		strh	r2, [r7, #52]	@ movhi
-  99:src/servo.cpp **** 			break;
- 209              		.loc 2 99 0
- 210 006a 45E0     		b	.L6
- 211              	.LVL20:
- 212              	.L9:
- 100:src/servo.cpp **** 		case 2:
- 101:src/servo.cpp **** 			curr = (m_settings->m_Timer)->CCR2;
- 213              		.loc 2 101 0
- 214 006c 9768     		ldr	r7, [r2, #8]
- 215 006e 3E8F     		ldrh	r6, [r7, #56]
- 216 0070 B6B2     		uxth	r6, r6
- 217              	.LVL21:
- 102:src/servo.cpp **** 			newVal = (int)(curr - (LPF_Beta * (curr - sp)));
- 218              		.loc 2 102 0
- 219 0072 3046     		mov	r0, r6
- 220 0074 FFF7FEFF 		bl	__aeabi_i2f
- 221              	.LVL22:
- 222 0078 8046     		mov	r8, r0
- 223 007a 301B     		subs	r0, r6, r4
- 224 007c FFF7FEFF 		bl	__aeabi_i2f
- 225              	.LVL23:
- 226 0080 2249     		ldr	r1, .L13
- 227 0082 FFF7FEFF 		bl	__aeabi_fmul
- 228              	.LVL24:
- 229 0086 0146     		mov	r1, r0
- 230 0088 4046     		mov	r0, r8
- 231 008a FFF7FEFF 		bl	__aeabi_fsub
- 232              	.LVL25:
- 233 008e FFF7FEFF 		bl	__aeabi_f2iz
- 234              	.LVL26:
- 103:src/servo.cpp **** 			(m_settings->m_Timer)->CCR2 = newVal;
- 235              		.loc 2 103 0
- 236 0092 82B2     		uxth	r2, r0
- 102:src/servo.cpp **** 			newVal = (int)(curr - (LPF_Beta * (curr - sp)));
- 237              		.loc 2 102 0
- 238 0094 0346     		mov	r3, r0
- 239              	.LVL27:
- 240              		.loc 2 103 0
- 241 0096 3A87     		strh	r2, [r7, #56]	@ movhi
+  90:src/servo.cpp **** float servo::getReference(){
+  88              		.loc 2 90 0
+  89              		.cfi_startproc
+  90              		@ args = 0, pretend = 0, frame = 0
+  91              		@ frame_needed = 0, uses_anonymous_args = 0
+  92              	.LVL5:
+  93 000e 08B5     		push	{r3, lr}
+  94              	.LCFI1:
+  95              		.cfi_def_cfa_offset 8
+  96              		.cfi_offset 3, -8
+  97              		.cfi_offset 14, -4
+  91:src/servo.cpp **** 	return (float)pos;
+  98              		.loc 2 91 0
+  99 0010 8068     		ldr	r0, [r0, #8]
+ 100              	.LVL6:
+ 101 0012 FFF7FEFF 		bl	__aeabi_i2f
+ 102              	.LVL7:
+  92:src/servo.cpp **** }
+ 103              		.loc 2 92 0
+ 104 0016 08BD     		pop	{r3, pc}
+ 105              		.cfi_endproc
+ 106              	.LFE1031:
+ 107              		.cantunwind
+ 108              		.fnend
+ 110              		.align	1
+ 111              		.global	_ZN5servo9motorNameEv
+ 112              		.thumb
+ 113              		.thumb_func
+ 115              	_ZN5servo9motorNameEv:
+ 116              		.fnstart
+ 117              	.LFB1032:
+  93:src/servo.cpp **** const char* servo::motorName(){
+ 118              		.loc 2 93 0
+ 119              		.cfi_startproc
+ 120              		@ args = 0, pretend = 0, frame = 0
+ 121              		@ frame_needed = 0, uses_anonymous_args = 0
+ 122              		@ link register save eliminated.
+ 123              	.LVL8:
+  94:src/servo.cpp **** 	return m_settings->m_motorName;
+ 124              		.loc 2 94 0
+ 125 0018 4368     		ldr	r3, [r0, #4]
+  95:src/servo.cpp **** }
+ 126              		.loc 2 95 0
+ 127 001a 5868     		ldr	r0, [r3, #4]
+ 128              	.LVL9:
+ 129 001c 7047     		bx	lr
+ 130              		.cfi_endproc
+ 131              	.LFE1032:
+ 132              		.cantunwind
+ 133              		.fnend
+ 135              		.align	1
+ 136              		.global	_ZN5servoD2Ev
+ 137              		.thumb
+ 138              		.thumb_func
+ 140              	_ZN5servoD2Ev:
+ 141              		.fnstart
+ 142              	.LFB1026:
+  11:src/servo.cpp **** {
+ 143              		.loc 2 11 0
+ 144              		.cfi_startproc
+ 145              		@ args = 0, pretend = 0, frame = 0
+ 146              		@ frame_needed = 0, uses_anonymous_args = 0
+ 147              	.LVL10:
+ 148 001e 10B5     		push	{r4, lr}
+ 149              	.LCFI2:
+ 150              		.cfi_def_cfa_offset 8
+ 151              		.cfi_offset 4, -8
+ 152              		.cfi_offset 14, -4
+  11:src/servo.cpp **** {
+ 153              		.loc 2 11 0
+ 154 0020 0446     		mov	r4, r0
+ 155              	.LBB503:
+ 156 0022 034B     		ldr	r3, .L6
+ 157 0024 0360     		str	r3, [r0]
+ 158 0026 FFF7FEFF 		bl	_ZN5motorD2Ev
+ 159              	.LVL11:
+ 160              	.LBE503:
+  13:src/servo.cpp **** 
+ 161              		.loc 2 13 0
+ 162 002a 2046     		mov	r0, r4
+ 163 002c 10BD     		pop	{r4, pc}
+ 164              	.LVL12:
+ 165              	.L7:
+ 166 002e 00BF     		.align	2
+ 167              	.L6:
+ 168 0030 08000000 		.word	.LANCHOR0+8
+ 169              		.cfi_endproc
+ 170              	.LFE1026:
+ 171              		.cantunwind
+ 172              		.fnend
+ 174              		.global	_ZN5servoD1Ev
+ 175              		.thumb_set _ZN5servoD1Ev,_ZN5servoD2Ev
+ 176              		.align	1
+ 177              		.global	_ZN5servoD0Ev
+ 178              		.thumb
+ 179              		.thumb_func
+ 181              	_ZN5servoD0Ev:
+ 182              		.fnstart
+ 183              	.LFB1028:
+  11:src/servo.cpp **** {
+ 184              		.loc 2 11 0
+ 185              		.cfi_startproc
+ 186              		@ args = 0, pretend = 0, frame = 0
+ 187              		@ frame_needed = 0, uses_anonymous_args = 0
+ 188              	.LVL13:
+ 189 0034 10B5     		push	{r4, lr}
+ 190              	.LCFI3:
+ 191              		.cfi_def_cfa_offset 8
+ 192              		.cfi_offset 4, -8
+ 193              		.cfi_offset 14, -4
+  11:src/servo.cpp **** {
+ 194              		.loc 2 11 0
+ 195 0036 0446     		mov	r4, r0
+  13:src/servo.cpp **** 
+ 196              		.loc 2 13 0
+ 197 0038 FFF7FEFF 		bl	_ZN5servoD1Ev
+ 198              	.LVL14:
+ 199 003c 2046     		mov	r0, r4
+ 200 003e FFF7FEFF 		bl	_ZdlPv
+ 201              	.LVL15:
+ 202 0042 2046     		mov	r0, r4
+ 203 0044 10BD     		pop	{r4, pc}
+ 204              		.cfi_endproc
+ 205              	.LFE1028:
+ 206              		.cantunwind
+ 207              		.fnend
+ 209              		.align	1
+ 210              		.global	_ZN5servo9motorInitEv
+ 211              		.thumb
+ 212              		.thumb_func
+ 214              	_ZN5servo9motorInitEv:
+ 215              		.fnstart
+ 216              	.LFB1029:
+  16:src/servo.cpp **** 
+ 217              		.loc 2 16 0
+ 218              		.cfi_startproc
+ 219              		@ args = 0, pretend = 0, frame = 64
+ 220              		@ frame_needed = 0, uses_anonymous_args = 0
+ 221              	.LVL16:
+ 222 0046 F0B5     		push	{r4, r5, r6, r7, lr}
+ 223              		.save {r4, r5, r6, r7, lr}
+ 224              	.LCFI4:
+ 225              		.cfi_def_cfa_offset 20
+ 226              		.cfi_offset 4, -20
+ 227              		.cfi_offset 5, -16
+ 228              		.cfi_offset 6, -12
+ 229              		.cfi_offset 7, -8
+ 230              		.cfi_offset 14, -4
+  20:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+ 231              		.loc 2 20 0
+ 232 0048 4368     		ldr	r3, [r0, #4]
+  16:src/servo.cpp **** 
+ 233              		.loc 2 16 0
+ 234              		.pad #68
+ 235 004a 91B0     		sub	sp, sp, #68
+ 236              	.LCFI5:
+ 237              		.cfi_def_cfa_offset 88
+  20:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+ 238              		.loc 2 20 0
+ 239 004c 9A69     		ldr	r2, [r3, #24]
+  16:src/servo.cpp **** 
+ 240              		.loc 2 16 0
+ 241 004e 0446     		mov	r4, r0
+  20:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+ 242              		.loc 2 20 0
+ 243 0050 ADF80020 		strh	r2, [sp]	@ movhi
+  21:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 244              		.loc 2 21 0
+ 245 0054 1822     		movs	r2, #24
+  23:src/servo.cpp **** 
+ 246              		.loc 2 23 0
+ 247 0056 D869     		ldr	r0, [r3, #28]
+ 248              	.LVL17:
+  21:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 249              		.loc 2 21 0
+ 250 0058 8DF80320 		strb	r2, [sp, #3]
+  23:src/servo.cpp **** 
+ 251              		.loc 2 23 0
+ 252 005c 6946     		mov	r1, sp
+  22:src/servo.cpp **** 	GPIO_Init(m_settings->m_ServoPort, &GPIO_InitStructure);
+ 253              		.loc 2 22 0
+ 254 005e 0322     		movs	r2, #3
+ 255 0060 8DF80220 		strb	r2, [sp, #2]
+  23:src/servo.cpp **** 
+ 256              		.loc 2 23 0
+ 257 0064 FFF7FEFF 		bl	GPIO_Init
+ 258              	.LVL18:
+  29:src/servo.cpp **** 	TIM_TimeBaseStructure.TIM_Prescaler = 23;
+ 259              		.loc 2 29 0
+ 260 0068 4EF65F23 		movw	r3, #59999
+ 261 006c ADF80830 		strh	r3, [sp, #8]	@ movhi
+  30:src/servo.cpp **** 	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
+ 262              		.loc 2 30 0
+ 263 0070 1723     		movs	r3, #23
+ 264 0072 ADF80430 		strh	r3, [sp, #4]	@ movhi
+  34:src/servo.cpp **** 
+ 265              		.loc 2 34 0
+ 266 0076 6368     		ldr	r3, [r4, #4]
+  31:src/servo.cpp **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+ 267              		.loc 2 31 0
+ 268 0078 0025     		movs	r5, #0
+  34:src/servo.cpp **** 
+ 269              		.loc 2 34 0
+ 270 007a 9868     		ldr	r0, [r3, #8]
+ 271 007c 01A9     		add	r1, sp, #4
+  31:src/servo.cpp **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+ 272              		.loc 2 31 0
+ 273 007e ADF80A50 		strh	r5, [sp, #10]	@ movhi
+  32:src/servo.cpp **** 
+ 274              		.loc 2 32 0
+ 275 0082 ADF80650 		strh	r5, [sp, #6]	@ movhi
+  34:src/servo.cpp **** 
+ 276              		.loc 2 34 0
+ 277 0086 FFF7FEFF 		bl	TIM_TimeBaseInit
+ 278              	.LVL19:
+  38:src/servo.cpp **** 
+ 279              		.loc 2 38 0
+ 280 008a 04A8     		add	r0, sp, #16
+ 281 008c FFF7FEFF 		bl	TIM_OCStructInit
+ 282              	.LVL20:
+  41:src/servo.cpp **** 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+ 283              		.loc 2 41 0
+ 284 0090 6023     		movs	r3, #96
+ 285 0092 ADF81030 		strh	r3, [sp, #16]	@ movhi
+  42:src/servo.cpp **** 	TIM_OCInitStructure.TIM_Pulse = 0x0000;
+ 286              		.loc 2 42 0
+ 287 0096 0123     		movs	r3, #1
+ 288 0098 ADF81230 		strh	r3, [sp, #18]	@ movhi
+  46:src/servo.cpp **** 		case 1:
+ 289              		.loc 2 46 0
+ 290 009c 6368     		ldr	r3, [r4, #4]
+  43:src/servo.cpp **** 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+ 291              		.loc 2 43 0
+ 292 009e ADF81650 		strh	r5, [sp, #22]	@ movhi
+  46:src/servo.cpp **** 		case 1:
+ 293              		.loc 2 46 0
+ 294 00a2 DA68     		ldr	r2, [r3, #12]
+  44:src/servo.cpp **** 
+ 295              		.loc 2 44 0
+ 296 00a4 ADF81850 		strh	r5, [sp, #24]	@ movhi
+  46:src/servo.cpp **** 		case 1:
+ 297              		.loc 2 46 0
+ 298 00a8 013A     		subs	r2, r2, #1
+ 299 00aa 032A     		cmp	r2, #3
+ 300 00ac 61D8     		bhi	.L19
+ 301 00ae DFE802F0 		tbb	[pc, r2]
+ 302              	.L12:
+ 303 00b2 02       		.byte	(.L11-.L12)/2
+ 304 00b3 0C       		.byte	(.L13-.L12)/2
+ 305 00b4 16       		.byte	(.L14-.L12)/2
+ 306 00b5 20       		.byte	(.L15-.L12)/2
+ 307              		.p2align 1
+ 308              	.L11:
+  48:src/servo.cpp **** 			TIM_OC1PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
+ 309              		.loc 2 48 0
+ 310 00b6 04A9     		add	r1, sp, #16
+ 311 00b8 9868     		ldr	r0, [r3, #8]
+ 312 00ba FFF7FEFF 		bl	TIM_OC1Init
+ 313              	.LVL21:
+  49:src/servo.cpp **** 			break;
+ 314              		.loc 2 49 0
+ 315 00be 6368     		ldr	r3, [r4, #4]
+ 316 00c0 0821     		movs	r1, #8
+ 317 00c2 9868     		ldr	r0, [r3, #8]
+ 318 00c4 FFF7FEFF 		bl	TIM_OC1PreloadConfig
+ 319              	.LVL22:
+ 320 00c8 1CE0     		b	.L16
+ 321              	.L13:
+  52:src/servo.cpp **** 			TIM_OC2PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
+ 322              		.loc 2 52 0
+ 323 00ca 04A9     		add	r1, sp, #16
+ 324 00cc 9868     		ldr	r0, [r3, #8]
+ 325 00ce FFF7FEFF 		bl	TIM_OC2Init
+ 326              	.LVL23:
+  53:src/servo.cpp **** 			break;
+ 327              		.loc 2 53 0
+ 328 00d2 6368     		ldr	r3, [r4, #4]
+ 329 00d4 0821     		movs	r1, #8
+ 330 00d6 9868     		ldr	r0, [r3, #8]
+ 331 00d8 FFF7FEFF 		bl	TIM_OC2PreloadConfig
+ 332              	.LVL24:
+ 333 00dc 12E0     		b	.L16
+ 334              	.L14:
+  56:src/servo.cpp **** 			TIM_OC3PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
+ 335              		.loc 2 56 0
+ 336 00de 04A9     		add	r1, sp, #16
+ 337 00e0 9868     		ldr	r0, [r3, #8]
+ 338 00e2 FFF7FEFF 		bl	TIM_OC3Init
+ 339              	.LVL25:
+  57:src/servo.cpp **** 			break;
+ 340              		.loc 2 57 0
+ 341 00e6 6368     		ldr	r3, [r4, #4]
+ 342 00e8 0821     		movs	r1, #8
+ 343 00ea 9868     		ldr	r0, [r3, #8]
+ 344 00ec FFF7FEFF 		bl	TIM_OC3PreloadConfig
+ 345              	.LVL26:
+ 346 00f0 08E0     		b	.L16
+ 347              	.L15:
+  60:src/servo.cpp **** 			TIM_OC4PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
+ 348              		.loc 2 60 0
+ 349 00f2 9868     		ldr	r0, [r3, #8]
+ 350 00f4 04A9     		add	r1, sp, #16
+ 351 00f6 FFF7FEFF 		bl	TIM_OC4Init
+ 352              	.LVL27:
+  61:src/servo.cpp **** 			break;
+ 353              		.loc 2 61 0
+ 354 00fa 6368     		ldr	r3, [r4, #4]
+ 355 00fc 0821     		movs	r1, #8
+ 356 00fe 9868     		ldr	r0, [r3, #8]
+ 357 0100 FFF7FEFF 		bl	TIM_OC4PreloadConfig
+ 358              	.LVL28:
+ 359              	.L16:
+  68:src/servo.cpp **** 
+ 360              		.loc 2 68 0
+ 361 0104 6368     		ldr	r3, [r4, #4]
+ 362 0106 0121     		movs	r1, #1
+ 363 0108 9868     		ldr	r0, [r3, #8]
+ 364 010a FFF7FEFF 		bl	TIM_ARRPreloadConfig
+ 365              	.LVL29:
+  71:src/servo.cpp **** 
+ 366              		.loc 2 71 0
+ 367 010e 6368     		ldr	r3, [r4, #4]
+ 368 0110 0121     		movs	r1, #1
+ 369 0112 9868     		ldr	r0, [r3, #8]
+ 370 0114 FFF7FEFF 		bl	TIM_CtrlPWMOutputs
+ 371              	.LVL30:
+  74:src/servo.cpp **** 
+ 372              		.loc 2 74 0
+ 373 0118 6368     		ldr	r3, [r4, #4]
+  77:src/servo.cpp **** 	float a_[] = {1.0000,   -2.3741,    1.9294,   -0.5321};
+ 374              		.loc 2 77 0
+ 375 011a 174F     		ldr	r7, .L23
+  74:src/servo.cpp **** 
+ 376              		.loc 2 74 0
+ 377 011c 0121     		movs	r1, #1
+ 378 011e 9868     		ldr	r0, [r3, #8]
+ 379 0120 FFF7FEFF 		bl	TIM_Cmd
+ 380              	.LVL31:
+  77:src/servo.cpp **** 	float a_[] = {1.0000,   -2.3741,    1.9294,   -0.5321};
+ 381              		.loc 2 77 0
+ 382 0124 97E80F00 		ldmia	r7, {r0, r1, r2, r3}
+ 383 0128 08AE     		add	r6, sp, #32
+  78:src/servo.cpp **** 	std::copy(b_, b_ + 5, b);
+ 384              		.loc 2 78 0
+ 385 012a 0CAD     		add	r5, sp, #48
+ 386 012c 1037     		adds	r7, r7, #16
+  77:src/servo.cpp **** 	float a_[] = {1.0000,   -2.3741,    1.9294,   -0.5321};
+ 387              		.loc 2 77 0
+ 388 012e 86E80F00 		stmia	r6, {r0, r1, r2, r3}
+  78:src/servo.cpp **** 	std::copy(b_, b_ + 5, b);
+ 389              		.loc 2 78 0
+ 390 0132 97E80F00 		ldmia	r7, {r0, r1, r2, r3}
+ 391 0136 85E80F00 		stmia	r5, {r0, r1, r2, r3}
+ 392              	.LVL32:
+ 393              	.LBB518:
+ 394              	.LBB519:
+ 395              	.LBB520:
+ 396              	.LBB521:
+ 397              	.LBB522:
+ 398              	.LBB523:
+ 399              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h"
+   1:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** // Core algorithmic facilities -*- C++ -*-
+   2:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+   3:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** // Copyright (C) 2001-2015 Free Software Foundation, Inc.
+   4:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** //
+   5:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** // This file is part of the GNU ISO C++ Library.  This library is free
+   6:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** // software; you can redistribute it and/or modify it under the
+   7:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** // terms of the GNU General Public License as published by the
+   8:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** // Free Software Foundation; either version 3, or (at your option)
+   9:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** // any later version.
+  10:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+  11:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** // This library is distributed in the hope that it will be useful,
+  12:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** // but WITHOUT ANY WARRANTY; without even the implied warranty of
+  13:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  14:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** // GNU General Public License for more details.
+  15:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+  16:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** // Under Section 7 of GPL version 3, you are granted additional
+  17:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** // permissions described in the GCC Runtime Library Exception, version
+  18:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** // 3.1, as published by the Free Software Foundation.
+  19:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+  20:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** // You should have received a copy of the GNU General Public License and
+  21:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** // a copy of the GCC Runtime Library Exception along with this program;
+  22:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** // see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+  23:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** // <http://www.gnu.org/licenses/>.
+  24:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+  25:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** /*
+  26:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  *
+  27:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  * Copyright (c) 1994
+  28:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  * Hewlett-Packard Company
+  29:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  *
+  30:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  * Permission to use, copy, modify, distribute and sell this software
+  31:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  * and its documentation for any purpose is hereby granted without fee,
+  32:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  * provided that the above copyright notice appear in all copies and
+  33:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  * that both that copyright notice and this permission notice appear
+  34:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  * in supporting documentation.  Hewlett-Packard Company makes no
+  35:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  * representations about the suitability of this software for any
+  36:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  * purpose.  It is provided "as is" without express or implied warranty.
+  37:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  *
+  38:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  *
+  39:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  * Copyright (c) 1996-1998
+  40:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  * Silicon Graphics Computer Systems, Inc.
+  41:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  *
+  42:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  * Permission to use, copy, modify, distribute and sell this software
+  43:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  * and its documentation for any purpose is hereby granted without fee,
+  44:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  * provided that the above copyright notice appear in all copies and
+  45:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  * that both that copyright notice and this permission notice appear
+  46:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  * in supporting documentation.  Silicon Graphics makes no
+  47:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  * representations about the suitability of this software for any
+  48:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  * purpose.  It is provided "as is" without express or implied warranty.
+  49:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  */
+  50:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+  51:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** /** @file bits/stl_algobase.h
+  52:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  *  This is an internal header file, included by other library headers.
+  53:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  *  Do not attempt to use it directly. @headername{algorithm}
+  54:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****  */
+  55:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+  56:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #ifndef _STL_ALGOBASE_H
+  57:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #define _STL_ALGOBASE_H 1
+  58:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+  59:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #include <bits/c++config.h>
+  60:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #include <bits/functexcept.h>
+  61:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #include <bits/cpp_type_traits.h>
+  62:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #include <ext/type_traits.h>
+  63:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #include <ext/numeric_traits.h>
+  64:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #include <bits/stl_pair.h>
+  65:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #include <bits/stl_iterator_base_types.h>
+  66:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #include <bits/stl_iterator_base_funcs.h>
+  67:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #include <bits/stl_iterator.h>
+  68:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #include <bits/concept_check.h>
+  69:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #include <debug/debug.h>
+  70:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #include <bits/move.h> // For std::swap and _GLIBCXX_MOVE
+  71:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #include <bits/predefined_ops.h>
+  72:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+  73:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** namespace std _GLIBCXX_VISIBILITY(default)
+  74:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** {
+  75:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** _GLIBCXX_BEGIN_NAMESPACE_VERSION
+  76:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+  77:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #if __cplusplus < 201103L
+  78:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   // See http://gcc.gnu.org/ml/libstdc++/2004-08/msg00167.html: in a
+  79:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   // nutshell, we are partially implementing the resolution of DR 187,
+  80:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   // when it's safe, i.e., the value_types are equal.
+  81:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   template<bool _BoolType>
+  82:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     struct __iter_swap
+  83:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     {
+  84:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       template<typename _ForwardIterator1, typename _ForwardIterator2>
+  85:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****         static void
+  86:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****         iter_swap(_ForwardIterator1 __a, _ForwardIterator2 __b)
+  87:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****         {
+  88:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****           typedef typename iterator_traits<_ForwardIterator1>::value_type
+  89:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****             _ValueType1;
+  90:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****           _ValueType1 __tmp = _GLIBCXX_MOVE(*__a);
+  91:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****           *__a = _GLIBCXX_MOVE(*__b);
+  92:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****           *__b = _GLIBCXX_MOVE(__tmp);
+  93:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	}
+  94:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     };
+  95:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+  96:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   template<>
+  97:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     struct __iter_swap<true>
+  98:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     {
+  99:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       template<typename _ForwardIterator1, typename _ForwardIterator2>
+ 100:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****         static void 
+ 101:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****         iter_swap(_ForwardIterator1 __a, _ForwardIterator2 __b)
+ 102:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****         {
+ 103:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****           swap(*__a, *__b);
+ 104:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****         }
+ 105:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     };
+ 106:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #endif
+ 107:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+ 108:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   /**
+ 109:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @brief Swaps the contents of two iterators.
+ 110:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @ingroup mutating_algorithms
+ 111:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @param  __a  An iterator.
+ 112:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @param  __b  Another iterator.
+ 113:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @return   Nothing.
+ 114:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *
+ 115:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  This function swaps the values pointed to by two iterators, not the
+ 116:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  iterators themselves.
+ 117:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   */
+ 118:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   template<typename _ForwardIterator1, typename _ForwardIterator2>
+ 119:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     inline void
+ 120:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     iter_swap(_ForwardIterator1 __a, _ForwardIterator2 __b)
+ 121:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     {
+ 122:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       // concept requirements
+ 123:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       __glibcxx_function_requires(_Mutable_ForwardIteratorConcept<
+ 124:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 				  _ForwardIterator1>)
+ 125:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       __glibcxx_function_requires(_Mutable_ForwardIteratorConcept<
+ 126:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 				  _ForwardIterator2>)
+ 127:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+ 128:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #if __cplusplus < 201103L
+ 129:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       typedef typename iterator_traits<_ForwardIterator1>::value_type
+ 130:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	_ValueType1;
+ 131:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       typedef typename iterator_traits<_ForwardIterator2>::value_type
+ 132:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	_ValueType2;
+ 133:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+ 134:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       __glibcxx_function_requires(_ConvertibleConcept<_ValueType1,
+ 135:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 				  _ValueType2>)
+ 136:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       __glibcxx_function_requires(_ConvertibleConcept<_ValueType2,
+ 137:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 				  _ValueType1>)
+ 138:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+ 139:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       typedef typename iterator_traits<_ForwardIterator1>::reference
+ 140:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	_ReferenceType1;
+ 141:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       typedef typename iterator_traits<_ForwardIterator2>::reference
+ 142:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	_ReferenceType2;
+ 143:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       std::__iter_swap<__are_same<_ValueType1, _ValueType2>::__value
+ 144:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	&& __are_same<_ValueType1&, _ReferenceType1>::__value
+ 145:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	&& __are_same<_ValueType2&, _ReferenceType2>::__value>::
+ 146:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	iter_swap(__a, __b);
+ 147:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #else
+ 148:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       swap(*__a, *__b);
+ 149:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #endif
+ 150:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     }
+ 151:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+ 152:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   /**
+ 153:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @brief Swap the elements of two sequences.
+ 154:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @ingroup mutating_algorithms
+ 155:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @param  __first1  A forward iterator.
+ 156:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @param  __last1   A forward iterator.
+ 157:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @param  __first2  A forward iterator.
+ 158:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @return   An iterator equal to @p first2+(last1-first1).
+ 159:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *
+ 160:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  Swaps each element in the range @p [first1,last1) with the
+ 161:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  corresponding element in the range @p [first2,(last1-first1)).
+ 162:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  The ranges must not overlap.
+ 163:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   */
+ 164:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   template<typename _ForwardIterator1, typename _ForwardIterator2>
+ 165:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     _ForwardIterator2
+ 166:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     swap_ranges(_ForwardIterator1 __first1, _ForwardIterator1 __last1,
+ 167:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 		_ForwardIterator2 __first2)
+ 168:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     {
+ 169:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       // concept requirements
+ 170:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       __glibcxx_function_requires(_Mutable_ForwardIteratorConcept<
+ 171:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 				  _ForwardIterator1>)
+ 172:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       __glibcxx_function_requires(_Mutable_ForwardIteratorConcept<
+ 173:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 				  _ForwardIterator2>)
+ 174:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       __glibcxx_requires_valid_range(__first1, __last1);
+ 175:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+ 176:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       for (; __first1 != __last1; ++__first1, ++__first2)
+ 177:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	std::iter_swap(__first1, __first2);
+ 178:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       return __first2;
+ 179:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     }
+ 180:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+ 181:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   /**
+ 182:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @brief This does what you think it does.
+ 183:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @ingroup sorting_algorithms
+ 184:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @param  __a  A thing of arbitrary type.
+ 185:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @param  __b  Another thing of arbitrary type.
+ 186:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @return   The lesser of the parameters.
+ 187:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *
+ 188:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  This is the simple classic generic implementation.  It will work on
+ 189:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  temporary expressions, since they are only evaluated once, unlike a
+ 190:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  preprocessor macro.
+ 191:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   */
+ 192:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   template<typename _Tp>
+ 193:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     _GLIBCXX14_CONSTEXPR
+ 194:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     inline const _Tp&
+ 195:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     min(const _Tp& __a, const _Tp& __b)
+ 196:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     {
+ 197:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       // concept requirements
+ 198:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       __glibcxx_function_requires(_LessThanComparableConcept<_Tp>)
+ 199:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       //return __b < __a ? __b : __a;
+ 200:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       if (__b < __a)
+ 201:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	return __b;
+ 202:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       return __a;
+ 203:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     }
+ 204:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+ 205:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   /**
+ 206:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @brief This does what you think it does.
+ 207:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @ingroup sorting_algorithms
+ 208:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @param  __a  A thing of arbitrary type.
+ 209:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @param  __b  Another thing of arbitrary type.
+ 210:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @return   The greater of the parameters.
+ 211:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *
+ 212:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  This is the simple classic generic implementation.  It will work on
+ 213:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  temporary expressions, since they are only evaluated once, unlike a
+ 214:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  preprocessor macro.
+ 215:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   */
+ 216:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   template<typename _Tp>
+ 217:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     _GLIBCXX14_CONSTEXPR
+ 218:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     inline const _Tp&
+ 219:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     max(const _Tp& __a, const _Tp& __b)
+ 220:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     {
+ 221:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       // concept requirements
+ 222:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       __glibcxx_function_requires(_LessThanComparableConcept<_Tp>)
+ 223:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       //return  __a < __b ? __b : __a;
+ 224:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       if (__a < __b)
+ 225:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	return __b;
+ 226:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       return __a;
+ 227:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     }
+ 228:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+ 229:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   /**
+ 230:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @brief This does what you think it does.
+ 231:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @ingroup sorting_algorithms
+ 232:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @param  __a  A thing of arbitrary type.
+ 233:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @param  __b  Another thing of arbitrary type.
+ 234:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @param  __comp  A @link comparison_functors comparison functor@endlink.
+ 235:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @return   The lesser of the parameters.
+ 236:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *
+ 237:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  This will work on temporary expressions, since they are only evaluated
+ 238:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  once, unlike a preprocessor macro.
+ 239:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   */
+ 240:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   template<typename _Tp, typename _Compare>
+ 241:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     _GLIBCXX14_CONSTEXPR
+ 242:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     inline const _Tp&
+ 243:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     min(const _Tp& __a, const _Tp& __b, _Compare __comp)
+ 244:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     {
+ 245:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       //return __comp(__b, __a) ? __b : __a;
+ 246:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       if (__comp(__b, __a))
+ 247:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	return __b;
+ 248:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       return __a;
+ 249:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     }
+ 250:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+ 251:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   /**
+ 252:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @brief This does what you think it does.
+ 253:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @ingroup sorting_algorithms
+ 254:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @param  __a  A thing of arbitrary type.
+ 255:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @param  __b  Another thing of arbitrary type.
+ 256:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @param  __comp  A @link comparison_functors comparison functor@endlink.
+ 257:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  @return   The greater of the parameters.
+ 258:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *
+ 259:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  This will work on temporary expressions, since they are only evaluated
+ 260:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****    *  once, unlike a preprocessor macro.
+ 261:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   */
+ 262:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   template<typename _Tp, typename _Compare>
+ 263:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     _GLIBCXX14_CONSTEXPR
+ 264:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     inline const _Tp&
+ 265:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     max(const _Tp& __a, const _Tp& __b, _Compare __comp)
+ 266:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     {
+ 267:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       //return __comp(__a, __b) ? __b : __a;
+ 268:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       if (__comp(__a, __b))
+ 269:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	return __b;
+ 270:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       return __a;
+ 271:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     }
+ 272:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+ 273:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   // If _Iterator is a __normal_iterator return its base (a plain pointer,
+ 274:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   // normally) otherwise return it untouched.  See copy, fill, ... 
+ 275:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   template<typename _Iterator>
+ 276:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     struct _Niter_base
+ 277:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     : _Iter_base<_Iterator, __is_normal_iterator<_Iterator>::__value>
+ 278:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     { };
+ 279:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+ 280:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   template<typename _Iterator>
+ 281:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     inline typename _Niter_base<_Iterator>::iterator_type
+ 282:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     __niter_base(_Iterator __it)
+ 283:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     { return std::_Niter_base<_Iterator>::_S_base(__it); }
+ 284:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+ 285:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   // Likewise, for move_iterator.
+ 286:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   template<typename _Iterator>
+ 287:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     struct _Miter_base
+ 288:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     : _Iter_base<_Iterator, __is_move_iterator<_Iterator>::__value>
+ 289:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     { };
+ 290:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+ 291:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   template<typename _Iterator>
+ 292:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     inline typename _Miter_base<_Iterator>::iterator_type
+ 293:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     __miter_base(_Iterator __it)
+ 294:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     { return std::_Miter_base<_Iterator>::_S_base(__it); }
+ 295:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+ 296:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   // All of these auxiliary structs serve two purposes.  (1) Replace
+ 297:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   // calls to copy with memmove whenever possible.  (Memmove, not memcpy,
+ 298:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   // because the input and output ranges are permitted to overlap.)
+ 299:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   // (2) If we're using random access iterators, then write the loop as
+ 300:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   // a for loop with an explicit count.
+ 301:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+ 302:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   template<bool, bool, typename>
+ 303:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     struct __copy_move
+ 304:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     {
+ 305:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       template<typename _II, typename _OI>
+ 306:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****         static _OI
+ 307:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****         __copy_m(_II __first, _II __last, _OI __result)
+ 308:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****         {
+ 309:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	  for (; __first != __last; ++__result, ++__first)
+ 310:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	    *__result = *__first;
+ 311:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	  return __result;
+ 312:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	}
+ 313:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     };
+ 314:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+ 315:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #if __cplusplus >= 201103L
+ 316:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   template<typename _Category>
+ 317:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     struct __copy_move<true, false, _Category>
+ 318:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     {
+ 319:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       template<typename _II, typename _OI>
+ 320:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****         static _OI
+ 321:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****         __copy_m(_II __first, _II __last, _OI __result)
+ 322:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****         {
+ 323:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	  for (; __first != __last; ++__result, ++__first)
+ 324:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	    *__result = std::move(*__first);
+ 325:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	  return __result;
+ 326:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	}
+ 327:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     };
+ 328:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #endif
+ 329:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+ 330:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   template<>
+ 331:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     struct __copy_move<false, false, random_access_iterator_tag>
+ 332:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     {
+ 333:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       template<typename _II, typename _OI>
+ 334:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****         static _OI
+ 335:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****         __copy_m(_II __first, _II __last, _OI __result)
+ 336:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****         { 
+ 337:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	  typedef typename iterator_traits<_II>::difference_type _Distance;
+ 338:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	  for(_Distance __n = __last - __first; __n > 0; --__n)
+ 339:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	    {
+ 340:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	      *__result = *__first;
+ 341:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	      ++__first;
+ 342:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	      ++__result;
+ 343:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	    }
+ 344:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	  return __result;
+ 345:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	}
+ 346:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     };
+ 347:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+ 348:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #if __cplusplus >= 201103L
+ 349:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   template<>
+ 350:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     struct __copy_move<true, false, random_access_iterator_tag>
+ 351:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     {
+ 352:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       template<typename _II, typename _OI>
+ 353:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****         static _OI
+ 354:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****         __copy_m(_II __first, _II __last, _OI __result)
+ 355:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****         { 
+ 356:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	  typedef typename iterator_traits<_II>::difference_type _Distance;
+ 357:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	  for(_Distance __n = __last - __first; __n > 0; --__n)
+ 358:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	    {
+ 359:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	      *__result = std::move(*__first);
+ 360:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	      ++__first;
+ 361:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	      ++__result;
+ 362:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	    }
+ 363:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	  return __result;
+ 364:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	}
+ 365:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     };
+ 366:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #endif
+ 367:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
+ 368:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****   template<bool _IsMove>
+ 369:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     struct __copy_move<_IsMove, true, random_access_iterator_tag>
+ 370:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****     {
+ 371:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****       template<typename _Tp>
+ 372:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****         static _Tp*
+ 373:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****         __copy_m(const _Tp* __first, const _Tp* __last, _Tp* __result)
+ 374:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h ****         {
+ 375:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #if __cplusplus >= 201103L
+ 376:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	  // trivial types can have deleted assignment
+ 377:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	  static_assert( is_copy_assignable<_Tp>::value,
+ 378:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	                 "type is not assignable" );
+ 379:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** #endif
+ 380:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	  const ptrdiff_t _Num = __last - __first;
+ 381:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	  if (_Num)
+ 382:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	    __builtin_memmove(__result, __first, sizeof(_Tp) * _Num);
+ 400              		.loc 3 382 0
+ 401 013a 04F12C03 		add	r3, r4, #44
+ 402              	.LVL33:
+ 403              	.L17:
+ 404 013e 3246     		mov	r2, r6
+ 405 0140 03CA     		ldmia	r2!, {r0, r1}
+ 406 0142 AA42     		cmp	r2, r5
+ 407 0144 1860     		str	r0, [r3]	@ unaligned
+ 408 0146 5960     		str	r1, [r3, #4]	@ unaligned
+ 409 0148 1646     		mov	r6, r2
+ 410 014a 03F10803 		add	r3, r3, #8
+ 411 014e F6D1     		bne	.L17
+ 412 0150 1068     		ldr	r0, [r2]	@ unaligned
+ 413              	.LBE523:
+ 414              	.LBE522:
+ 415              	.LBE521:
+ 416              	.LBE520:
+ 417              	.LBE519:
+ 418              	.LBE518:
+ 419              	.LBB529:
+ 420              	.LBB530:
+ 421              	.LBB531:
+ 422              	.LBB532:
+ 423              	.LBB533:
+ 424              	.LBB534:
+ 425 0152 3C34     		adds	r4, r4, #60
+ 426              	.LVL34:
+ 427              	.LBE534:
+ 428              	.LBE533:
+ 429              	.LBE532:
+ 430              	.LBE531:
+ 431              	.LBE530:
+ 432              	.LBE529:
+ 433              	.LBB540:
+ 434              	.LBB528:
+ 435              	.LBB527:
+ 436              	.LBB526:
+ 437              	.LBB525:
+ 438              	.LBB524:
+ 439 0154 1860     		str	r0, [r3]	@ unaligned
+ 440              	.LVL35:
+ 441              	.LBE524:
+ 442              	.LBE525:
+ 443              	.LBE526:
+ 444              	.LBE527:
+ 445              	.LBE528:
+ 446              	.LBE540:
+ 447              	.LBB541:
+ 448              	.LBB539:
+ 449              	.LBB538:
+ 450              	.LBB537:
+ 451              	.LBB536:
+ 452              	.LBB535:
+ 453 0156 10AA     		add	r2, sp, #64
+ 454              	.LVL36:
+ 455              	.L18:
+ 456 0158 2B46     		mov	r3, r5
+ 457 015a 03CB     		ldmia	r3!, {r0, r1}
+ 458 015c 9342     		cmp	r3, r2
+ 459 015e 2060     		str	r0, [r4]	@ unaligned
+ 460 0160 6160     		str	r1, [r4, #4]	@ unaligned
+ 461 0162 1D46     		mov	r5, r3
+ 462 0164 04F10804 		add	r4, r4, #8
+ 463 0168 F6D1     		bne	.L18
+ 464 016a 1868     		ldr	r0, [r3]	@ unaligned
+ 465 016c 2060     		str	r0, [r4]	@ unaligned
+ 466              	.LVL37:
+ 467              	.LBE535:
+ 468              	.LBE536:
+ 469              	.LBE537:
+ 470              	.LBE538:
+ 471              	.LBE539:
+ 472              	.LBE541:
+  82:src/servo.cpp **** }
+ 473              		.loc 2 82 0
+ 474 016e 0120     		movs	r0, #1
+ 475 0170 00E0     		b	.L10
+ 476              	.LVL38:
+ 477              	.L19:
+  64:src/servo.cpp **** 	}
+ 478              		.loc 2 64 0
+ 479 0172 0020     		movs	r0, #0
+ 480              	.LVL39:
+ 481              	.L10:
+  83:src/servo.cpp **** 
+ 482              		.loc 2 83 0
+ 483 0174 11B0     		add	sp, sp, #68
+ 484              	.LCFI6:
+ 485              		.cfi_def_cfa_offset 20
+ 486              		@ sp needed
+ 487 0176 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 488              	.L24:
+ 489              		.align	2
+ 490              	.L23:
+ 491 0178 28000000 		.word	.LANCHOR0+40
+ 492              		.cfi_endproc
+ 493              	.LFE1029:
+ 494              		.fnend
+ 496              		.align	1
+ 497              		.global	_ZN5servoC2EP13motorSettings
+ 498              		.thumb
+ 499              		.thumb_func
+ 501              	_ZN5servoC2EP13motorSettings:
+ 502              		.fnstart
+ 503              	.LFB1023:
+   6:src/servo.cpp **** {
+ 504              		.loc 2 6 0
+ 505              		.cfi_startproc
+ 506              		@ args = 0, pretend = 0, frame = 0
+ 507              		@ frame_needed = 0, uses_anonymous_args = 0
+ 508              	.LVL40:
+ 509 017c 10B5     		push	{r4, lr}
+ 510              		.save {r4, lr}
+ 511              	.LCFI7:
+ 512              		.cfi_def_cfa_offset 8
+ 513              		.cfi_offset 4, -8
+ 514              		.cfi_offset 14, -4
+   6:src/servo.cpp **** {
+ 515              		.loc 2 6 0
+ 516 017e 0446     		mov	r4, r0
+ 517              	.LBB542:
+ 518 0180 FFF7FEFF 		bl	_ZN5motorC2EP13motorSettings
+ 519              	.LVL41:
+ 520 0184 014B     		ldr	r3, .L26
+ 521              	.LBE542:
+   9:src/servo.cpp **** 
+ 522              		.loc 2 9 0
+ 523 0186 2046     		mov	r0, r4
+ 524              	.LBB543:
+   6:src/servo.cpp **** {
+ 525              		.loc 2 6 0
+ 526 0188 2360     		str	r3, [r4]
+ 527              	.LBE543:
+   9:src/servo.cpp **** 
+ 528              		.loc 2 9 0
+ 529 018a 10BD     		pop	{r4, pc}
+ 530              	.LVL42:
+ 531              	.L27:
+ 532              		.align	2
+ 533              	.L26:
+ 534 018c 08000000 		.word	.LANCHOR0+8
+ 535              		.cfi_endproc
+ 536              	.LFE1023:
+ 537              		.fnend
+ 539              		.global	_ZN5servoC1EP13motorSettings
+ 540              		.thumb_set _ZN5servoC1EP13motorSettings,_ZN5servoC2EP13motorSettings
+ 541              		.align	1
+ 542              		.global	_ZN5servo12filterUpdateEf
+ 543              		.thumb
+ 544              		.thumb_func
+ 546              	_ZN5servo12filterUpdateEf:
+ 547              		.fnstart
+ 548              	.LFB1135:
+  96:src/servo.cpp **** 
+  97:src/servo.cpp **** std::tuple<float, float, int, int> servo::update(float dt, bool connected){
+  98:src/servo.cpp **** 	int sp = pos * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) / 180 + m_settings->m_S
+  99:src/servo.cpp **** 	sp = (int) filterUpdate(sp);
+ 100:src/servo.cpp **** 
+ 101:src/servo.cpp **** 	switch(m_settings->m_TimerChannel){
+ 102:src/servo.cpp **** 		case 1:
+ 103:src/servo.cpp **** 			(m_settings->m_Timer)->CCR1 = sp;
  104:src/servo.cpp **** 			break;
- 242              		.loc 2 104 0
- 243 0098 2EE0     		b	.L6
- 244              	.LVL28:
- 245              	.L10:
- 105:src/servo.cpp **** 		case 3:
- 106:src/servo.cpp **** 			curr = (m_settings->m_Timer)->CCR3;
- 246              		.loc 2 106 0
- 247 009a 9768     		ldr	r7, [r2, #8]
- 248 009c BE8F     		ldrh	r6, [r7, #60]
- 249 009e B6B2     		uxth	r6, r6
- 250              	.LVL29:
- 107:src/servo.cpp **** 			newVal = (int)(curr - (LPF_Beta * (curr - sp)));
- 251              		.loc 2 107 0
- 252 00a0 3046     		mov	r0, r6
- 253 00a2 FFF7FEFF 		bl	__aeabi_i2f
- 254              	.LVL30:
- 255 00a6 8046     		mov	r8, r0
- 256 00a8 301B     		subs	r0, r6, r4
- 257 00aa FFF7FEFF 		bl	__aeabi_i2f
- 258              	.LVL31:
- 259 00ae 1749     		ldr	r1, .L13
- 260 00b0 FFF7FEFF 		bl	__aeabi_fmul
- 261              	.LVL32:
- 262 00b4 0146     		mov	r1, r0
- 263 00b6 4046     		mov	r0, r8
- 264 00b8 FFF7FEFF 		bl	__aeabi_fsub
- 265              	.LVL33:
- 266 00bc FFF7FEFF 		bl	__aeabi_f2iz
- 267              	.LVL34:
- 108:src/servo.cpp **** 			(m_settings->m_Timer)->CCR3 = newVal;
- 268              		.loc 2 108 0
- 269 00c0 82B2     		uxth	r2, r0
- 107:src/servo.cpp **** 			newVal = (int)(curr - (LPF_Beta * (curr - sp)));
- 270              		.loc 2 107 0
- 271 00c2 0346     		mov	r3, r0
- 272              	.LVL35:
- 273              		.loc 2 108 0
- 274 00c4 BA87     		strh	r2, [r7, #60]	@ movhi
- 109:src/servo.cpp **** 			break;
- 275              		.loc 2 109 0
- 276 00c6 17E0     		b	.L6
- 277              	.LVL36:
- 278              	.L11:
- 110:src/servo.cpp **** 		case 4:
- 111:src/servo.cpp **** 			curr = (m_settings->m_Timer)->CCR4;
- 279              		.loc 2 111 0
- 280 00c8 9768     		ldr	r7, [r2, #8]
- 281 00ca B7F84060 		ldrh	r6, [r7, #64]
- 282 00ce B6B2     		uxth	r6, r6
- 283              	.LVL37:
- 112:src/servo.cpp **** 			newVal = (int)(curr - (LPF_Beta * (curr - sp)));
- 284              		.loc 2 112 0
- 285 00d0 3046     		mov	r0, r6
- 286 00d2 FFF7FEFF 		bl	__aeabi_i2f
- 287              	.LVL38:
- 288 00d6 8046     		mov	r8, r0
- 289 00d8 301B     		subs	r0, r6, r4
- 290 00da FFF7FEFF 		bl	__aeabi_i2f
- 291              	.LVL39:
- 292 00de 0B49     		ldr	r1, .L13
- 293 00e0 FFF7FEFF 		bl	__aeabi_fmul
- 294              	.LVL40:
- 295 00e4 0146     		mov	r1, r0
- 296 00e6 4046     		mov	r0, r8
- 297 00e8 FFF7FEFF 		bl	__aeabi_fsub
- 298              	.LVL41:
- 299 00ec FFF7FEFF 		bl	__aeabi_f2iz
- 300              	.LVL42:
- 301 00f0 0346     		mov	r3, r0
- 302              	.LVL43:
- 113:src/servo.cpp **** 			(m_settings->m_Timer)->CCR4 = newVal;
- 303              		.loc 2 113 0
- 304 00f2 82B2     		uxth	r2, r0
- 305 00f4 A7F84020 		strh	r2, [r7, #64]	@ movhi
- 306              	.LVL44:
- 307              	.L6:
- 308              	.LBB537:
- 309              	.LBB538:
- 310              	.LBB539:
- 311              	.LBB540:
- 312              	.LBB541:
- 313              	.LBB542:
- 314              	.LBB543:
- 315              	.LBB544:
- 316              	.LBB545:
- 317              	.LBB546:
- 318              	.LBB547:
- 319              	.LBB548:
- 320              	.LBB549:
- 321              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple"
-   1:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** // <tuple> -*- C++ -*-
-   2:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
-   3:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** // Copyright (C) 2007-2015 Free Software Foundation, Inc.
-   4:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** //
-   5:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** // This file is part of the GNU ISO C++ Library.  This library is free
-   6:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** // software; you can redistribute it and/or modify it under the
-   7:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** // terms of the GNU General Public License as published by the
-   8:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** // Free Software Foundation; either version 3, or (at your option)
-   9:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** // any later version.
-  10:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
-  11:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** // This library is distributed in the hope that it will be useful,
-  12:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** // but WITHOUT ANY WARRANTY; without even the implied warranty of
-  13:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  14:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** // GNU General Public License for more details.
-  15:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
-  16:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** // Under Section 7 of GPL version 3, you are granted additional
-  17:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** // permissions described in the GCC Runtime Library Exception, version
-  18:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** // 3.1, as published by the Free Software Foundation.
-  19:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
-  20:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** // You should have received a copy of the GNU General Public License and
-  21:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** // a copy of the GCC Runtime Library Exception along with this program;
-  22:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** // see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
-  23:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** // <http://www.gnu.org/licenses/>.
-  24:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
-  25:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** /** @file include/tuple
-  26:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****  *  This is a Standard C++ Library header.
-  27:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****  */
-  28:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
-  29:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** #ifndef _GLIBCXX_TUPLE
-  30:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** #define _GLIBCXX_TUPLE 1
-  31:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
-  32:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** #pragma GCC system_header
-  33:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
-  34:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** #if __cplusplus < 201103L
-  35:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** # include <bits/c++0x_warning.h>
-  36:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** #else
-  37:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
-  38:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** #include <utility>
-  39:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** #include <array>
-  40:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** #include <bits/uses_allocator.h>
-  41:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
-  42:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** namespace std _GLIBCXX_VISIBILITY(default)
-  43:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** {
-  44:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** _GLIBCXX_BEGIN_NAMESPACE_VERSION
-  45:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
-  46:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****   /**
-  47:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****    *  @addtogroup utilities
-  48:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****    *  @{
-  49:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****    */
-  50:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
-  51:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****   template<std::size_t _Idx, typename _Head, bool _IsEmptyNotFinal>
-  52:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****     struct _Head_base;
-  53:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
-  54:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****   template<std::size_t _Idx, typename _Head>
-  55:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****     struct _Head_base<_Idx, _Head, true>
-  56:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****     : public _Head
-  57:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****     {
-  58:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       constexpr _Head_base()
-  59:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       : _Head() { }
-  60:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
-  61:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       constexpr _Head_base(const _Head& __h)
-  62:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       : _Head(__h) { }
-  63:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
-  64:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       constexpr _Head_base(const _Head_base&) = default;
-  65:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       constexpr _Head_base(_Head_base&&) = default;
-  66:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
-  67:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       template<typename _UHead>
-  68:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****         constexpr _Head_base(_UHead&& __h)
-  69:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 	: _Head(std::forward<_UHead>(__h)) { }
-  70:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
-  71:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       _Head_base(allocator_arg_t, __uses_alloc0)
-  72:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       : _Head() { }
-  73:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
-  74:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       template<typename _Alloc>
-  75:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 	_Head_base(allocator_arg_t, __uses_alloc1<_Alloc> __a)
-  76:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 	: _Head(allocator_arg, *__a._M_a) { }
-  77:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
-  78:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       template<typename _Alloc>
-  79:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 	_Head_base(allocator_arg_t, __uses_alloc2<_Alloc> __a)
-  80:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 	: _Head(*__a._M_a) { }
-  81:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
-  82:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       template<typename _UHead>
-  83:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 	_Head_base(__uses_alloc0, _UHead&& __uhead)
-  84:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 	: _Head(std::forward<_UHead>(__uhead)) { }
-  85:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
-  86:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       template<typename _Alloc, typename _UHead>
-  87:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 	_Head_base(__uses_alloc1<_Alloc> __a, _UHead&& __uhead)
-  88:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 	: _Head(allocator_arg, *__a._M_a, std::forward<_UHead>(__uhead)) { }
-  89:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
-  90:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       template<typename _Alloc, typename _UHead>
-  91:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 	_Head_base(__uses_alloc2<_Alloc> __a, _UHead&& __uhead)
-  92:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 	: _Head(std::forward<_UHead>(__uhead), *__a._M_a) { }
-  93:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
-  94:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       static constexpr _Head&
-  95:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       _M_head(_Head_base& __b) noexcept { return __b; }
-  96:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
-  97:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       static constexpr const _Head&
-  98:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       _M_head(const _Head_base& __b) noexcept { return __b; }
-  99:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****     };
- 100:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
- 101:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****   template<std::size_t _Idx, typename _Head>
- 102:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****     struct _Head_base<_Idx, _Head, false>
- 103:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****     {
- 104:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       constexpr _Head_base()
- 105:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       : _M_head_impl() { }
- 106:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
- 107:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       constexpr _Head_base(const _Head& __h)
- 108:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       : _M_head_impl(__h) { }
- 109:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
- 110:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       constexpr _Head_base(const _Head_base&) = default;
- 111:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       constexpr _Head_base(_Head_base&&) = default;
- 112:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 
- 113:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****       template<typename _UHead>
- 114:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple ****         constexpr _Head_base(_UHead&& __h)
- 115:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple **** 	: _M_head_impl(std::forward<_UHead>(__h)) { }
- 322              		.loc 3 115 0
- 323 00f8 0022     		movs	r2, #0
- 324              	.LBE549:
- 325              	.LBE548:
- 326              	.LBE547:
- 327              	.LBE546:
- 328              	.LBE545:
- 329              	.LBB550:
- 330              	.LBB551:
- 331              	.LBB552:
- 332 00fa 85E80C00 		stmia	r5, {r2, r3}
- 333              	.LVL45:
- 334              	.LBE552:
- 335              	.LBE551:
- 336              	.LBE550:
- 337              	.LBE544:
- 338              	.LBE543:
- 339              	.LBB553:
- 340              	.LBB554:
- 341              	.LBB555:
- 342 00fe 0023     		movs	r3, #0
- 343              	.LVL46:
- 344 0100 AB60     		str	r3, [r5, #8]	@ float
- 345              	.LVL47:
- 346              	.LBE555:
- 347              	.LBE554:
- 348              	.LBE553:
- 349              	.LBE542:
- 350              	.LBE541:
- 351              	.LBB556:
- 352              	.LBB557:
- 353              	.LBB558:
- 354 0102 EB60     		str	r3, [r5, #12]	@ float
- 355              	.LVL48:
- 356              	.LBE558:
- 357              	.LBE557:
- 358              	.LBE556:
- 359              	.LBE540:
- 360              	.LBE539:
- 361              	.LBE538:
- 362              	.LBE537:
- 114:src/servo.cpp **** 			break;
- 115:src/servo.cpp **** 	}
- 116:src/servo.cpp **** 	return std::make_tuple(0, 0.0, newVal, 0);
- 117:src/servo.cpp **** }...
- 363              		.loc 2 117 0
- 364 0104 2846     		mov	r0, r5
- 365 0106 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
- 366              	.LVL49:
- 367              	.L14:
- 368 010a 00BF     		.align	2
- 369              	.L13:
- 370 010c 8FC2753D 		.word	1031127695
- 371              		.cfi_endproc
- 372              	.LFE1033:
- 373              		.cantunwind
- 374              		.fnend
- 376              		.align	1
- 377              		.global	_ZN5servoD2Ev
- 378              		.thumb
- 379              		.thumb_func
- 381              	_ZN5servoD2Ev:
- 382              		.fnstart
- 383              	.LFB1026:
-  11:src/servo.cpp **** servo::~servo()
- 384              		.loc 2 11 0
- 385              		.cfi_startproc
- 386              		@ args = 0, pretend = 0, frame = 0
- 387              		@ frame_needed = 0, uses_anonymous_args = 0
- 388              	.LVL50:
- 389 0110 10B5     		push	{r4, lr}
- 390              	.LCFI2:
- 391              		.cfi_def_cfa_offset 8
- 392              		.cfi_offset 4, -8
- 393              		.cfi_offset 14, -4
-  11:src/servo.cpp **** servo::~servo()
- 394              		.loc 2 11 0
- 395 0112 0446     		mov	r4, r0
- 396              	.LBB559:
- 397 0114 024B     		ldr	r3, .L16
- 398 0116 0360     		str	r3, [r0]
- 399 0118 FFF7FEFF 		bl	_ZN5motorD2Ev
- 400              	.LVL51:
- 401              	.LBE559:
-  13:src/servo.cpp **** }
- 402              		.loc 2 13 0
- 403 011c 2046     		mov	r0, r4
- 404 011e 10BD     		pop	{r4, pc}
- 405              	.LVL52:
- 406              	.L17:
- 407              		.align	2
- 408              	.L16:
- 409 0120 08000000 		.word	.LANCHOR0+8
- 410              		.cfi_endproc
- 411              	.LFE1026:
- 412              		.cantunwind
- 413              		.fnend
- 415              		.global	_ZN5servoD1Ev
- 416              		.thumb_set _ZN5servoD1Ev,_ZN5servoD2Ev
- 417              		.align	1
- 418              		.global	_ZN5servoD0Ev
- 419              		.thumb
- 420              		.thumb_func
- 422              	_ZN5servoD0Ev:
- 423              		.fnstart
- 424              	.LFB1028:
-  11:src/servo.cpp **** servo::~servo()
- 425              		.loc 2 11 0
- 426              		.cfi_startproc
- 427              		@ args = 0, pretend = 0, frame = 0
- 428              		@ frame_needed = 0, uses_anonymous_args = 0
- 429              	.LVL53:
- 430 0124 10B5     		push	{r4, lr}
- 431              	.LCFI3:
- 432              		.cfi_def_cfa_offset 8
- 433              		.cfi_offset 4, -8
- 434              		.cfi_offset 14, -4
-  11:src/servo.cpp **** servo::~servo()
- 435              		.loc 2 11 0
- 436 0126 0446     		mov	r4, r0
-  13:src/servo.cpp **** }
- 437              		.loc 2 13 0
- 438 0128 FFF7FEFF 		bl	_ZN5servoD1Ev
- 439              	.LVL54:
- 440 012c 2046     		mov	r0, r4
- 441 012e FFF7FEFF 		bl	_ZdlPv
- 442              	.LVL55:
- 443 0132 2046     		mov	r0, r4
- 444 0134 10BD     		pop	{r4, pc}
- 445              		.cfi_endproc
- 446              	.LFE1028:
- 447              		.cantunwind
- 448              		.fnend
- 450              		.align	1
- 451              		.global	_ZN5servo9motorInitEv
- 452              		.thumb
- 453              		.thumb_func
- 455              	_ZN5servo9motorInitEv:
- 456              		.fnstart
- 457              	.LFB1029:
-  16:src/servo.cpp **** {
- 458              		.loc 2 16 0
- 459              		.cfi_startproc
- 460              		@ args = 0, pretend = 0, frame = 32
- 461              		@ frame_needed = 0, uses_anonymous_args = 0
- 462              	.LVL56:
- 463 0136 30B5     		push	{r4, r5, lr}
- 464              		.save {r4, r5, lr}
- 465              	.LCFI4:
- 466              		.cfi_def_cfa_offset 12
- 467              		.cfi_offset 4, -12
- 468              		.cfi_offset 5, -8
- 469              		.cfi_offset 14, -4
-  20:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Pin = m_settings->m_ServoPin;
- 470              		.loc 2 20 0
- 471 0138 4368     		ldr	r3, [r0, #4]
-  16:src/servo.cpp **** {
- 472              		.loc 2 16 0
- 473              		.pad #36
- 474 013a 89B0     		sub	sp, sp, #36
- 475              	.LCFI5:
- 476              		.cfi_def_cfa_offset 48
-  20:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Pin = m_settings->m_ServoPin;
- 477              		.loc 2 20 0
- 478 013c 9A69     		ldr	r2, [r3, #24]
-  16:src/servo.cpp **** {
- 479              		.loc 2 16 0
- 480 013e 0446     		mov	r4, r0
-  20:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Pin = m_settings->m_ServoPin;
- 481              		.loc 2 20 0
- 482 0140 ADF80020 		strh	r2, [sp]	@ movhi
-  21:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
- 483              		.loc 2 21 0
- 484 0144 1822     		movs	r2, #24
-  23:src/servo.cpp **** 	GPIO_Init(m_settings->m_ServoPort, &GPIO_InitStructure);
- 485              		.loc 2 23 0
- 486 0146 D869     		ldr	r0, [r3, #28]
- 487              	.LVL57:
-  21:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
- 488              		.loc 2 21 0
- 489 0148 8DF80320 		strb	r2, [sp, #3]
-  23:src/servo.cpp **** 	GPIO_Init(m_settings->m_ServoPort, &GPIO_InitStructure);
- 490              		.loc 2 23 0
- 491 014c 6946     		mov	r1, sp
-  22:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
- 492              		.loc 2 22 0
- 493 014e 0322     		movs	r2, #3
- 494 0150 8DF80220 		strb	r2, [sp, #2]
-  23:src/servo.cpp **** 	GPIO_Init(m_settings->m_ServoPort, &GPIO_InitStructure);
- 495              		.loc 2 23 0
- 496 0154 FFF7FEFF 		bl	GPIO_Init
- 497              	.LVL58:
-  29:src/servo.cpp **** 	TIM_TimeBaseStructure.TIM_Period = 59999; // ie 0..29999
- 498              		.loc 2 29 0
- 499 0158 4EF65F23 		movw	r3, #59999
- 500 015c ADF80830 		strh	r3, [sp, #8]	@ movhi
-  30:src/servo.cpp **** 	TIM_TimeBaseStructure.TIM_Prescaler = 23;
- 501              		.loc 2 30 0
- 502 0160 1723     		movs	r3, #23
- 503 0162 ADF80430 		strh	r3, [sp, #4]	@ movhi
-  34:src/servo.cpp **** 	TIM_TimeBaseInit(m_settings->m_Timer, &TIM_TimeBaseStructure);
- 504              		.loc 2 34 0
- 505 0166 6368     		ldr	r3, [r4, #4]
-  31:src/servo.cpp **** 	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
- 506              		.loc 2 31 0
- 507 0168 0025     		movs	r5, #0
-  34:src/servo.cpp **** 	TIM_TimeBaseInit(m_settings->m_Timer, &TIM_TimeBaseStructure);
- 508              		.loc 2 34 0
- 509 016a 9868     		ldr	r0, [r3, #8]
- 510 016c 01A9     		add	r1, sp, #4
-  31:src/servo.cpp **** 	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
- 511              		.loc 2 31 0
- 512 016e ADF80A50 		strh	r5, [sp, #10]	@ movhi
-  32:src/servo.cpp **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
- 513              		.loc 2 32 0
- 514 0172 ADF80650 		strh	r5, [sp, #6]	@ movhi
-  34:src/servo.cpp **** 	TIM_TimeBaseInit(m_settings->m_Timer, &TIM_TimeBaseStructure);
- 515              		.loc 2 34 0
- 516 0176 FFF7FEFF 		bl	TIM_TimeBaseInit
- 517              	.LVL59:
-  38:src/servo.cpp **** 	TIM_OCStructInit(&TIM_OCInitStructure); // clears the other 4 fields not used here
- 518              		.loc 2 38 0
- 519 017a 04A8     		add	r0, sp, #16
- 520 017c FFF7FEFF 		bl	TIM_OCStructInit
- 521              	.LVL60:
-  41:src/servo.cpp **** 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
- 522              		.loc 2 41 0
- 523 0180 6023     		movs	r3, #96
- 524 0182 ADF81030 		strh	r3, [sp, #16]	@ movhi
-  42:src/servo.cpp **** 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
- 525              		.loc 2 42 0
- 526 0186 0123     		movs	r3, #1
- 527 0188 ADF81230 		strh	r3, [sp, #18]	@ movhi
-  46:src/servo.cpp **** 	switch(m_settings->m_TimerChannel){
- 528              		.loc 2 46 0
- 529 018c 6368     		ldr	r3, [r4, #4]
-  43:src/servo.cpp **** 	TIM_OCInitStructure.TIM_Pulse = 0x0000;
- 530              		.loc 2 43 0
- 531 018e ADF81650 		strh	r5, [sp, #22]	@ movhi
-  46:src/servo.cpp **** 	switch(m_settings->m_TimerChannel){
- 532              		.loc 2 46 0
- 533 0192 DA68     		ldr	r2, [r3, #12]
-  44:src/servo.cpp **** 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
- 534              		.loc 2 44 0
- 535 0194 ADF81850 		strh	r5, [sp, #24]	@ movhi
-  46:src/servo.cpp **** 	switch(m_settings->m_TimerChannel){
- 536              		.loc 2 46 0
- 537 0198 013A     		subs	r2, r2, #1
- 538 019a 032A     		cmp	r2, #3
- 539 019c 3BD8     		bhi	.L27
- 540 019e DFE802F0 		tbb	[pc, r2]
- 541              	.L22:
- 542 01a2 02       		.byte	(.L21-.L22)/2
- 543 01a3 0C       		.byte	(.L23-.L22)/2
- 544 01a4 16       		.byte	(.L24-.L22)/2
- 545 01a5 20       		.byte	(.L25-.L22)/2
- 546              		.p2align 1
- 547              	.L21:
-  48:src/servo.cpp **** 			TIM_OC1Init(m_settings->m_Timer, &TIM_OCInitStructure);
- 548              		.loc 2 48 0
- 549 01a6 04A9     		add	r1, sp, #16
- 550 01a8 9868     		ldr	r0, [r3, #8]
- 551 01aa FFF7FEFF 		bl	TIM_OC1Init
- 552              	.LVL61:
-  49:src/servo.cpp **** 			TIM_OC1PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
- 553              		.loc 2 49 0
- 554 01ae 6368     		ldr	r3, [r4, #4]
- 555 01b0 0821     		movs	r1, #8
- 556 01b2 9868     		ldr	r0, [r3, #8]
- 557 01b4 FFF7FEFF 		bl	TIM_OC1PreloadConfig
- 558              	.LVL62:
- 559 01b8 1CE0     		b	.L26
- 560              	.L23:
-  52:src/servo.cpp **** 			TIM_OC2Init(m_settings->m_Timer, &TIM_OCInitStructure);
- 561              		.loc 2 52 0
- 562 01ba 04A9     		add	r1, sp, #16
- 563 01bc 9868     		ldr	r0, [r3, #8]
- 564 01be FFF7FEFF 		bl	TIM_OC2Init
- 565              	.LVL63:
-  53:src/servo.cpp **** 			TIM_OC2PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
- 566              		.loc 2 53 0
- 567 01c2 6368     		ldr	r3, [r4, #4]
- 568 01c4 0821     		movs	r1, #8
- 569 01c6 9868     		ldr	r0, [r3, #8]
- 570 01c8 FFF7FEFF 		bl	TIM_OC2PreloadConfig
- 571              	.LVL64:
- 572 01cc 12E0     		b	.L26
- 573              	.L24:
-  56:src/servo.cpp **** 			TIM_OC3Init(m_settings->m_Timer, &TIM_OCInitStructure);
- 574              		.loc 2 56 0
- 575 01ce 04A9     		add	r1, sp, #16
- 576 01d0 9868     		ldr	r0, [r3, #8]
- 577 01d2 FFF7FEFF 		bl	TIM_OC3Init
- 578              	.LVL65:
-  57:src/servo.cpp **** 			TIM_OC3PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
- 579              		.loc 2 57 0
- 580 01d6 6368     		ldr	r3, [r4, #4]
- 581 01d8 0821     		movs	r1, #8
- 582 01da 9868     		ldr	r0, [r3, #8]
- 583 01dc FFF7FEFF 		bl	TIM_OC3PreloadConfig
- 584              	.LVL66:
- 585 01e0 08E0     		b	.L26
- 586              	.L25:
-  60:src/servo.cpp **** 			TIM_OC4Init(m_settings->m_Timer, &TIM_OCInitStructure);
- 587              		.loc 2 60 0
- 588 01e2 9868     		ldr	r0, [r3, #8]
- 589 01e4 04A9     		add	r1, sp, #16
- 590 01e6 FFF7FEFF 		bl	TIM_OC4Init
- 591              	.LVL67:
-  61:src/servo.cpp **** 			TIM_OC4PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
- 592              		.loc 2 61 0
- 593 01ea 6368     		ldr	r3, [r4, #4]
- 594 01ec 0821     		movs	r1, #8
- 595 01ee 9868     		ldr	r0, [r3, #8]
- 596 01f0 FFF7FEFF 		bl	TIM_OC4PreloadConfig
- 597              	.LVL68:
- 598              	.L26:
-  68:src/servo.cpp **** 	TIM_ARRPreloadConfig(m_settings->m_Timer, ENABLE);
- 599              		.loc 2 68 0
- 600 01f4 6368     		ldr	r3, [r4, #4]
- 601 01f6 0121     		movs	r1, #1
- 602 01f8 9868     		ldr	r0, [r3, #8]
- 603 01fa FFF7FEFF 		bl	TIM_ARRPreloadConfig
- 604              	.LVL69:
-  71:src/servo.cpp **** 	TIM_CtrlPWMOutputs(m_settings->m_Timer, ENABLE);
- 605              		.loc 2 71 0
- 606 01fe 6368     		ldr	r3, [r4, #4]
- 607 0200 0121     		movs	r1, #1
- 608 0202 9868     		ldr	r0, [r3, #8]
- 609 0204 FFF7FEFF 		bl	TIM_CtrlPWMOutputs
- 610              	.LVL70:
-  74:src/servo.cpp **** 	TIM_Cmd(m_settings->m_Timer, ENABLE);
- 611              		.loc 2 74 0
- 612 0208 6368     		ldr	r3, [r4, #4]
- 613 020a 0121     		movs	r1, #1
- 614 020c 9868     		ldr	r0, [r3, #8]
- 615 020e FFF7FEFF 		bl	TIM_Cmd
- 616              	.LVL71:
-  76:src/servo.cpp **** 	return true;
- 617              		.loc 2 76 0
- 618 0212 0120     		movs	r0, #1
- 619 0214 00E0     		b	.L20
- 620              	.L27:
-  64:src/servo.cpp **** 			return false;
- 621              		.loc 2 64 0
- 622 0216 0020     		movs	r0, #0
- 623              	.L20:
-  77:src/servo.cpp **** }
- 624              		.loc 2 77 0
- 625 0218 09B0     		add	sp, sp, #36
- 626              	.LCFI6:
- 627              		.cfi_def_cfa_offset 12
- 628              		@ sp needed
- 629 021a 30BD     		pop	{r4, r5, pc}
- 630              		.cfi_endproc
- 631              	.LFE1029:
- 632              		.fnend
- 634              		.align	1
- 635              		.global	_ZN5servoC2EP13motorSettings
- 636              		.thumb
- 637              		.thumb_func
- 639              	_ZN5servoC2EP13motorSettings:
- 640              		.fnstart
- 641              	.LFB1023:
-   6:src/servo.cpp **** servo::servo(motorSettings *settings) : motor(settings)
- 642              		.loc 2 6 0
- 643              		.cfi_startproc
- 644              		@ args = 0, pretend = 0, frame = 0
- 645              		@ frame_needed = 0, uses_anonymous_args = 0
- 646              	.LVL72:
- 647 021c 10B5     		push	{r4, lr}
- 648              		.save {r4, lr}
- 649              	.LCFI7:
- 650              		.cfi_def_cfa_offset 8
- 651              		.cfi_offset 4, -8
- 652              		.cfi_offset 14, -4
-   6:src/servo.cpp **** servo::servo(motorSettings *settings) : motor(settings)
- 653              		.loc 2 6 0
- 654 021e 0446     		mov	r4, r0
- 655              	.LBB560:
- 656 0220 FFF7FEFF 		bl	_ZN5motorC2EP13motorSettings
- 657              	.LVL73:
- 658 0224 014B     		ldr	r3, .L29
- 659              	.LBE560:
-   9:src/servo.cpp **** }
- 660              		.loc 2 9 0
- 661 0226 2046     		mov	r0, r4
- 662              	.LBB561:
-   6:src/servo.cpp **** servo::servo(motorSettings *settings) : motor(settings)
- 663              		.loc 2 6 0
- 664 0228 2360     		str	r3, [r4]
- 665              	.LBE561:
-   9:src/servo.cpp **** }
- 666              		.loc 2 9 0
- 667 022a 10BD     		pop	{r4, pc}
- 668              	.LVL74:
- 669              	.L30:
- 670              		.align	2
- 671              	.L29:
- 672 022c 08000000 		.word	.LANCHOR0+8
- 673              		.cfi_endproc
- 674              	.LFE1023:
- 675              		.fnend
- 677              		.global	_ZN5servoC1EP13motorSettings
- 678              		.thumb_set _ZN5servoC1EP13motorSettings,_ZN5servoC2EP13motorSettings
- 679              		.global	_ZTS5servo
- 680              		.global	_ZTI5servo
- 681              		.global	_ZTV5servo
- 682              		.section	.rodata
- 683              		.align	2
- 684              		.set	.LANCHOR0,. + 0
- 687              	_ZTV5servo:
- 688 0000 00000000 		.word	0
- 689 0004 00000000 		.word	_ZTI5servo
- 690 0008 00000000 		.word	_ZN5servoD1Ev
- 691 000c 00000000 		.word	_ZN5servoD0Ev
- 692 0010 00000000 		.word	_ZN5servo9motorTypeEv
- 693 0014 00000000 		.word	_ZN5servo9motorInitEv
- 694 0018 00000000 		.word	_ZN5servo9motorNameEv
- 695 001c 00000000 		.word	_ZN5servo12setReferenceEf
- 696 0020 00000000 		.word	_ZN5servo12getReferenceEv
- 697 0024 00000000 		.word	_ZN5servo6updateEfb
- 700              	_ZTS5servo:
- 701 0028 35736572 		.ascii	"5servo\000"
- 701      766F00
- 702 002f 00       		.space	1
- 705              	_ZTI5servo:
- 706 0030 08000000 		.word	_ZTVN10__cxxabiv120__si_class_type_infoE+8
- 707 0034 00000000 		.word	_ZTS5servo
- 708 0038 00000000 		.word	_ZTI5motor
- 709              		.text
- 710              	.Letext0:
- 711              		.file 4 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
- 712              		.file 5 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
- 713              		.file 6 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/stdint.h"
- 714              		.file 7 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
- 715              		.file 8 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
- 716              		.file 9 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_tim.h"
- 717              		.file 10 "/opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stddef.h"
- 718              		.file 11 "/opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stdarg.h"
- 719              		.file 12 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/lock.h"
- 720              		.file 13 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_types.h"
- 721              		.file 14 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/reent.h"
- 722              		.file 15 "<built-in>"
- 723              		.file 16 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/type_traits"
- 724              		.file 17 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/exception_ptr.h"
- 725              		.file 18 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/arm-none-eabi/armv7-m/
- 726              		.file 19 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/debug/debug.h"
- 727              		.file 20 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/cwchar"
- 728              		.file 21 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/cstdint"
- 729              		.file 22 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/clocale"
- 730              		.file 23 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_pair.h"
- 731              		.file 24 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/uses_allocator.h"
- 732              		.file 25 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/move.h"
- 733              		.file 26 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/predefined_ops.h"
- 734              		.file 27 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/ext/new_allocator.h"
- 735              		.file 28 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/ext/numeric_traits.h"
- 736              		.file 29 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/wchar.h"
- 737              		.file 30 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/locale.h"
- 738              		.file 31 "./inc/motorSettings.h"
- 739              		.file 32 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
- 740              		.file 33 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/new"
+ 105:src/servo.cpp **** 		case 2:
+ 106:src/servo.cpp **** 			(m_settings->m_Timer)->CCR2 = sp;
+ 107:src/servo.cpp **** 			break;
+ 108:src/servo.cpp **** 		case 3:
+ 109:src/servo.cpp **** 			(m_settings->m_Timer)->CCR3 = sp;
+ 110:src/servo.cpp **** 			break;
+ 111:src/servo.cpp **** 		case 4:
+ 112:src/servo.cpp **** 			(m_settings->m_Timer)->CCR4 = sp;
+ 113:src/servo.cpp **** 			break;
+ 114:src/servo.cpp **** 	}
+ 115:src/servo.cpp **** 	return std::make_tuple(0, 0.0, sp, 0);
+ 116:src/servo.cpp **** }
+ 117:src/servo.cpp **** 
+ 118:src/servo.cpp **** float servo::filterUpdate(float sp){
+ 549              		.loc 2 118 0
+ 550              		.cfi_startproc
+ 551              		@ args = 0, pretend = 0, frame = 0
+ 552              		@ frame_needed = 0, uses_anonymous_args = 0
+ 553              		@ link register save eliminated.
+ 554              	.LVL43:
+ 119:src/servo.cpp **** 	int i;
+ 120:src/servo.cpp **** 	for(i = 3; i>0; i++){
+ 121:src/servo.cpp **** 		u[i-1] = u[i]; 
+ 555              		.loc 2 121 0
+ 556 0190 8369     		ldr	r3, [r0, #24]	@ float
+ 122:src/servo.cpp **** 	}
+ 123:src/servo.cpp **** 	u[0] = sp; 
+ 557              		.loc 2 123 0
+ 558 0192 C160     		str	r1, [r0, #12]	@ float
+ 121:src/servo.cpp **** 	}
+ 559              		.loc 2 121 0
+ 560 0194 4361     		str	r3, [r0, #20]	@ float
+ 561              	.LVL44:
+ 562              	.L29:
+ 563 0196 FEE7     		b	.L29
+ 564              		.cfi_endproc
+ 565              	.LFE1135:
+ 566              		.cantunwind
+ 567              		.fnend
+ 569              		.align	1
+ 570              		.global	_ZN5servo6updateEfb
+ 571              		.thumb
+ 572              		.thumb_func
+ 574              	_ZN5servo6updateEfb:
+ 575              		.fnstart
+ 576              	.LFB1033:
+  97:src/servo.cpp **** 	int sp = pos * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) / 180 + m_settings->m_S
+ 577              		.loc 2 97 0
+ 578              		.cfi_startproc
+ 579              		@ args = 0, pretend = 0, frame = 0
+ 580              		@ frame_needed = 0, uses_anonymous_args = 0
+ 581              	.LVL45:
+  98:src/servo.cpp **** 	sp = (int) filterUpdate(sp);
+ 582              		.loc 2 98 0
+ 583 0198 4B68     		ldr	r3, [r1, #4]
+ 584              	.LVL46:
+  97:src/servo.cpp **** 	int sp = pos * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) / 180 + m_settings->m_S
+ 585              		.loc 2 97 0
+ 586 019a 10B5     		push	{r4, lr}
+ 587              	.LCFI8:
+ 588              		.cfi_def_cfa_offset 8
+ 589              		.cfi_offset 4, -8
+ 590              		.cfi_offset 14, -4
+  98:src/servo.cpp **** 	sp = (int) filterUpdate(sp);
+ 591              		.loc 2 98 0
+ 592 019c 5869     		ldr	r0, [r3, #20]
+ 593              	.LVL47:
+  99:src/servo.cpp **** 
+ 594              		.loc 2 99 0
+ 595 019e 1B69     		ldr	r3, [r3, #16]
+ 596              	.LVL48:
+  97:src/servo.cpp **** 	int sp = pos * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) / 180 + m_settings->m_S
+ 597              		.loc 2 97 0
+ 598 01a0 0C46     		mov	r4, r1
+  99:src/servo.cpp **** 
+ 599              		.loc 2 99 0
+ 600 01a2 1A1A     		subs	r2, r3, r0
+ 601              	.LVL49:
+ 602 01a4 8B68     		ldr	r3, [r1, #8]
+ 603              	.LVL50:
+ 604 01a6 5343     		muls	r3, r2, r3
+ 605 01a8 B422     		movs	r2, #180
+ 606 01aa 93FBF2F3 		sdiv	r3, r3, r2
+ 607 01ae 1844     		add	r0, r0, r3
+ 608              	.LVL51:
+ 609 01b0 FFF7FEFF 		bl	__aeabi_i2f
+ 610              	.LVL52:
+ 611 01b4 0146     		mov	r1, r0
+ 612 01b6 2046     		mov	r0, r4
+ 613 01b8 FFF7FEFF 		bl	_ZN5servo12filterUpdateEf
+ 614              	.LVL53:
+ 615              		.cfi_endproc
+ 616              	.LFE1033:
+ 617              		.cantunwind
+ 618              		.fnend
+ 620              		.global	_ZTS5servo
+ 621              		.global	_ZTI5servo
+ 622              		.global	_ZTV5servo
+ 623              		.section	.rodata
+ 624              		.align	2
+ 625              		.set	.LANCHOR0,. + 0
+ 628              	_ZTV5servo:
+ 629 0000 00000000 		.word	0
+ 630 0004 00000000 		.word	_ZTI5servo
+ 631 0008 00000000 		.word	_ZN5servoD1Ev
+ 632 000c 00000000 		.word	_ZN5servoD0Ev
+ 633 0010 00000000 		.word	_ZN5servo9motorTypeEv
+ 634 0014 00000000 		.word	_ZN5servo9motorInitEv
+ 635 0018 00000000 		.word	_ZN5servo9motorNameEv
+ 636 001c 00000000 		.word	_ZN5servo12setReferenceEf
+ 637 0020 00000000 		.word	_ZN5servo12getReferenceEv
+ 638 0024 00000000 		.word	_ZN5servo6updateEfb
+ 639              	.LC0:
+ 640 0028 ED0D3E3B 		.word	993922541
+ 641 002c 728A0E3C 		.word	1007585906
+ 642 0030 728A0E3C 		.word	1007585906
+ 643 0034 ED0D3E3B 		.word	993922541
+ 644              	.LC1:
+ 645 0038 0000803F 		.word	1065353216
+ 646 003c 41F117C0 		.word	-1072172735
+ 647 0040 94F6F63F 		.word	1073149588
+ 648 0044 B53708BF 		.word	-1089980491
+ 651              	_ZTS5servo:
+ 652 0048 35736572 		.ascii	"5servo\000"
+ 652      766F00
+ 653 004f 00       		.space	1
+ 656              	_ZTI5servo:
+ 657 0050 08000000 		.word	_ZTVN10__cxxabiv120__si_class_type_infoE+8
+ 658 0054 00000000 		.word	_ZTS5servo
+ 659 0058 00000000 		.word	_ZTI5motor
+ 660              		.text
+ 661              	.Letext0:
+ 662              		.file 4 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
+ 663              		.file 5 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 664              		.file 6 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/stdint.h"
+ 665              		.file 7 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
+ 666              		.file 8 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
+ 667              		.file 9 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_tim.h"
+ 668              		.file 10 "/opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stddef.h"
+ 669              		.file 11 "/opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stdarg.h"
+ 670              		.file 12 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/lock.h"
+ 671              		.file 13 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_types.h"
+ 672              		.file 14 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/reent.h"
+ 673              		.file 15 "<built-in>"
+ 674              		.file 16 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/type_traits"
+ 675              		.file 17 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/exception_ptr.h"
+ 676              		.file 18 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/arm-none-eabi/armv7-m/
+ 677              		.file 19 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/debug/debug.h"
+ 678              		.file 20 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/cwchar"
+ 679              		.file 21 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/cstdint"
+ 680              		.file 22 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/clocale"
+ 681              		.file 23 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_pair.h"
+ 682              		.file 24 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/uses_allocator.h"
+ 683              		.file 25 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple"
+ 684              		.file 26 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/cpp_type_traits.h
+ 685              		.file 27 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_iterator_base
+ 686              		.file 28 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/move.h"
+ 687              		.file 29 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/predefined_ops.h"
+ 688              		.file 30 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/ext/new_allocator.h"
+ 689              		.file 31 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/ext/numeric_traits.h"
+ 690              		.file 32 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/wchar.h"
+ 691              		.file 33 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/locale.h"
+ 692              		.file 34 "./inc/motorSettings.h"
+ 693              		.file 35 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
+ 694              		.file 36 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/new"
 DEFINED SYMBOLS
                             *ABS*:00000000 servo.cpp
-     /tmp/ccDGZyTI.s:20     .text._ZN5servo9motorTypeEv:00000000 $t
-     /tmp/ccDGZyTI.s:25     .text._ZN5servo9motorTypeEv:00000000 _ZN5servo9motorTypeEv
+     /tmp/ccvZYuEq.s:20     .text._ZN5servo9motorTypeEv:00000000 $t
+     /tmp/ccvZYuEq.s:25     .text._ZN5servo9motorTypeEv:00000000 _ZN5servo9motorTypeEv
 .ARM.exidx.text._ZN5servo9motorTypeEv:00000000 $d
-     /tmp/ccDGZyTI.s:45     .text:00000000 $t
-     /tmp/ccDGZyTI.s:50     .text:00000000 _ZN5servo12setReferenceEf
+     /tmp/ccvZYuEq.s:46     .text:00000000 $t
+     /tmp/ccvZYuEq.s:51     .text:00000000 _ZN5servo12setReferenceEf
                        .ARM.exidx:00000000 $d
-     /tmp/ccDGZyTI.s:72     .text:00000002 _ZN5servo12getReferenceEv
-     /tmp/ccDGZyTI.s:103    .text:0000000c _ZN5servo9motorNameEv
-     /tmp/ccDGZyTI.s:131    .text:00000012 _ZN5servo6updateEfb
-     /tmp/ccDGZyTI.s:174    .text:0000003a $d
-     /tmp/ccDGZyTI.s:178    .text:0000003e $t
-     /tmp/ccDGZyTI.s:370    .text:0000010c $d
-     /tmp/ccDGZyTI.s:376    .text:00000110 $t
-     /tmp/ccDGZyTI.s:381    .text:00000110 _ZN5servoD2Ev
-     /tmp/ccDGZyTI.s:409    .text:00000120 $d
-     /tmp/ccDGZyTI.s:381    .text:00000110 _ZN5servoD1Ev
-     /tmp/ccDGZyTI.s:417    .text:00000124 $t
-     /tmp/ccDGZyTI.s:422    .text:00000124 _ZN5servoD0Ev
-     /tmp/ccDGZyTI.s:455    .text:00000136 _ZN5servo9motorInitEv
-     /tmp/ccDGZyTI.s:542    .text:000001a2 $d
-     /tmp/ccDGZyTI.s:546    .text:000001a6 $t
-     /tmp/ccDGZyTI.s:639    .text:0000021c _ZN5servoC2EP13motorSettings
-     /tmp/ccDGZyTI.s:672    .text:0000022c $d
-     /tmp/ccDGZyTI.s:639    .text:0000021c _ZN5servoC1EP13motorSettings
-     /tmp/ccDGZyTI.s:700    .rodata:00000028 _ZTS5servo
-     /tmp/ccDGZyTI.s:705    .rodata:00000030 _ZTI5servo
-     /tmp/ccDGZyTI.s:687    .rodata:00000000 _ZTV5servo
-     /tmp/ccDGZyTI.s:683    .rodata:00000000 $d
+     /tmp/ccvZYuEq.s:85     .text:0000000e _ZN5servo12getReferenceEv
+     /tmp/ccvZYuEq.s:115    .text:00000018 _ZN5servo9motorNameEv
+     /tmp/ccvZYuEq.s:140    .text:0000001e _ZN5servoD2Ev
+     /tmp/ccvZYuEq.s:168    .text:00000030 $d
+     /tmp/ccvZYuEq.s:140    .text:0000001e _ZN5servoD1Ev
+     /tmp/ccvZYuEq.s:176    .text:00000034 $t
+     /tmp/ccvZYuEq.s:181    .text:00000034 _ZN5servoD0Ev
+     /tmp/ccvZYuEq.s:214    .text:00000046 _ZN5servo9motorInitEv
+     /tmp/ccvZYuEq.s:303    .text:000000b2 $d
+     /tmp/ccvZYuEq.s:307    .text:000000b6 $t
+     /tmp/ccvZYuEq.s:491    .text:00000178 $d
+     /tmp/ccvZYuEq.s:496    .text:0000017c $t
+     /tmp/ccvZYuEq.s:501    .text:0000017c _ZN5servoC2EP13motorSettings
+     /tmp/ccvZYuEq.s:534    .text:0000018c $d
+     /tmp/ccvZYuEq.s:501    .text:0000017c _ZN5servoC1EP13motorSettings
+     /tmp/ccvZYuEq.s:541    .text:00000190 $t
+     /tmp/ccvZYuEq.s:546    .text:00000190 _ZN5servo12filterUpdateEf
+     /tmp/ccvZYuEq.s:574    .text:00000198 _ZN5servo6updateEfb
+     /tmp/ccvZYuEq.s:651    .rodata:00000048 _ZTS5servo
+     /tmp/ccvZYuEq.s:656    .rodata:00000050 _ZTI5servo
+     /tmp/ccvZYuEq.s:628    .rodata:00000000 _ZTV5servo
+     /tmp/ccvZYuEq.s:624    .rodata:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS
-__aeabi_i2f
-__aeabi_fmul
-__aeabi_fsub
 __aeabi_f2iz
+__aeabi_i2f
 _ZN5motorD2Ev
 _ZdlPv
 GPIO_Init
