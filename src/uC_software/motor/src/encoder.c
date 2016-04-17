@@ -29,10 +29,11 @@ void I2C1_Init(void){
      /*enable I2C*/
     I2C_Cmd(I2C1,ENABLE);
 
-    NVIC_EnableIRQ(I2C1_EV_IRQn);
+    //NVIC_EnableIRQ(I2C1_EV_IRQn);
 }
-
+#if 0
 void I2C1_EV_IRQHandler(void){
+  __disable_irq();
   /* Check on EV5 */
   if(I2C_GetITStatus(I2C1, I2C_IT_SB)== SET){
     /* Send slave Address for read */
@@ -102,4 +103,6 @@ void I2C1_EV_IRQHandler(void){
       NumberOfByteToReceive--;
     }
   } 
+  __enable_irq();
 }
+#endif

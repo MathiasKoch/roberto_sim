@@ -1,10 +1,13 @@
 
 #include "DCMotor.h"
 #include "motorSettings.h"
+#include "led.h"
 
 #define PERIOD 14399
 #define PRESCALER 0
 #define CLOCKDIV 0
+
+#define ABS(x) (((x)>0)? (x) : -(x))
 
 
 DCMotor::DCMotor(motorSettings *settings) : motor(settings)
@@ -98,44 +101,55 @@ bool DCMotor::motorInit()
 	error = 0;
 
 	wheelRadius = m_settings->wheelRadius;
+	FF = m_settings->FF;
+	KP = m_settings->KP;
+	KI = m_settings->KI;
+	KD = m_settings->KD;
+	integralSaturation = m_settings->integralSaturation;
 
 	return true;
 }
 
 void DCMotor::setReference(float setPoint){
 	speed = setPoint;
-
 }
 
-bool DCMotor::setSpeed(int s){
+bool DCMotor::setSpeed(int s, bool enable){
+
 	if(s < -PERIOD)
 		s = -PERIOD;
 
 	if(s > PERIOD)
 		s = PERIOD;
 
-	if(abs(s) > 0){
-		GPIO_SetBits(m_settings->m_DCEnAPort, m_settings->m_DCEnAPin);
-		GPIO_SetBits(m_settings->m_DCEnBPort, m_settings->m_DCEnBPin);
-
-		if(s > 0){
-			GPIO_SetBits(m_settings->m_DCInAPort, m_settings->m_DCInAPin);
-			GPIO_ResetBits(m_settings->m_DCInBPort, m_settings->m_DCInBPin);
-		}else if(s < 0){
-			GPIO_ResetBits(m_settings->m_DCInAPort, m_settings->m_DCInAPin);
-			GPIO_SetBits(m_settings->m_DCInBPort, m_settings->m_DCInBPin);
-		}else{
-			return false;
-		}
-	}else{
-		s = 0;
-
-		GPIO_SetBits(m_settings->m_DCEnAPort, m_settings->m_DCEnAPin);
-		GPIO_SetBits(m_settings->m_DCEnBPort, m_settings->m_DCEnBPin);
-
-		// Break to GND
+	if(!enable){
 		GPIO_ResetBits(m_settings->m_DCInAPort, m_settings->m_DCInAPin);
-		GPIO_ResetBits(m_settings->m_DCInBPort, m_settings->m_DCInBPin);
+		GPIO_SetBits(m_settings->m_DCInBPort, m_settings->m_DCInBPin);
+		s = 0;
+	}else{
+		//if(ABS(s) > 3000){
+			GPIO_SetBits(m_settings->m_DCEnAPort, m_settings->m_DCEnAPin);
+			GPIO_SetBits(m_settings->m_DCEnBPort, m_settings->m_DCEnBPin);
+
+			if(s > 0){
+				GPIO_SetBits(m_settings->m_DCInAPort, m_settings->m_DCInAPin);
+				GPIO_ResetBits(m_settings->m_DCInBPort, m_settings->m_DCInBPin);
+			}else if(s < 0){
+				GPIO_ResetBits(m_settings->m_DCInAPort, m_settings->m_DCInAPin);
+				GPIO_SetBits(m_settings->m_DCInBPort, m_settings->m_DCInBPin);
+			}else{
+				return false;
+			}
+		/*}else{
+			s = 0;
+
+			GPIO_SetBits(m_settings->m_DCEnAPort, m_settings->m_DCEnAPin);
+			GPIO_SetBits(m_settings->m_DCEnBPort, m_settings->m_DCEnBPin);
+
+			// Break to GND
+			GPIO_ResetBits(m_settings->m_DCInAPort, m_settings->m_DCInAPin);
+			GPIO_ResetBits(m_settings->m_DCInBPort, m_settings->m_DCInBPin);
+		}*/
 	}
 	
 
@@ -144,16 +158,16 @@ bool DCMotor::setSpeed(int s){
 
 	switch(m_settings->m_TimerChannel){
 		case 1:
-			(m_settings->m_Timer)->CCR1 = (uint32_t)abs(s);
+			(m_settings->m_Timer)->CCR1 = (uint16_t)ABS(s);
 			break;
 		case 2:
-			(m_settings->m_Timer)->CCR2 = (uint32_t)abs(s);
+			(m_settings->m_Timer)->CCR2 = (uint16_t)ABS(s);
 			break;
 		case 3:
-			(m_settings->m_Timer)->CCR3 = (uint32_t)abs(s);
+			(m_settings->m_Timer)->CCR3 = (uint16_t)ABS(s);
 			break;
 		case 4:
-			(m_settings->m_Timer)->CCR4 = (uint32_t)abs(s);
+			(m_settings->m_Timer)->CCR4 = (uint16_t)ABS(s);
 			break;
 		default:
 			return false;
@@ -174,73 +188,94 @@ void DCMotor::initEncoder(uint16_t addr){
 	encAddr = addr;
 }
 
-std::tuple<int32_t, uint8_t, uint16_t> DCMotor::readEncoder(){
-	NumberOfByteToReceive = RXBUFFERSIZE;
-    Rx_Idx = 0x00;
-    int32_t ret = -1;
-    uint16_t busyCount = 0;
+int32_t DCMotor::readEncoder(){
+    uint8_t Rx_Idx = 0;
+    uint8_t RxBuffer[4] = {0};
 
-    slaveAddress = encAddr;
-    
-    I2C_ITConfig(I2C1, I2C_IT_EVT , ENABLE);
-    I2C_AcknowledgeConfig(I2C1, ENABLE);
+
+    // START
+    while(I2C_GetFlagStatus(I2C1, I2C_FLAG_BUSY));
     I2C_GenerateSTART(I2C1, ENABLE);
-
-    // TODO: Implement actual error handling on timeout and retry count.. At the very least throw an error message!
-    uint32_t start = micros();
-    while ((Rx_Idx < RXBUFFERSIZE)){
-    	if((micros() - start) >= (int32_t)2000){
-    		ret = 0;
-    		busyCount = 65535;
-    		break;
-    	}
-    }
-    if(ret == -1){
-    	ret = ((int32_t)((RxBuffer[0] << 24)|(RxBuffer[1] << 16)|(RxBuffer[2] << 8) | RxBuffer[3]));
-    	busyCount = (uint16_t)((RxBuffer[2] << 8) | RxBuffer[3]);
-    }
+	// wait for I2C1 EV5 --> Slave has acknowledged start condition
+	while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT));
+    I2C_Send7bitAddress(I2C1, encAddr<<1, I2C_Direction_Receiver);
+	while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED));
 
 
 
-    return std::make_tuple(ret, RxBuffer[4], busyCount);
+    // ACK
+	I2C_AcknowledgeConfig(I2C1, ENABLE);
+	while( !I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_RECEIVED) );
+	RxBuffer[Rx_Idx++] = I2C_ReceiveData(I2C1);
+
+	// ACK
+	I2C_AcknowledgeConfig(I2C1, ENABLE);
+	while( !I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_RECEIVED) );
+	RxBuffer[Rx_Idx++] = I2C_ReceiveData(I2C1);
+
+
+    // ACK
+	I2C_AcknowledgeConfig(I2C1, ENABLE);
+	while( !I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_RECEIVED) );
+	RxBuffer[Rx_Idx++] = I2C_ReceiveData(I2C1);
+
+
+    // NACK
+    I2C_AcknowledgeConfig(I2C1, DISABLE);
+	I2C_GenerateSTOP(I2C1, ENABLE);
+	while( !I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_RECEIVED) );
+	RxBuffer[Rx_Idx] = I2C_ReceiveData(I2C1);
+
+   
+	return ((int32_t)((RxBuffer[0] << 24)|(RxBuffer[1] << 16)|(RxBuffer[2] << 8) | RxBuffer[3]));
 }
 
-float DCMotor::updateRegulator(float enc, float dt){
-	float error_new = speed-enc;
+float DCMotor::updateRegulator(float enc, float sp, float dt){
+	float error_new = sp-enc;		// m/s
 	
 	integral += error_new*dt;
 	
-	if (integral > m_settings->integralSaturation){
-		integral = m_settings->integralSaturation;
-	}else if (integral < -(m_settings->integralSaturation)){
-		integral = -(m_settings->integralSaturation);
+	if (integral > integralSaturation){
+		integral = integralSaturation;
+	}else if (integral < -(integralSaturation)){
+		integral = -(integralSaturation);
 	}
 	
 	float derivative = (error_new-error)/dt;
-	float output = (m_settings->KP*error + m_settings->KI*integral + m_settings->KD*derivative);
+	float output = (FF*sp + KP*error_new + KI*integral + KD*derivative);
 	error = error_new;
 	return output;
 }
 
-std::tuple<float, float, int, int> DCMotor::update(float dt, bool connected){
+//std::tuple<float, int, int, int> DCMotor::update(float dt, bool connected){
+float DCMotor::update(float dt, bool connected, bool enable){
 	// Read encoder
+	
 	int s = 0;
 	float speed_si = -1;
 	int32_t encoder_speed = 0;
-	uint16_t busyCount = 0;
-	uint8_t retryCount = 0;
+	float sp = 0.0;
 	if(connected){
-		std::tie(encoder_speed, retryCount, busyCount) = readEncoder();
-		float encSpeed = encoder_speed*0.04793689962;		// rad/s
-		speed_si = encSpeed * wheelRadius;	// m/s
-		if(strstr(m_settings->m_motorName, "left") > 0)
-			speed_si = speed_si * -1;
-
-		// Update PID regulator
-		s = (int) updateRegulator(speed_si, dt);		// m/s*/
-		// Set motor speed to process value
+		sp = speed;
 	}
-	setSpeed(s);		// m/s
+	//std::tie(encoder_speed, retryCount, busyCount) = readEncoder();
+	encoder_speed = readEncoder();
+	// (2 * pi * F)/(2^14 * N)	[N = 8][F = 2Khz]
+	float encSpeed = encoder_speed*0.479368996f;		// rad/s
+	speed_si = encSpeed * wheelRadius;	// m/s
+	/*if(strstr(m_settings->m_motorName, "left") > 0)
+		speed_si = speed_si * -1;*/
+
+	if(encAddr == 0x10 || encAddr == (0x10 | 0x04)){
+		speed_si *= -1;
+	}
+
+	// Update PID regulator
+	s = (int) updateRegulator(speed_si, sp, dt);		// m/s*/
+	// Set motor speed to process value
+	
+	setSpeed(s, enable);		// m/s
+	
 	// Return encoder values for publishing to localization
-	return std::make_tuple(speed_si, s, (int)retryCount, (int)busyCount);
+	return speed_si;
 }

@@ -13,6 +13,7 @@ extern "C"
 void SysTick_Init(void);
 //void delay_nus(uint32_t n);
 void delay(uint32_t n);
+void udelay(uint32_t n);
 uint32_t millis(void);
 uint32_t micros(void);
 void SysTick_Handler(void);

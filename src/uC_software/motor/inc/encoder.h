@@ -16,15 +16,15 @@ extern "C"
 #define SLAVE_ADDRESS3 (0x10 | 0x08)
 #define SLAVE_ADDRESS4 (0x10 | 0x04 | 0x08)*/
 
-#define RXBUFFERSIZE 7
+//#define RXBUFFERSIZE 4
 
 
-extern __IO uint32_t TimeOut;
+/*extern __IO uint32_t TimeOut;
 extern __IO uint8_t Rx_Idx;
 extern __IO uint8_t NumberOfByteToReceive;
 extern  uint8_t RxBuffer[];
 extern  uint8_t slaveAddress;
-extern __IO uint8_t GenerateStartStatus;
+extern __IO uint8_t GenerateStartStatus;*/
 
 void I2C1_Init(void);
 

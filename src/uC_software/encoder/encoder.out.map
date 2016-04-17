@@ -16,7 +16,7 @@ Common symbol       size              file
 
 position            0x2               encoder.o
 errorFlag           0x1               encoder.o
-messageBuf          0x7               encoder.o
+messageBuf          0x4               encoder.o
 
 Memory Configuration
 
@@ -134,7 +134,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000000000000000      0x590
+.text           0x0000000000000000      0x520
  *(.vectors)
  .vectors       0x0000000000000000       0x68 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr5/crtm328p.o
                 0x0000000000000000                __vectors
@@ -214,115 +214,115 @@ END GROUP
                 0x00000000000000a2                __vector_16
                 0x00000000000000a2                __vector_18
                 0x00000000000000a2                __vector_20
- .text          0x00000000000000a6       0x4a encoder.o
+ .text          0x00000000000000a6       0x3c encoder.o
                 0x00000000000000a6                __vector_14
                 0x00000000000000c4                togglePin
                 0x00000000000000ce                TWI_Act_On_Failure_In_Last_Transmission
- .text          0x00000000000000f0      0x186 TWI_slave.o
-                0x00000000000000f0                TWI_Slave_Initialise
-                0x0000000000000102                TWI_Transceiver_Busy
-                0x000000000000010a                TWI_Get_State_Info
-                0x0000000000000118                TWI_Start_Transceiver_With_Data
-                0x000000000000014c                TWI_Start_Transceiver
-                0x0000000000000166                TWI_Get_Data_From_Transceiver
-                0x000000000000019e                __vector_24
- .text          0x0000000000000276      0x15c AS5048A.o
-                0x0000000000000276                AS5048A_Init
-                0x000000000000028c                AS5048A_close
-                0x0000000000000290                AS5048A_spiCalcEvenParity
-                0x00000000000002a6                AS5048A_setZeroPosition
-                0x00000000000002b8                AS5048A_getZeroPosition
-                0x00000000000002c2                AS5048A_error
-                0x00000000000002c8                spi_fast_shift
-                0x00000000000002d4                AS5048A_read
-                0x000000000000030c                AS5048A_getRawRotation
-                0x0000000000000314                AS5048A_getRotation
-                0x0000000000000332                AS5048A_getState
-                0x000000000000033a                AS5048A_getGain
-                0x0000000000000340                AS5048A_getErrors
-                0x0000000000000348                AS5048A_write
- .text          0x00000000000003d2        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_udivmodhi4.o)
- .text          0x00000000000003d2        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_divmodhi4.o)
- .text          0x00000000000003d2        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
- .text          0x00000000000003d2        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_copy_data.o)
- .text          0x00000000000003d2        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
-                0x00000000000003d2                . = ALIGN (0x2)
+ .text          0x00000000000000e2      0x186 TWI_slave.o
+                0x00000000000000e2                TWI_Slave_Initialise
+                0x00000000000000f4                TWI_Transceiver_Busy
+                0x00000000000000fc                TWI_Get_State_Info
+                0x000000000000010a                TWI_Start_Transceiver_With_Data
+                0x000000000000013e                TWI_Start_Transceiver
+                0x0000000000000158                TWI_Get_Data_From_Transceiver
+                0x0000000000000190                __vector_24
+ .text          0x0000000000000268      0x15c AS5048A.o
+                0x0000000000000268                AS5048A_Init
+                0x000000000000027e                AS5048A_close
+                0x0000000000000282                AS5048A_spiCalcEvenParity
+                0x0000000000000298                AS5048A_setZeroPosition
+                0x00000000000002aa                AS5048A_getZeroPosition
+                0x00000000000002b4                AS5048A_error
+                0x00000000000002ba                spi_fast_shift
+                0x00000000000002c6                AS5048A_read
+                0x00000000000002fe                AS5048A_getRawRotation
+                0x0000000000000306                AS5048A_getRotation
+                0x0000000000000324                AS5048A_getState
+                0x000000000000032c                AS5048A_getGain
+                0x0000000000000332                AS5048A_getErrors
+                0x000000000000033a                AS5048A_write
+ .text          0x00000000000003c4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_udivmodhi4.o)
+ .text          0x00000000000003c4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_divmodhi4.o)
+ .text          0x00000000000003c4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+ .text          0x00000000000003c4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_copy_data.o)
+ .text          0x00000000000003c4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+                0x00000000000003c4                . = ALIGN (0x2)
  *(.text.*)
- .text.startup  0x00000000000003d2      0x16a encoder.o
-                0x00000000000003d2                main
+ .text.startup  0x00000000000003c4      0x108 encoder.o
+                0x00000000000003c4                main
  .text.libgcc.mul
-                0x000000000000053c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_udivmodhi4.o)
+                0x00000000000004cc        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_udivmodhi4.o)
  .text.libgcc.div
-                0x000000000000053c       0x28 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_udivmodhi4.o)
-                0x000000000000053c                __udivmodhi4
- .text.libgcc   0x0000000000000564        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_udivmodhi4.o)
+                0x00000000000004cc       0x28 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_udivmodhi4.o)
+                0x00000000000004cc                __udivmodhi4
+ .text.libgcc   0x00000000000004f4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_udivmodhi4.o)
  .text.libgcc.prologue
-                0x0000000000000564        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_udivmodhi4.o)
+                0x00000000000004f4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_udivmodhi4.o)
  .text.libgcc.builtins
-                0x0000000000000564        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_udivmodhi4.o)
+                0x00000000000004f4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_udivmodhi4.o)
  .text.libgcc.fmul
-                0x0000000000000564        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_udivmodhi4.o)
+                0x00000000000004f4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_udivmodhi4.o)
  .text.libgcc.fixed
-                0x0000000000000564        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_udivmodhi4.o)
+                0x00000000000004f4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_udivmodhi4.o)
  .text.libgcc.mul
-                0x0000000000000564        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_divmodhi4.o)
+                0x00000000000004f4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_divmodhi4.o)
  .text.libgcc.div
-                0x0000000000000564       0x28 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_divmodhi4.o)
-                0x0000000000000564                __divmodhi4
-                0x0000000000000564                _div
- .text.libgcc   0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_divmodhi4.o)
+                0x00000000000004f4       0x28 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_divmodhi4.o)
+                0x00000000000004f4                __divmodhi4
+                0x00000000000004f4                _div
+ .text.libgcc   0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_divmodhi4.o)
  .text.libgcc.prologue
-                0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_divmodhi4.o)
+                0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_divmodhi4.o)
  .text.libgcc.builtins
-                0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_divmodhi4.o)
+                0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_divmodhi4.o)
  .text.libgcc.fmul
-                0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_divmodhi4.o)
+                0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_divmodhi4.o)
  .text.libgcc.fixed
-                0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_divmodhi4.o)
+                0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_divmodhi4.o)
  .text.libgcc.mul
-                0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+                0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.div
-                0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
- .text.libgcc   0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+                0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+ .text.libgcc   0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.prologue
-                0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+                0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.builtins
-                0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+                0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.fmul
-                0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+                0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.fixed
-                0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+                0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.mul
-                0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_copy_data.o)
+                0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_copy_data.o)
  .text.libgcc.div
-                0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_copy_data.o)
- .text.libgcc   0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_copy_data.o)
+                0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_copy_data.o)
+ .text.libgcc   0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_copy_data.o)
  .text.libgcc.prologue
-                0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_copy_data.o)
+                0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_copy_data.o)
  .text.libgcc.builtins
-                0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_copy_data.o)
+                0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_copy_data.o)
  .text.libgcc.fmul
-                0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_copy_data.o)
+                0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_copy_data.o)
  .text.libgcc.fixed
-                0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_copy_data.o)
+                0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_copy_data.o)
  .text.libgcc.mul
-                0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+                0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.div
-                0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
- .text.libgcc   0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+                0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+ .text.libgcc   0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.prologue
-                0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+                0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.builtins
-                0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+                0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.fmul
-                0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+                0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.fixed
-                0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
-                0x000000000000058c                . = ALIGN (0x2)
+                0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+                0x000000000000051c                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000000000000058c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
-                0x000000000000058c                exit
-                0x000000000000058c                _exit
+ .fini9         0x000000000000051c        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+                0x000000000000051c                exit
+                0x000000000000051c                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -341,11 +341,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000000000000058c        0x4 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+ .fini0         0x000000000000051c        0x4 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
  *(.fini0)
-                0x0000000000000590                _etext = .
+                0x0000000000000520                _etext = .
 
-.data           0x0000000000800100        0x2 load address 0x0000000000000590
+.data           0x0000000000800100        0x2 load address 0x0000000000000520
                 0x0000000000800100                PROVIDE (__data_start, .)
  *(.data)
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr5/crtm328p.o
@@ -366,39 +366,37 @@ END GROUP
                 0x0000000000800102                _edata = .
                 0x0000000000800102                PROVIDE (__data_end, .)
 
-.bss            0x0000000000800102       0x16
+.bss            0x0000000000800102       0x10
                 0x0000000000800102                PROVIDE (__bss_start, .)
  *(.bss)
  .bss           0x0000000000800102        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr5/crtm328p.o
- .bss           0x0000000000800102        0x5 encoder.o
-                0x0000000000800102                busyCounter
-                0x0000000000800104                loopCounter
-                0x0000000000800105                retryCnt
-                0x0000000000800106                update
- .bss           0x0000000000800107        0x7 TWI_slave.o
-                0x0000000000800107                TWI_statusReg
- .bss           0x000000000080010e        0x0 AS5048A.o
- .bss           0x000000000080010e        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_udivmodhi4.o)
- .bss           0x000000000080010e        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_divmodhi4.o)
- .bss           0x000000000080010e        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
- .bss           0x000000000080010e        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_copy_data.o)
- .bss           0x000000000080010e        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+ .bss           0x0000000000800102        0x2 encoder.o
+                0x0000000000800102                loopCounter
+                0x0000000000800103                update
+ .bss           0x0000000000800104        0x7 TWI_slave.o
+                0x0000000000800104                TWI_statusReg
+ .bss           0x000000000080010b        0x0 AS5048A.o
+ .bss           0x000000000080010b        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_udivmodhi4.o)
+ .bss           0x000000000080010b        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_divmodhi4.o)
+ .bss           0x000000000080010b        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+ .bss           0x000000000080010b        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_copy_data.o)
+ .bss           0x000000000080010b        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
  *(.bss*)
  *(COMMON)
- COMMON         0x000000000080010e        0xa encoder.o
-                0x000000000080010e                position
-                0x0000000000800110                errorFlag
-                0x0000000000800111                messageBuf
-                0x0000000000800118                PROVIDE (__bss_end, .)
-                0x0000000000000590                __data_load_start = LOADADDR (.data)
-                0x0000000000000592                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x000000000080010b        0x7 encoder.o
+                0x000000000080010b                position
+                0x000000000080010d                errorFlag
+                0x000000000080010e                messageBuf
+                0x0000000000800112                PROVIDE (__bss_end, .)
+                0x0000000000000520                __data_load_start = LOADADDR (.data)
+                0x0000000000000522                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x0000000000800118        0x0
-                0x0000000000800118                PROVIDE (__noinit_start, .)
+.noinit         0x0000000000800112        0x0
+                0x0000000000800112                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x0000000000800118                PROVIDE (__noinit_end, .)
-                0x0000000000800118                _end = .
-                0x0000000000800118                PROVIDE (__heap_start, .)
+                0x0000000000800112                PROVIDE (__noinit_end, .)
+                0x0000000000800112                _end = .
+                0x0000000000800112                PROVIDE (__heap_start, .)
 
 .eeprom         0x0000000000810000        0x0
  *(.eeprom*)
@@ -419,19 +417,19 @@ END GROUP
 .user_signatures
  *(.user_signatures*)
 
-.stab           0x0000000000000000     0x2058
+.stab           0x0000000000000000     0x1fbc
  *(.stab)
  .stab          0x0000000000000000      0x6cc /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr5/crtm328p.o
- .stab          0x00000000000006cc      0x924 encoder.o
-                                        0x930 (size before relaxing)
- .stab          0x0000000000000ff0      0x6e4 TWI_slave.o
+ .stab          0x00000000000006cc      0x888 encoder.o
+                                        0x894 (size before relaxing)
+ .stab          0x0000000000000f54      0x6e4 TWI_slave.o
                                         0x8c4 (size before relaxing)
- .stab          0x00000000000016d4      0x984 AS5048A.o
+ .stab          0x0000000000001638      0x984 AS5048A.o
                                         0xb4c (size before relaxing)
 
-.stabstr        0x0000000000000000     0x1367
+.stabstr        0x0000000000000000     0x1344
  *(.stabstr)
- .stabstr       0x0000000000000000     0x1367 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr5/crtm328p.o
+ .stabstr       0x0000000000000000     0x1344 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr5/crtm328p.o
 
 .stab.excl
  *(.stab.excl)

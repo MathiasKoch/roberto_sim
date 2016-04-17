@@ -117,7 +117,7 @@ src/DCMotor.o: src/DCMotor.cpp inc/DCMotor.h \
  /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/uses_allocator.h \
  inc/encoder.h \
  /opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stdbool.h \
- inc/stm32_time.h inc/motorSettings.h
+ inc/stm32_time.h inc/motorSettings.h inc/led.h
 
 inc/DCMotor.h:
 
@@ -360,3 +360,5 @@ inc/encoder.h:
 inc/stm32_time.h:
 
 inc/motorSettings.h:
+
+inc/led.h:

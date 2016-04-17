@@ -41,16 +41,17 @@
   14:./inc/servo.h ****     virtual void setReference(float setPoint);
   15:./inc/servo.h ****     virtual float getReference();
   16:./inc/servo.h ****     virtual const char* motorName();
-  17:./inc/servo.h ****     virtual std::tuple<float, float, int, int> update(float dt, bool connected);
-  18:./inc/servo.h **** 
-  19:./inc/servo.h ****     virtual int motorType() { return MOTOR_TYPE_SERVO; }
-  29              		.loc 1 19 0
+  17:./inc/servo.h ****     //virtual std::tuple<float, int, int, int> update(float dt, bool connected);
+  18:./inc/servo.h ****     virtual float update(float dt, bool connected, bool enable);
+  19:./inc/servo.h **** 
+  20:./inc/servo.h ****     virtual int motorType() { return MOTOR_TYPE_SERVO; }
+  29              		.loc 1 20 0
   30              		.cfi_startproc
   31              		@ args = 0, pretend = 0, frame = 0
   32              		@ frame_needed = 0, uses_anonymous_args = 0
   33              		@ link register save eliminated.
   34              	.LVL0:
-  35              		.loc 1 19 0
+  35              		.loc 1 20 0
   36 0000 0120     		movs	r0, #1
   37              	.LVL1:
   38 0002 7047     		bx	lr
@@ -144,16 +145,20 @@
   74:src/servo.cpp **** 	TIM_Cmd(m_settings->m_Timer, ENABLE);
   75:src/servo.cpp **** 
   76:src/servo.cpp **** 	// Setup Controller
-  77:src/servo.cpp **** 	float b_[] = {0.0029,    0.0087,    0.0087,    0.0029};
-  78:src/servo.cpp **** 	float a_[] = {1.0000,   -2.3741,    1.9294,   -0.5321};
-  79:src/servo.cpp **** 	std::copy(b_, b_ + 5, b);
-  80:src/servo.cpp **** 	std::copy(a_, a_ + 5, a);
-  81:src/servo.cpp **** 
-  82:src/servo.cpp **** 	return true;
-  83:src/servo.cpp **** }
-  84:src/servo.cpp **** 
-  85:src/servo.cpp **** void servo::setReference(float setPoint){
-  55              		.loc 2 85 0
+  77:src/servo.cpp **** 	float b_[] = {0.0675,    0.1349,    0.0675};
+  78:src/servo.cpp **** 	float a_[] = {1.0000,   -1.1430,    0.4128};
+  79:src/servo.cpp **** 	float y_[] = {0, 0, 0};
+  80:src/servo.cpp **** 	float u_[] = {0, 0, 0};
+  81:src/servo.cpp **** 	std::copy(b_, b_ + 3, b);
+  82:src/servo.cpp **** 	std::copy(a_, a_ + 3, a);
+  83:src/servo.cpp **** 	std::copy(y_, y_ + 3, y);
+  84:src/servo.cpp **** 	std::copy(u_, u_ + 3, u);
+  85:src/servo.cpp **** 
+  86:src/servo.cpp **** 	return true;
+  87:src/servo.cpp **** }
+  88:src/servo.cpp **** 
+  89:src/servo.cpp **** void servo::setReference(float setPoint){
+  55              		.loc 2 89 0
   56              		.cfi_startproc
   57              		@ args = 0, pretend = 0, frame = 0
   58              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -163,10 +168,10 @@
   62              		.cfi_def_cfa_offset 8
   63              		.cfi_offset 4, -8
   64              		.cfi_offset 14, -4
-  65              		.loc 2 85 0
+  65              		.loc 2 89 0
   66 0002 0446     		mov	r4, r0
-  86:src/servo.cpp **** 	pos = (int) setPoint;
-  67              		.loc 2 86 0
+  90:src/servo.cpp **** 	pos = (int) setPoint;
+  67              		.loc 2 90 0
   68 0004 0846     		mov	r0, r1
   69              	.LVL3:
   70 0006 FFF7FEFF 		bl	__aeabi_f2iz
@@ -185,11 +190,11 @@
   85              	_ZN5servo12getReferenceEv:
   86              		.fnstart
   87              	.LFB1031:
-  87:src/servo.cpp **** 	//pos = (int)setPoint > 90? 90 : ( (int)setPoint < -MAX_ANGLE_PIVOT? -MAX_ANGLE_PIVOT : (int)setPo
-  88:src/servo.cpp **** }
-  89:src/servo.cpp **** 
-  90:src/servo.cpp **** float servo::getReference(){
-  88              		.loc 2 90 0
+  91:src/servo.cpp **** 	//pos = (int)setPoint > 90? 90 : ( (int)setPoint < -MAX_ANGLE_PIVOT? -MAX_ANGLE_PIVOT : (int)setPo
+  92:src/servo.cpp **** }
+  93:src/servo.cpp **** 
+  94:src/servo.cpp **** float servo::getReference(){
+  88              		.loc 2 94 0
   89              		.cfi_startproc
   90              		@ args = 0, pretend = 0, frame = 0
   91              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -199,14 +204,14 @@
   95              		.cfi_def_cfa_offset 8
   96              		.cfi_offset 3, -8
   97              		.cfi_offset 14, -4
-  91:src/servo.cpp **** 	return (float)pos;
-  98              		.loc 2 91 0
+  95:src/servo.cpp **** 	return (float)pos;
+  98              		.loc 2 95 0
   99 0010 8068     		ldr	r0, [r0, #8]
  100              	.LVL6:
  101 0012 FFF7FEFF 		bl	__aeabi_i2f
  102              	.LVL7:
-  92:src/servo.cpp **** }
- 103              		.loc 2 92 0
+  96:src/servo.cpp **** }
+ 103              		.loc 2 96 0
  104 0016 08BD     		pop	{r3, pc}
  105              		.cfi_endproc
  106              	.LFE1031:
@@ -219,18 +224,18 @@
  115              	_ZN5servo9motorNameEv:
  116              		.fnstart
  117              	.LFB1032:
-  93:src/servo.cpp **** const char* servo::motorName(){
- 118              		.loc 2 93 0
+  97:src/servo.cpp **** const char* servo::motorName(){
+ 118              		.loc 2 97 0
  119              		.cfi_startproc
  120              		@ args = 0, pretend = 0, frame = 0
  121              		@ frame_needed = 0, uses_anonymous_args = 0
  122              		@ link register save eliminated.
  123              	.LVL8:
-  94:src/servo.cpp **** 	return m_settings->m_motorName;
- 124              		.loc 2 94 0
+  98:src/servo.cpp **** 	return m_settings->m_motorName;
+ 124              		.loc 2 98 0
  125 0018 4368     		ldr	r3, [r0, #4]
-  95:src/servo.cpp **** }
- 126              		.loc 2 95 0
+  99:src/servo.cpp **** }
+ 126              		.loc 2 99 0
  127 001a 5868     		ldr	r0, [r3, #4]
  128              	.LVL9:
  129 001c 7047     		bx	lr
@@ -259,12 +264,12 @@
   11:src/servo.cpp **** {
  153              		.loc 2 11 0
  154 0020 0446     		mov	r4, r0
- 155              	.LBB503:
+ 155              	.LBB26:
  156 0022 034B     		ldr	r3, .L6
  157 0024 0360     		str	r3, [r0]
  158 0026 FFF7FEFF 		bl	_ZN5motorD2Ev
  159              	.LVL11:
- 160              	.LBE503:
+ 160              	.LBE26:
   13:src/servo.cpp **** 
  161              		.loc 2 13 0
  162 002a 2046     		mov	r0, r4
@@ -324,231 +329,241 @@
   16:src/servo.cpp **** 
  217              		.loc 2 16 0
  218              		.cfi_startproc
- 219              		@ args = 0, pretend = 0, frame = 64
+ 219              		@ args = 0, pretend = 0, frame = 80
  220              		@ frame_needed = 0, uses_anonymous_args = 0
  221              	.LVL16:
- 222 0046 F0B5     		push	{r4, r5, r6, r7, lr}
- 223              		.save {r4, r5, r6, r7, lr}
+ 222 0046 70B5     		push	{r4, r5, r6, lr}
+ 223              		.save {r4, r5, r6, lr}
  224              	.LCFI4:
- 225              		.cfi_def_cfa_offset 20
- 226              		.cfi_offset 4, -20
- 227              		.cfi_offset 5, -16
- 228              		.cfi_offset 6, -12
- 229              		.cfi_offset 7, -8
- 230              		.cfi_offset 14, -4
+ 225              		.cfi_def_cfa_offset 16
+ 226              		.cfi_offset 4, -16
+ 227              		.cfi_offset 5, -12
+ 228              		.cfi_offset 6, -8
+ 229              		.cfi_offset 14, -4
   20:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
- 231              		.loc 2 20 0
- 232 0048 4368     		ldr	r3, [r0, #4]
+ 230              		.loc 2 20 0
+ 231 0048 4368     		ldr	r3, [r0, #4]
   16:src/servo.cpp **** 
- 233              		.loc 2 16 0
- 234              		.pad #68
- 235 004a 91B0     		sub	sp, sp, #68
- 236              	.LCFI5:
- 237              		.cfi_def_cfa_offset 88
+ 232              		.loc 2 16 0
+ 233              		.pad #80
+ 234 004a 94B0     		sub	sp, sp, #80
+ 235              	.LCFI5:
+ 236              		.cfi_def_cfa_offset 96
   20:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
- 238              		.loc 2 20 0
- 239 004c 9A69     		ldr	r2, [r3, #24]
+ 237              		.loc 2 20 0
+ 238 004c 9A69     		ldr	r2, [r3, #24]
   16:src/servo.cpp **** 
- 240              		.loc 2 16 0
- 241 004e 0446     		mov	r4, r0
+ 239              		.loc 2 16 0
+ 240 004e 0446     		mov	r4, r0
   20:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
- 242              		.loc 2 20 0
- 243 0050 ADF80020 		strh	r2, [sp]	@ movhi
+ 241              		.loc 2 20 0
+ 242 0050 ADF80020 		strh	r2, [sp]	@ movhi
   21:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
- 244              		.loc 2 21 0
- 245 0054 1822     		movs	r2, #24
+ 243              		.loc 2 21 0
+ 244 0054 1822     		movs	r2, #24
   23:src/servo.cpp **** 
- 246              		.loc 2 23 0
- 247 0056 D869     		ldr	r0, [r3, #28]
- 248              	.LVL17:
+ 245              		.loc 2 23 0
+ 246 0056 D869     		ldr	r0, [r3, #28]
+ 247              	.LVL17:
   21:src/servo.cpp **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
- 249              		.loc 2 21 0
- 250 0058 8DF80320 		strb	r2, [sp, #3]
+ 248              		.loc 2 21 0
+ 249 0058 8DF80320 		strb	r2, [sp, #3]
   23:src/servo.cpp **** 
- 251              		.loc 2 23 0
- 252 005c 6946     		mov	r1, sp
+ 250              		.loc 2 23 0
+ 251 005c 6946     		mov	r1, sp
   22:src/servo.cpp **** 	GPIO_Init(m_settings->m_ServoPort, &GPIO_InitStructure);
- 253              		.loc 2 22 0
- 254 005e 0322     		movs	r2, #3
- 255 0060 8DF80220 		strb	r2, [sp, #2]
+ 252              		.loc 2 22 0
+ 253 005e 0322     		movs	r2, #3
+ 254 0060 8DF80220 		strb	r2, [sp, #2]
   23:src/servo.cpp **** 
- 256              		.loc 2 23 0
- 257 0064 FFF7FEFF 		bl	GPIO_Init
- 258              	.LVL18:
+ 255              		.loc 2 23 0
+ 256 0064 FFF7FEFF 		bl	GPIO_Init
+ 257              	.LVL18:
   29:src/servo.cpp **** 	TIM_TimeBaseStructure.TIM_Prescaler = 23;
- 259              		.loc 2 29 0
- 260 0068 4EF65F23 		movw	r3, #59999
- 261 006c ADF80830 		strh	r3, [sp, #8]	@ movhi
+ 258              		.loc 2 29 0
+ 259 0068 4EF65F23 		movw	r3, #59999
+ 260 006c ADF80830 		strh	r3, [sp, #8]	@ movhi
   30:src/servo.cpp **** 	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
- 262              		.loc 2 30 0
- 263 0070 1723     		movs	r3, #23
- 264 0072 ADF80430 		strh	r3, [sp, #4]	@ movhi
+ 261              		.loc 2 30 0
+ 262 0070 1723     		movs	r3, #23
+ 263 0072 ADF80430 		strh	r3, [sp, #4]	@ movhi
   34:src/servo.cpp **** 
- 265              		.loc 2 34 0
- 266 0076 6368     		ldr	r3, [r4, #4]
+ 264              		.loc 2 34 0
+ 265 0076 6368     		ldr	r3, [r4, #4]
   31:src/servo.cpp **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
- 267              		.loc 2 31 0
- 268 0078 0025     		movs	r5, #0
+ 266              		.loc 2 31 0
+ 267 0078 0025     		movs	r5, #0
   34:src/servo.cpp **** 
- 269              		.loc 2 34 0
- 270 007a 9868     		ldr	r0, [r3, #8]
- 271 007c 01A9     		add	r1, sp, #4
+ 268              		.loc 2 34 0
+ 269 007a 9868     		ldr	r0, [r3, #8]
+ 270 007c 01A9     		add	r1, sp, #4
   31:src/servo.cpp **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
- 272              		.loc 2 31 0
- 273 007e ADF80A50 		strh	r5, [sp, #10]	@ movhi
+ 271              		.loc 2 31 0
+ 272 007e ADF80A50 		strh	r5, [sp, #10]	@ movhi
   32:src/servo.cpp **** 
- 274              		.loc 2 32 0
- 275 0082 ADF80650 		strh	r5, [sp, #6]	@ movhi
+ 273              		.loc 2 32 0
+ 274 0082 ADF80650 		strh	r5, [sp, #6]	@ movhi
   34:src/servo.cpp **** 
- 276              		.loc 2 34 0
- 277 0086 FFF7FEFF 		bl	TIM_TimeBaseInit
- 278              	.LVL19:
+ 275              		.loc 2 34 0
+ 276 0086 FFF7FEFF 		bl	TIM_TimeBaseInit
+ 277              	.LVL19:
   38:src/servo.cpp **** 
- 279              		.loc 2 38 0
- 280 008a 04A8     		add	r0, sp, #16
- 281 008c FFF7FEFF 		bl	TIM_OCStructInit
- 282              	.LVL20:
+ 278              		.loc 2 38 0
+ 279 008a 10A8     		add	r0, sp, #64
+ 280 008c FFF7FEFF 		bl	TIM_OCStructInit
+ 281              	.LVL20:
   41:src/servo.cpp **** 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
- 283              		.loc 2 41 0
- 284 0090 6023     		movs	r3, #96
- 285 0092 ADF81030 		strh	r3, [sp, #16]	@ movhi
+ 282              		.loc 2 41 0
+ 283 0090 6023     		movs	r3, #96
+ 284 0092 ADF84030 		strh	r3, [sp, #64]	@ movhi
   42:src/servo.cpp **** 	TIM_OCInitStructure.TIM_Pulse = 0x0000;
- 286              		.loc 2 42 0
- 287 0096 0123     		movs	r3, #1
- 288 0098 ADF81230 		strh	r3, [sp, #18]	@ movhi
+ 285              		.loc 2 42 0
+ 286 0096 0123     		movs	r3, #1
+ 287 0098 ADF84230 		strh	r3, [sp, #66]	@ movhi
   46:src/servo.cpp **** 		case 1:
- 289              		.loc 2 46 0
- 290 009c 6368     		ldr	r3, [r4, #4]
+ 288              		.loc 2 46 0
+ 289 009c 6368     		ldr	r3, [r4, #4]
   43:src/servo.cpp **** 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
- 291              		.loc 2 43 0
- 292 009e ADF81650 		strh	r5, [sp, #22]	@ movhi
+ 290              		.loc 2 43 0
+ 291 009e ADF84650 		strh	r5, [sp, #70]	@ movhi
   46:src/servo.cpp **** 		case 1:
- 293              		.loc 2 46 0
- 294 00a2 DA68     		ldr	r2, [r3, #12]
+ 292              		.loc 2 46 0
+ 293 00a2 DA68     		ldr	r2, [r3, #12]
   44:src/servo.cpp **** 
- 295              		.loc 2 44 0
- 296 00a4 ADF81850 		strh	r5, [sp, #24]	@ movhi
+ 294              		.loc 2 44 0
+ 295 00a4 ADF84850 		strh	r5, [sp, #72]	@ movhi
   46:src/servo.cpp **** 		case 1:
- 297              		.loc 2 46 0
- 298 00a8 013A     		subs	r2, r2, #1
- 299 00aa 032A     		cmp	r2, #3
- 300 00ac 61D8     		bhi	.L19
- 301 00ae DFE802F0 		tbb	[pc, r2]
- 302              	.L12:
- 303 00b2 02       		.byte	(.L11-.L12)/2
- 304 00b3 0C       		.byte	(.L13-.L12)/2
- 305 00b4 16       		.byte	(.L14-.L12)/2
- 306 00b5 20       		.byte	(.L15-.L12)/2
- 307              		.p2align 1
- 308              	.L11:
+ 296              		.loc 2 46 0
+ 297 00a8 013A     		subs	r2, r2, #1
+ 298 00aa 032A     		cmp	r2, #3
+ 299 00ac 65D8     		bhi	.L17
+ 300 00ae DFE802F0 		tbb	[pc, r2]
+ 301              	.L12:
+ 302 00b2 02       		.byte	(.L11-.L12)/2
+ 303 00b3 0C       		.byte	(.L13-.L12)/2
+ 304 00b4 16       		.byte	(.L14-.L12)/2
+ 305 00b5 20       		.byte	(.L15-.L12)/2
+ 306              		.p2align 1
+ 307              	.L11:
   48:src/servo.cpp **** 			TIM_OC1PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
- 309              		.loc 2 48 0
- 310 00b6 04A9     		add	r1, sp, #16
- 311 00b8 9868     		ldr	r0, [r3, #8]
- 312 00ba FFF7FEFF 		bl	TIM_OC1Init
- 313              	.LVL21:
+ 308              		.loc 2 48 0
+ 309 00b6 10A9     		add	r1, sp, #64
+ 310 00b8 9868     		ldr	r0, [r3, #8]
+ 311 00ba FFF7FEFF 		bl	TIM_OC1Init
+ 312              	.LVL21:
   49:src/servo.cpp **** 			break;
- 314              		.loc 2 49 0
- 315 00be 6368     		ldr	r3, [r4, #4]
- 316 00c0 0821     		movs	r1, #8
- 317 00c2 9868     		ldr	r0, [r3, #8]
- 318 00c4 FFF7FEFF 		bl	TIM_OC1PreloadConfig
- 319              	.LVL22:
- 320 00c8 1CE0     		b	.L16
- 321              	.L13:
+ 313              		.loc 2 49 0
+ 314 00be 6368     		ldr	r3, [r4, #4]
+ 315 00c0 0821     		movs	r1, #8
+ 316 00c2 9868     		ldr	r0, [r3, #8]
+ 317 00c4 FFF7FEFF 		bl	TIM_OC1PreloadConfig
+ 318              	.LVL22:
+ 319 00c8 1CE0     		b	.L16
+ 320              	.L13:
   52:src/servo.cpp **** 			TIM_OC2PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
- 322              		.loc 2 52 0
- 323 00ca 04A9     		add	r1, sp, #16
- 324 00cc 9868     		ldr	r0, [r3, #8]
- 325 00ce FFF7FEFF 		bl	TIM_OC2Init
- 326              	.LVL23:
+ 321              		.loc 2 52 0
+ 322 00ca 10A9     		add	r1, sp, #64
+ 323 00cc 9868     		ldr	r0, [r3, #8]
+ 324 00ce FFF7FEFF 		bl	TIM_OC2Init
+ 325              	.LVL23:
   53:src/servo.cpp **** 			break;
- 327              		.loc 2 53 0
- 328 00d2 6368     		ldr	r3, [r4, #4]
- 329 00d4 0821     		movs	r1, #8
- 330 00d6 9868     		ldr	r0, [r3, #8]
- 331 00d8 FFF7FEFF 		bl	TIM_OC2PreloadConfig
- 332              	.LVL24:
- 333 00dc 12E0     		b	.L16
- 334              	.L14:
+ 326              		.loc 2 53 0
+ 327 00d2 6368     		ldr	r3, [r4, #4]
+ 328 00d4 0821     		movs	r1, #8
+ 329 00d6 9868     		ldr	r0, [r3, #8]
+ 330 00d8 FFF7FEFF 		bl	TIM_OC2PreloadConfig
+ 331              	.LVL24:
+ 332 00dc 12E0     		b	.L16
+ 333              	.L14:
   56:src/servo.cpp **** 			TIM_OC3PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
- 335              		.loc 2 56 0
- 336 00de 04A9     		add	r1, sp, #16
- 337 00e0 9868     		ldr	r0, [r3, #8]
- 338 00e2 FFF7FEFF 		bl	TIM_OC3Init
- 339              	.LVL25:
+ 334              		.loc 2 56 0
+ 335 00de 10A9     		add	r1, sp, #64
+ 336 00e0 9868     		ldr	r0, [r3, #8]
+ 337 00e2 FFF7FEFF 		bl	TIM_OC3Init
+ 338              	.LVL25:
   57:src/servo.cpp **** 			break;
- 340              		.loc 2 57 0
- 341 00e6 6368     		ldr	r3, [r4, #4]
- 342 00e8 0821     		movs	r1, #8
- 343 00ea 9868     		ldr	r0, [r3, #8]
- 344 00ec FFF7FEFF 		bl	TIM_OC3PreloadConfig
- 345              	.LVL26:
- 346 00f0 08E0     		b	.L16
- 347              	.L15:
+ 339              		.loc 2 57 0
+ 340 00e6 6368     		ldr	r3, [r4, #4]
+ 341 00e8 0821     		movs	r1, #8
+ 342 00ea 9868     		ldr	r0, [r3, #8]
+ 343 00ec FFF7FEFF 		bl	TIM_OC3PreloadConfig
+ 344              	.LVL26:
+ 345 00f0 08E0     		b	.L16
+ 346              	.L15:
   60:src/servo.cpp **** 			TIM_OC4PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
- 348              		.loc 2 60 0
- 349 00f2 9868     		ldr	r0, [r3, #8]
- 350 00f4 04A9     		add	r1, sp, #16
- 351 00f6 FFF7FEFF 		bl	TIM_OC4Init
- 352              	.LVL27:
+ 347              		.loc 2 60 0
+ 348 00f2 9868     		ldr	r0, [r3, #8]
+ 349 00f4 10A9     		add	r1, sp, #64
+ 350 00f6 FFF7FEFF 		bl	TIM_OC4Init
+ 351              	.LVL27:
   61:src/servo.cpp **** 			break;
- 353              		.loc 2 61 0
- 354 00fa 6368     		ldr	r3, [r4, #4]
- 355 00fc 0821     		movs	r1, #8
- 356 00fe 9868     		ldr	r0, [r3, #8]
- 357 0100 FFF7FEFF 		bl	TIM_OC4PreloadConfig
- 358              	.LVL28:
- 359              	.L16:
+ 352              		.loc 2 61 0
+ 353 00fa 6368     		ldr	r3, [r4, #4]
+ 354 00fc 0821     		movs	r1, #8
+ 355 00fe 9868     		ldr	r0, [r3, #8]
+ 356 0100 FFF7FEFF 		bl	TIM_OC4PreloadConfig
+ 357              	.LVL28:
+ 358              	.L16:
   68:src/servo.cpp **** 
- 360              		.loc 2 68 0
- 361 0104 6368     		ldr	r3, [r4, #4]
- 362 0106 0121     		movs	r1, #1
- 363 0108 9868     		ldr	r0, [r3, #8]
- 364 010a FFF7FEFF 		bl	TIM_ARRPreloadConfig
- 365              	.LVL29:
+ 359              		.loc 2 68 0
+ 360 0104 6368     		ldr	r3, [r4, #4]
+ 361 0106 0121     		movs	r1, #1
+ 362 0108 9868     		ldr	r0, [r3, #8]
+ 363 010a FFF7FEFF 		bl	TIM_ARRPreloadConfig
+ 364              	.LVL29:
   71:src/servo.cpp **** 
- 366              		.loc 2 71 0
- 367 010e 6368     		ldr	r3, [r4, #4]
- 368 0110 0121     		movs	r1, #1
- 369 0112 9868     		ldr	r0, [r3, #8]
- 370 0114 FFF7FEFF 		bl	TIM_CtrlPWMOutputs
- 371              	.LVL30:
+ 365              		.loc 2 71 0
+ 366 010e 6368     		ldr	r3, [r4, #4]
+ 367 0110 0121     		movs	r1, #1
+ 368 0112 9868     		ldr	r0, [r3, #8]
+ 369 0114 FFF7FEFF 		bl	TIM_CtrlPWMOutputs
+ 370              	.LVL30:
   74:src/servo.cpp **** 
- 372              		.loc 2 74 0
- 373 0118 6368     		ldr	r3, [r4, #4]
-  77:src/servo.cpp **** 	float a_[] = {1.0000,   -2.3741,    1.9294,   -0.5321};
- 374              		.loc 2 77 0
- 375 011a 174F     		ldr	r7, .L23
+ 371              		.loc 2 74 0
+ 372 0118 6368     		ldr	r3, [r4, #4]
+  77:src/servo.cpp **** 	float a_[] = {1.0000,   -1.1430,    0.4128};
+ 373              		.loc 2 77 0
+ 374 011a 194E     		ldr	r6, .L19
   74:src/servo.cpp **** 
- 376              		.loc 2 74 0
- 377 011c 0121     		movs	r1, #1
- 378 011e 9868     		ldr	r0, [r3, #8]
- 379 0120 FFF7FEFF 		bl	TIM_Cmd
- 380              	.LVL31:
-  77:src/servo.cpp **** 	float a_[] = {1.0000,   -2.3741,    1.9294,   -0.5321};
- 381              		.loc 2 77 0
- 382 0124 97E80F00 		ldmia	r7, {r0, r1, r2, r3}
- 383 0128 08AE     		add	r6, sp, #32
-  78:src/servo.cpp **** 	std::copy(b_, b_ + 5, b);
- 384              		.loc 2 78 0
- 385 012a 0CAD     		add	r5, sp, #48
- 386 012c 1037     		adds	r7, r7, #16
-  77:src/servo.cpp **** 	float a_[] = {1.0000,   -2.3741,    1.9294,   -0.5321};
- 387              		.loc 2 77 0
- 388 012e 86E80F00 		stmia	r6, {r0, r1, r2, r3}
-  78:src/servo.cpp **** 	std::copy(b_, b_ + 5, b);
- 389              		.loc 2 78 0
- 390 0132 97E80F00 		ldmia	r7, {r0, r1, r2, r3}
- 391 0136 85E80F00 		stmia	r5, {r0, r1, r2, r3}
- 392              	.LVL32:
- 393              	.LBB518:
- 394              	.LBB519:
- 395              	.LBB520:
- 396              	.LBB521:
- 397              	.LBB522:
- 398              	.LBB523:
- 399              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h"
+ 375              		.loc 2 74 0
+ 376 011c 9868     		ldr	r0, [r3, #8]
+ 377 011e 0121     		movs	r1, #1
+ 378 0120 FFF7FEFF 		bl	TIM_Cmd
+ 379              	.LVL31:
+  77:src/servo.cpp **** 	float a_[] = {1.0000,   -1.1430,    0.4128};
+ 380              		.loc 2 77 0
+ 381 0124 96E80700 		ldmia	r6, {r0, r1, r2}
+ 382 0128 04AD     		add	r5, sp, #16
+  78:src/servo.cpp **** 	float y_[] = {0, 0, 0};
+ 383              		.loc 2 78 0
+ 384 012a 07AB     		add	r3, sp, #28
+ 385 012c 0C36     		adds	r6, r6, #12
+  77:src/servo.cpp **** 	float a_[] = {1.0000,   -1.1430,    0.4128};
+ 386              		.loc 2 77 0
+ 387 012e 85E80700 		stmia	r5, {r0, r1, r2}
+  78:src/servo.cpp **** 	float y_[] = {0, 0, 0};
+ 388              		.loc 2 78 0
+ 389 0132 96E80700 		ldmia	r6, {r0, r1, r2}
+ 390 0136 83E80700 		stmia	r3, {r0, r1, r2}
+  79:src/servo.cpp **** 	float u_[] = {0, 0, 0};
+ 391              		.loc 2 79 0
+ 392 013a 0022     		movs	r2, #0
+ 393 013c 0A92     		str	r2, [sp, #40]	@ float
+ 394 013e 0B92     		str	r2, [sp, #44]	@ float
+ 395 0140 0C92     		str	r2, [sp, #48]	@ float
+  80:src/servo.cpp **** 	std::copy(b_, b_ + 3, b);
+ 396              		.loc 2 80 0
+ 397 0142 0D92     		str	r2, [sp, #52]	@ float
+ 398 0144 0E92     		str	r2, [sp, #56]	@ float
+ 399 0146 0F92     		str	r2, [sp, #60]	@ float
+ 400              	.LVL32:
+ 401              	.LBB55:
+ 402              	.LBB56:
+ 403              	.LBB57:
+ 404              	.LBB58:
+ 405              	.LBB59:
+ 406              	.LBB60:
+ 407              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h"
    1:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** // Core algorithmic facilities -*- C++ -*-
    2:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 
    3:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** // Copyright (C) 2001-2015 Free Software Foundation, Inc.
@@ -931,363 +946,1791 @@
  380:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	  const ptrdiff_t _Num = __last - __first;
  381:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	  if (_Num)
  382:/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_algobase.h **** 	    __builtin_memmove(__result, __first, sizeof(_Tp) * _Num);
- 400              		.loc 3 382 0
- 401 013a 04F12C03 		add	r3, r4, #44
- 402              	.LVL33:
- 403              	.L17:
- 404 013e 3246     		mov	r2, r6
- 405 0140 03CA     		ldmia	r2!, {r0, r1}
- 406 0142 AA42     		cmp	r2, r5
- 407 0144 1860     		str	r0, [r3]	@ unaligned
- 408 0146 5960     		str	r1, [r3, #4]	@ unaligned
- 409 0148 1646     		mov	r6, r2
- 410 014a 03F10803 		add	r3, r3, #8
- 411 014e F6D1     		bne	.L17
- 412 0150 1068     		ldr	r0, [r2]	@ unaligned
- 413              	.LBE523:
- 414              	.LBE522:
- 415              	.LBE521:
- 416              	.LBE520:
- 417              	.LBE519:
- 418              	.LBE518:
- 419              	.LBB529:
- 420              	.LBB530:
- 421              	.LBB531:
- 422              	.LBB532:
- 423              	.LBB533:
- 424              	.LBB534:
- 425 0152 3C34     		adds	r4, r4, #60
- 426              	.LVL34:
- 427              	.LBE534:
- 428              	.LBE533:
- 429              	.LBE532:
- 430              	.LBE531:
- 431              	.LBE530:
- 432              	.LBE529:
- 433              	.LBB540:
- 434              	.LBB528:
- 435              	.LBB527:
- 436              	.LBB526:
- 437              	.LBB525:
- 438              	.LBB524:
- 439 0154 1860     		str	r0, [r3]	@ unaligned
- 440              	.LVL35:
- 441              	.LBE524:
- 442              	.LBE525:
- 443              	.LBE526:
- 444              	.LBE527:
- 445              	.LBE528:
- 446              	.LBE540:
- 447              	.LBB541:
- 448              	.LBB539:
- 449              	.LBB538:
- 450              	.LBB537:
- 451              	.LBB536:
- 452              	.LBB535:
- 453 0156 10AA     		add	r2, sp, #64
- 454              	.LVL36:
- 455              	.L18:
- 456 0158 2B46     		mov	r3, r5
- 457 015a 03CB     		ldmia	r3!, {r0, r1}
- 458 015c 9342     		cmp	r3, r2
- 459 015e 2060     		str	r0, [r4]	@ unaligned
- 460 0160 6160     		str	r1, [r4, #4]	@ unaligned
- 461 0162 1D46     		mov	r5, r3
- 462 0164 04F10804 		add	r4, r4, #8
- 463 0168 F6D1     		bne	.L18
- 464 016a 1868     		ldr	r0, [r3]	@ unaligned
- 465 016c 2060     		str	r0, [r4]	@ unaligned
- 466              	.LVL37:
- 467              	.LBE535:
- 468              	.LBE536:
- 469              	.LBE537:
- 470              	.LBE538:
- 471              	.LBE539:
- 472              	.LBE541:
-  82:src/servo.cpp **** }
- 473              		.loc 2 82 0
- 474 016e 0120     		movs	r0, #1
- 475 0170 00E0     		b	.L10
- 476              	.LVL38:
- 477              	.L19:
+ 408              		.loc 3 382 0
+ 409 0148 2A46     		mov	r2, r5
+ 410 014a 03CA     		ldmia	r2!, {r0, r1}
+ 411 014c E062     		str	r0, [r4, #44]	@ unaligned
+ 412 014e 1068     		ldr	r0, [r2]	@ unaligned
+ 413 0150 2163     		str	r1, [r4, #48]	@ unaligned
+ 414 0152 6063     		str	r0, [r4, #52]	@ unaligned
+ 415              	.LVL33:
+ 416              	.LBE60:
+ 417              	.LBE59:
+ 418              	.LBE58:
+ 419              	.LBE57:
+ 420              	.LBE56:
+ 421              	.LBE55:
+ 422              	.LBB61:
+ 423              	.LBB62:
+ 424              	.LBB63:
+ 425              	.LBB64:
+ 426              	.LBB65:
+ 427              	.LBB66:
+ 428 0154 03CB     		ldmia	r3!, {r0, r1}
+ 429              	.LVL34:
+ 430 0156 E063     		str	r0, [r4, #60]	@ unaligned
+ 431 0158 1868     		ldr	r0, [r3]	@ unaligned
+ 432              	.LBE66:
+ 433              	.LBE65:
+ 434              	.LBE64:
+ 435              	.LBE63:
+ 436              	.LBE62:
+ 437              	.LBE61:
+ 438              	.LBB72:
+ 439              	.LBB73:
+ 440              	.LBB74:
+ 441              	.LBB75:
+ 442              	.LBB76:
+ 443              	.LBB77:
+ 444 015a 0AAB     		add	r3, sp, #40
+ 445              	.LVL35:
+ 446              	.LBE77:
+ 447              	.LBE76:
+ 448              	.LBE75:
+ 449              	.LBE74:
+ 450              	.LBE73:
+ 451              	.LBE72:
+ 452              	.LBB88:
+ 453              	.LBB71:
+ 454              	.LBB70:
+ 455              	.LBB69:
+ 456              	.LBB68:
+ 457              	.LBB67:
+ 458 015c 2164     		str	r1, [r4, #64]	@ unaligned
+ 459 015e 6064     		str	r0, [r4, #68]	@ unaligned
+ 460              	.LVL36:
+ 461              	.LBE67:
+ 462              	.LBE68:
+ 463              	.LBE69:
+ 464              	.LBE70:
+ 465              	.LBE71:
+ 466              	.LBE88:
+ 467              	.LBB89:
+ 468              	.LBB86:
+ 469              	.LBB84:
+ 470              	.LBB82:
+ 471              	.LBB80:
+ 472              	.LBB78:
+ 473 0160 03CB     		ldmia	r3!, {r0, r1}
+ 474              	.LVL37:
+ 475 0162 E061     		str	r0, [r4, #28]	@ unaligned
+ 476 0164 1868     		ldr	r0, [r3]	@ unaligned
+ 477              	.LBE78:
+ 478              	.LBE80:
+ 479              	.LBE82:
+ 480              	.LBE84:
+ 481              	.LBE86:
+ 482              	.LBE89:
+ 483              	.LBB90:
+ 484              	.LBB91:
+ 485              	.LBB92:
+ 486              	.LBB93:
+ 487              	.LBB94:
+ 488              	.LBB95:
+ 489 0166 0DAB     		add	r3, sp, #52
+ 490              	.LVL38:
+ 491              	.LBE95:
+ 492              	.LBE94:
+ 493              	.LBE93:
+ 494              	.LBE92:
+ 495              	.LBE91:
+ 496              	.LBE90:
+ 497              	.LBB101:
+ 498              	.LBB87:
+ 499              	.LBB85:
+ 500              	.LBB83:
+ 501              	.LBB81:
+ 502              	.LBB79:
+ 503 0168 2162     		str	r1, [r4, #32]	@ unaligned
+ 504 016a 6062     		str	r0, [r4, #36]	@ unaligned
+ 505              	.LVL39:
+ 506              	.LBE79:
+ 507              	.LBE81:
+ 508              	.LBE83:
+ 509              	.LBE85:
+ 510              	.LBE87:
+ 511              	.LBE101:
+ 512              	.LBB102:
+ 513              	.LBB100:
+ 514              	.LBB99:
+ 515              	.LBB98:
+ 516              	.LBB97:
+ 517              	.LBB96:
+ 518 016c 03CB     		ldmia	r3!, {r0, r1}
+ 519              	.LVL40:
+ 520 016e E060     		str	r0, [r4, #12]	@ unaligned
+ 521 0170 1868     		ldr	r0, [r3]	@ unaligned
+ 522 0172 2161     		str	r1, [r4, #16]	@ unaligned
+ 523 0174 6061     		str	r0, [r4, #20]	@ unaligned
+ 524              	.LVL41:
+ 525              	.LBE96:
+ 526              	.LBE97:
+ 527              	.LBE98:
+ 528              	.LBE99:
+ 529              	.LBE100:
+ 530              	.LBE102:
+  86:src/servo.cpp **** }
+ 531              		.loc 2 86 0
+ 532 0176 0120     		movs	r0, #1
+ 533 0178 00E0     		b	.L10
+ 534              	.LVL42:
+ 535              	.L17:
   64:src/servo.cpp **** 	}
- 478              		.loc 2 64 0
- 479 0172 0020     		movs	r0, #0
- 480              	.LVL39:
- 481              	.L10:
-  83:src/servo.cpp **** 
- 482              		.loc 2 83 0
- 483 0174 11B0     		add	sp, sp, #68
- 484              	.LCFI6:
- 485              		.cfi_def_cfa_offset 20
- 486              		@ sp needed
- 487 0176 F0BD     		pop	{r4, r5, r6, r7, pc}
- 488              	.L24:
- 489              		.align	2
- 490              	.L23:
- 491 0178 28000000 		.word	.LANCHOR0+40
- 492              		.cfi_endproc
- 493              	.LFE1029:
- 494              		.fnend
- 496              		.align	1
- 497              		.global	_ZN5servoC2EP13motorSettings
- 498              		.thumb
- 499              		.thumb_func
- 501              	_ZN5servoC2EP13motorSettings:
- 502              		.fnstart
- 503              	.LFB1023:
+ 536              		.loc 2 64 0
+ 537 017a 0020     		movs	r0, #0
+ 538              	.L10:
+  87:src/servo.cpp **** 
+ 539              		.loc 2 87 0
+ 540 017c 14B0     		add	sp, sp, #80
+ 541              	.LCFI6:
+ 542              		.cfi_def_cfa_offset 16
+ 543              		@ sp needed
+ 544 017e 70BD     		pop	{r4, r5, r6, pc}
+ 545              	.LVL43:
+ 546              	.L20:
+ 547              		.align	2
+ 548              	.L19:
+ 549 0180 28000000 		.word	.LANCHOR0+40
+ 550              		.cfi_endproc
+ 551              	.LFE1029:
+ 552              		.fnend
+ 554              		.align	1
+ 555              		.global	_ZN5servoC2EP13motorSettings
+ 556              		.thumb
+ 557              		.thumb_func
+ 559              	_ZN5servoC2EP13motorSettings:
+ 560              		.fnstart
+ 561              	.LFB1023:
    6:src/servo.cpp **** {
- 504              		.loc 2 6 0
- 505              		.cfi_startproc
- 506              		@ args = 0, pretend = 0, frame = 0
- 507              		@ frame_needed = 0, uses_anonymous_args = 0
- 508              	.LVL40:
- 509 017c 10B5     		push	{r4, lr}
- 510              		.save {r4, lr}
- 511              	.LCFI7:
- 512              		.cfi_def_cfa_offset 8
- 513              		.cfi_offset 4, -8
- 514              		.cfi_offset 14, -4
+ 562              		.loc 2 6 0
+ 563              		.cfi_startproc
+ 564              		@ args = 0, pretend = 0, frame = 0
+ 565              		@ frame_needed = 0, uses_anonymous_args = 0
+ 566              	.LVL44:
+ 567 0184 10B5     		push	{r4, lr}
+ 568              		.save {r4, lr}
+ 569              	.LCFI7:
+ 570              		.cfi_def_cfa_offset 8
+ 571              		.cfi_offset 4, -8
+ 572              		.cfi_offset 14, -4
    6:src/servo.cpp **** {
- 515              		.loc 2 6 0
- 516 017e 0446     		mov	r4, r0
- 517              	.LBB542:
- 518 0180 FFF7FEFF 		bl	_ZN5motorC2EP13motorSettings
- 519              	.LVL41:
- 520 0184 014B     		ldr	r3, .L26
- 521              	.LBE542:
+ 573              		.loc 2 6 0
+ 574 0186 0446     		mov	r4, r0
+ 575              	.LBB103:
+ 576 0188 FFF7FEFF 		bl	_ZN5motorC2EP13motorSettings
+ 577              	.LVL45:
+ 578 018c 014B     		ldr	r3, .L22
+ 579              	.LBE103:
    9:src/servo.cpp **** 
- 522              		.loc 2 9 0
- 523 0186 2046     		mov	r0, r4
- 524              	.LBB543:
+ 580              		.loc 2 9 0
+ 581 018e 2046     		mov	r0, r4
+ 582              	.LBB104:
    6:src/servo.cpp **** {
- 525              		.loc 2 6 0
- 526 0188 2360     		str	r3, [r4]
- 527              	.LBE543:
+ 583              		.loc 2 6 0
+ 584 0190 2360     		str	r3, [r4]
+ 585              	.LBE104:
    9:src/servo.cpp **** 
- 528              		.loc 2 9 0
- 529 018a 10BD     		pop	{r4, pc}
- 530              	.LVL42:
- 531              	.L27:
- 532              		.align	2
- 533              	.L26:
- 534 018c 08000000 		.word	.LANCHOR0+8
- 535              		.cfi_endproc
- 536              	.LFE1023:
- 537              		.fnend
- 539              		.global	_ZN5servoC1EP13motorSettings
- 540              		.thumb_set _ZN5servoC1EP13motorSettings,_ZN5servoC2EP13motorSettings
- 541              		.align	1
- 542              		.global	_ZN5servo12filterUpdateEf
- 543              		.thumb
- 544              		.thumb_func
- 546              	_ZN5servo12filterUpdateEf:
- 547              		.fnstart
- 548              	.LFB1135:
-  96:src/servo.cpp **** 
-  97:src/servo.cpp **** std::tuple<float, float, int, int> servo::update(float dt, bool connected){
-  98:src/servo.cpp **** 	int sp = pos * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) / 180 + m_settings->m_S
-  99:src/servo.cpp **** 	sp = (int) filterUpdate(sp);
+ 586              		.loc 2 9 0
+ 587 0192 10BD     		pop	{r4, pc}
+ 588              	.LVL46:
+ 589              	.L23:
+ 590              		.align	2
+ 591              	.L22:
+ 592 0194 08000000 		.word	.LANCHOR0+8
+ 593              		.cfi_endproc
+ 594              	.LFE1023:
+ 595              		.fnend
+ 597              		.global	_ZN5servoC1EP13motorSettings
+ 598              		.thumb_set _ZN5servoC1EP13motorSettings,_ZN5servoC2EP13motorSettings
+ 599              		.global	__aeabi_fmul
+ 600              		.global	__aeabi_fadd
+ 601              		.global	__aeabi_fsub
+ 602              		.align	1
+ 603              		.global	_ZN5servo12filterUpdateEf
+ 604              		.thumb
+ 605              		.thumb_func
+ 607              	_ZN5servo12filterUpdateEf:
+ 608              		.fnstart
+ 609              	.LFB1034:
  100:src/servo.cpp **** 
- 101:src/servo.cpp **** 	switch(m_settings->m_TimerChannel){
- 102:src/servo.cpp **** 		case 1:
- 103:src/servo.cpp **** 			(m_settings->m_Timer)->CCR1 = sp;
- 104:src/servo.cpp **** 			break;
- 105:src/servo.cpp **** 		case 2:
- 106:src/servo.cpp **** 			(m_settings->m_Timer)->CCR2 = sp;
- 107:src/servo.cpp **** 			break;
- 108:src/servo.cpp **** 		case 3:
- 109:src/servo.cpp **** 			(m_settings->m_Timer)->CCR3 = sp;
+ 101:src/servo.cpp **** //std::tuple<float, int, int, int> servo::update(float dt, bool connected){
+ 102:src/servo.cpp **** float servo::update(float dt, bool connected, bool enable){
+ 103:src/servo.cpp **** 	int spDeg = (int)filterUpdate(pos);
+ 104:src/servo.cpp **** 	int sp = spDeg * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) / 180 + m_settings->m
+ 105:src/servo.cpp **** 
+ 106:src/servo.cpp **** 	__disable_irq();
+ 107:src/servo.cpp **** 	switch(m_settings->m_TimerChannel){
+ 108:src/servo.cpp **** 		case 1:
+ 109:src/servo.cpp **** 			(m_settings->m_Timer)->CCR1 = sp;
  110:src/servo.cpp **** 			break;
- 111:src/servo.cpp **** 		case 4:
- 112:src/servo.cpp **** 			(m_settings->m_Timer)->CCR4 = sp;
+ 111:src/servo.cpp **** 		case 2:
+ 112:src/servo.cpp **** 			(m_settings->m_Timer)->CCR2 = sp;
  113:src/servo.cpp **** 			break;
- 114:src/servo.cpp **** 	}
- 115:src/servo.cpp **** 	return std::make_tuple(0, 0.0, sp, 0);
- 116:src/servo.cpp **** }
- 117:src/servo.cpp **** 
- 118:src/servo.cpp **** float servo::filterUpdate(float sp){
- 549              		.loc 2 118 0
- 550              		.cfi_startproc
- 551              		@ args = 0, pretend = 0, frame = 0
- 552              		@ frame_needed = 0, uses_anonymous_args = 0
- 553              		@ link register save eliminated.
- 554              	.LVL43:
- 119:src/servo.cpp **** 	int i;
- 120:src/servo.cpp **** 	for(i = 3; i>0; i++){
- 121:src/servo.cpp **** 		u[i-1] = u[i]; 
- 555              		.loc 2 121 0
- 556 0190 8369     		ldr	r3, [r0, #24]	@ float
- 122:src/servo.cpp **** 	}
- 123:src/servo.cpp **** 	u[0] = sp; 
- 557              		.loc 2 123 0
- 558 0192 C160     		str	r1, [r0, #12]	@ float
- 121:src/servo.cpp **** 	}
- 559              		.loc 2 121 0
- 560 0194 4361     		str	r3, [r0, #20]	@ float
- 561              	.LVL44:
- 562              	.L29:
- 563 0196 FEE7     		b	.L29
- 564              		.cfi_endproc
- 565              	.LFE1135:
- 566              		.cantunwind
- 567              		.fnend
- 569              		.align	1
- 570              		.global	_ZN5servo6updateEfb
- 571              		.thumb
- 572              		.thumb_func
- 574              	_ZN5servo6updateEfb:
- 575              		.fnstart
- 576              	.LFB1033:
-  97:src/servo.cpp **** 	int sp = pos * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) / 180 + m_settings->m_S
- 577              		.loc 2 97 0
- 578              		.cfi_startproc
- 579              		@ args = 0, pretend = 0, frame = 0
- 580              		@ frame_needed = 0, uses_anonymous_args = 0
- 581              	.LVL45:
-  98:src/servo.cpp **** 	sp = (int) filterUpdate(sp);
- 582              		.loc 2 98 0
- 583 0198 4B68     		ldr	r3, [r1, #4]
- 584              	.LVL46:
-  97:src/servo.cpp **** 	int sp = pos * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) / 180 + m_settings->m_S
- 585              		.loc 2 97 0
- 586 019a 10B5     		push	{r4, lr}
- 587              	.LCFI8:
- 588              		.cfi_def_cfa_offset 8
- 589              		.cfi_offset 4, -8
- 590              		.cfi_offset 14, -4
-  98:src/servo.cpp **** 	sp = (int) filterUpdate(sp);
- 591              		.loc 2 98 0
- 592 019c 5869     		ldr	r0, [r3, #20]
- 593              	.LVL47:
-  99:src/servo.cpp **** 
- 594              		.loc 2 99 0
- 595 019e 1B69     		ldr	r3, [r3, #16]
- 596              	.LVL48:
-  97:src/servo.cpp **** 	int sp = pos * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) / 180 + m_settings->m_S
- 597              		.loc 2 97 0
- 598 01a0 0C46     		mov	r4, r1
-  99:src/servo.cpp **** 
- 599              		.loc 2 99 0
- 600 01a2 1A1A     		subs	r2, r3, r0
- 601              	.LVL49:
- 602 01a4 8B68     		ldr	r3, [r1, #8]
- 603              	.LVL50:
- 604 01a6 5343     		muls	r3, r2, r3
- 605 01a8 B422     		movs	r2, #180
- 606 01aa 93FBF2F3 		sdiv	r3, r3, r2
- 607 01ae 1844     		add	r0, r0, r3
- 608              	.LVL51:
- 609 01b0 FFF7FEFF 		bl	__aeabi_i2f
- 610              	.LVL52:
- 611 01b4 0146     		mov	r1, r0
- 612 01b6 2046     		mov	r0, r4
- 613 01b8 FFF7FEFF 		bl	_ZN5servo12filterUpdateEf
- 614              	.LVL53:
- 615              		.cfi_endproc
- 616              	.LFE1033:
- 617              		.cantunwind
- 618              		.fnend
- 620              		.global	_ZTS5servo
- 621              		.global	_ZTI5servo
- 622              		.global	_ZTV5servo
- 623              		.section	.rodata
- 624              		.align	2
- 625              		.set	.LANCHOR0,. + 0
- 628              	_ZTV5servo:
- 629 0000 00000000 		.word	0
- 630 0004 00000000 		.word	_ZTI5servo
- 631 0008 00000000 		.word	_ZN5servoD1Ev
- 632 000c 00000000 		.word	_ZN5servoD0Ev
- 633 0010 00000000 		.word	_ZN5servo9motorTypeEv
- 634 0014 00000000 		.word	_ZN5servo9motorInitEv
- 635 0018 00000000 		.word	_ZN5servo9motorNameEv
- 636 001c 00000000 		.word	_ZN5servo12setReferenceEf
- 637 0020 00000000 		.word	_ZN5servo12getReferenceEv
- 638 0024 00000000 		.word	_ZN5servo6updateEfb
- 639              	.LC0:
- 640 0028 ED0D3E3B 		.word	993922541
- 641 002c 728A0E3C 		.word	1007585906
- 642 0030 728A0E3C 		.word	1007585906
- 643 0034 ED0D3E3B 		.word	993922541
- 644              	.LC1:
- 645 0038 0000803F 		.word	1065353216
- 646 003c 41F117C0 		.word	-1072172735
- 647 0040 94F6F63F 		.word	1073149588
- 648 0044 B53708BF 		.word	-1089980491
- 651              	_ZTS5servo:
- 652 0048 35736572 		.ascii	"5servo\000"
- 652      766F00
- 653 004f 00       		.space	1
- 656              	_ZTI5servo:
- 657 0050 08000000 		.word	_ZTVN10__cxxabiv120__si_class_type_infoE+8
- 658 0054 00000000 		.word	_ZTS5servo
- 659 0058 00000000 		.word	_ZTI5motor
- 660              		.text
- 661              	.Letext0:
- 662              		.file 4 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
- 663              		.file 5 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
- 664              		.file 6 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/stdint.h"
- 665              		.file 7 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
- 666              		.file 8 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
- 667              		.file 9 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_tim.h"
- 668              		.file 10 "/opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stddef.h"
- 669              		.file 11 "/opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stdarg.h"
- 670              		.file 12 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/lock.h"
- 671              		.file 13 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_types.h"
- 672              		.file 14 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/reent.h"
- 673              		.file 15 "<built-in>"
- 674              		.file 16 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/type_traits"
- 675              		.file 17 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/exception_ptr.h"
- 676              		.file 18 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/arm-none-eabi/armv7-m/
- 677              		.file 19 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/debug/debug.h"
- 678              		.file 20 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/cwchar"
- 679              		.file 21 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/cstdint"
- 680              		.file 22 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/clocale"
- 681              		.file 23 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_pair.h"
- 682              		.file 24 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/uses_allocator.h"
- 683              		.file 25 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple"
- 684              		.file 26 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/cpp_type_traits.h
- 685              		.file 27 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_iterator_base
- 686              		.file 28 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/move.h"
- 687              		.file 29 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/predefined_ops.h"
- 688              		.file 30 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/ext/new_allocator.h"
- 689              		.file 31 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/ext/numeric_traits.h"
- 690              		.file 32 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/wchar.h"
- 691              		.file 33 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/locale.h"
- 692              		.file 34 "./inc/motorSettings.h"
- 693              		.file 35 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
- 694              		.file 36 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/new"
+ 114:src/servo.cpp **** 		case 3:
+ 115:src/servo.cpp **** 			(m_settings->m_Timer)->CCR3 = sp;
+ 116:src/servo.cpp **** 			break;
+ 117:src/servo.cpp **** 		case 4:
+ 118:src/servo.cpp **** 			(m_settings->m_Timer)->CCR4 = sp;
+ 119:src/servo.cpp **** 			break;
+ 120:src/servo.cpp **** 	}
+ 121:src/servo.cpp **** 	__enable_irq();
+ 122:src/servo.cpp **** 	return (float)spDeg;//std::make_tuple(y0, 0, sp, 0);
+ 123:src/servo.cpp **** }
+ 124:src/servo.cpp **** 
+ 125:src/servo.cpp **** float servo::filterUpdate(float sp){
+ 610              		.loc 2 125 0
+ 611              		.cfi_startproc
+ 612              		@ args = 0, pretend = 0, frame = 0
+ 613              		@ frame_needed = 0, uses_anonymous_args = 0
+ 614              	.LVL47:
+ 615 0198 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 616              	.LCFI8:
+ 617              		.cfi_def_cfa_offset 24
+ 618              		.cfi_offset 3, -24
+ 619              		.cfi_offset 4, -20
+ 620              		.cfi_offset 5, -16
+ 621              		.cfi_offset 6, -12
+ 622              		.cfi_offset 7, -8
+ 623              		.cfi_offset 14, -4
+ 624              		.loc 2 125 0
+ 625 019a 0446     		mov	r4, r0
+ 126:src/servo.cpp **** 	int i;
+ 127:src/servo.cpp **** 	for(i = 2; i > 0; i--){
+ 128:src/servo.cpp **** 		u[i] = u[i-1]; 
+ 626              		.loc 2 128 0
+ 627 019c 0369     		ldr	r3, [r0, #16]	@ float
+ 628 019e 00F12806 		add	r6, r0, #40
+ 629 01a2 4361     		str	r3, [r0, #20]	@ float
+ 630              	.LVL48:
+ 631 01a4 C368     		ldr	r3, [r0, #12]	@ float
+ 129:src/servo.cpp **** 	}
+ 130:src/servo.cpp **** 	u[0] = sp; 
+ 131:src/servo.cpp **** 	
+ 132:src/servo.cpp **** 	float Y = 0;
+ 632              		.loc 2 132 0
+ 633 01a6 0025     		movs	r5, #0
+ 128:src/servo.cpp **** 	}
+ 634              		.loc 2 128 0
+ 635 01a8 0361     		str	r3, [r0, #16]	@ float
+ 636              	.LVL49:
+ 130:src/servo.cpp **** 	
+ 637              		.loc 2 130 0
+ 638 01aa C160     		str	r1, [r0, #12]	@ float
+ 639              	.LVL50:
+ 133:src/servo.cpp **** 	for(i = 0; i<3; i++){
+ 640              		.loc 2 133 0
+ 641 01ac 0027     		movs	r7, #0
+ 642              	.LVL51:
+ 643              	.L25:
+ 644 01ae 0436     		adds	r6, r6, #4
+ 134:src/servo.cpp **** 		Y += b[i]*u[i];
+ 645              		.loc 2 134 0
+ 646 01b0 56F8201C 		ldr	r1, [r6, #-32]	@ float
+ 647 01b4 3068     		ldr	r0, [r6]	@ float
+ 648 01b6 FFF7FEFF 		bl	__aeabi_fmul
+ 649              	.LVL52:
+ 650 01ba 0146     		mov	r1, r0
+ 651 01bc 2846     		mov	r0, r5
+ 652 01be FFF7FEFF 		bl	__aeabi_fadd
+ 653              	.LVL53:
+ 135:src/servo.cpp **** 		if(i < 2)
+ 654              		.loc 2 135 0
+ 655 01c2 022F     		cmp	r7, #2
+ 134:src/servo.cpp **** 		Y += b[i]*u[i];
+ 656              		.loc 2 134 0
+ 657 01c4 0546     		mov	r5, r0
+ 658              	.LVL54:
+ 659              		.loc 2 135 0
+ 660 01c6 09D0     		beq	.L26
+ 136:src/servo.cpp **** 			Y -= a[i+1]*y[i];
+ 661              		.loc 2 136 0
+ 662 01c8 56F8101C 		ldr	r1, [r6, #-16]	@ float
+ 663 01cc 7069     		ldr	r0, [r6, #20]	@ float
+ 664              	.LVL55:
+ 665 01ce FFF7FEFF 		bl	__aeabi_fmul
+ 666              	.LVL56:
+ 667 01d2 0146     		mov	r1, r0
+ 668 01d4 2846     		mov	r0, r5
+ 669 01d6 FFF7FEFF 		bl	__aeabi_fsub
+ 670              	.LVL57:
+ 671 01da 0546     		mov	r5, r0
+ 672              	.LVL58:
+ 673              	.L26:
+ 133:src/servo.cpp **** 		Y += b[i]*u[i];
+ 674              		.loc 2 133 0 discriminator 2
+ 675 01dc 0137     		adds	r7, r7, #1
+ 676              	.LVL59:
+ 677 01de 032F     		cmp	r7, #3
+ 678 01e0 E5D1     		bne	.L25
+ 679              	.LVL60:
+ 137:src/servo.cpp **** 	}
+ 138:src/servo.cpp **** 	//Y /= a[0];
+ 139:src/servo.cpp **** 
+ 140:src/servo.cpp **** 	for(i = 2; i > 0; i--){
+ 141:src/servo.cpp **** 		y[i] = y[i-1]; 
+ 680              		.loc 2 141 0 discriminator 3
+ 681 01e2 236A     		ldr	r3, [r4, #32]	@ float
+ 142:src/servo.cpp **** 	}
+ 143:src/servo.cpp **** 	y[0] = Y;
+ 144:src/servo.cpp **** 	return Y;
+ 145:src/servo.cpp **** }...
+ 682              		.loc 2 145 0 discriminator 3
+ 683 01e4 2846     		mov	r0, r5
+ 141:src/servo.cpp **** 		y[i] = y[i-1]; 
+ 684              		.loc 2 141 0 discriminator 3
+ 685 01e6 6362     		str	r3, [r4, #36]	@ float
+ 686              	.LVL61:
+ 687 01e8 E369     		ldr	r3, [r4, #28]	@ float
+ 143:src/servo.cpp **** 	y[0] = Y;
+ 688              		.loc 2 143 0 discriminator 3
+ 689 01ea E561     		str	r5, [r4, #28]	@ float
+ 141:src/servo.cpp **** 		y[i] = y[i-1]; 
+ 690              		.loc 2 141 0 discriminator 3
+ 691 01ec 2362     		str	r3, [r4, #32]	@ float
+ 692              	.LVL62:
+ 693              		.loc 2 145 0 discriminator 3
+ 694 01ee F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 695              		.cfi_endproc
+ 696              	.LFE1034:
+ 697              		.cantunwind
+ 698              		.fnend
+ 700              		.align	1
+ 701              		.global	_ZN5servo6updateEfbb
+ 702              		.thumb
+ 703              		.thumb_func
+ 705              	_ZN5servo6updateEfbb:
+ 706              		.fnstart
+ 707              	.LFB1033:
+ 102:src/servo.cpp **** float servo::update(float dt, bool connected, bool enable){
+ 708              		.loc 2 102 0
+ 709              		.cfi_startproc
+ 710              		@ args = 0, pretend = 0, frame = 0
+ 711              		@ frame_needed = 0, uses_anonymous_args = 0
+ 712              	.LVL63:
+ 713 01f0 10B5     		push	{r4, lr}
+ 714              	.LCFI9:
+ 715              		.cfi_def_cfa_offset 8
+ 716              		.cfi_offset 4, -8
+ 717              		.cfi_offset 14, -4
+ 102:src/servo.cpp **** float servo::update(float dt, bool connected, bool enable){
+ 718              		.loc 2 102 0
+ 719 01f2 0446     		mov	r4, r0
+ 103:src/servo.cpp **** 	int spDeg = (int)filterUpdate(pos);
+ 720              		.loc 2 103 0
+ 721 01f4 8068     		ldr	r0, [r0, #8]
+ 722              	.LVL64:
+ 723 01f6 FFF7FEFF 		bl	__aeabi_i2f
+ 724              	.LVL65:
+ 725 01fa 0146     		mov	r1, r0
+ 726 01fc 2046     		mov	r0, r4
+ 727 01fe FFF7FEFF 		bl	_ZN5servo12filterUpdateEf
+ 728              	.LVL66:
+ 729 0202 FFF7FEFF 		bl	__aeabi_f2iz
+ 730              	.LVL67:
+ 104:src/servo.cpp **** 	int sp = spDeg * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) / 180 + m_settings->m
+ 731              		.loc 2 104 0
+ 732 0206 6168     		ldr	r1, [r4, #4]
+ 733 0208 B424     		movs	r4, #180
+ 734              	.LVL68:
+ 735 020a 4A69     		ldr	r2, [r1, #20]
+ 736 020c 0B69     		ldr	r3, [r1, #16]
+ 737 020e 9B1A     		subs	r3, r3, r2
+ 738 0210 4343     		muls	r3, r0, r3
+ 739 0212 93FBF4F3 		sdiv	r3, r3, r4
+ 740 0216 1344     		add	r3, r3, r2
+ 741              	.LVL69:
+ 742              	.LBB105:
+ 743              	.LBB106:
+ 744              		.file 4 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
+   1:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**************************************************************************//**
+   2:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @file     core_cm3.h
+   3:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief    CMSIS Cortex-M3 Core Peripheral Access Layer Header File
+   4:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @version  V1.30
+   5:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @date     30. October 2009
+   6:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+   7:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @note
+   8:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Copyright (C) 2009 ARM Limited. All rights reserved.
+   9:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+  10:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @par
+  11:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * ARM Limited (ARM) is supplying this software for use with Cortex-M 
+  12:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * processor based microcontrollers.  This file can be freely distributed 
+  13:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * within development tools that are supporting such ARM based processors. 
+  14:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+  15:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @par
+  16:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * THIS SOFTWARE IS PROVIDED "AS IS".  NO WARRANTIES, WHETHER EXPRESS, IMPLIED
+  17:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF
+  18:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE APPLY TO THIS SOFTWARE.
+  19:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * ARM SHALL NOT, IN ANY CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL, OR
+  20:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * CONSEQUENTIAL DAMAGES, FOR ANY REASON WHATSOEVER.
+  21:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+  22:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  ******************************************************************************/
+  23:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+  24:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #ifndef __CM3_CORE_H__
+  25:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __CM3_CORE_H__
+  26:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+  27:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /** @addtogroup CMSIS_CM3_core_LintCinfiguration CMSIS CM3 Core Lint Configuration
+  28:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+  29:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * List of Lint messages which will be suppressed and not shown:
+  30:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *   - Error 10: \n
+  31:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *     register uint32_t __regBasePri         __asm("basepri"); \n
+  32:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *     Error 10: Expecting ';'
+  33:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * .
+  34:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *   - Error 530: \n
+  35:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *     return(__regBasePri); \n
+  36:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *     Warning 530: Symbol '__regBasePri' (line 264) not initialized
+  37:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * . 
+  38:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *   - Error 550: \n
+  39:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *     __regBasePri = (basePri & 0x1ff); \n
+  40:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *     Warning 550: Symbol '__regBasePri' (line 271) not accessed
+  41:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * .
+  42:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *   - Error 754: \n
+  43:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *     uint32_t RESERVED0[24]; \n
+  44:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *     Info 754: local structure member '<some, not used in the HAL>' (line 109, file ./cm3_core.h)
+  45:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * .
+  46:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *   - Error 750: \n
+  47:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *     #define __CM3_CORE_H__ \n
+  48:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *     Info 750: local macro '__CM3_CORE_H__' (line 43, file./cm3_core.h) not referenced
+  49:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * .
+  50:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *   - Error 528: \n
+  51:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *     static __INLINE void NVIC_DisableIRQ(uint32_t IRQn) \n
+  52:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *     Warning 528: Symbol 'NVIC_DisableIRQ(unsigned int)' (line 419, file ./cm3_core.h) not refere
+  53:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * .
+  54:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *   - Error 751: \n
+  55:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *     } InterruptType_Type; \n
+  56:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *     Info 751: local typedef 'InterruptType_Type' (line 170, file ./cm3_core.h) not referenced
+  57:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * .
+  58:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Note:  To re-enable a Message, insert a space before 'lint' *
+  59:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+  60:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+  61:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+  62:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /*lint -save */
+  63:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /*lint -e10  */
+  64:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /*lint -e530 */
+  65:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /*lint -e550 */
+  66:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /*lint -e754 */
+  67:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /*lint -e750 */
+  68:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /*lint -e528 */
+  69:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /*lint -e751 */
+  70:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+  71:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+  72:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /** @addtogroup CMSIS_CM3_core_definitions CM3 Core Definitions
+  73:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   This file defines all structures and symbols for CMSIS core:
+  74:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****     - CMSIS version number
+  75:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****     - Cortex-M core registers and bitfields
+  76:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****     - Cortex-M core peripheral base address
+  77:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   @{
+  78:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+  79:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+  80:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #ifdef __cplusplus
+  81:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  extern "C" {
+  82:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #endif 
+  83:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+  84:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __CM3_CMSIS_VERSION_MAIN  (0x01)                                                       /*!<
+  85:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __CM3_CMSIS_VERSION_SUB   (0x30)                                                       /*!<
+  86:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __CM3_CMSIS_VERSION       ((__CM3_CMSIS_VERSION_MAIN << 16) | __CM3_CMSIS_VERSION_SUB) /*!<
+  87:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+  88:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __CORTEX_M                (0x03)                                                       /*!<
+  89:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+  90:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #include <stdint.h>                           /* Include standard types */
+  91:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+  92:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #if defined (__ICCARM__)
+  93:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   #include <intrinsics.h>                     /* IAR Intrinsics   */
+  94:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #endif
+  95:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+  96:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+  97:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #ifndef __NVIC_PRIO_BITS
+  98:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   #define __NVIC_PRIO_BITS    4               /*!< standard definition for NVIC Priority Bits */
+  99:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #endif
+ 100:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 101:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 102:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 103:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 104:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+ 105:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * IO definitions
+ 106:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 107:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * define access restrictions to peripheral registers
+ 108:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 109:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 110:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #ifdef __cplusplus
+ 111:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   #define     __I     volatile                /*!< defines 'read only' permissions      */
+ 112:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #else
+ 113:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   #define     __I     volatile const          /*!< defines 'read only' permissions      */
+ 114:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #endif
+ 115:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define     __O     volatile                  /*!< defines 'write only' permissions     */
+ 116:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define     __IO    volatile                  /*!< defines 'read / write' permissions   */
+ 117:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 118:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 119:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 120:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /*******************************************************************************
+ 121:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *                 Register Abstraction
+ 122:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  ******************************************************************************/
+ 123:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /** @addtogroup CMSIS_CM3_core_register CMSIS CM3 Core Register
+ 124:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  @{
+ 125:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** */
+ 126:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 127:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 128:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /** @addtogroup CMSIS_CM3_NVIC CMSIS CM3 NVIC
+ 129:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   memory mapped structure for Nested Vectored Interrupt Controller (NVIC)
+ 130:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   @{
+ 131:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 132:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** typedef struct
+ 133:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** {
+ 134:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t ISER[8];                      /*!< Offset: 0x000  Interrupt Set Enable Register    
+ 135:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****        uint32_t RESERVED0[24];                                   
+ 136:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t ICER[8];                      /*!< Offset: 0x080  Interrupt Clear Enable Register  
+ 137:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****        uint32_t RSERVED1[24];                                    
+ 138:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t ISPR[8];                      /*!< Offset: 0x100  Interrupt Set Pending Register   
+ 139:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****        uint32_t RESERVED2[24];                                   
+ 140:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t ICPR[8];                      /*!< Offset: 0x180  Interrupt Clear Pending Register 
+ 141:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****        uint32_t RESERVED3[24];                                   
+ 142:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t IABR[8];                      /*!< Offset: 0x200  Interrupt Active bit Register    
+ 143:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****        uint32_t RESERVED4[56];                                   
+ 144:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint8_t  IP[240];                      /*!< Offset: 0x300  Interrupt Priority Register (8Bit
+ 145:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****        uint32_t RESERVED5[644];                                  
+ 146:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __O  uint32_t STIR;                         /*!< Offset: 0xE00  Software Trigger Interrupt Regist
+ 147:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** }  NVIC_Type;                                               
+ 148:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /*@}*/ /* end of group CMSIS_CM3_NVIC */
+ 149:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 150:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 151:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /** @addtogroup CMSIS_CM3_SCB CMSIS CM3 SCB
+ 152:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   memory mapped structure for System Control Block (SCB)
+ 153:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   @{
+ 154:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 155:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** typedef struct
+ 156:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** {
+ 157:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __I  uint32_t CPUID;                        /*!< Offset: 0x00  CPU ID Base Register              
+ 158:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t ICSR;                         /*!< Offset: 0x04  Interrupt Control State Register  
+ 159:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t VTOR;                         /*!< Offset: 0x08  Vector Table Offset Register      
+ 160:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t AIRCR;                        /*!< Offset: 0x0C  Application Interrupt / Reset Cont
+ 161:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t SCR;                          /*!< Offset: 0x10  System Control Register           
+ 162:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t CCR;                          /*!< Offset: 0x14  Configuration Control Register    
+ 163:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint8_t  SHP[12];                      /*!< Offset: 0x18  System Handlers Priority Registers
+ 164:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t SHCSR;                        /*!< Offset: 0x24  System Handler Control and State R
+ 165:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t CFSR;                         /*!< Offset: 0x28  Configurable Fault Status Register
+ 166:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t HFSR;                         /*!< Offset: 0x2C  Hard Fault Status Register        
+ 167:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t DFSR;                         /*!< Offset: 0x30  Debug Fault Status Register       
+ 168:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t MMFAR;                        /*!< Offset: 0x34  Mem Manage Address Register       
+ 169:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t BFAR;                         /*!< Offset: 0x38  Bus Fault Address Register        
+ 170:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t AFSR;                         /*!< Offset: 0x3C  Auxiliary Fault Status Register   
+ 171:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __I  uint32_t PFR[2];                       /*!< Offset: 0x40  Processor Feature Register        
+ 172:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __I  uint32_t DFR;                          /*!< Offset: 0x48  Debug Feature Register            
+ 173:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __I  uint32_t ADR;                          /*!< Offset: 0x4C  Auxiliary Feature Register        
+ 174:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __I  uint32_t MMFR[4];                      /*!< Offset: 0x50  Memory Model Feature Register     
+ 175:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __I  uint32_t ISAR[5];                      /*!< Offset: 0x60  ISA Feature Register              
+ 176:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** } SCB_Type;                                                
+ 177:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 178:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* SCB CPUID Register Definitions */
+ 179:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CPUID_IMPLEMENTER_Pos          24                                             /*!< SCB 
+ 180:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CPUID_IMPLEMENTER_Msk          (0xFFul << SCB_CPUID_IMPLEMENTER_Pos)          /*!< SCB 
+ 181:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 182:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CPUID_VARIANT_Pos              20                                             /*!< SCB 
+ 183:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CPUID_VARIANT_Msk              (0xFul << SCB_CPUID_VARIANT_Pos)               /*!< SCB 
+ 184:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 185:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CPUID_PARTNO_Pos                4                                             /*!< SCB 
+ 186:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CPUID_PARTNO_Msk               (0xFFFul << SCB_CPUID_PARTNO_Pos)              /*!< SCB 
+ 187:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 188:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CPUID_REVISION_Pos              0                                             /*!< SCB 
+ 189:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CPUID_REVISION_Msk             (0xFul << SCB_CPUID_REVISION_Pos)              /*!< SCB 
+ 190:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 191:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* SCB Interrupt Control State Register Definitions */
+ 192:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_ICSR_NMIPENDSET_Pos            31                                             /*!< SCB 
+ 193:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_ICSR_NMIPENDSET_Msk            (1ul << SCB_ICSR_NMIPENDSET_Pos)               /*!< SCB 
+ 194:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 195:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_ICSR_PENDSVSET_Pos             28                                             /*!< SCB 
+ 196:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_ICSR_PENDSVSET_Msk             (1ul << SCB_ICSR_PENDSVSET_Pos)                /*!< SCB 
+ 197:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 198:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_ICSR_PENDSVCLR_Pos             27                                             /*!< SCB 
+ 199:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_ICSR_PENDSVCLR_Msk             (1ul << SCB_ICSR_PENDSVCLR_Pos)                /*!< SCB 
+ 200:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 201:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_ICSR_PENDSTSET_Pos             26                                             /*!< SCB 
+ 202:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_ICSR_PENDSTSET_Msk             (1ul << SCB_ICSR_PENDSTSET_Pos)                /*!< SCB 
+ 203:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 204:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_ICSR_PENDSTCLR_Pos             25                                             /*!< SCB 
+ 205:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_ICSR_PENDSTCLR_Msk             (1ul << SCB_ICSR_PENDSTCLR_Pos)                /*!< SCB 
+ 206:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 207:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_ICSR_ISRPREEMPT_Pos            23                                             /*!< SCB 
+ 208:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_ICSR_ISRPREEMPT_Msk            (1ul << SCB_ICSR_ISRPREEMPT_Pos)               /*!< SCB 
+ 209:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 210:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_ICSR_ISRPENDING_Pos            22                                             /*!< SCB 
+ 211:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_ICSR_ISRPENDING_Msk            (1ul << SCB_ICSR_ISRPENDING_Pos)               /*!< SCB 
+ 212:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 213:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_ICSR_VECTPENDING_Pos           12                                             /*!< SCB 
+ 214:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_ICSR_VECTPENDING_Msk           (0x1FFul << SCB_ICSR_VECTPENDING_Pos)          /*!< SCB 
+ 215:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 216:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_ICSR_RETTOBASE_Pos             11                                             /*!< SCB 
+ 217:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_ICSR_RETTOBASE_Msk             (1ul << SCB_ICSR_RETTOBASE_Pos)                /*!< SCB 
+ 218:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 219:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_ICSR_VECTACTIVE_Pos             0                                             /*!< SCB 
+ 220:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_ICSR_VECTACTIVE_Msk            (0x1FFul << SCB_ICSR_VECTACTIVE_Pos)           /*!< SCB 
+ 221:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 222:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* SCB Interrupt Control State Register Definitions */
+ 223:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_VTOR_TBLBASE_Pos               29                                             /*!< SCB 
+ 224:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_VTOR_TBLBASE_Msk               (0x1FFul << SCB_VTOR_TBLBASE_Pos)              /*!< SCB 
+ 225:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 226:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_VTOR_TBLOFF_Pos                 7                                             /*!< SCB 
+ 227:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_VTOR_TBLOFF_Msk                (0x3FFFFFul << SCB_VTOR_TBLOFF_Pos)            /*!< SCB 
+ 228:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 229:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* SCB Application Interrupt and Reset Control Register Definitions */
+ 230:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_AIRCR_VECTKEY_Pos              16                                             /*!< SCB 
+ 231:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_AIRCR_VECTKEY_Msk              (0xFFFFul << SCB_AIRCR_VECTKEY_Pos)            /*!< SCB 
+ 232:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 233:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_AIRCR_VECTKEYSTAT_Pos          16                                             /*!< SCB 
+ 234:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_AIRCR_VECTKEYSTAT_Msk          (0xFFFFul << SCB_AIRCR_VECTKEYSTAT_Pos)        /*!< SCB 
+ 235:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 236:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_AIRCR_ENDIANESS_Pos            15                                             /*!< SCB 
+ 237:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_AIRCR_ENDIANESS_Msk            (1ul << SCB_AIRCR_ENDIANESS_Pos)               /*!< SCB 
+ 238:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 239:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_AIRCR_PRIGROUP_Pos              8                                             /*!< SCB 
+ 240:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_AIRCR_PRIGROUP_Msk             (7ul << SCB_AIRCR_PRIGROUP_Pos)                /*!< SCB 
+ 241:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 242:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_AIRCR_SYSRESETREQ_Pos           2                                             /*!< SCB 
+ 243:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_AIRCR_SYSRESETREQ_Msk          (1ul << SCB_AIRCR_SYSRESETREQ_Pos)             /*!< SCB 
+ 244:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 245:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_AIRCR_VECTCLRACTIVE_Pos         1                                             /*!< SCB 
+ 246:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_AIRCR_VECTCLRACTIVE_Msk        (1ul << SCB_AIRCR_VECTCLRACTIVE_Pos)           /*!< SCB 
+ 247:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 248:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_AIRCR_VECTRESET_Pos             0                                             /*!< SCB 
+ 249:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_AIRCR_VECTRESET_Msk            (1ul << SCB_AIRCR_VECTRESET_Pos)               /*!< SCB 
+ 250:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 251:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* SCB System Control Register Definitions */
+ 252:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SCR_SEVONPEND_Pos               4                                             /*!< SCB 
+ 253:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SCR_SEVONPEND_Msk              (1ul << SCB_SCR_SEVONPEND_Pos)                 /*!< SCB 
+ 254:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 255:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SCR_SLEEPDEEP_Pos               2                                             /*!< SCB 
+ 256:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SCR_SLEEPDEEP_Msk              (1ul << SCB_SCR_SLEEPDEEP_Pos)                 /*!< SCB 
+ 257:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 258:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SCR_SLEEPONEXIT_Pos             1                                             /*!< SCB 
+ 259:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SCR_SLEEPONEXIT_Msk            (1ul << SCB_SCR_SLEEPONEXIT_Pos)               /*!< SCB 
+ 260:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 261:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* SCB Configuration Control Register Definitions */
+ 262:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CCR_STKALIGN_Pos                9                                             /*!< SCB 
+ 263:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CCR_STKALIGN_Msk               (1ul << SCB_CCR_STKALIGN_Pos)                  /*!< SCB 
+ 264:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 265:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CCR_BFHFNMIGN_Pos               8                                             /*!< SCB 
+ 266:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CCR_BFHFNMIGN_Msk              (1ul << SCB_CCR_BFHFNMIGN_Pos)                 /*!< SCB 
+ 267:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 268:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CCR_DIV_0_TRP_Pos               4                                             /*!< SCB 
+ 269:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CCR_DIV_0_TRP_Msk              (1ul << SCB_CCR_DIV_0_TRP_Pos)                 /*!< SCB 
+ 270:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 271:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CCR_UNALIGN_TRP_Pos             3                                             /*!< SCB 
+ 272:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CCR_UNALIGN_TRP_Msk            (1ul << SCB_CCR_UNALIGN_TRP_Pos)               /*!< SCB 
+ 273:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 274:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CCR_USERSETMPEND_Pos            1                                             /*!< SCB 
+ 275:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CCR_USERSETMPEND_Msk           (1ul << SCB_CCR_USERSETMPEND_Pos)              /*!< SCB 
+ 276:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 277:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CCR_NONBASETHRDENA_Pos          0                                             /*!< SCB 
+ 278:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CCR_NONBASETHRDENA_Msk         (1ul << SCB_CCR_NONBASETHRDENA_Pos)            /*!< SCB 
+ 279:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 280:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* SCB System Handler Control and State Register Definitions */
+ 281:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_USGFAULTENA_Pos          18                                             /*!< SCB 
+ 282:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_USGFAULTENA_Msk          (1ul << SCB_SHCSR_USGFAULTENA_Pos)             /*!< SCB 
+ 283:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 284:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_BUSFAULTENA_Pos          17                                             /*!< SCB 
+ 285:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_BUSFAULTENA_Msk          (1ul << SCB_SHCSR_BUSFAULTENA_Pos)             /*!< SCB 
+ 286:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 287:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_MEMFAULTENA_Pos          16                                             /*!< SCB 
+ 288:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_MEMFAULTENA_Msk          (1ul << SCB_SHCSR_MEMFAULTENA_Pos)             /*!< SCB 
+ 289:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 290:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_SVCALLPENDED_Pos         15                                             /*!< SCB 
+ 291:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_SVCALLPENDED_Msk         (1ul << SCB_SHCSR_SVCALLPENDED_Pos)            /*!< SCB 
+ 292:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 293:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_BUSFAULTPENDED_Pos       14                                             /*!< SCB 
+ 294:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_BUSFAULTPENDED_Msk       (1ul << SCB_SHCSR_BUSFAULTPENDED_Pos)          /*!< SCB 
+ 295:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 296:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_MEMFAULTPENDED_Pos       13                                             /*!< SCB 
+ 297:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_MEMFAULTPENDED_Msk       (1ul << SCB_SHCSR_MEMFAULTPENDED_Pos)          /*!< SCB 
+ 298:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 299:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_USGFAULTPENDED_Pos       12                                             /*!< SCB 
+ 300:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_USGFAULTPENDED_Msk       (1ul << SCB_SHCSR_USGFAULTPENDED_Pos)          /*!< SCB 
+ 301:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 302:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_SYSTICKACT_Pos           11                                             /*!< SCB 
+ 303:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_SYSTICKACT_Msk           (1ul << SCB_SHCSR_SYSTICKACT_Pos)              /*!< SCB 
+ 304:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 305:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_PENDSVACT_Pos            10                                             /*!< SCB 
+ 306:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_PENDSVACT_Msk            (1ul << SCB_SHCSR_PENDSVACT_Pos)               /*!< SCB 
+ 307:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 308:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_MONITORACT_Pos            8                                             /*!< SCB 
+ 309:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_MONITORACT_Msk           (1ul << SCB_SHCSR_MONITORACT_Pos)              /*!< SCB 
+ 310:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 311:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_SVCALLACT_Pos             7                                             /*!< SCB 
+ 312:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_SVCALLACT_Msk            (1ul << SCB_SHCSR_SVCALLACT_Pos)               /*!< SCB 
+ 313:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****                                      
+ 314:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_USGFAULTACT_Pos           3                                             /*!< SCB 
+ 315:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_USGFAULTACT_Msk          (1ul << SCB_SHCSR_USGFAULTACT_Pos)             /*!< SCB 
+ 316:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 317:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_BUSFAULTACT_Pos           1                                             /*!< SCB 
+ 318:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_BUSFAULTACT_Msk          (1ul << SCB_SHCSR_BUSFAULTACT_Pos)             /*!< SCB 
+ 319:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 320:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_MEMFAULTACT_Pos           0                                             /*!< SCB 
+ 321:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_SHCSR_MEMFAULTACT_Msk          (1ul << SCB_SHCSR_MEMFAULTACT_Pos)             /*!< SCB 
+ 322:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 323:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* SCB Configurable Fault Status Registers Definitions */
+ 324:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CFSR_USGFAULTSR_Pos            16                                             /*!< SCB 
+ 325:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CFSR_USGFAULTSR_Msk            (0xFFFFul << SCB_CFSR_USGFAULTSR_Pos)          /*!< SCB 
+ 326:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 327:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CFSR_BUSFAULTSR_Pos             8                                             /*!< SCB 
+ 328:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CFSR_BUSFAULTSR_Msk            (0xFFul << SCB_CFSR_BUSFAULTSR_Pos)            /*!< SCB 
+ 329:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 330:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CFSR_MEMFAULTSR_Pos             0                                             /*!< SCB 
+ 331:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_CFSR_MEMFAULTSR_Msk            (0xFFul << SCB_CFSR_MEMFAULTSR_Pos)            /*!< SCB 
+ 332:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 333:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* SCB Hard Fault Status Registers Definitions */
+ 334:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_HFSR_DEBUGEVT_Pos              31                                             /*!< SCB 
+ 335:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_HFSR_DEBUGEVT_Msk              (1ul << SCB_HFSR_DEBUGEVT_Pos)                 /*!< SCB 
+ 336:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 337:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_HFSR_FORCED_Pos                30                                             /*!< SCB 
+ 338:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_HFSR_FORCED_Msk                (1ul << SCB_HFSR_FORCED_Pos)                   /*!< SCB 
+ 339:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 340:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_HFSR_VECTTBL_Pos                1                                             /*!< SCB 
+ 341:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_HFSR_VECTTBL_Msk               (1ul << SCB_HFSR_VECTTBL_Pos)                  /*!< SCB 
+ 342:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 343:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* SCB Debug Fault Status Register Definitions */
+ 344:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_DFSR_EXTERNAL_Pos               4                                             /*!< SCB 
+ 345:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_DFSR_EXTERNAL_Msk              (1ul << SCB_DFSR_EXTERNAL_Pos)                 /*!< SCB 
+ 346:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 347:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_DFSR_VCATCH_Pos                 3                                             /*!< SCB 
+ 348:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_DFSR_VCATCH_Msk                (1ul << SCB_DFSR_VCATCH_Pos)                   /*!< SCB 
+ 349:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 350:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_DFSR_DWTTRAP_Pos                2                                             /*!< SCB 
+ 351:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_DFSR_DWTTRAP_Msk               (1ul << SCB_DFSR_DWTTRAP_Pos)                  /*!< SCB 
+ 352:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 353:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_DFSR_BKPT_Pos                   1                                             /*!< SCB 
+ 354:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_DFSR_BKPT_Msk                  (1ul << SCB_DFSR_BKPT_Pos)                     /*!< SCB 
+ 355:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 356:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_DFSR_HALTED_Pos                 0                                             /*!< SCB 
+ 357:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_DFSR_HALTED_Msk                (1ul << SCB_DFSR_HALTED_Pos)                   /*!< SCB 
+ 358:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /*@}*/ /* end of group CMSIS_CM3_SCB */
+ 359:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 360:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 361:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /** @addtogroup CMSIS_CM3_SysTick CMSIS CM3 SysTick
+ 362:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   memory mapped structure for SysTick
+ 363:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   @{
+ 364:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 365:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** typedef struct
+ 366:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** {
+ 367:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t CTRL;                         /*!< Offset: 0x00  SysTick Control and Status Registe
+ 368:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t LOAD;                         /*!< Offset: 0x04  SysTick Reload Value Register     
+ 369:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t VAL;                          /*!< Offset: 0x08  SysTick Current Value Register    
+ 370:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __I  uint32_t CALIB;                        /*!< Offset: 0x0C  SysTick Calibration Register      
+ 371:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** } SysTick_Type;
+ 372:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 373:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* SysTick Control / Status Register Definitions */
+ 374:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SysTick_CTRL_COUNTFLAG_Pos         16                                             /*!< SysT
+ 375:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SysTick_CTRL_COUNTFLAG_Msk         (1ul << SysTick_CTRL_COUNTFLAG_Pos)            /*!< SysT
+ 376:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 377:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SysTick_CTRL_CLKSOURCE_Pos          2                                             /*!< SysT
+ 378:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SysTick_CTRL_CLKSOURCE_Msk         (1ul << SysTick_CTRL_CLKSOURCE_Pos)            /*!< SysT
+ 379:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 380:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SysTick_CTRL_TICKINT_Pos            1                                             /*!< SysT
+ 381:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SysTick_CTRL_TICKINT_Msk           (1ul << SysTick_CTRL_TICKINT_Pos)              /*!< SysT
+ 382:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 383:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SysTick_CTRL_ENABLE_Pos             0                                             /*!< SysT
+ 384:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SysTick_CTRL_ENABLE_Msk            (1ul << SysTick_CTRL_ENABLE_Pos)               /*!< SysT
+ 385:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 386:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* SysTick Reload Register Definitions */
+ 387:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SysTick_LOAD_RELOAD_Pos             0                                             /*!< SysT
+ 388:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SysTick_LOAD_RELOAD_Msk            (0xFFFFFFul << SysTick_LOAD_RELOAD_Pos)        /*!< SysT
+ 389:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 390:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* SysTick Current Register Definitions */
+ 391:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SysTick_VAL_CURRENT_Pos             0                                             /*!< SysT
+ 392:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SysTick_VAL_CURRENT_Msk            (0xFFFFFFul << SysTick_VAL_CURRENT_Pos)        /*!< SysT
+ 393:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 394:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* SysTick Calibration Register Definitions */
+ 395:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SysTick_CALIB_NOREF_Pos            31                                             /*!< SysT
+ 396:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SysTick_CALIB_NOREF_Msk            (1ul << SysTick_CALIB_NOREF_Pos)               /*!< SysT
+ 397:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 398:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SysTick_CALIB_SKEW_Pos             30                                             /*!< SysT
+ 399:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SysTick_CALIB_SKEW_Msk             (1ul << SysTick_CALIB_SKEW_Pos)                /*!< SysT
+ 400:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 401:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SysTick_CALIB_TENMS_Pos             0                                             /*!< SysT
+ 402:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SysTick_CALIB_TENMS_Msk            (0xFFFFFFul << SysTick_VAL_CURRENT_Pos)        /*!< SysT
+ 403:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /*@}*/ /* end of group CMSIS_CM3_SysTick */
+ 404:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 405:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 406:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /** @addtogroup CMSIS_CM3_ITM CMSIS CM3 ITM
+ 407:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   memory mapped structure for Instrumentation Trace Macrocell (ITM)
+ 408:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   @{
+ 409:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 410:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** typedef struct
+ 411:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** {
+ 412:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __O  union  
+ 413:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   {
+ 414:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****     __O  uint8_t    u8;                       /*!< Offset:       ITM Stimulus Port 8-bit           
+ 415:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****     __O  uint16_t   u16;                      /*!< Offset:       ITM Stimulus Port 16-bit          
+ 416:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****     __O  uint32_t   u32;                      /*!< Offset:       ITM Stimulus Port 32-bit          
+ 417:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   }  PORT [32];                               /*!< Offset: 0x00  ITM Stimulus Port Registers       
+ 418:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****        uint32_t RESERVED0[864];                                 
+ 419:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t TER;                          /*!< Offset:       ITM Trace Enable Register         
+ 420:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****        uint32_t RESERVED1[15];                                  
+ 421:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t TPR;                          /*!< Offset:       ITM Trace Privilege Register      
+ 422:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****        uint32_t RESERVED2[15];                                  
+ 423:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t TCR;                          /*!< Offset:       ITM Trace Control Register        
+ 424:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****        uint32_t RESERVED3[29];                                  
+ 425:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t IWR;                          /*!< Offset:       ITM Integration Write Register    
+ 426:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t IRR;                          /*!< Offset:       ITM Integration Read Register     
+ 427:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t IMCR;                         /*!< Offset:       ITM Integration Mode Control Regis
+ 428:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****        uint32_t RESERVED4[43];                                  
+ 429:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t LAR;                          /*!< Offset:       ITM Lock Access Register          
+ 430:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t LSR;                          /*!< Offset:       ITM Lock Status Register          
+ 431:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****        uint32_t RESERVED5[6];                                   
+ 432:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __I  uint32_t PID4;                         /*!< Offset:       ITM Peripheral Identification Regi
+ 433:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __I  uint32_t PID5;                         /*!< Offset:       ITM Peripheral Identification Regi
+ 434:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __I  uint32_t PID6;                         /*!< Offset:       ITM Peripheral Identification Regi
+ 435:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __I  uint32_t PID7;                         /*!< Offset:       ITM Peripheral Identification Regi
+ 436:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __I  uint32_t PID0;                         /*!< Offset:       ITM Peripheral Identification Regi
+ 437:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __I  uint32_t PID1;                         /*!< Offset:       ITM Peripheral Identification Regi
+ 438:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __I  uint32_t PID2;                         /*!< Offset:       ITM Peripheral Identification Regi
+ 439:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __I  uint32_t PID3;                         /*!< Offset:       ITM Peripheral Identification Regi
+ 440:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __I  uint32_t CID0;                         /*!< Offset:       ITM Component  Identification Regi
+ 441:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __I  uint32_t CID1;                         /*!< Offset:       ITM Component  Identification Regi
+ 442:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __I  uint32_t CID2;                         /*!< Offset:       ITM Component  Identification Regi
+ 443:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __I  uint32_t CID3;                         /*!< Offset:       ITM Component  Identification Regi
+ 444:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** } ITM_Type;                                                
+ 445:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 446:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* ITM Trace Privilege Register Definitions */
+ 447:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_TPR_PRIVMASK_Pos                0                                             /*!< ITM 
+ 448:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_TPR_PRIVMASK_Msk               (0xFul << ITM_TPR_PRIVMASK_Pos)                /*!< ITM 
+ 449:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 450:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* ITM Trace Control Register Definitions */
+ 451:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_TCR_BUSY_Pos                   23                                             /*!< ITM 
+ 452:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_TCR_BUSY_Msk                   (1ul << ITM_TCR_BUSY_Pos)                      /*!< ITM 
+ 453:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 454:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_TCR_ATBID_Pos                  16                                             /*!< ITM 
+ 455:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_TCR_ATBID_Msk                  (0x7Ful << ITM_TCR_ATBID_Pos)                  /*!< ITM 
+ 456:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 457:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_TCR_TSPrescale_Pos              8                                             /*!< ITM 
+ 458:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_TCR_TSPrescale_Msk             (3ul << ITM_TCR_TSPrescale_Pos)                /*!< ITM 
+ 459:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 460:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_TCR_SWOENA_Pos                  4                                             /*!< ITM 
+ 461:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_TCR_SWOENA_Msk                 (1ul << ITM_TCR_SWOENA_Pos)                    /*!< ITM 
+ 462:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 463:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_TCR_DWTENA_Pos                  3                                             /*!< ITM 
+ 464:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_TCR_DWTENA_Msk                 (1ul << ITM_TCR_DWTENA_Pos)                    /*!< ITM 
+ 465:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 466:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_TCR_SYNCENA_Pos                 2                                             /*!< ITM 
+ 467:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_TCR_SYNCENA_Msk                (1ul << ITM_TCR_SYNCENA_Pos)                   /*!< ITM 
+ 468:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 469:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_TCR_TSENA_Pos                   1                                             /*!< ITM 
+ 470:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_TCR_TSENA_Msk                  (1ul << ITM_TCR_TSENA_Pos)                     /*!< ITM 
+ 471:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 472:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_TCR_ITMENA_Pos                  0                                             /*!< ITM 
+ 473:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_TCR_ITMENA_Msk                 (1ul << ITM_TCR_ITMENA_Pos)                    /*!< ITM 
+ 474:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 475:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* ITM Integration Write Register Definitions */
+ 476:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_IWR_ATVALIDM_Pos                0                                             /*!< ITM 
+ 477:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_IWR_ATVALIDM_Msk               (1ul << ITM_IWR_ATVALIDM_Pos)                  /*!< ITM 
+ 478:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 479:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* ITM Integration Read Register Definitions */
+ 480:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_IRR_ATREADYM_Pos                0                                             /*!< ITM 
+ 481:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_IRR_ATREADYM_Msk               (1ul << ITM_IRR_ATREADYM_Pos)                  /*!< ITM 
+ 482:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 483:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* ITM Integration Mode Control Register Definitions */
+ 484:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_IMCR_INTEGRATION_Pos            0                                             /*!< ITM 
+ 485:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_IMCR_INTEGRATION_Msk           (1ul << ITM_IMCR_INTEGRATION_Pos)              /*!< ITM 
+ 486:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 487:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* ITM Lock Status Register Definitions */
+ 488:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_LSR_ByteAcc_Pos                 2                                             /*!< ITM 
+ 489:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_LSR_ByteAcc_Msk                (1ul << ITM_LSR_ByteAcc_Pos)                   /*!< ITM 
+ 490:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 491:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_LSR_Access_Pos                  1                                             /*!< ITM 
+ 492:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_LSR_Access_Msk                 (1ul << ITM_LSR_Access_Pos)                    /*!< ITM 
+ 493:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 494:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_LSR_Present_Pos                 0                                             /*!< ITM 
+ 495:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_LSR_Present_Msk                (1ul << ITM_LSR_Present_Pos)                   /*!< ITM 
+ 496:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /*@}*/ /* end of group CMSIS_CM3_ITM */
+ 497:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 498:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 499:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /** @addtogroup CMSIS_CM3_InterruptType CMSIS CM3 Interrupt Type
+ 500:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   memory mapped structure for Interrupt Type
+ 501:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   @{
+ 502:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 503:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** typedef struct
+ 504:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** {
+ 505:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****        uint32_t RESERVED0;
+ 506:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __I  uint32_t ICTR;                         /*!< Offset: 0x04  Interrupt Control Type Register */
+ 507:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #if ((defined __CM3_REV) && (__CM3_REV >= 0x200))
+ 508:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t ACTLR;                        /*!< Offset: 0x08  Auxiliary Control Register      */
+ 509:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #else
+ 510:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****        uint32_t RESERVED1;
+ 511:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #endif
+ 512:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** } InterruptType_Type;
+ 513:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 514:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* Interrupt Controller Type Register Definitions */
+ 515:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define InterruptType_ICTR_INTLINESNUM_Pos  0                                             /*!< Inte
+ 516:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define InterruptType_ICTR_INTLINESNUM_Msk (0x1Ful << InterruptType_ICTR_INTLINESNUM_Pos) /*!< Inte
+ 517:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 518:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* Auxiliary Control Register Definitions */
+ 519:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define InterruptType_ACTLR_DISFOLD_Pos     2                                             /*!< Inte
+ 520:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define InterruptType_ACTLR_DISFOLD_Msk    (1ul << InterruptType_ACTLR_DISFOLD_Pos)       /*!< Inte
+ 521:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 522:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define InterruptType_ACTLR_DISDEFWBUF_Pos  1                                             /*!< Inte
+ 523:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define InterruptType_ACTLR_DISDEFWBUF_Msk (1ul << InterruptType_ACTLR_DISDEFWBUF_Pos)    /*!< Inte
+ 524:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 525:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define InterruptType_ACTLR_DISMCYCINT_Pos  0                                             /*!< Inte
+ 526:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define InterruptType_ACTLR_DISMCYCINT_Msk (1ul << InterruptType_ACTLR_DISMCYCINT_Pos)    /*!< Inte
+ 527:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /*@}*/ /* end of group CMSIS_CM3_InterruptType */
+ 528:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 529:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 530:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #if defined (__MPU_PRESENT) && (__MPU_PRESENT == 1)
+ 531:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /** @addtogroup CMSIS_CM3_MPU CMSIS CM3 MPU
+ 532:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   memory mapped structure for Memory Protection Unit (MPU)
+ 533:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   @{
+ 534:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 535:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** typedef struct
+ 536:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** {
+ 537:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __I  uint32_t TYPE;                         /*!< Offset: 0x00  MPU Type Register                 
+ 538:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t CTRL;                         /*!< Offset: 0x04  MPU Control Register              
+ 539:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t RNR;                          /*!< Offset: 0x08  MPU Region RNRber Register        
+ 540:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t RBAR;                         /*!< Offset: 0x0C  MPU Region Base Address Register  
+ 541:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t RASR;                         /*!< Offset: 0x10  MPU Region Attribute and Size Regi
+ 542:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t RBAR_A1;                      /*!< Offset: 0x14  MPU Alias 1 Region Base Address Re
+ 543:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t RASR_A1;                      /*!< Offset: 0x18  MPU Alias 1 Region Attribute and S
+ 544:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t RBAR_A2;                      /*!< Offset: 0x1C  MPU Alias 2 Region Base Address Re
+ 545:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t RASR_A2;                      /*!< Offset: 0x20  MPU Alias 2 Region Attribute and S
+ 546:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t RBAR_A3;                      /*!< Offset: 0x24  MPU Alias 3 Region Base Address Re
+ 547:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t RASR_A3;                      /*!< Offset: 0x28  MPU Alias 3 Region Attribute and S
+ 548:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** } MPU_Type;                                                
+ 549:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 550:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* MPU Type Register */
+ 551:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_TYPE_IREGION_Pos               16                                             /*!< MPU 
+ 552:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_TYPE_IREGION_Msk               (0xFFul << MPU_TYPE_IREGION_Pos)               /*!< MPU 
+ 553:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 554:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_TYPE_DREGION_Pos                8                                             /*!< MPU 
+ 555:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_TYPE_DREGION_Msk               (0xFFul << MPU_TYPE_DREGION_Pos)               /*!< MPU 
+ 556:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 557:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_TYPE_SEPARATE_Pos               0                                             /*!< MPU 
+ 558:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_TYPE_SEPARATE_Msk              (1ul << MPU_TYPE_SEPARATE_Pos)                 /*!< MPU 
+ 559:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 560:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* MPU Control Register */
+ 561:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_CTRL_PRIVDEFENA_Pos             2                                             /*!< MPU 
+ 562:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_CTRL_PRIVDEFENA_Msk            (1ul << MPU_CTRL_PRIVDEFENA_Pos)               /*!< MPU 
+ 563:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 564:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_CTRL_HFNMIENA_Pos               1                                             /*!< MPU 
+ 565:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_CTRL_HFNMIENA_Msk              (1ul << MPU_CTRL_HFNMIENA_Pos)                 /*!< MPU 
+ 566:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 567:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_CTRL_ENABLE_Pos                 0                                             /*!< MPU 
+ 568:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_CTRL_ENABLE_Msk                (1ul << MPU_CTRL_ENABLE_Pos)                   /*!< MPU 
+ 569:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 570:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* MPU Region Number Register */
+ 571:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RNR_REGION_Pos                  0                                             /*!< MPU 
+ 572:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RNR_REGION_Msk                 (0xFFul << MPU_RNR_REGION_Pos)                 /*!< MPU 
+ 573:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 574:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* MPU Region Base Address Register */
+ 575:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RBAR_ADDR_Pos                   5                                             /*!< MPU 
+ 576:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RBAR_ADDR_Msk                  (0x7FFFFFFul << MPU_RBAR_ADDR_Pos)             /*!< MPU 
+ 577:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 578:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RBAR_VALID_Pos                  4                                             /*!< MPU 
+ 579:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RBAR_VALID_Msk                 (1ul << MPU_RBAR_VALID_Pos)                    /*!< MPU 
+ 580:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 581:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RBAR_REGION_Pos                 0                                             /*!< MPU 
+ 582:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RBAR_REGION_Msk                (0xFul << MPU_RBAR_REGION_Pos)                 /*!< MPU 
+ 583:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 584:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* MPU Region Attribute and Size Register */
+ 585:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RASR_XN_Pos                    28                                             /*!< MPU 
+ 586:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RASR_XN_Msk                    (1ul << MPU_RASR_XN_Pos)                       /*!< MPU 
+ 587:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 588:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RASR_AP_Pos                    24                                             /*!< MPU 
+ 589:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RASR_AP_Msk                    (7ul << MPU_RASR_AP_Pos)                       /*!< MPU 
+ 590:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 591:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RASR_TEX_Pos                   19                                             /*!< MPU 
+ 592:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RASR_TEX_Msk                   (7ul << MPU_RASR_TEX_Pos)                      /*!< MPU 
+ 593:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 594:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RASR_S_Pos                     18                                             /*!< MPU 
+ 595:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RASR_S_Msk                     (1ul << MPU_RASR_S_Pos)                        /*!< MPU 
+ 596:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 597:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RASR_C_Pos                     17                                             /*!< MPU 
+ 598:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RASR_C_Msk                     (1ul << MPU_RASR_C_Pos)                        /*!< MPU 
+ 599:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 600:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RASR_B_Pos                     16                                             /*!< MPU 
+ 601:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RASR_B_Msk                     (1ul << MPU_RASR_B_Pos)                        /*!< MPU 
+ 602:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 603:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RASR_SRD_Pos                    8                                             /*!< MPU 
+ 604:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RASR_SRD_Msk                   (0xFFul << MPU_RASR_SRD_Pos)                   /*!< MPU 
+ 605:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 606:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RASR_SIZE_Pos                   1                                             /*!< MPU 
+ 607:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RASR_SIZE_Msk                  (0x1Ful << MPU_RASR_SIZE_Pos)                  /*!< MPU 
+ 608:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 609:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RASR_ENA_Pos                     0                                            /*!< MPU 
+ 610:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define MPU_RASR_ENA_Msk                    (0x1Ful << MPU_RASR_ENA_Pos)                  /*!< MPU 
+ 611:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 612:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /*@}*/ /* end of group CMSIS_CM3_MPU */
+ 613:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #endif
+ 614:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 615:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 616:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /** @addtogroup CMSIS_CM3_CoreDebug CMSIS CM3 Core Debug
+ 617:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   memory mapped structure for Core Debug Register
+ 618:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   @{
+ 619:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 620:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** typedef struct
+ 621:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** {
+ 622:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t DHCSR;                        /*!< Offset: 0x00  Debug Halting Control and Status R
+ 623:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __O  uint32_t DCRSR;                        /*!< Offset: 0x04  Debug Core Register Selector Regis
+ 624:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t DCRDR;                        /*!< Offset: 0x08  Debug Core Register Data Register 
+ 625:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __IO uint32_t DEMCR;                        /*!< Offset: 0x0C  Debug Exception and Monitor Contro
+ 626:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** } CoreDebug_Type;
+ 627:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 628:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* Debug Halting Control and Status Register */
+ 629:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DHCSR_DBGKEY_Pos         16                                             /*!< Core
+ 630:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DHCSR_DBGKEY_Msk         (0xFFFFul << CoreDebug_DHCSR_DBGKEY_Pos)       /*!< Core
+ 631:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 632:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DHCSR_S_RESET_ST_Pos     25                                             /*!< Core
+ 633:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DHCSR_S_RESET_ST_Msk     (1ul << CoreDebug_DHCSR_S_RESET_ST_Pos)        /*!< Core
+ 634:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 635:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DHCSR_S_RETIRE_ST_Pos    24                                             /*!< Core
+ 636:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DHCSR_S_RETIRE_ST_Msk    (1ul << CoreDebug_DHCSR_S_RETIRE_ST_Pos)       /*!< Core
+ 637:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 638:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DHCSR_S_LOCKUP_Pos       19                                             /*!< Core
+ 639:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DHCSR_S_LOCKUP_Msk       (1ul << CoreDebug_DHCSR_S_LOCKUP_Pos)          /*!< Core
+ 640:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 641:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DHCSR_S_SLEEP_Pos        18                                             /*!< Core
+ 642:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DHCSR_S_SLEEP_Msk        (1ul << CoreDebug_DHCSR_S_SLEEP_Pos)           /*!< Core
+ 643:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 644:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DHCSR_S_HALT_Pos         17                                             /*!< Core
+ 645:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DHCSR_S_HALT_Msk         (1ul << CoreDebug_DHCSR_S_HALT_Pos)            /*!< Core
+ 646:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 647:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DHCSR_S_REGRDY_Pos       16                                             /*!< Core
+ 648:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DHCSR_S_REGRDY_Msk       (1ul << CoreDebug_DHCSR_S_REGRDY_Pos)          /*!< Core
+ 649:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 650:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DHCSR_C_SNAPSTALL_Pos     5                                             /*!< Core
+ 651:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DHCSR_C_SNAPSTALL_Msk    (1ul << CoreDebug_DHCSR_C_SNAPSTALL_Pos)       /*!< Core
+ 652:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 653:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DHCSR_C_MASKINTS_Pos      3                                             /*!< Core
+ 654:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DHCSR_C_MASKINTS_Msk     (1ul << CoreDebug_DHCSR_C_MASKINTS_Pos)        /*!< Core
+ 655:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 656:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DHCSR_C_STEP_Pos          2                                             /*!< Core
+ 657:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DHCSR_C_STEP_Msk         (1ul << CoreDebug_DHCSR_C_STEP_Pos)            /*!< Core
+ 658:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 659:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DHCSR_C_HALT_Pos          1                                             /*!< Core
+ 660:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DHCSR_C_HALT_Msk         (1ul << CoreDebug_DHCSR_C_HALT_Pos)            /*!< Core
+ 661:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 662:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DHCSR_C_DEBUGEN_Pos       0                                             /*!< Core
+ 663:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DHCSR_C_DEBUGEN_Msk      (1ul << CoreDebug_DHCSR_C_DEBUGEN_Pos)         /*!< Core
+ 664:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 665:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* Debug Core Register Selector Register */
+ 666:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DCRSR_REGWnR_Pos         16                                             /*!< Core
+ 667:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DCRSR_REGWnR_Msk         (1ul << CoreDebug_DCRSR_REGWnR_Pos)            /*!< Core
+ 668:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 669:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DCRSR_REGSEL_Pos          0                                             /*!< Core
+ 670:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DCRSR_REGSEL_Msk         (0x1Ful << CoreDebug_DCRSR_REGSEL_Pos)         /*!< Core
+ 671:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 672:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* Debug Exception and Monitor Control Register */
+ 673:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_TRCENA_Pos         24                                             /*!< Core
+ 674:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_TRCENA_Msk         (1ul << CoreDebug_DEMCR_TRCENA_Pos)            /*!< Core
+ 675:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 676:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_MON_REQ_Pos        19                                             /*!< Core
+ 677:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_MON_REQ_Msk        (1ul << CoreDebug_DEMCR_MON_REQ_Pos)           /*!< Core
+ 678:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 679:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_MON_STEP_Pos       18                                             /*!< Core
+ 680:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_MON_STEP_Msk       (1ul << CoreDebug_DEMCR_MON_STEP_Pos)          /*!< Core
+ 681:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 682:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_MON_PEND_Pos       17                                             /*!< Core
+ 683:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_MON_PEND_Msk       (1ul << CoreDebug_DEMCR_MON_PEND_Pos)          /*!< Core
+ 684:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 685:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_MON_EN_Pos         16                                             /*!< Core
+ 686:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_MON_EN_Msk         (1ul << CoreDebug_DEMCR_MON_EN_Pos)            /*!< Core
+ 687:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 688:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_VC_HARDERR_Pos     10                                             /*!< Core
+ 689:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_VC_HARDERR_Msk     (1ul << CoreDebug_DEMCR_VC_HARDERR_Pos)        /*!< Core
+ 690:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 691:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_VC_INTERR_Pos       9                                             /*!< Core
+ 692:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_VC_INTERR_Msk      (1ul << CoreDebug_DEMCR_VC_INTERR_Pos)         /*!< Core
+ 693:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 694:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_VC_BUSERR_Pos       8                                             /*!< Core
+ 695:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_VC_BUSERR_Msk      (1ul << CoreDebug_DEMCR_VC_BUSERR_Pos)         /*!< Core
+ 696:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 697:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_VC_STATERR_Pos      7                                             /*!< Core
+ 698:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_VC_STATERR_Msk     (1ul << CoreDebug_DEMCR_VC_STATERR_Pos)        /*!< Core
+ 699:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 700:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_VC_CHKERR_Pos       6                                             /*!< Core
+ 701:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_VC_CHKERR_Msk      (1ul << CoreDebug_DEMCR_VC_CHKERR_Pos)         /*!< Core
+ 702:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 703:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_VC_NOCPERR_Pos      5                                             /*!< Core
+ 704:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_VC_NOCPERR_Msk     (1ul << CoreDebug_DEMCR_VC_NOCPERR_Pos)        /*!< Core
+ 705:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 706:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_VC_MMERR_Pos        4                                             /*!< Core
+ 707:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_VC_MMERR_Msk       (1ul << CoreDebug_DEMCR_VC_MMERR_Pos)          /*!< Core
+ 708:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 709:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_VC_CORERESET_Pos    0                                             /*!< Core
+ 710:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_DEMCR_VC_CORERESET_Msk   (1ul << CoreDebug_DEMCR_VC_CORERESET_Pos)      /*!< Core
+ 711:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /*@}*/ /* end of group CMSIS_CM3_CoreDebug */
+ 712:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 713:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 714:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* Memory mapping of Cortex-M3 Hardware */
+ 715:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCS_BASE            (0xE000E000)                              /*!< System Control Space Bas
+ 716:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM_BASE            (0xE0000000)                              /*!< ITM Base Address        
+ 717:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug_BASE      (0xE000EDF0)                              /*!< Core Debug Base Address 
+ 718:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SysTick_BASE        (SCS_BASE +  0x0010)                      /*!< SysTick Base Address    
+ 719:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define NVIC_BASE           (SCS_BASE +  0x0100)                      /*!< NVIC Base Address       
+ 720:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB_BASE            (SCS_BASE +  0x0D00)                      /*!< System Control Block Bas
+ 721:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 722:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define InterruptType       ((InterruptType_Type *) SCS_BASE)         /*!< Interrupt Type Register 
+ 723:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SCB                 ((SCB_Type *)           SCB_BASE)         /*!< SCB configuration struct
+ 724:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define SysTick             ((SysTick_Type *)       SysTick_BASE)     /*!< SysTick configuration st
+ 725:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define NVIC                ((NVIC_Type *)          NVIC_BASE)        /*!< NVIC configuration struc
+ 726:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define ITM                 ((ITM_Type *)           ITM_BASE)         /*!< ITM configuration struct
+ 727:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define CoreDebug           ((CoreDebug_Type *)     CoreDebug_BASE)   /*!< Core Debug configuration
+ 728:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 729:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #if defined (__MPU_PRESENT) && (__MPU_PRESENT == 1)
+ 730:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   #define MPU_BASE          (SCS_BASE +  0x0D90)                      /*!< Memory Protection Unit  
+ 731:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   #define MPU               ((MPU_Type*)            MPU_BASE)         /*!< Memory Protection Unit  
+ 732:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #endif
+ 733:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 734:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /*@}*/ /* end of group CMSIS_CM3_core_register */
+ 735:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 736:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 737:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /*******************************************************************************
+ 738:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *                Hardware Abstraction Layer
+ 739:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  ******************************************************************************/
+ 740:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 741:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #if defined ( __CC_ARM   )
+ 742:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   #define __ASM            __asm                                      /*!< asm keyword for ARM Comp
+ 743:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   #define __INLINE         __inline                                   /*!< inline keyword for ARM C
+ 744:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 745:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #elif defined ( __ICCARM__ )
+ 746:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   #define __ASM           __asm                                       /*!< asm keyword for IAR Comp
+ 747:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   #define __INLINE        inline                                      /*!< inline keyword for IAR C
+ 748:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 749:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #elif defined   (  __GNUC__  )
+ 750:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   #define __ASM            __asm                                      /*!< asm keyword for GNU Comp
+ 751:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   #define __INLINE         inline                                     /*!< inline keyword for GNU C
+ 752:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 753:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #elif defined   (  __TASKING__  )
+ 754:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   #define __ASM            __asm                                      /*!< asm keyword for TASKING 
+ 755:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   #define __INLINE         inline                                     /*!< inline keyword for TASKI
+ 756:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 757:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #endif
+ 758:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 759:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 760:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* ###################  Compiler specific Intrinsics  ########################### */
+ 761:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 762:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #if defined ( __CC_ARM   ) /*------------------RealView Compiler -----------------*/
+ 763:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* ARM armcc specific functions */
+ 764:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 765:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __enable_fault_irq                __enable_fiq
+ 766:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __disable_fault_irq               __disable_fiq
+ 767:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 768:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __NOP                             __nop
+ 769:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __WFI                             __wfi
+ 770:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __WFE                             __wfe
+ 771:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __SEV                             __sev
+ 772:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __ISB()                           __isb(0)
+ 773:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __DSB()                           __dsb(0)
+ 774:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __DMB()                           __dmb(0)
+ 775:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __REV                             __rev
+ 776:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __RBIT                            __rbit
+ 777:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __LDREXB(ptr)                     ((unsigned char ) __ldrex(ptr))
+ 778:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __LDREXH(ptr)                     ((unsigned short) __ldrex(ptr))
+ 779:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __LDREXW(ptr)                     ((unsigned int  ) __ldrex(ptr))
+ 780:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __STREXB(value, ptr)              __strex(value, ptr)
+ 781:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __STREXH(value, ptr)              __strex(value, ptr)
+ 782:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __STREXW(value, ptr)              __strex(value, ptr)
+ 783:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 784:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 785:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* intrinsic unsigned long long __ldrexd(volatile void *ptr) */
+ 786:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* intrinsic int __strexd(unsigned long long val, volatile void *ptr) */
+ 787:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* intrinsic void __enable_irq();     */
+ 788:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* intrinsic void __disable_irq();    */
+ 789:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 790:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 791:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+ 792:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Return the Process Stack Pointer
+ 793:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 794:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @return ProcessStackPointer
+ 795:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 796:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Return the actual process stack pointer
+ 797:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 798:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern uint32_t __get_PSP(void);
+ 799:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 800:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+ 801:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Set the Process Stack Pointer
+ 802:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 803:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param  topOfProcStack  Process Stack Pointer
+ 804:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 805:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Assign the value ProcessStackPointer to the MSP 
+ 806:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * (process stack pointer) Cortex processor register
+ 807:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 808:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern void __set_PSP(uint32_t topOfProcStack);
+ 809:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 810:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+ 811:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Return the Main Stack Pointer
+ 812:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 813:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @return Main Stack Pointer
+ 814:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 815:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Return the current value of the MSP (main stack pointer)
+ 816:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Cortex processor register
+ 817:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 818:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern uint32_t __get_MSP(void);
+ 819:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 820:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+ 821:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Set the Main Stack Pointer
+ 822:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 823:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param  topOfMainStack  Main Stack Pointer
+ 824:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 825:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Assign the value mainStackPointer to the MSP 
+ 826:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * (main stack pointer) Cortex processor register
+ 827:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 828:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern void __set_MSP(uint32_t topOfMainStack);
+ 829:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 830:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+ 831:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Reverse byte order in unsigned short value
+ 832:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 833:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param   value  value to reverse
+ 834:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @return         reversed value
+ 835:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 836:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Reverse byte order in unsigned short value
+ 837:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 838:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern uint32_t __REV16(uint16_t value);
+ 839:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 840:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+ 841:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Reverse byte order in signed short value with sign extension to integer
+ 842:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 843:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param   value  value to reverse
+ 844:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @return         reversed value
+ 845:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 846:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Reverse byte order in signed short value with sign extension to integer
+ 847:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 848:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern int32_t __REVSH(int16_t value);
+ 849:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 850:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 851:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #if (__ARMCC_VERSION < 400000)
+ 852:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 853:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+ 854:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Remove the exclusive lock created by ldrex
+ 855:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 856:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Removes the exclusive lock which is created by ldrex.
+ 857:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 858:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern void __CLREX(void);
+ 859:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 860:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+ 861:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Return the Base Priority value
+ 862:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 863:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @return BasePriority
+ 864:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 865:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Return the content of the base priority register
+ 866:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 867:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern uint32_t __get_BASEPRI(void);
+ 868:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 869:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+ 870:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Set the Base Priority value
+ 871:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 872:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param  basePri  BasePriority
+ 873:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 874:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Set the base priority register
+ 875:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 876:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern void __set_BASEPRI(uint32_t basePri);
+ 877:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 878:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+ 879:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Return the Priority Mask value
+ 880:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 881:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @return PriMask
+ 882:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 883:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Return state of the priority mask bit from the priority mask register
+ 884:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 885:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern uint32_t __get_PRIMASK(void);
+ 886:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 887:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+ 888:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Set the Priority Mask value
+ 889:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 890:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param   priMask  PriMask
+ 891:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 892:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Set the priority mask bit in the priority mask register
+ 893:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 894:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern void __set_PRIMASK(uint32_t priMask);
+ 895:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 896:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+ 897:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Return the Fault Mask value
+ 898:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 899:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @return FaultMask
+ 900:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 901:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Return the content of the fault mask register
+ 902:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 903:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern uint32_t __get_FAULTMASK(void);
+ 904:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 905:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+ 906:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Set the Fault Mask value
+ 907:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 908:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param  faultMask faultMask value
+ 909:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 910:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Set the fault mask register
+ 911:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 912:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern void __set_FAULTMASK(uint32_t faultMask);
+ 913:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 914:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+ 915:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Return the Control Register value
+ 916:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * 
+ 917:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @return Control value
+ 918:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 919:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Return the content of the control register
+ 920:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 921:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern uint32_t __get_CONTROL(void);
+ 922:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 923:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+ 924:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Set the Control Register value
+ 925:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 926:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param  control  Control value
+ 927:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 928:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Set the control register
+ 929:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 930:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern void __set_CONTROL(uint32_t control);
+ 931:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 932:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #else  /* (__ARMCC_VERSION >= 400000)  */
+ 933:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 934:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+ 935:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Remove the exclusive lock created by ldrex
+ 936:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 937:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Removes the exclusive lock which is created by ldrex.
+ 938:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 939:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __CLREX                           __clrex
+ 940:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 941:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+ 942:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Return the Base Priority value
+ 943:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 944:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @return BasePriority
+ 945:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 946:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Return the content of the base priority register
+ 947:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 948:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** static __INLINE uint32_t  __get_BASEPRI(void)
+ 949:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** {
+ 950:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   register uint32_t __regBasePri         __ASM("basepri");
+ 951:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   return(__regBasePri);
+ 952:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** }
+ 953:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 954:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+ 955:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Set the Base Priority value
+ 956:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 957:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param  basePri  BasePriority
+ 958:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 959:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Set the base priority register
+ 960:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 961:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** static __INLINE void __set_BASEPRI(uint32_t basePri)
+ 962:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** {
+ 963:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   register uint32_t __regBasePri         __ASM("basepri");
+ 964:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __regBasePri = (basePri & 0xff);
+ 965:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** }
+ 966:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 967:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+ 968:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Return the Priority Mask value
+ 969:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 970:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @return PriMask
+ 971:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 972:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Return state of the priority mask bit from the priority mask register
+ 973:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 974:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** static __INLINE uint32_t __get_PRIMASK(void)
+ 975:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** {
+ 976:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   register uint32_t __regPriMask         __ASM("primask");
+ 977:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   return(__regPriMask);
+ 978:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** }
+ 979:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 980:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+ 981:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Set the Priority Mask value
+ 982:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 983:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param  priMask  PriMask
+ 984:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 985:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Set the priority mask bit in the priority mask register
+ 986:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+ 987:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** static __INLINE void __set_PRIMASK(uint32_t priMask)
+ 988:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** {
+ 989:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   register uint32_t __regPriMask         __ASM("primask");
+ 990:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __regPriMask = (priMask);
+ 991:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** }
+ 992:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+ 993:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+ 994:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Return the Fault Mask value
+ 995:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 996:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @return FaultMask
+ 997:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+ 998:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Return the content of the fault mask register
+ 999:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+1000:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** static __INLINE uint32_t __get_FAULTMASK(void)
+1001:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** {
+1002:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   register uint32_t __regFaultMask       __ASM("faultmask");
+1003:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   return(__regFaultMask);
+1004:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** }
+1005:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1006:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+1007:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Set the Fault Mask value
+1008:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1009:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param  faultMask  faultMask value
+1010:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1011:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Set the fault mask register
+1012:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+1013:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** static __INLINE void __set_FAULTMASK(uint32_t faultMask)
+1014:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** {
+1015:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   register uint32_t __regFaultMask       __ASM("faultmask");
+1016:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __regFaultMask = (faultMask & 1);
+1017:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** }
+1018:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1019:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+1020:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Return the Control Register value
+1021:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * 
+1022:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @return Control value
+1023:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1024:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Return the content of the control register
+1025:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+1026:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** static __INLINE uint32_t __get_CONTROL(void)
+1027:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** {
+1028:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   register uint32_t __regControl         __ASM("control");
+1029:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   return(__regControl);
+1030:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** }
+1031:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1032:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+1033:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Set the Control Register value
+1034:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1035:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param  control  Control value
+1036:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1037:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Set the control register
+1038:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+1039:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** static __INLINE void __set_CONTROL(uint32_t control)
+1040:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** {
+1041:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   register uint32_t __regControl         __ASM("control");
+1042:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   __regControl = control;
+1043:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** }
+1044:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1045:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #endif /* __ARMCC_VERSION  */ 
+1046:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1047:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1048:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1049:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #elif (defined (__ICCARM__)) /*------------------ ICC Compiler -------------------*/
+1050:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* IAR iccarm specific functions */
+1051:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1052:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __enable_irq                              __enable_interrupt        /*!< global Interrupt e
+1053:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __disable_irq                             __disable_interrupt       /*!< global Interrupt d
+1054:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1055:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** static __INLINE void __enable_fault_irq()         { __ASM ("cpsie f"); }
+1056:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** static __INLINE void __disable_fault_irq()        { __ASM ("cpsid f"); }
+1057:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1058:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #define __NOP                                     __no_operation            /*!< no operation intri
+1059:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** static __INLINE  void __WFI()                     { __ASM ("wfi"); }
+1060:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** static __INLINE  void __WFE()                     { __ASM ("wfe"); }
+1061:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** static __INLINE  void __SEV()                     { __ASM ("sev"); }
+1062:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** static __INLINE  void __CLREX()                   { __ASM ("clrex"); }
+1063:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1064:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* intrinsic void __ISB(void)                                     */
+1065:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* intrinsic void __DSB(void)                                     */
+1066:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* intrinsic void __DMB(void)                                     */
+1067:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* intrinsic void __set_PRIMASK();                                */
+1068:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* intrinsic void __get_PRIMASK();                                */
+1069:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* intrinsic void __set_FAULTMASK();                              */
+1070:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* intrinsic void __get_FAULTMASK();                              */
+1071:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* intrinsic uint32_t __REV(uint32_t value);                      */
+1072:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* intrinsic uint32_t __REVSH(uint32_t value);                    */
+1073:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* intrinsic unsigned long __STREX(unsigned long, unsigned long); */
+1074:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* intrinsic unsigned long __LDREX(unsigned long *);              */
+1075:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1076:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1077:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+1078:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Return the Process Stack Pointer
+1079:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1080:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @return ProcessStackPointer
+1081:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1082:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Return the actual process stack pointer
+1083:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+1084:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern uint32_t __get_PSP(void);
+1085:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1086:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+1087:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Set the Process Stack Pointer
+1088:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1089:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param  topOfProcStack  Process Stack Pointer
+1090:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1091:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Assign the value ProcessStackPointer to the MSP 
+1092:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * (process stack pointer) Cortex processor register
+1093:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+1094:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern void __set_PSP(uint32_t topOfProcStack);
+1095:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1096:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+1097:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Return the Main Stack Pointer
+1098:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1099:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @return Main Stack Pointer
+1100:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1101:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Return the current value of the MSP (main stack pointer)
+1102:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Cortex processor register
+1103:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+1104:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern uint32_t __get_MSP(void);
+1105:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1106:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+1107:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Set the Main Stack Pointer
+1108:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1109:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param  topOfMainStack  Main Stack Pointer
+1110:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1111:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Assign the value mainStackPointer to the MSP 
+1112:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * (main stack pointer) Cortex processor register
+1113:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+1114:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern void __set_MSP(uint32_t topOfMainStack);
+1115:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1116:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+1117:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Reverse byte order in unsigned short value
+1118:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1119:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param  value  value to reverse
+1120:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @return        reversed value
+1121:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1122:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Reverse byte order in unsigned short value
+1123:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+1124:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern uint32_t __REV16(uint16_t value);
+1125:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1126:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+1127:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  Reverse bit order of value
+1128:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1129:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param  value  value to reverse
+1130:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @return        reversed value
+1131:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1132:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Reverse bit order of value
+1133:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+1134:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern uint32_t __RBIT(uint32_t value);
+1135:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1136:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+1137:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  LDR Exclusive (8 bit)
+1138:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1139:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param  *addr  address pointer
+1140:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @return        value of (*address)
+1141:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1142:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Exclusive LDR command for 8 bit values)
+1143:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+1144:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern uint8_t __LDREXB(uint8_t *addr);
+1145:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1146:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+1147:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  LDR Exclusive (16 bit)
+1148:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1149:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param  *addr  address pointer
+1150:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @return        value of (*address)
+1151:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1152:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Exclusive LDR command for 16 bit values
+1153:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+1154:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern uint16_t __LDREXH(uint16_t *addr);
+1155:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1156:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+1157:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  LDR Exclusive (32 bit)
+1158:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1159:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param  *addr  address pointer
+1160:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @return        value of (*address)
+1161:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1162:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Exclusive LDR command for 32 bit values
+1163:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+1164:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern uint32_t __LDREXW(uint32_t *addr);
+1165:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1166:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+1167:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  STR Exclusive (8 bit)
+1168:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1169:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param  value  value to store
+1170:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param  *addr  address pointer
+1171:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @return        successful / failed
+1172:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1173:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Exclusive STR command for 8 bit values
+1174:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+1175:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern uint32_t __STREXB(uint8_t value, uint8_t *addr);
+1176:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1177:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+1178:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  STR Exclusive (16 bit)
+1179:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1180:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param  value  value to store
+1181:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param  *addr  address pointer
+1182:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @return        successful / failed
+1183:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1184:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Exclusive STR command for 16 bit values
+1185:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+1186:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern uint32_t __STREXH(uint16_t value, uint16_t *addr);
+1187:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1188:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**
+1189:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief  STR Exclusive (32 bit)
+1190:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1191:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param  value  value to store
+1192:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @param  *addr  address pointer
+1193:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @return        successful / failed
+1194:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  *
+1195:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * Exclusive STR command for 32 bit values
+1196:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  */
+1197:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** extern uint32_t __STREXW(uint32_t value, uint32_t *addr);
+1198:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1199:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1200:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1201:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** #elif (defined (__GNUC__)) /*------------------ GNU Compiler ---------------------*/
+1202:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /* GNU gcc specific functions */
+1203:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
+1204:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** static __INLINE void __enable_irq()               { __ASM volatile ("cpsie i"); }
+1205:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** static __INLINE void __disable_irq()              { __ASM volatile ("cpsid i"); }
+ 745              		.loc 4 1205 0
+ 746              		.syntax unified
+ 747              	@ 1205 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h" 1
+ 748 0218 72B6     		cpsid i
+ 749              	@ 0 "" 2
+ 750              		.thumb
+ 751              		.syntax unified
+ 752              	.LBE106:
+ 753              	.LBE105:
+ 107:src/servo.cpp **** 	switch(m_settings->m_TimerChannel){
+ 754              		.loc 2 107 0
+ 755 021a CA68     		ldr	r2, [r1, #12]
+ 756 021c 013A     		subs	r2, r2, #1
+ 757 021e 032A     		cmp	r2, #3
+ 758 0220 13D8     		bhi	.L33
+ 759 0222 DFE802F0 		tbb	[pc, r2]
+ 760              	.L35:
+ 761 0226 02       		.byte	(.L34-.L35)/2
+ 762 0227 06       		.byte	(.L36-.L35)/2
+ 763 0228 0A       		.byte	(.L37-.L35)/2
+ 764 0229 0E       		.byte	(.L38-.L35)/2
+ 765              		.p2align 1
+ 766              	.L34:
+ 109:src/servo.cpp **** 			(m_settings->m_Timer)->CCR1 = sp;
+ 767              		.loc 2 109 0
+ 768 022a 8A68     		ldr	r2, [r1, #8]
+ 769 022c 9BB2     		uxth	r3, r3
+ 770              	.LVL70:
+ 771 022e 9386     		strh	r3, [r2, #52]	@ movhi
+ 110:src/servo.cpp **** 			break;
+ 772              		.loc 2 110 0
+ 773 0230 0BE0     		b	.L33
+ 774              	.LVL71:
+ 775              	.L36:
+ 112:src/servo.cpp **** 			(m_settings->m_Timer)->CCR2 = sp;
+ 776              		.loc 2 112 0
+ 777 0232 8A68     		ldr	r2, [r1, #8]
+ 778 0234 9BB2     		uxth	r3, r3
+ 779              	.LVL72:
+ 780 0236 1387     		strh	r3, [r2, #56]	@ movhi
+ 113:src/servo.cpp **** 			break;
+ 781              		.loc 2 113 0
+ 782 0238 07E0     		b	.L33
+ 783              	.LVL73:
+ 784              	.L37:
+ 115:src/servo.cpp **** 			(m_settings->m_Timer)->CCR3 = sp;
+ 785              		.loc 2 115 0
+ 786 023a 8A68     		ldr	r2, [r1, #8]
+ 787 023c 9BB2     		uxth	r3, r3
+ 788              	.LVL74:
+ 789 023e 9387     		strh	r3, [r2, #60]	@ movhi
+ 116:src/servo.cpp **** 			break;
+ 790              		.loc 2 116 0
+ 791 0240 03E0     		b	.L33
+ 792              	.LVL75:
+ 793              	.L38:
+ 118:src/servo.cpp **** 			(m_settings->m_Timer)->CCR4 = sp;
+ 794              		.loc 2 118 0
+ 795 0242 8A68     		ldr	r2, [r1, #8]
+ 796 0244 9BB2     		uxth	r3, r3
+ 797              	.LVL76:
+ 798 0246 A2F84030 		strh	r3, [r2, #64]	@ movhi
+ 799              	.L33:
+ 800              	.LBB107:
+ 801              	.LBB108:
+1204:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** static __INLINE void __disable_irq()              { __ASM volatile ("cpsid i"); }
+ 802              		.loc 4 1204 0
+ 803              		.syntax unified
+ 804              	@ 1204 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h" 1
+ 805 024a 62B6     		cpsie i
+ 806              	@ 0 "" 2
+ 807              		.thumb
+ 808              		.syntax unified
+ 809              	.LBE108:
+ 810              	.LBE107:
+ 122:src/servo.cpp **** 	return (float)spDeg;//std::make_tuple(y0, 0, sp, 0);
+ 811              		.loc 2 122 0
+ 812 024c FFF7FEFF 		bl	__aeabi_i2f
+ 813              	.LVL77:
+ 123:src/servo.cpp **** }
+ 814              		.loc 2 123 0
+ 815 0250 10BD     		pop	{r4, pc}
+ 816              		.cfi_endproc
+ 817              	.LFE1033:
+ 818              		.cantunwind
+ 819              		.fnend
+ 821              		.global	_ZTS5servo
+ 822              		.global	_ZTI5servo
+ 823              		.global	_ZTV5servo
+ 824              		.section	.rodata
+ 825              		.align	2
+ 826              		.set	.LANCHOR0,. + 0
+ 829              	_ZTV5servo:
+ 830 0000 00000000 		.word	0
+ 831 0004 00000000 		.word	_ZTI5servo
+ 832 0008 00000000 		.word	_ZN5servoD1Ev
+ 833 000c 00000000 		.word	_ZN5servoD0Ev
+ 834 0010 00000000 		.word	_ZN5servo9motorTypeEv
+ 835 0014 00000000 		.word	_ZN5servo9motorInitEv
+ 836 0018 00000000 		.word	_ZN5servo9motorNameEv
+ 837 001c 00000000 		.word	_ZN5servo12setReferenceEf
+ 838 0020 00000000 		.word	_ZN5servo12getReferenceEv
+ 839 0024 00000000 		.word	_ZN5servo6updateEfbb
+ 840              	.LC0:
+ 841 0028 713D8A3D 		.word	1032469873
+ 842 002c 3A230A3E 		.word	1040851770
+ 843 0030 713D8A3D 		.word	1032469873
+ 844              	.LC1:
+ 845 0034 0000803F 		.word	1065353216
+ 846 0038 D34D92BF 		.word	-1080930861
+ 847 003c 865AD33E 		.word	1054038662
+ 850              	_ZTS5servo:
+ 851 0040 35736572 		.ascii	"5servo\000"
+ 851      766F00
+ 852 0047 00       		.space	1
+ 855              	_ZTI5servo:
+ 856 0048 08000000 		.word	_ZTVN10__cxxabiv120__si_class_type_infoE+8
+ 857 004c 00000000 		.word	_ZTS5servo
+ 858 0050 00000000 		.word	_ZTI5motor
+ 859              		.text
+ 860              	.Letext0:
+ 861              		.file 5 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
+ 862              		.file 6 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
+ 863              		.file 7 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/stdint.h"
+ 864              		.file 8 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
+ 865              		.file 9 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
+ 866              		.file 10 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_tim.h"
+ 867              		.file 11 "/opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stddef.h"
+ 868              		.file 12 "/opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stdarg.h"
+ 869              		.file 13 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/lock.h"
+ 870              		.file 14 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_types.h"
+ 871              		.file 15 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/reent.h"
+ 872              		.file 16 "<built-in>"
+ 873              		.file 17 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/type_traits"
+ 874              		.file 18 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/exception_ptr.h"
+ 875              		.file 19 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/arm-none-eabi/armv7-m/
+ 876              		.file 20 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/debug/debug.h"
+ 877              		.file 21 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/cwchar"
+ 878              		.file 22 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/cstdint"
+ 879              		.file 23 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/clocale"
+ 880              		.file 24 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_pair.h"
+ 881              		.file 25 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/uses_allocator.h"
+ 882              		.file 26 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple"
+ 883              		.file 27 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/cpp_type_traits.h
+ 884              		.file 28 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_iterator_base
+ 885              		.file 29 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/predefined_ops.h"
+ 886              		.file 30 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/ext/new_allocator.h"
+ 887              		.file 31 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/ext/numeric_traits.h"
+ 888              		.file 32 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/wchar.h"
+ 889              		.file 33 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/locale.h"
+ 890              		.file 34 "./inc/motorSettings.h"
+ 891              		.file 35 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/new"
 DEFINED SYMBOLS
                             *ABS*:00000000 servo.cpp
-     /tmp/ccvZYuEq.s:20     .text._ZN5servo9motorTypeEv:00000000 $t
-     /tmp/ccvZYuEq.s:25     .text._ZN5servo9motorTypeEv:00000000 _ZN5servo9motorTypeEv
+     /tmp/ccrXGrEF.s:20     .text._ZN5servo9motorTypeEv:00000000 $t
+     /tmp/ccrXGrEF.s:25     .text._ZN5servo9motorTypeEv:00000000 _ZN5servo9motorTypeEv
 .ARM.exidx.text._ZN5servo9motorTypeEv:00000000 $d
-     /tmp/ccvZYuEq.s:46     .text:00000000 $t
-     /tmp/ccvZYuEq.s:51     .text:00000000 _ZN5servo12setReferenceEf
+     /tmp/ccrXGrEF.s:46     .text:00000000 $t
+     /tmp/ccrXGrEF.s:51     .text:00000000 _ZN5servo12setReferenceEf
                        .ARM.exidx:00000000 $d
-     /tmp/ccvZYuEq.s:85     .text:0000000e _ZN5servo12getReferenceEv
-     /tmp/ccvZYuEq.s:115    .text:00000018 _ZN5servo9motorNameEv
-     /tmp/ccvZYuEq.s:140    .text:0000001e _ZN5servoD2Ev
-     /tmp/ccvZYuEq.s:168    .text:00000030 $d
-     /tmp/ccvZYuEq.s:140    .text:0000001e _ZN5servoD1Ev
-     /tmp/ccvZYuEq.s:176    .text:00000034 $t
-     /tmp/ccvZYuEq.s:181    .text:00000034 _ZN5servoD0Ev
-     /tmp/ccvZYuEq.s:214    .text:00000046 _ZN5servo9motorInitEv
-     /tmp/ccvZYuEq.s:303    .text:000000b2 $d
-     /tmp/ccvZYuEq.s:307    .text:000000b6 $t
-     /tmp/ccvZYuEq.s:491    .text:00000178 $d
-     /tmp/ccvZYuEq.s:496    .text:0000017c $t
-     /tmp/ccvZYuEq.s:501    .text:0000017c _ZN5servoC2EP13motorSettings
-     /tmp/ccvZYuEq.s:534    .text:0000018c $d
-     /tmp/ccvZYuEq.s:501    .text:0000017c _ZN5servoC1EP13motorSettings
-     /tmp/ccvZYuEq.s:541    .text:00000190 $t
-     /tmp/ccvZYuEq.s:546    .text:00000190 _ZN5servo12filterUpdateEf
-     /tmp/ccvZYuEq.s:574    .text:00000198 _ZN5servo6updateEfb
-     /tmp/ccvZYuEq.s:651    .rodata:00000048 _ZTS5servo
-     /tmp/ccvZYuEq.s:656    .rodata:00000050 _ZTI5servo
-     /tmp/ccvZYuEq.s:628    .rodata:00000000 _ZTV5servo
-     /tmp/ccvZYuEq.s:624    .rodata:00000000 $d
+     /tmp/ccrXGrEF.s:85     .text:0000000e _ZN5servo12getReferenceEv
+     /tmp/ccrXGrEF.s:115    .text:00000018 _ZN5servo9motorNameEv
+     /tmp/ccrXGrEF.s:140    .text:0000001e _ZN5servoD2Ev
+     /tmp/ccrXGrEF.s:168    .text:00000030 $d
+     /tmp/ccrXGrEF.s:140    .text:0000001e _ZN5servoD1Ev
+     /tmp/ccrXGrEF.s:176    .text:00000034 $t
+     /tmp/ccrXGrEF.s:181    .text:00000034 _ZN5servoD0Ev
+     /tmp/ccrXGrEF.s:214    .text:00000046 _ZN5servo9motorInitEv
+     /tmp/ccrXGrEF.s:302    .text:000000b2 $d
+     /tmp/ccrXGrEF.s:306    .text:000000b6 $t
+     /tmp/ccrXGrEF.s:549    .text:00000180 $d
+     /tmp/ccrXGrEF.s:554    .text:00000184 $t
+     /tmp/ccrXGrEF.s:559    .text:00000184 _ZN5servoC2EP13motorSettings
+     /tmp/ccrXGrEF.s:592    .text:00000194 $d
+     /tmp/ccrXGrEF.s:559    .text:00000184 _ZN5servoC1EP13motorSettings
+     /tmp/ccrXGrEF.s:602    .text:00000198 $t
+     /tmp/ccrXGrEF.s:607    .text:00000198 _ZN5servo12filterUpdateEf
+     /tmp/ccrXGrEF.s:705    .text:000001f0 _ZN5servo6updateEfbb
+     /tmp/ccrXGrEF.s:761    .text:00000226 $d
+     /tmp/ccrXGrEF.s:765    .text:0000022a $t
+     /tmp/ccrXGrEF.s:850    .rodata:00000040 _ZTS5servo
+     /tmp/ccrXGrEF.s:855    .rodata:00000048 _ZTI5servo
+     /tmp/ccrXGrEF.s:829    .rodata:00000000 _ZTV5servo
+     /tmp/ccrXGrEF.s:825    .rodata:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS
@@ -1311,5 +2754,8 @@ TIM_CtrlPWMOutputs
 TIM_Cmd
 __aeabi_unwind_cpp_pr0
 _ZN5motorC2EP13motorSettings
+__aeabi_fmul
+__aeabi_fadd
+__aeabi_fsub
 _ZTVN10__cxxabiv120__si_class_type_infoE
 _ZTI5motor

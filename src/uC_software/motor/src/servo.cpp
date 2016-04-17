@@ -74,10 +74,14 @@ bool servo::motorInit()
 	TIM_Cmd(m_settings->m_Timer, ENABLE);
 
 	// Setup Controller
-	float b_[] = {0.0029,    0.0087,    0.0087,    0.0029};
-	float a_[] = {1.0000,   -2.3741,    1.9294,   -0.5321};
-	std::copy(b_, b_ + 5, b);
-	std::copy(a_, a_ + 5, a);
+	float b_[] = {0.0675,    0.1349,    0.0675};
+	float a_[] = {1.0000,   -1.1430,    0.4128};
+	float y_[] = {0, 0, 0};
+	float u_[] = {0, 0, 0};
+	std::copy(b_, b_ + 3, b);
+	std::copy(a_, a_ + 3, a);
+	std::copy(y_, y_ + 3, y);
+	std::copy(u_, u_ + 3, u);
 
 	return true;
 }
@@ -94,10 +98,12 @@ const char* servo::motorName(){
 	return m_settings->m_motorName;
 }
 
-std::tuple<float, float, int, int> servo::update(float dt, bool connected){
-	int sp = pos * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) / 180 + m_settings->m_ServoLimitMin;	
-	sp = (int) filterUpdate(sp);
+//std::tuple<float, int, int, int> servo::update(float dt, bool connected){
+float servo::update(float dt, bool connected, bool enable){
+	int spDeg = (int)filterUpdate(pos);
+	int sp = spDeg * (m_settings->m_ServoLimitMax - m_settings->m_ServoLimitMin) / 180 + m_settings->m_ServoLimitMin;	
 
+	__disable_irq();
 	switch(m_settings->m_TimerChannel){
 		case 1:
 			(m_settings->m_Timer)->CCR1 = sp;
@@ -112,26 +118,28 @@ std::tuple<float, float, int, int> servo::update(float dt, bool connected){
 			(m_settings->m_Timer)->CCR4 = sp;
 			break;
 	}
-	return std::make_tuple(0, 0.0, sp, 0);
+	__enable_irq();
+	return (float)spDeg;//std::make_tuple(y0, 0, sp, 0);
 }
 
 float servo::filterUpdate(float sp){
 	int i;
-	for(i = 3; i>0; i++){
-		u[i-1] = u[i]; 
+	for(i = 2; i > 0; i--){
+		u[i] = u[i-1]; 
 	}
 	u[0] = sp; 
 	
-	float Y = b[0]*u[0];
-	for(i = 0; i<4; i++){
-		Y += b[1]*u[1];
-		Y -= a[1]*y[1];
+	float Y = 0;
+	for(i = 0; i<3; i++){
+		Y += b[i]*u[i];
+		if(i < 2)
+			Y -= a[i+1]*y[i];
 	}
-	Y /= a[0];
+	//Y /= a[0];
 
-	for(int j = 3; j>0; j++){
-		u[i-1] = y[i]; 
+	for(i = 2; i > 0; i--){
+		y[i] = y[i-1]; 
 	}
 	y[0] = Y;
-	return y[0];
+	return Y;
 }

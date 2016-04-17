@@ -195,7 +195,6 @@ namespace ros {
             mode_ = MODE_FIRST_FF;
           }
         }
-
         /* while available buffer, read data */
         while( true )
         {

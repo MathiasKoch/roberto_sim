@@ -17,14 +17,14 @@
 
 #define MAX_ANGLE_PIVOT 15
 
-#define SERVO_PWM_LIMIT_MAX                 // MAX as in hardware limit of full range
+/*#define SERVO_PWM_LIMIT_MAX                 // MAX as in hardware limit of full range
 #define SERVO_PWM_LIMIT_MIN                 // MIN as in hardware limit of full range
 
 #define SERVO_FULL_RANGE_DEG                // Degrees of full range (eg 180)
 
 
 #define DEG2PWM (SERVO_PWM_LIMIT_MAX-SERVO_PWM_LIMIT_MIN)/(SERVO_FULL_RANGE_DEG)
-#define PWM2DEG SERVO_FULL_RANGE_DEG/(SERVO_PWM_LIMIT_MAX-SERVO_PWM_LIMIT_MIN)
+#define PWM2DEG SERVO_FULL_RANGE_DEG/(SERVO_PWM_LIMIT_MAX-SERVO_PWM_LIMIT_MIN)*/
 
 
 class motorSettings;
@@ -48,8 +48,8 @@ public:
     virtual const char* motorName() = 0;                     // the name of the motor
     virtual void setReference(float setPoint) = 0;
     virtual float getReference() = 0;
-    virtual std::tuple<float, float, int, int> update(float dt, bool connected) = 0;
-
+    //virtual std::tuple<float, int, int, int> update(float dt, bool connected) = 0;
+    virtual float update(float dt, bool connected, bool enable) = 0;
 
 protected:
     motorSettings *m_settings;                              // the settings object pointer

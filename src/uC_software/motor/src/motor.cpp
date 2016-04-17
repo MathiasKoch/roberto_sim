@@ -8,8 +8,8 @@
 motor *motor::createMotor(motorSettings *settings){
     switch (settings->m_motorType) {
 	    case MOTOR_TYPE_SERVO:
-	    	settings->m_ServoLimitMax = 6800;
-  			settings->m_ServoLimitMin = 2000;
+	    	/*settings->m_ServoLimitMax = 7000;
+  			settings->m_ServoLimitMin = 2000;*/
 	        return new servo(settings);
 			
 	    case MOTOR_TYPE_DC_MOTOR:

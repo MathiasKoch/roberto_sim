@@ -13,7 +13,7 @@ public:
     //  These are the local variables
 
     void setDCPins(int m_DCInAPin_, GPIO_TypeDef* m_DCInAPort_, int m_DCEnAPin_, GPIO_TypeDef* m_DCEnAPort_, int m_DCInBPin_, GPIO_TypeDef* m_DCInBPort_, int m_DCEnBPin_, GPIO_TypeDef* m_DCEnBPort_, int m_DCPWMPin_, GPIO_TypeDef* m_DCPWMPort_);
-    void setRegulator(float KP_, float KI_, float KD_, float integralSaturation_);
+    void setRegulator(float FF_, float KP_, float KI_, float KD_, float integralSaturation_);
 
     int m_motorType;                                          // type code of motor in use
     const char *m_motorName;
@@ -45,6 +45,7 @@ public:
     uint16_t encoderAddr;
     int encoder_timeout;
     
+    float FF;
     float KP;
     float KI;
     float KD;

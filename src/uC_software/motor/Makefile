@@ -34,6 +34,9 @@ OPENOCD_INTERFACE 	?= $(OPENOCD_PATH)/scripts/interface/stlink-v2.cfg
 
 OPENOCD_TARGET    ?= $(OPENOCD_PATH)/scripts/target/stm32f1x.cfg
 
+
+DEBUGGING 			= true
+
 # MCU name and submodel
 MCU = cortex-m3
 #SUBMDL = LPC2387
@@ -94,6 +97,7 @@ CPPSRCARM =
 # it will preserve the spelling of the filenames, and gcc itself does
 # care about how the name is spelled on its command-line.
 ASRC = ./src/f1/startup_stm32f103xb.S
+#ASRC += ./src/f1/hardfault.S
 
 # List Assembler source files here which must be assembled in ARM-Mode..
 ASRCARM = 
@@ -135,6 +139,9 @@ CDEFS =  -DHSE_VALUE="((uint32_t)16000000)"
 CDEFS += -DSTM32F10X_MD 
 CDEFS += -DUSE_STDPERIPH_DRIVER 
 
+
+
+
 # Place -I options here
 CINCS =
 
@@ -159,6 +166,8 @@ CFLAGS += -Wpointer-arith -Wswitch
 CFLAGS += -Wredundant-decls -Wreturn-type -Wshadow -Wunused
 CFLAGS += -Wa,-adhlns=$(subst $(suffix $<),.lst,$<) 
 CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
+
+
 
 # flags only for C
 CONLYFLAGS  = -Wimplicit 
@@ -201,7 +210,10 @@ LDFLAGS += $(NEWLIBLPC)
 LDFLAGS += $(MATH_LIB)
 LDFLAGS += -lgcc 
 LDFLAGS += $(CPLUSPLUS_LIB)
-LDFLAGS += --specs=nano.specs --specs=nosys.specs
+#LDFLAGS += 
+LDFLAGS += --specs=nano.specs --specs=rdimon.specs -lc -lrdimon
+#LDFLAGS += --specs=nano.specs --specs=nosys.specs
+
 
 
 LDFLAGS +=-TSTM32F103XB_FLASH.ld
@@ -408,7 +420,8 @@ flash: begin gccversion sizebefore build sizeafter finished end
 	           -c "flash write_image erase motors.hex" -c "verify_image motors.hex" -c "reset run" -c shutdown
 
 openocd:
-	$(OPENOCD) -d2 -f $(OPENOCD_INTERFACE) -f $(OPENOCD_TARGET) -c init -c targets
+	$(OPENOCD) -d2 -f $(OPENOCD_INTERFACE) -f $(OPENOCD_TARGET)
+	#$(OPENOCD) -d2 -f $(OPENOCD_INTERFACE) -f $(OPENOCD_TARGET) -c "gdb_port 3333"
 
 
 # Target: clean project.

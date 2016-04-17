@@ -48,7 +48,7 @@ volatile uint32_t USART_CNTOUT;
 
 class ArduinoHardware {
   public:
-    ArduinoHardware(USART_TypeDef* io , long baud= 115200){
+    ArduinoHardware(USART_TypeDef* io , long baud=115200){
       iostream = io;
       baud_ = baud;
       USART_CNTIN = 0;
@@ -97,7 +97,7 @@ class ArduinoHardware {
 
       /* Enable USART1 */
       USART_Cmd(iostream, ENABLE);  
-      /* Baud rate 115200, 8-bit data, One stop bit
+      /* Baud rate 230400, 8-bit data, One stop bit
       * No parity, Do both Rx and Tx, No HW flow control
       */
       usart1_init_struct.USART_BaudRate = baud_;   
@@ -115,11 +115,15 @@ class ArduinoHardware {
     }
 
     int read(){
-      if(USART_CNTIN == USART_CNTOUT)
+      __disable_irq();
+      if(USART_CNTIN == USART_CNTOUT){
+        __enable_irq();
         return -1;
+      }
       
       int returnVal = USART_FIFO[USART_CNTOUT];
       USART_CNTOUT = (USART_CNTOUT + 1) % BUFFER_SIZE;
+      __enable_irq();
       return returnVal;
     }
 
@@ -145,8 +149,7 @@ class ArduinoHardware {
 extern "C"{
   void USART1_IRQHandler(void){
 
-    if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET 
-      && USART_CNTIN != (( USART_CNTOUT - 1 + BUFFER_SIZE) % BUFFER_SIZE)){
+    if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET && USART_CNTIN != (( USART_CNTOUT - 1 + BUFFER_SIZE) % BUFFER_SIZE)){
 
       USART_FIFO[USART_CNTIN] = USART_ReceiveData(USART1);
       USART_CNTIN = (USART_CNTIN + 1) % BUFFER_SIZE;

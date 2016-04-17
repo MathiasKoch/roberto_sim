@@ -52,7 +52,8 @@ void motorSettings::setDCPins(int m_DCInAPin_, GPIO_TypeDef* m_DCInAPort_, int m
     m_DCPWMPort = m_DCPWMPort_;
 }
 
-void motorSettings::setRegulator(float KP_, float KI_, float KD_, float integralSaturation_){
+void motorSettings::setRegulator(float FF_, float KP_, float KI_, float KD_, float integralSaturation_){
+    FF = FF_;
     KP = KP_;
     KI = KI_;
     KD = KD_;
