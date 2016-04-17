@@ -1400,15 +1400,15 @@
  317              		.file 5 "lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 system_stm32f10x.c
-     /tmp/cchWkExa.s:19     .text:00000000 $t
-     /tmp/cchWkExa.s:24     .text:00000000 SystemInit
-     /tmp/cchWkExa.s:182    .text:000000e4 $d
-     /tmp/cchWkExa.s:192    .text:000000f4 $t
-     /tmp/cchWkExa.s:197    .text:000000f4 SystemCoreClockUpdate
-     /tmp/cchWkExa.s:276    .text:00000144 $d
-     /tmp/cchWkExa.s:295    .data:00000004 AHBPrescTable
-     /tmp/cchWkExa.s:291    .data:00000000 SystemCoreClock
-     /tmp/cchWkExa.s:287    .data:00000000 $d
+     /tmp/ccW99DD9.s:19     .text:00000000 $t
+     /tmp/ccW99DD9.s:24     .text:00000000 SystemInit
+     /tmp/ccW99DD9.s:182    .text:000000e4 $d
+     /tmp/ccW99DD9.s:192    .text:000000f4 $t
+     /tmp/ccW99DD9.s:197    .text:000000f4 SystemCoreClockUpdate
+     /tmp/ccW99DD9.s:276    .text:00000144 $d
+     /tmp/ccW99DD9.s:295    .data:00000004 AHBPrescTable
+     /tmp/ccW99DD9.s:291    .data:00000000 SystemCoreClock
+     /tmp/ccW99DD9.s:287    .data:00000000 $d
                      .debug_frame:00000010 $d
 
 NO UNDEFINED SYMBOLS

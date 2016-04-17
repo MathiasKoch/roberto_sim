@@ -454,21 +454,21 @@
  243              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/misc.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 misc.c
-     /tmp/cc4szCPK.s:19     .text:00000000 $t
-     /tmp/cc4szCPK.s:24     .text:00000000 NVIC_PriorityGroupConfig
-     /tmp/cc4szCPK.s:43     .text:00000010 $d
-     /tmp/cc4szCPK.s:47     .text:00000014 $t
-     /tmp/cc4szCPK.s:52     .text:00000014 NVIC_Init
-     /tmp/cc4szCPK.s:136    .text:00000078 $d
-     /tmp/cc4szCPK.s:141    .text:00000080 $t
-     /tmp/cc4szCPK.s:146    .text:00000080 NVIC_SetVectorTable
-     /tmp/cc4szCPK.s:166    .text:00000090 $d
-     /tmp/cc4szCPK.s:170    .text:00000094 $t
-     /tmp/cc4szCPK.s:175    .text:00000094 NVIC_SystemLPConfig
-     /tmp/cc4szCPK.s:203    .text:000000a8 $d
-     /tmp/cc4szCPK.s:207    .text:000000ac $t
-     /tmp/cc4szCPK.s:212    .text:000000ac SysTick_CLKSourceConfig
-     /tmp/cc4szCPK.s:234    .text:000000c0 $d
+     /tmp/ccdnmk1G.s:19     .text:00000000 $t
+     /tmp/ccdnmk1G.s:24     .text:00000000 NVIC_PriorityGroupConfig
+     /tmp/ccdnmk1G.s:43     .text:00000010 $d
+     /tmp/ccdnmk1G.s:47     .text:00000014 $t
+     /tmp/ccdnmk1G.s:52     .text:00000014 NVIC_Init
+     /tmp/ccdnmk1G.s:136    .text:00000078 $d
+     /tmp/ccdnmk1G.s:141    .text:00000080 $t
+     /tmp/ccdnmk1G.s:146    .text:00000080 NVIC_SetVectorTable
+     /tmp/ccdnmk1G.s:166    .text:00000090 $d
+     /tmp/ccdnmk1G.s:170    .text:00000094 $t
+     /tmp/ccdnmk1G.s:175    .text:00000094 NVIC_SystemLPConfig
+     /tmp/ccdnmk1G.s:203    .text:000000a8 $d
+     /tmp/ccdnmk1G.s:207    .text:000000ac $t
+     /tmp/ccdnmk1G.s:212    .text:000000ac SysTick_CLKSourceConfig
+     /tmp/ccdnmk1G.s:234    .text:000000c0 $d
                      .debug_frame:00000010 $d
 
 NO UNDEFINED SYMBOLS

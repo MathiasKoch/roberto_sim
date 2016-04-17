@@ -252,15 +252,15 @@
  111              		.file 5 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f10x_dbgmcu.c
-     /tmp/cckEL89E.s:19     .text:00000000 $t
-     /tmp/cckEL89E.s:24     .text:00000000 DBGMCU_GetREVID
-     /tmp/cckEL89E.s:41     .text:00000008 $d
-     /tmp/cckEL89E.s:45     .text:0000000c $t
-     /tmp/cckEL89E.s:50     .text:0000000c DBGMCU_GetDEVID
-     /tmp/cckEL89E.s:66     .text:00000018 $d
-     /tmp/cckEL89E.s:70     .text:0000001c $t
-     /tmp/cckEL89E.s:75     .text:0000001c DBGMCU_Config
-     /tmp/cckEL89E.s:103    .text:00000030 $d
+     /tmp/cc1B9W1F.s:19     .text:00000000 $t
+     /tmp/cc1B9W1F.s:24     .text:00000000 DBGMCU_GetREVID
+     /tmp/cc1B9W1F.s:41     .text:00000008 $d
+     /tmp/cc1B9W1F.s:45     .text:0000000c $t
+     /tmp/cc1B9W1F.s:50     .text:0000000c DBGMCU_GetDEVID
+     /tmp/cc1B9W1F.s:66     .text:00000018 $d
+     /tmp/cc1B9W1F.s:70     .text:0000001c $t
+     /tmp/cc1B9W1F.s:75     .text:0000001c DBGMCU_Config
+     /tmp/cc1B9W1F.s:103    .text:00000030 $d
                      .debug_frame:00000010 $d
 
 NO UNDEFINED SYMBOLS

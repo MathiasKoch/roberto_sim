@@ -74,8 +74,8 @@ bool servo::motorInit()
 	TIM_Cmd(m_settings->m_Timer, ENABLE);
 
 	// Setup Controller
-	float b_[] = {0.0675,    0.1349,    0.0675};
-	float a_[] = {1.0000,   -1.1430,    0.4128};
+	float b_[] = {0.0201,    0.0402,    0.0201};
+	float a_[] = {1.0000,   -1.561,    0.6414};
 	float y_[] = {0, 0, 0};
 	float u_[] = {0, 0, 0};
 	std::copy(b_, b_ + 3, b);

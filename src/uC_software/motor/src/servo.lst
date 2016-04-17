@@ -145,8 +145,8 @@
   74:src/servo.cpp **** 	TIM_Cmd(m_settings->m_Timer, ENABLE);
   75:src/servo.cpp **** 
   76:src/servo.cpp **** 	// Setup Controller
-  77:src/servo.cpp **** 	float b_[] = {0.0675,    0.1349,    0.0675};
-  78:src/servo.cpp **** 	float a_[] = {1.0000,   -1.1430,    0.4128};
+  77:src/servo.cpp **** 	float b_[] = {0.0201,    0.0402,    0.0201};
+  78:src/servo.cpp **** 	float a_[] = {1.0000,   -1.561,    0.6414};
   79:src/servo.cpp **** 	float y_[] = {0, 0, 0};
   80:src/servo.cpp **** 	float u_[] = {0, 0, 0};
   81:src/servo.cpp **** 	std::copy(b_, b_ + 3, b);
@@ -521,7 +521,7 @@
   74:src/servo.cpp **** 
  371              		.loc 2 74 0
  372 0118 6368     		ldr	r3, [r4, #4]
-  77:src/servo.cpp **** 	float a_[] = {1.0000,   -1.1430,    0.4128};
+  77:src/servo.cpp **** 	float a_[] = {1.0000,   -1.561,    0.6414};
  373              		.loc 2 77 0
  374 011a 194E     		ldr	r6, .L19
   74:src/servo.cpp **** 
@@ -530,7 +530,7 @@
  377 011e 0121     		movs	r1, #1
  378 0120 FFF7FEFF 		bl	TIM_Cmd
  379              	.LVL31:
-  77:src/servo.cpp **** 	float a_[] = {1.0000,   -1.1430,    0.4128};
+  77:src/servo.cpp **** 	float a_[] = {1.0000,   -1.561,    0.6414};
  380              		.loc 2 77 0
  381 0124 96E80700 		ldmia	r6, {r0, r1, r2}
  382 0128 04AD     		add	r5, sp, #16
@@ -538,7 +538,7 @@
  383              		.loc 2 78 0
  384 012a 07AB     		add	r3, sp, #28
  385 012c 0C36     		adds	r6, r6, #12
-  77:src/servo.cpp **** 	float a_[] = {1.0000,   -1.1430,    0.4128};
+  77:src/servo.cpp **** 	float a_[] = {1.0000,   -1.561,    0.6414};
  386              		.loc 2 77 0
  387 012e 85E80700 		stmia	r5, {r0, r1, r2}
   78:src/servo.cpp **** 	float y_[] = {0, 0, 0};
@@ -2651,13 +2651,13 @@
  838 0020 00000000 		.word	_ZN5servo12getReferenceEv
  839 0024 00000000 		.word	_ZN5servo6updateEfbb
  840              	.LC0:
- 841 0028 713D8A3D 		.word	1032469873
- 842 002c 3A230A3E 		.word	1040851770
- 843 0030 713D8A3D 		.word	1032469873
+ 841 0028 C1A8A43C 		.word	1017424065
+ 842 002c C1A8243D 		.word	1025812673
+ 843 0030 C1A8A43C 		.word	1017424065
  844              	.LC1:
  845 0034 0000803F 		.word	1065353216
- 846 0038 D34D92BF 		.word	-1080930861
- 847 003c 865AD33E 		.word	1054038662
+ 846 0038 D9CEC7BF 		.word	-1077424423
+ 847 003c CA32243F 		.word	1059336906
  850              	_ZTS5servo:
  851 0040 35736572 		.ascii	"5servo\000"
  851      766F00
@@ -2701,36 +2701,36 @@
  891              		.file 35 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/new"
 DEFINED SYMBOLS
                             *ABS*:00000000 servo.cpp
-     /tmp/ccrXGrEF.s:20     .text._ZN5servo9motorTypeEv:00000000 $t
-     /tmp/ccrXGrEF.s:25     .text._ZN5servo9motorTypeEv:00000000 _ZN5servo9motorTypeEv
+     /tmp/ccU8IkMq.s:20     .text._ZN5servo9motorTypeEv:00000000 $t
+     /tmp/ccU8IkMq.s:25     .text._ZN5servo9motorTypeEv:00000000 _ZN5servo9motorTypeEv
 .ARM.exidx.text._ZN5servo9motorTypeEv:00000000 $d
-     /tmp/ccrXGrEF.s:46     .text:00000000 $t
-     /tmp/ccrXGrEF.s:51     .text:00000000 _ZN5servo12setReferenceEf
+     /tmp/ccU8IkMq.s:46     .text:00000000 $t
+     /tmp/ccU8IkMq.s:51     .text:00000000 _ZN5servo12setReferenceEf
                        .ARM.exidx:00000000 $d
-     /tmp/ccrXGrEF.s:85     .text:0000000e _ZN5servo12getReferenceEv
-     /tmp/ccrXGrEF.s:115    .text:00000018 _ZN5servo9motorNameEv
-     /tmp/ccrXGrEF.s:140    .text:0000001e _ZN5servoD2Ev
-     /tmp/ccrXGrEF.s:168    .text:00000030 $d
-     /tmp/ccrXGrEF.s:140    .text:0000001e _ZN5servoD1Ev
-     /tmp/ccrXGrEF.s:176    .text:00000034 $t
-     /tmp/ccrXGrEF.s:181    .text:00000034 _ZN5servoD0Ev
-     /tmp/ccrXGrEF.s:214    .text:00000046 _ZN5servo9motorInitEv
-     /tmp/ccrXGrEF.s:302    .text:000000b2 $d
-     /tmp/ccrXGrEF.s:306    .text:000000b6 $t
-     /tmp/ccrXGrEF.s:549    .text:00000180 $d
-     /tmp/ccrXGrEF.s:554    .text:00000184 $t
-     /tmp/ccrXGrEF.s:559    .text:00000184 _ZN5servoC2EP13motorSettings
-     /tmp/ccrXGrEF.s:592    .text:00000194 $d
-     /tmp/ccrXGrEF.s:559    .text:00000184 _ZN5servoC1EP13motorSettings
-     /tmp/ccrXGrEF.s:602    .text:00000198 $t
-     /tmp/ccrXGrEF.s:607    .text:00000198 _ZN5servo12filterUpdateEf
-     /tmp/ccrXGrEF.s:705    .text:000001f0 _ZN5servo6updateEfbb
-     /tmp/ccrXGrEF.s:761    .text:00000226 $d
-     /tmp/ccrXGrEF.s:765    .text:0000022a $t
-     /tmp/ccrXGrEF.s:850    .rodata:00000040 _ZTS5servo
-     /tmp/ccrXGrEF.s:855    .rodata:00000048 _ZTI5servo
-     /tmp/ccrXGrEF.s:829    .rodata:00000000 _ZTV5servo
-     /tmp/ccrXGrEF.s:825    .rodata:00000000 $d
+     /tmp/ccU8IkMq.s:85     .text:0000000e _ZN5servo12getReferenceEv
+     /tmp/ccU8IkMq.s:115    .text:00000018 _ZN5servo9motorNameEv
+     /tmp/ccU8IkMq.s:140    .text:0000001e _ZN5servoD2Ev
+     /tmp/ccU8IkMq.s:168    .text:00000030 $d
+     /tmp/ccU8IkMq.s:140    .text:0000001e _ZN5servoD1Ev
+     /tmp/ccU8IkMq.s:176    .text:00000034 $t
+     /tmp/ccU8IkMq.s:181    .text:00000034 _ZN5servoD0Ev
+     /tmp/ccU8IkMq.s:214    .text:00000046 _ZN5servo9motorInitEv
+     /tmp/ccU8IkMq.s:302    .text:000000b2 $d
+     /tmp/ccU8IkMq.s:306    .text:000000b6 $t
+     /tmp/ccU8IkMq.s:549    .text:00000180 $d
+     /tmp/ccU8IkMq.s:554    .text:00000184 $t
+     /tmp/ccU8IkMq.s:559    .text:00000184 _ZN5servoC2EP13motorSettings
+     /tmp/ccU8IkMq.s:592    .text:00000194 $d
+     /tmp/ccU8IkMq.s:559    .text:00000184 _ZN5servoC1EP13motorSettings
+     /tmp/ccU8IkMq.s:602    .text:00000198 $t
+     /tmp/ccU8IkMq.s:607    .text:00000198 _ZN5servo12filterUpdateEf
+     /tmp/ccU8IkMq.s:705    .text:000001f0 _ZN5servo6updateEfbb
+     /tmp/ccU8IkMq.s:761    .text:00000226 $d
+     /tmp/ccU8IkMq.s:765    .text:0000022a $t
+     /tmp/ccU8IkMq.s:850    .rodata:00000040 _ZTS5servo
+     /tmp/ccU8IkMq.s:855    .rodata:00000048 _ZTI5servo
+     /tmp/ccU8IkMq.s:829    .rodata:00000000 _ZTV5servo
+     /tmp/ccU8IkMq.s:825    .rodata:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

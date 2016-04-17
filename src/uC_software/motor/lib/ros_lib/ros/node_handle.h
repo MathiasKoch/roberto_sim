@@ -93,8 +93,8 @@ namespace ros {
   template<class Hardware,
            int MAX_SUBSCRIBERS=25,
            int MAX_PUBLISHERS=25,
-           int INPUT_SIZE=512,
-           int OUTPUT_SIZE=512>
+           int INPUT_SIZE=1024,
+           int OUTPUT_SIZE=1024>
   class NodeHandle_ : public NodeHandleBase_
   {
     protected:
@@ -431,7 +431,7 @@ namespace ros {
         message_out[1] = PROTOCOL_VER;
         message_out[2] = (uint8_t) ((uint16_t)l&255);
         message_out[3] = (uint8_t) ((uint16_t)l>>8);
-	message_out[4] = 255 - ((message_out[2] + message_out[3])%256);
+        message_out[4] = 255 - ((message_out[2] + message_out[3])%256);
         message_out[5] = (uint8_t) ((int16_t)id&255);
         message_out[6] = (uint8_t) ((int16_t)id>>8);
 

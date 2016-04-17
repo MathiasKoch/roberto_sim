@@ -319,24 +319,24 @@
  185              		.file 5 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f10x_crc.c
-     /tmp/ccmc98YO.s:19     .text:00000000 $t
-     /tmp/ccmc98YO.s:24     .text:00000000 CRC_ResetDR
-     /tmp/ccmc98YO.s:40     .text:00000008 $d
-     /tmp/ccmc98YO.s:44     .text:0000000c $t
-     /tmp/ccmc98YO.s:49     .text:0000000c CRC_CalcCRC
-     /tmp/ccmc98YO.s:68     .text:00000014 $d
-     /tmp/ccmc98YO.s:72     .text:00000018 $t
-     /tmp/ccmc98YO.s:77     .text:00000018 CRC_CalcBlockCRC
-     /tmp/ccmc98YO.s:105    .text:00000030 $d
-     /tmp/ccmc98YO.s:109    .text:00000034 $t
-     /tmp/ccmc98YO.s:114    .text:00000034 CRC_GetCRC
-     /tmp/ccmc98YO.s:129    .text:0000003c $d
-     /tmp/ccmc98YO.s:133    .text:00000040 $t
-     /tmp/ccmc98YO.s:138    .text:00000040 CRC_SetIDRegister
-     /tmp/ccmc98YO.s:153    .text:00000048 $d
-     /tmp/ccmc98YO.s:157    .text:0000004c $t
-     /tmp/ccmc98YO.s:162    .text:0000004c CRC_GetIDRegister
-     /tmp/ccmc98YO.s:177    .text:00000054 $d
+     /tmp/cc9agESR.s:19     .text:00000000 $t
+     /tmp/cc9agESR.s:24     .text:00000000 CRC_ResetDR
+     /tmp/cc9agESR.s:40     .text:00000008 $d
+     /tmp/cc9agESR.s:44     .text:0000000c $t
+     /tmp/cc9agESR.s:49     .text:0000000c CRC_CalcCRC
+     /tmp/cc9agESR.s:68     .text:00000014 $d
+     /tmp/cc9agESR.s:72     .text:00000018 $t
+     /tmp/cc9agESR.s:77     .text:00000018 CRC_CalcBlockCRC
+     /tmp/cc9agESR.s:105    .text:00000030 $d
+     /tmp/cc9agESR.s:109    .text:00000034 $t
+     /tmp/cc9agESR.s:114    .text:00000034 CRC_GetCRC
+     /tmp/cc9agESR.s:129    .text:0000003c $d
+     /tmp/cc9agESR.s:133    .text:00000040 $t
+     /tmp/cc9agESR.s:138    .text:00000040 CRC_SetIDRegister
+     /tmp/cc9agESR.s:153    .text:00000048 $d
+     /tmp/cc9agESR.s:157    .text:0000004c $t
+     /tmp/cc9agESR.s:162    .text:0000004c CRC_GetIDRegister
+     /tmp/cc9agESR.s:177    .text:00000054 $d
                      .debug_frame:00000010 $d
 
 NO UNDEFINED SYMBOLS

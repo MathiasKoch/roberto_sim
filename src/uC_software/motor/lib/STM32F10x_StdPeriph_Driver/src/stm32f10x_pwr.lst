@@ -1838,31 +1838,31 @@
  344              		.file 6 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f10x_pwr.c
-     /tmp/ccp2tR0F.s:19     .text:00000000 $t
-     /tmp/ccp2tR0F.s:24     .text:00000000 PWR_DeInit
-     /tmp/ccp2tR0F.s:60     .text:0000001a PWR_BackupAccessCmd
-     /tmp/ccp2tR0F.s:75     .text:00000020 $d
-     /tmp/ccp2tR0F.s:79     .text:00000024 $t
-     /tmp/ccp2tR0F.s:84     .text:00000024 PWR_PVDCmd
-     /tmp/ccp2tR0F.s:99     .text:0000002c $d
-     /tmp/ccp2tR0F.s:103    .text:00000030 $t
-     /tmp/ccp2tR0F.s:108    .text:00000030 PWR_PVDLevelConfig
-     /tmp/ccp2tR0F.s:132    .text:00000040 $d
-     /tmp/ccp2tR0F.s:136    .text:00000044 $t
-     /tmp/ccp2tR0F.s:141    .text:00000044 PWR_WakeUpPinCmd
-     /tmp/ccp2tR0F.s:156    .text:0000004c $d
-     /tmp/ccp2tR0F.s:160    .text:00000050 $t
-     /tmp/ccp2tR0F.s:165    .text:00000050 PWR_EnterSTOPMode
-     /tmp/ccp2tR0F.s:230    .text:0000007c $d
-     /tmp/ccp2tR0F.s:235    .text:00000084 $t
-     /tmp/ccp2tR0F.s:240    .text:00000084 PWR_EnterSTANDBYMode
-     /tmp/ccp2tR0F.s:274    .text:000000a4 $d
-     /tmp/ccp2tR0F.s:281    .text:000000ac $t
-     /tmp/ccp2tR0F.s:286    .text:000000ac PWR_GetFlagStatus
-     /tmp/ccp2tR0F.s:309    .text:000000bc $d
-     /tmp/ccp2tR0F.s:313    .text:000000c0 $t
-     /tmp/ccp2tR0F.s:318    .text:000000c0 PWR_ClearFlag
-     /tmp/ccp2tR0F.s:336    .text:000000cc $d
+     /tmp/ccwoJ3cF.s:19     .text:00000000 $t
+     /tmp/ccwoJ3cF.s:24     .text:00000000 PWR_DeInit
+     /tmp/ccwoJ3cF.s:60     .text:0000001a PWR_BackupAccessCmd
+     /tmp/ccwoJ3cF.s:75     .text:00000020 $d
+     /tmp/ccwoJ3cF.s:79     .text:00000024 $t
+     /tmp/ccwoJ3cF.s:84     .text:00000024 PWR_PVDCmd
+     /tmp/ccwoJ3cF.s:99     .text:0000002c $d
+     /tmp/ccwoJ3cF.s:103    .text:00000030 $t
+     /tmp/ccwoJ3cF.s:108    .text:00000030 PWR_PVDLevelConfig
+     /tmp/ccwoJ3cF.s:132    .text:00000040 $d
+     /tmp/ccwoJ3cF.s:136    .text:00000044 $t
+     /tmp/ccwoJ3cF.s:141    .text:00000044 PWR_WakeUpPinCmd
+     /tmp/ccwoJ3cF.s:156    .text:0000004c $d
+     /tmp/ccwoJ3cF.s:160    .text:00000050 $t
+     /tmp/ccwoJ3cF.s:165    .text:00000050 PWR_EnterSTOPMode
+     /tmp/ccwoJ3cF.s:230    .text:0000007c $d
+     /tmp/ccwoJ3cF.s:235    .text:00000084 $t
+     /tmp/ccwoJ3cF.s:240    .text:00000084 PWR_EnterSTANDBYMode
+     /tmp/ccwoJ3cF.s:274    .text:000000a4 $d
+     /tmp/ccwoJ3cF.s:281    .text:000000ac $t
+     /tmp/ccwoJ3cF.s:286    .text:000000ac PWR_GetFlagStatus
+     /tmp/ccwoJ3cF.s:309    .text:000000bc $d
+     /tmp/ccwoJ3cF.s:313    .text:000000c0 $t
+     /tmp/ccwoJ3cF.s:318    .text:000000c0 PWR_ClearFlag
+     /tmp/ccwoJ3cF.s:336    .text:000000cc $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

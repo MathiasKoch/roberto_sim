@@ -76,37 +76,38 @@ void motor_cb( const roberto_msgs::MotorState& cmd_msg){
   }
 
   if(intMode == cmd_msg.DRIVE_MODE_PIVOT){
-    float speedMult = 1;
+    float speedMult[2] = {1,1};
     float angle[2] = {0, 0};
-    /*if (cmd_msg.heading_angle != 0){
-      float R = (1+cmd_msg.heading_angle*cmd_msg.heading_angle)/(2*cmd_msg.heading_angle);
+    if (cmd_msg.heading_angle != 0){
+      float R = 0.05/sin(cmd_msg.heading_angle*M_PI/360);
+      speedMult[0] = (2*R)/(2*R - (L/2 + d));
+      speedMult[1] = (2*R)/(2*R + (L/2 + d));
       //angle[0] = atan(L/(B+R));   // B=L as robot is quadratic
-      angle[0] = cmd_msg.heading_angle - atan(L/(L+R));
+      angle[0] = cmd_msg.heading_angle + atan(L/(L+R));
       angle[1] = cmd_msg.heading_angle + atan(L/(L-R));
     }else{
       angle[0] = 0;
       angle[1] = 0;
     }
 
+    angle[0] = angle[0] > MAX_ANGLE_PIVOT? MAX_ANGLE_PIVOT : ( angle[0] < -MAX_ANGLE_PIVOT? -MAX_ANGLE_PIVOT : angle[0]);
+    angle[1] = angle[1] > MAX_ANGLE_PIVOT? MAX_ANGLE_PIVOT : ( angle[1] < -MAX_ANGLE_PIVOT? -MAX_ANGLE_PIVOT : angle[1]);
 
     if(cmd_msg.heading_angle > 0){
       servo_left->setReference(angle[0]+135);
       servo_right->setReference(-angle[1]+135);
-
     }else{
       servo_left->setReference(angle[1]+135);
       servo_right->setReference(-angle[0]+135);
-    }*/
-    motorCmd[0] = cmd_msg.speed*speedMult;
-    motorCmd[1] = cmd_msg.speed*speedMult;
-    motorCmd[2] = cmd_msg.speed*speedMult;
-    motorCmd[3] = cmd_msg.speed*speedMult;
-    angle[0] = cmd_msg.heading_angle;
+    }
+    motorCmd[0] = cmd_msg.speed*speedMult[0];
+    motorCmd[1] = cmd_msg.speed*speedMult[1];
+    motorCmd[2] = cmd_msg.speed*speedMult[1];
+    motorCmd[3] = cmd_msg.speed*speedMult[0];
+    /*angle[0] = cmd_msg.heading_angle;
     angle[1] = cmd_msg.heading_angle;
-    angle[0] = angle[0] > MAX_ANGLE_PIVOT? MAX_ANGLE_PIVOT : ( angle[0] < -MAX_ANGLE_PIVOT? -MAX_ANGLE_PIVOT : angle[0]);
-    angle[1] = angle[1] > MAX_ANGLE_PIVOT? MAX_ANGLE_PIVOT : ( angle[1] < -MAX_ANGLE_PIVOT? -MAX_ANGLE_PIVOT : angle[1]);
     servo_left->setReference(135+angle[0]);
-    servo_right->setReference(135-angle[1]);
+    servo_right->setReference(135-angle[1]);*/
 
   }else if(intMode == cmd_msg.DRIVE_MODE_SPIN){
     float h = 90;
@@ -166,8 +167,8 @@ int main(){
   debug_msg.data = (float *)malloc(sizeof(float)*6);
   debug_msg.data_length = 6;
 
-  odom_msg.data = (float *)malloc(sizeof(float)*4);
-  odom_msg.data_length = 4;
+  odom_msg.data = (float *)malloc(sizeof(float)*3);
+  odom_msg.data_length = 3;
 
   nh.initNode();
 
@@ -175,7 +176,7 @@ int main(){
   nh.subscribe(motor_sub);
   nh.subscribe(led_sub);
   nh.advertise(odom_pub);
-  nh.advertise(debug_pub);
+  //nh.advertise(debug_pub);
   //odom_broadcaster.init(nh);
 
   /*while(!nh.connected()){
@@ -336,6 +337,8 @@ int main(){
     cnt++;
   }
 
+  led_set(255);
+
   cnt = 0;
 
 
@@ -414,7 +417,7 @@ int main(){
       x_dot += cos(alpha[i]+angles[i])*speeds[i];
       y_dot += sin(alpha[i]+angles[i])*speeds[i];
       float delta = atan( (l*cos(alpha[i]+d*cos(alpha[i] + angles[i]))) / (l*sin(alpha[i] + d*sin(alpha[i] + angles[i]))) );
-      odom_msg.data[i] = delta*180/M_PI;
+      //odom_msg.data[i] = motorCmd[i];
       theta_dot += cos(angles[i] - delta)*speeds[i];
     }
     x_dot /= 4;
@@ -422,9 +425,9 @@ int main(){
     theta_dot /= 4;
 
 
-    /*odom_msg.data[0] = x_dot;
+    odom_msg.data[0] = x_dot;
     odom_msg.data[1] = y_dot;
-    odom_msg.data[2] = theta_dot;*/
+    odom_msg.data[2] = theta_dot;
 
 
     odom_pub.publish(&odom_msg);

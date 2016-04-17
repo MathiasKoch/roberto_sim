@@ -39,7 +39,7 @@
 #include "stm32_time.h"
 #include "led.h"
 
-#define BUFFER_SIZE 512
+#define BUFFER_SIZE 1024
 
 
 volatile uint16_t USART_FIFO[BUFFER_SIZE];
@@ -48,7 +48,7 @@ volatile uint32_t USART_CNTOUT;
 
 class ArduinoHardware {
   public:
-    ArduinoHardware(USART_TypeDef* io , long baud=115200){
+    ArduinoHardware(USART_TypeDef* io , long baud=230400){
       iostream = io;
       baud_ = baud;
       USART_CNTIN = 0;
@@ -58,7 +58,7 @@ class ArduinoHardware {
     {
       /* Leonardo support */
       iostream = USART1;
-      baud_ = 115200;
+      baud_ = 230400;
       USART_CNTIN = 0;
       USART_CNTOUT = 0;
     }
