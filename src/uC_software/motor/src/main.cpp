@@ -414,11 +414,32 @@ int main(){
     float theta_dot = 0;
     for(i = 0; i < 4; i++){
       angles[i] = angles[i]*M_PI/180;
-      x_dot += cos(alpha[i]+angles[i])*speeds[i];
-      y_dot += sin(alpha[i]+angles[i])*speeds[i];
-      float delta = atan( (l*cos(alpha[i]+d*cos(alpha[i] + angles[i]))) / (l*sin(alpha[i] + d*sin(alpha[i] + angles[i]))) );
+      
+      float wheelAngle = alpha[i]+angles[i];
+      x_dot += cos(wheelAngle)*speeds[i];
+      y_dot += sin(wheelAngle)*speeds[i];
+      
+
+      float motorAngle = wheelAngle;
+      if(i==2 || i==3){
+        motorAngle += M_PI;
+      }
+      float deltaX = -(l*sin(alpha[i]) + d*sin(motorAngle));
+      float deltaY = l*cos(alpha[i]) + d*cos(motorAngle);
+
+      float deltaNorm = sqrt(deltaX*deltaX + deltaY*deltaY);
+      float deltaXNorm = deltaX/deltaNorm;
+      float deltaYNorm = deltaY/deltaNorm;
+
+      float wAngle = wheelAngle+M_PI/2;
+      float wX = cos(wAngle);
+      float wY = sin(wAngle);
+
+      theta_dot += ((deltaXNorm*wX + deltaYNorm*wY)*wX)/(2*M_PI*deltaNorm)*speeds[i];
+
+      //float delta = atan( (l*cos(alpha[i]+d*cos(alpha[i] + angles[i]))) / (l*sin(alpha[i] + d*sin(alpha[i] + angles[i]))) );
       //odom_msg.data[i] = motorCmd[i];
-      theta_dot += cos(angles[i] - delta)*speeds[i];
+      //theta_dot += cos(angles[i] - delta)*speeds[i];
     }
     x_dot /= 4;
     y_dot /= 4;
