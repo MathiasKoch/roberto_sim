@@ -128,8 +128,9 @@ src/main.o: src/main.cpp \
  lib/ros_lib/ros/service_client.h lib/ros_lib/ArduinoHardware.h \
  lib/ros_lib/std_msgs/MultiArrayDimension.h \
  lib/ros_lib/std_msgs/Float32MultiArray.h \
- lib/ros_lib/std_msgs/MultiArrayLayout.h lib/ros_lib/std_msgs/UInt8.h \
- lib/ros_lib/nav_msgs/Odometry.h lib/ros_lib/std_msgs/Header.h \
+ lib/ros_lib/std_msgs/MultiArrayLayout.h lib/ros_lib/std_msgs/Float32.h \
+ lib/ros_lib/std_msgs/UInt8.h lib/ros_lib/nav_msgs/Odometry.h \
+ lib/ros_lib/std_msgs/Header.h \
  lib/ros_lib/geometry_msgs/PoseWithCovariance.h \
  lib/ros_lib/geometry_msgs/Pose.h lib/ros_lib/geometry_msgs/Point.h \
  lib/ros_lib/geometry_msgs/Quaternion.h \
@@ -421,6 +422,8 @@ lib/ros_lib/std_msgs/MultiArrayDimension.h:
 lib/ros_lib/std_msgs/Float32MultiArray.h:
 
 lib/ros_lib/std_msgs/MultiArrayLayout.h:
+
+lib/ros_lib/std_msgs/Float32.h:
 
 lib/ros_lib/std_msgs/UInt8.h:
 

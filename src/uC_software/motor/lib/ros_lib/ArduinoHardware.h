@@ -42,7 +42,7 @@
 #define BUFFER_SIZE 1024
 
 
-volatile uint16_t USART_FIFO[BUFFER_SIZE];
+volatile uint8_t USART_FIFO[BUFFER_SIZE];
 volatile uint32_t USART_CNTIN;
 volatile uint32_t USART_CNTOUT;
 
@@ -81,8 +81,7 @@ class ArduinoHardware {
       GPIO_InitTypeDef gpioa_init_struct;
 
       /* Enalbe clock for USART1, AFIO and GPIOA */
-      RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1 | RCC_APB2Periph_AFIO | 
-                           RCC_APB2Periph_GPIOA, ENABLE);
+      RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
                             
       /* GPIOA PIN9 alternative function Tx */
       gpioa_init_struct.GPIO_Pin = GPIO_Pin_9;
@@ -115,15 +114,12 @@ class ArduinoHardware {
     }
 
     int read(){
-      __disable_irq();
       if(USART_CNTIN == USART_CNTOUT){
-        __enable_irq();
         return -1;
       }
       
       int returnVal = USART_FIFO[USART_CNTOUT];
       USART_CNTOUT = (USART_CNTOUT + 1) % BUFFER_SIZE;
-      __enable_irq();
       return returnVal;
     }
 
@@ -151,11 +147,11 @@ extern "C"{
 
     if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET && USART_CNTIN != (( USART_CNTOUT - 1 + BUFFER_SIZE) % BUFFER_SIZE)){
 
-      USART_FIFO[USART_CNTIN] = USART_ReceiveData(USART1);
+      USART_FIFO[USART_CNTIN] = (uint8_t)USART_ReceiveData(USART1);
       USART_CNTIN = (USART_CNTIN + 1) % BUFFER_SIZE;
     }else{
       // Should NEVER reach this point!
-      (void)USART_ReceiveData(USART1);  // Clear inerrupt flag by reading byte
+      (void)USART_ReceiveData(USART1);  // Clear interupt flag by reading byte
     }
   }   
 }

@@ -13,6 +13,7 @@
 #include <ros.h>
 #include <std_msgs/MultiArrayDimension.h>
 #include <std_msgs/Float32MultiArray.h>
+#include <std_msgs/Float32.h>
 #include <std_msgs/UInt8.h>
 #include <nav_msgs/Odometry.h>
 #include <sensor_msgs/Joy.h>
@@ -54,11 +55,11 @@ ros::NodeHandle nh;
 __IO bool shuttingDown = false;
 __IO bool waitForServos = false;
 
-void led_cb( const std_msgs::UInt8& cmd_msg){
+/*void led_cb( const std_msgs::UInt8& cmd_msg){
   if(!initialized)
     return;
   led_set(cmd_msg.data);
-}
+}*/
 
 
 
@@ -132,10 +133,17 @@ void motor_cb( const roberto_msgs::MotorState& cmd_msg){
   currentMode = intMode;
 }
 
+float reader(std_msgs::Float32MultiArray msg){
+  //printf("1:%d", (int)(msg.data[0]*1000));
+  //printf("2:%d\r\n", (int)(msg.data[1]*1000));
+  //printf("3:%d\r\n", (int)(msg.data[2]*1000));
+  return msg.data[0] + msg.data[1] + msg.data[2];
+}
+
 
 ros::Subscriber<roberto_msgs::MotorState> motor_sub("throttled_joy_vel", &motor_cb);
 //ros::Subscriber<sensor_msgs::Joy> motor_sub("joy", &motor_cb);
-ros::Subscriber<std_msgs::UInt8> led_sub("led", &led_cb);
+//ros::Subscriber<std_msgs::UInt8> led_sub("led", &led_cb);
 
 //geometry_msgs::TransformStamped odom_trans;
 //tf::TransformBroadcaster odom_broadcaster;
@@ -148,7 +156,7 @@ std_msgs::Float32MultiArray debug_msg;
 ros::Publisher debug_pub("debug", &debug_msg);
 
 std_msgs::Float32MultiArray odom_msg;
-ros::Publisher odom_pub("odom", &odom_msg);
+ros::Publisher odom_pub("odom_vel", &odom_msg);
 
 int main(){
   #ifdef DEBUG
@@ -164,19 +172,16 @@ int main(){
   SHUTDOWN_Init();
   LED_Init();
 
-  debug_msg.data = (float *)malloc(sizeof(float)*6);
-  debug_msg.data_length = 6;
+  
 
-  odom_msg.data = (float *)malloc(sizeof(float)*3);
-  odom_msg.data_length = 3;
 
   nh.initNode();
 
 
   nh.subscribe(motor_sub);
-  nh.subscribe(led_sub);
+  //nh.subscribe(led_sub);
   nh.advertise(odom_pub);
-  //nh.advertise(debug_pub);
+  nh.advertise(debug_pub);
   //odom_broadcaster.init(nh);
 
   /*while(!nh.connected()){
@@ -187,39 +192,39 @@ int main(){
 
   
   float FF;
-  if(!nh.getParam("serial_node/FF", &FF, 1)){
+  //if(!nh.getParam("serial_node/FF", &FF, 1)){
     FF = 3200;
-  }
+  //}
   float KP;
-  if(!nh.getParam("serial_node/KP", &KP, 1)){
+  //if(!nh.getParam("serial_node/KP", &KP, 1)){
     KP = 3000;
-  }
+  //}
   float KI;
-  if(!nh.getParam("serial_node/KI", &KI, 1)){
+  //if(!nh.getParam("serial_node/KI", &KI, 1)){
     KI = 2000;
-  }
+  //}
   float KD;
-  if(!nh.getParam("serial_node/KD", &KD, 1)){
+  //if(!nh.getParam("serial_node/KD", &KD, 1)){
     KD = 40;
-  }
+  //}
 
 
   float integralSaturation;
-  if(!nh.getParam("serial_node/integralSaturation", &integralSaturation, 1)){
+  //if(!nh.getParam("serial_node/integralSaturation", &integralSaturation, 1)){
     integralSaturation = 10;
-  }
+  //}
   float wheelRadius;
-  if(!nh.getParam("serial_node/wheelRadius", &wheelRadius, 1)){
+  //if(!nh.getParam("serial_node/wheelRadius", &wheelRadius, 1)){
     wheelRadius = 0.04;
-  }
+  //}
 
-  if(!nh.getParam("serial_node/widthBetweenMotorPivotPoints", &L, 1)){
+  //if(!nh.getParam("serial_node/widthBetweenMotorPivotPoints", &L, 1)){
     L = 0.17;
-  }
+  //}
 
-  if(!nh.getParam("serial_node/motorPivotPointToWheel", &d, 1)){
+  //if(!nh.getParam("serial_node/motorPivotPointToWheel", &d, 1)){
     d = 0.045;
-  }
+  //}
 
   delay(1000);
 
@@ -268,44 +273,48 @@ int main(){
   RR.setRegulator(FF,KP,KI,KD,integralSaturation);
   RR.wheelRadius = wheelRadius;
 
-  char error[60];
+  //char error[60];
   servo_left = motor::createMotor(&SL);
   if(!servo_left->motorInit()){
-    sprintf(error, "Unable to initialize motor: %s - [FAIL]\r\n", servo_left->motorName());
-    nh.logerror(error);
+    //sprintf(error, "Unable to initialize motor: %s - [FAIL]\r\n", servo_left->motorName());
+    //nh.logerror(error);
   }
 
   servo_right = motor::createMotor(&SR);
   if(!servo_right->motorInit()){
-    sprintf(error, "Unable to initialize motor: %s - [FAIL]\r\n", servo_right->motorName());
-    nh.logerror(error);
+    //sprintf(error, "Unable to initialize motor: %s - [FAIL]\r\n", servo_right->motorName());
+    //nh.logerror(error);
   }
 
   front_left = motor::createMotor(&FL);
   if(!front_left->motorInit()){
-    sprintf(error, "Unable to initialize motor: %s - [FAIL]\r\n", front_left->motorName());
-    nh.logerror(error);
+    //sprintf(error, "Unable to initialize motor: %s - [FAIL]\r\n", front_left->motorName());
+    //nh.logerror(error);
   }
 
   front_right = motor::createMotor(&FR);
   if(!front_right->motorInit()){
-    sprintf(error, "Unable to initialize motor: %s - [FAIL]\r\n", front_right->motorName());
-    nh.logerror(error);
+    //sprintf(error, "Unable to initialize motor: %s - [FAIL]\r\n", front_right->motorName());
+    //nh.logerror(error);
   }
 
   rear_left = motor::createMotor(&RL);
   if(!rear_left->motorInit()){
-    sprintf(error, "Unable to initialize motor: %s - [FAIL]\r\n", rear_left->motorName());
-    nh.logerror(error);
+    //sprintf(error, "Unable to initialize motor: %s - [FAIL]\r\n", rear_left->motorName());
+    //nh.logerror(error);
   }
 
   rear_right = motor::createMotor(&RR);
   if(!rear_right->motorInit()){
-    sprintf(error, "Unable to initialize motor: %s - [FAIL]\r\n", rear_right->motorName());
-    nh.logerror(error);
+    //sprintf(error, "Unable to initialize motor: %s - [FAIL]\r\n", rear_right->motorName());
+    //nh.logerror(error);
   }
 
+  odom_msg.data = new float[3];
+  odom_msg.data_length = 3;
 
+  debug_msg.data = new float[6];
+  debug_msg.data_length = 6;
   
   
 
@@ -364,7 +373,7 @@ int main(){
     }else{*/
     if(cnt++%50 == 0)
       debug_toggle();
-    connected = nh.connected();
+    connected = true;//nh.connected();
     //}
 
     float sl = servo_left->update(dt_s, connected, true);
@@ -419,7 +428,6 @@ int main(){
       x_dot += cos(wheelAngle)*speeds[i];
       y_dot += sin(wheelAngle)*speeds[i];
       
-
       float motorAngle = wheelAngle;
       if(i==2 || i==3){
         motorAngle += M_PI;
@@ -436,10 +444,6 @@ int main(){
       float wY = sin(wAngle);
 
       theta_dot += ((deltaXNorm*wX + deltaYNorm*wY)*wX)/(2*M_PI*deltaNorm)*speeds[i];
-
-      //float delta = atan( (l*cos(alpha[i]+d*cos(alpha[i] + angles[i]))) / (l*sin(alpha[i] + d*sin(alpha[i] + angles[i]))) );
-      //odom_msg.data[i] = motorCmd[i];
-      //theta_dot += cos(angles[i] - delta)*speeds[i];
     }
     x_dot /= 4;
     y_dot /= 4;
@@ -450,17 +454,18 @@ int main(){
     odom_msg.data[1] = y_dot;
     odom_msg.data[2] = theta_dot;
 
-
+    //reader(odom_msg);
+    //if(odom_msg.data[0] != NULL && odom_msg.data[1] != NULL && odom_msg.data[2] != NULL)
     odom_pub.publish(&odom_msg);
-    //debug_pub.publish(&debug_msg);
+    debug_pub.publish(&debug_msg);
 
     nh.spinOnce();
 
     elapsed = millis() - start_time;
     if(elapsed > dt){
-      char elapsed_msg[18];
-      sprintf(elapsed_msg, "SLOW! %u", elapsed);
-      nh.logerror(elapsed_msg);
+      //char elapsed_msg[18];
+      //sprintf(elapsed_msg, "SLOW! %u", elapsed);
+      //nh.logerror(elapsed_msg);
     }else{
       /*char elapsed_msg2[8];
       sprintf(elapsed_msg2, "%u", elapsed);
@@ -468,10 +473,9 @@ int main(){
       while( (millis() - start_time) < dt){}
     }
   }
+  //delete odom_msg.data;
   return 0;
 }
-
-
 
 extern "C" void EXTI2_IRQHandler(void){
   if(EXTI_GetITStatus(EXTI_Line2) != RESET){
@@ -488,7 +492,6 @@ extern "C" __attribute__((naked)) void HardFault_Handler(void){
          * will never return
          */
 
-         // TODO: CUT MOTOR POWER!
 
         __asm(  ".syntax unified\n"
                         "MOVS   R0, #4  \n"
@@ -506,6 +509,9 @@ extern "C" __attribute__((naked)) void HardFault_Handler(void){
 
 extern "C" void hard_fault_handler_c (unsigned int * hardfault_args)
 {
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2 | RCC_APB1Periph_TIM3 | RCC_APB1Periph_TIM4, DISABLE);
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, DISABLE);
+
   unsigned int stacked_r0;
   unsigned int stacked_r1;
   unsigned int stacked_r2;
@@ -541,7 +547,7 @@ extern "C" void hard_fault_handler_c (unsigned int * hardfault_args)
   printf ("AFSR = %x\n", (*((volatile unsigned long *)(0xE000ED3C))));
   printf ("SCB_SHCSR = %x\n", SCB->SHCSR);
   
-  while (1);
+  NVIC_SystemReset();
 }
 
 
