@@ -46,22 +46,20 @@ motor *rear_left;
 float d, L;
 
 float motorCmd[4];
-uint8_t currentMode;
+float spinAngle = 0.0;
+uint8_t currentMode = roberto_msgs::MotorState::DRIVE_MODE_PIVOT;
 uint32_t lastMsg;
 bool initialized = false;
 
 ros::NodeHandle nh;
 
+std_msgs::MultiArrayDimension odomDim;
+std_msgs::MultiArrayDimension debugDim;
+
 __IO bool shuttingDown = false;
 __IO bool waitForServos = false;
 
-/*void led_cb( const std_msgs::UInt8& cmd_msg){
-  if(!initialized)
-    return;
-  led_set(cmd_msg.data);
-}*/
-
-
+bool spinningAutonomously = false;
 
 void motor_cb( const roberto_msgs::MotorState& cmd_msg){
   if(!initialized)
@@ -105,25 +103,27 @@ void motor_cb( const roberto_msgs::MotorState& cmd_msg){
     motorCmd[1] = cmd_msg.speed*speedMult[1];
     motorCmd[2] = cmd_msg.speed*speedMult[1];
     motorCmd[3] = cmd_msg.speed*speedMult[0];
-    /*angle[0] = cmd_msg.heading_angle;
-    angle[1] = cmd_msg.heading_angle;
-    servo_left->setReference(135+angle[0]);
-    servo_right->setReference(135-angle[1]);*/
 
   }else if(intMode == cmd_msg.DRIVE_MODE_SPIN){
-    float h = 90;
-    servo_left->setReference(h);
-    servo_right->setReference(h);
+    if(spinAngle == 0){
+      if(cmd_msg.heading_angle != 0){
+        spinningAutonomously = true;
+        spinAngle = cmd_msg.heading_angle;
+      }else{
+        spinningAutonomously = false;
+      }
+      servo_left->setReference(90);
+      servo_right->setReference(90);
 
-    motorCmd[0] = cmd_msg.speed;
-    motorCmd[1] = -cmd_msg.speed;
-    motorCmd[2] = -cmd_msg.speed;
-    motorCmd[3] = cmd_msg.speed;
+      motorCmd[0] = cmd_msg.speed;
+      motorCmd[1] = -cmd_msg.speed;
+      motorCmd[2] = -cmd_msg.speed;
+      motorCmd[3] = cmd_msg.speed;
+    }
 
   }else if(intMode == cmd_msg.DRIVE_MODE_SIDEWAYS){
-    float h = 45;
-    servo_left->setReference(h);
-    servo_right->setReference(h);
+    servo_left->setReference(45);
+    servo_right->setReference(45);
 
     motorCmd[0] = cmd_msg.speed;  //FR
     motorCmd[1] = -cmd_msg.speed; //FL
@@ -133,24 +133,8 @@ void motor_cb( const roberto_msgs::MotorState& cmd_msg){
   currentMode = intMode;
 }
 
-float reader(std_msgs::Float32MultiArray msg){
-  //printf("1:%d", (int)(msg.data[0]*1000));
-  //printf("2:%d\r\n", (int)(msg.data[1]*1000));
-  //printf("3:%d\r\n", (int)(msg.data[2]*1000));
-  return msg.data[0] + msg.data[1] + msg.data[2];
-}
 
-
-ros::Subscriber<roberto_msgs::MotorState> motor_sub("throttled_joy_vel", &motor_cb);
-//ros::Subscriber<sensor_msgs::Joy> motor_sub("joy", &motor_cb);
-//ros::Subscriber<std_msgs::UInt8> led_sub("led", &led_cb);
-
-//geometry_msgs::TransformStamped odom_trans;
-//tf::TransformBroadcaster odom_broadcaster;
-
-
-/*nav_msgs::Odometry odom;
-ros::Publisher odom_pub("odom", &odom);*/
+ros::Subscriber<roberto_msgs::MotorState> motor_sub("cmd_vel", &motor_cb);
 
 std_msgs::Float32MultiArray debug_msg;
 ros::Publisher debug_pub("debug", &debug_msg);
@@ -179,10 +163,8 @@ int main(){
 
 
   nh.subscribe(motor_sub);
-  //nh.subscribe(led_sub);
   nh.advertise(odom_pub);
   nh.advertise(debug_pub);
-  //odom_broadcaster.init(nh);
 
   /*while(!nh.connected()){
     nh.spinOnce();
@@ -193,15 +175,15 @@ int main(){
   
   float FF;
   //if(!nh.getParam("serial_node/FF", &FF, 1)){
-    FF = 3200;
+    FF = 1600;
   //}
   float KP;
   //if(!nh.getParam("serial_node/KP", &KP, 1)){
-    KP = 3000;
+    KP = 6000;
   //}
   float KI;
   //if(!nh.getParam("serial_node/KI", &KI, 1)){
-    KI = 2000;
+    KI = 4000;
   //}
   float KD;
   //if(!nh.getParam("serial_node/KD", &KD, 1)){
@@ -232,14 +214,14 @@ int main(){
   motorSettings SL(MOTOR_TYPE_SERVO, "servo_left", TIM4, 4);
   SL.m_ServoPin = GPIO_Pin_9;
   SL.m_ServoPort = GPIOB;
-  SL.m_ServoLimitMax = 2025;
+  SL.m_ServoLimitMax = 1425;
   SL.m_ServoLimitMin = 7925;
 
   motorSettings SR(MOTOR_TYPE_SERVO, "servo_right", TIM4, 3);
   SR.m_ServoPin = GPIO_Pin_8;
   SR.m_ServoPort = GPIOB;
   SR.m_ServoLimitMax = 7925;
-  SR.m_ServoLimitMin = 2025;
+  SR.m_ServoLimitMin = 1825;
 
   motorSettings FR(MOTOR_TYPE_DC_MOTOR, "front_right", TIM1, 1);
   FR.setDCPins(GPIO_Pin_13, GPIOC, GPIO_Pin_14, GPIOC,
@@ -311,9 +293,17 @@ int main(){
   }
 
   odom_msg.data = new float[3];
+  odom_msg.layout.dim_length = 1;
+  odom_msg.layout.dim = &odomDim;
+  odom_msg.layout.dim[0].size = 3;
+  odom_msg.layout.dim[0].stride = 3;
   odom_msg.data_length = 3;
 
   debug_msg.data = new float[6];
+  debug_msg.layout.dim_length = 1;
+  debug_msg.layout.dim = &debugDim;
+  debug_msg.layout.dim[0].size = 6;
+  debug_msg.layout.dim[0].stride = 6;
   debug_msg.data_length = 6;
   
   
@@ -351,9 +341,6 @@ int main(){
   cnt = 0;
 
 
-  double x = 0.0;
-  double y = 0.0;
-  double th = 0.0;
   float l = sqrt(pow((L/2),2)*2);
 
   //{fr, fl, rl, rr};
@@ -363,8 +350,6 @@ int main(){
 
 
   while (1){
-   //printf("HELLOO!!!!");
-
     start_time = millis();
 
     /*if(shuttingDown){
@@ -373,7 +358,7 @@ int main(){
     }else{*/
     if(cnt++%50 == 0)
       debug_toggle();
-    connected = true;//nh.connected();
+    connected = nh.connected();
     //}
 
     float sl = servo_left->update(dt_s, connected, true);
@@ -390,6 +375,7 @@ int main(){
       front_left->setReference(motorCmd[1]);
       rear_left->setReference(motorCmd[2]);
       rear_right->setReference(motorCmd[3]);
+      delay(2);
     }else{
       enable = false;
       front_right->setReference(0);
@@ -426,7 +412,7 @@ int main(){
       
       float wheelAngle = alpha[i]+angles[i];
       x_dot += cos(wheelAngle)*speeds[i];
-      y_dot += sin(wheelAngle)*speeds[i];
+      y_dot -= sin(wheelAngle)*speeds[i];
       
       float motorAngle = wheelAngle;
       if(i==2 || i==3){
@@ -443,16 +429,34 @@ int main(){
       float wX = cos(wAngle);
       float wY = sin(wAngle);
 
-      theta_dot += ((deltaXNorm*wX + deltaYNorm*wY)*wX)/(2*M_PI*deltaNorm)*speeds[i];
+      theta_dot += (((deltaXNorm*wX + deltaYNorm*wY)*wX)/deltaNorm)*speeds[i];
     }
     x_dot /= 4;
     y_dot /= 4;
     theta_dot /= 4;
 
+    // Magic constant
+    /*theta_dot = theta_dot*1.7;
+
+    if(currentMode == roberto_msgs::MotorState::DRIVE_MODE_SPIN && spinningAutonomously && !waitForServos){
+      if(spinAngle > 0){
+        lastMsg = start_time;
+        spinAngle -= (abs(theta_dot)*180/M_PI) * dt_s;
+      }else{
+        spinAngle = 0;
+        motorCmd[0] = 0.0;
+        motorCmd[1] = 0.0;
+        motorCmd[2] = 0.0;
+        motorCmd[3] = 0.0;
+      }
+    }*/
+
+
 
     odom_msg.data[0] = x_dot;
     odom_msg.data[1] = y_dot;
     odom_msg.data[2] = theta_dot;
+    //odom_msg.data[3] = spinAngle;
 
     //reader(odom_msg);
     //if(odom_msg.data[0] != NULL && odom_msg.data[1] != NULL && odom_msg.data[2] != NULL)
@@ -559,8 +563,8 @@ void assert_failed(uint8_t* file, uint32_t line){
   sprintf(str, "Wrong parameters value: file %s on line %u\r\n", file, (unsigned int)line);
   nh.logerror(str);*/
   while (1){
-    debug_toggle();
-    delay(100);
+    //debug_toggle();
+    //delay(100);
     //nh.spinOnce();
   }
 }

@@ -251,14 +251,14 @@
  195              		.file 28 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 motorSettings.cpp
-     /tmp/ccVbS0Up.s:19     .text:00000000 $t
-     /tmp/ccVbS0Up.s:24     .text:00000000 _ZN13motorSettingsC2Ev
+     /tmp/ccn225Eo.s:19     .text:00000000 $t
+     /tmp/ccn225Eo.s:24     .text:00000000 _ZN13motorSettingsC2Ev
                        .ARM.exidx:00000000 $d
-     /tmp/ccVbS0Up.s:24     .text:00000000 _ZN13motorSettingsC1Ev
-     /tmp/ccVbS0Up.s:53     .text:00000006 _ZN13motorSettingsC2EiPKcP11TIM_TypeDefi
-     /tmp/ccVbS0Up.s:53     .text:00000006 _ZN13motorSettingsC1EiPKcP11TIM_TypeDefi
-     /tmp/ccVbS0Up.s:88     .text:00000012 _ZN13motorSettings9setDCPinsEiP12GPIO_TypeDefiS1_iS1_iS1_iS1_
-     /tmp/ccVbS0Up.s:138    .text:00000036 _ZN13motorSettings12setRegulatorEfffff
+     /tmp/ccn225Eo.s:24     .text:00000000 _ZN13motorSettingsC1Ev
+     /tmp/ccn225Eo.s:53     .text:00000006 _ZN13motorSettingsC2EiPKcP11TIM_TypeDefi
+     /tmp/ccn225Eo.s:53     .text:00000006 _ZN13motorSettingsC1EiPKcP11TIM_TypeDefi
+     /tmp/ccn225Eo.s:88     .text:00000012 _ZN13motorSettings9setDCPinsEiP12GPIO_TypeDefiS1_iS1_iS1_iS1_
+     /tmp/ccn225Eo.s:138    .text:00000036 _ZN13motorSettings12setRegulatorEfffff
                      .debug_frame:00000010 $d
 
 NO UNDEFINED SYMBOLS

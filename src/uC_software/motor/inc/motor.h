@@ -15,7 +15,7 @@
 
 #define M_PI           3.14159265358979323846  /* pi */
 
-#define MAX_ANGLE_PIVOT 15
+#define MAX_ANGLE_PIVOT 13
 
 /*#define SERVO_PWM_LIMIT_MAX                 // MAX as in hardware limit of full range
 #define SERVO_PWM_LIMIT_MIN                 // MIN as in hardware limit of full range
