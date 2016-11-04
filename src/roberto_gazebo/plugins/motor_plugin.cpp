@@ -46,6 +46,22 @@
 #include <math.h>
 
 
+#define MAX_ANGLE_PIVOT 13
+
+
+float d, L;
+
+float spinAngle = 0.0;
+uint8_t currentMode = roberto_msgs::MotorState::DRIVE_MODE_PIVOT;
+//uint32_t lastMsg;
+bool initialized = false;
+
+
+bool waitForServos = false;
+
+bool spinningAutonomously = false;
+
+
 namespace gazebo{
 
 enum{
@@ -55,13 +71,6 @@ enum{
   FRONTLEFT,
   REARRIGHT,
   REARLEFT,
-};
-
-enum{
-  DRIVE_MODE_AUTO,
-  DRIVE_MODE_PIVOT,
-  DRIVE_MODE_SPIN,
-  DRIVE_MODE_SIDEWAYS,
 };
 
 // Constructor
@@ -107,7 +116,11 @@ void MotorDrivePlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf){
   speed_ = 0;
   heading_ = 90;
   alive_ = true;
-  mode_ = DRIVE_MODE_AUTO;
+  mode_ = roberto_msgs::MotorState::DRIVE_MODE_PIVOT;
+
+  L = 0.17;
+  d = 0.045;
+
 
 
   // Initialize the ROS node and subscribe to cmd_vel
@@ -118,8 +131,8 @@ void MotorDrivePlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf){
 
   ROS_INFO("starting motor drive plugin in ns: %s", this->robotNamespace.c_str());
 
-  tf_prefix_ = tf::getPrefixParam(*rosnode_);
-  transform_broadcaster_ = new tf::TransformBroadcaster();
+  //tf_prefix_ = tf::getPrefixParam(*rosnode_);
+  //transform_broadcaster_ = new tf::TransformBroadcaster();
 
   // ROS: Subscribe to the velocity command topic (usually "cmd_vel")
   ros::SubscribeOptions so =
@@ -129,20 +142,20 @@ void MotorDrivePlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf){
 
 
   sub_ = rosnode_->subscribe(so);
-  pub_ = rosnode_->advertise<nav_msgs::Odometry>("odom", 1);
+  //pub_ = rosnode_->advertise<nav_msgs::Odometry>("odom", 1);
 
   servo_pub = rosnode_->advertise<roberto_msgs::JointCommand>("servo_joint_position_controller/command", 1);
-  motor_pub = rosnode_->advertise<roberto_msgs::JointCommand>("motor_joint_velocity_controller/command", 1);
+  //motor_pub = rosnode_->advertise<roberto_msgs::JointCommand>("motor_joint_velocity_controller/command", 1);
 
   // Initialize the controller
   // Reset odometric pose
-  odomPose[0] = 0.0;
+  /*odomPose[0] = 0.0;
   odomPose[1] = 0.0;
   odomPose[2] = 0.0;
 
   odomVel[0] = 0.0;
   odomVel[1] = 0.0;
-  odomVel[2] = 0.0;
+  odomVel[2] = 0.0;*/
 
 
   // start custom queue for diff drive
@@ -150,16 +163,18 @@ void MotorDrivePlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf){
 
   // listen to the update event (broadcast every simulation iteration)
   this->updateConnection = event::Events::ConnectWorldUpdateBegin(boost::bind(&MotorDrivePlugin::UpdateChild, this));
+
+  initialized = true;
 }
 
 // Update the controller
 void MotorDrivePlugin::UpdateChild(){
   //ROS_INFO("UpdateChild");
-  double d1, d2, d3, d4;
+ /* double d1, d2, d3, d4;
   double dr, da;
   double dtime = this->world->GetSimTime().Double();
   double stepTime = dtime - lastTime;
-  lastTime = dtime;
+  lastTime = dtime;*/
 
   GetPositionCmd();
 
@@ -171,7 +186,7 @@ void MotorDrivePlugin::UpdateChild(){
   d4 = stepTime * wheelDiameter / 2 * joints[REARRIGHT]->GetVelocity(0);*/
 
 
-  dr = (d1 + d2 + d3 + d4) / 4;
+/*  dr = (d1 + d2 + d3 + d4) / 4;
 
   da = (d1 - d2) / wheelSeparation;   // FIX
 
@@ -183,21 +198,21 @@ void MotorDrivePlugin::UpdateChild(){
   // Compute odometric instantaneous velocity
   odomVel[0] = dr / stepTime;
   odomVel[1] = 0.0;
-  odomVel[2] = da / stepTime;
+  odomVel[2] = da / stepTime;*/
 
   servo_JC.names.resize(2);
   servo_JC.command.resize(2);
   
   servo_JC.names[0] = "servo_front_right";
-  servo_JC.command[0] = 1.51; // set direction
+  servo_JC.command[0] = motorCmd[SERVORIGHT] * (1.57 - (-0.2618)) / 90 + 1.1777;// WONDER WHERE C COMES FROM?
 
   servo_JC.names[1] = "servo_front_left";
-  servo_JC.command[1] = 0.0;
+  servo_JC.command[1] = motorCmd[SERVOLEFT] * ((-1.57) - 0.2618) / 90 + 2.4859;
 
   servo_pub.publish(servo_JC);
 
   //PublishMotorCommands();
-  motor_JC.names.resize(4);
+ /*motor_JC.names.resize(4);
   motor_JC.command.resize(4);
   
 
@@ -213,7 +228,7 @@ void MotorDrivePlugin::UpdateChild(){
   motor_JC.names[3] = "rear_left_wheel_hinge";
   motor_JC.command[3] = 0.0;
 
-  motor_pub.publish(motor_JC);
+  motor_pub.publish(motor_JC);*/
 
   //write_position_data();
   //publish_odometry();
@@ -235,42 +250,75 @@ void MotorDrivePlugin::PublishMotorCommands(){
 void MotorDrivePlugin::GetPositionCmd(){
   lock.lock();
 
-  double vr, va;
+  if(!initialized)
+    return;
+  //lastMsg = millis();
+  uint8_t intMode = mode_;
+  if(intMode == roberto_msgs::MotorState::DRIVE_MODE_AUTO){
 
-  vr = speed_;
-  va = heading_; 
+  }
 
-  if(mode_ == DRIVE_MODE_AUTO){
-    motorCmd[SERVOLEFT] = va;
-    motorCmd[SERVORIGHT] = va;
+  /*if(currentMode != intMode){
+    waitForServos = true;
+  }*/
 
-    motorCmd[FRONTLEFT] = vr;
-    motorCmd[FRONTRIGHT] = vr;
-    motorCmd[REARLEFT] = vr;
-    motorCmd[REARRIGHT] = vr;
-  }else if(mode_ == DRIVE_MODE_PIVOT){
+  if(intMode == roberto_msgs::MotorState::DRIVE_MODE_PIVOT){
+    float speedMult[2] = {1,1};
+    float angle[2] = {0, 0};
+    if (heading_ != 0){
+      float R = 0.05/sin(heading_*M_PI/360);
+      speedMult[0] = (2*R)/(2*R - (L/2 + d));
+      speedMult[1] = (2*R)/(2*R + (L/2 + d));
+      //angle[0] = atan(L/(B+R));   // B=L as robot is quadratic
+      angle[0] = heading_ + atan(L/(L+R));
+      angle[1] = heading_ + atan(L/(L-R));
+    }else{
+      angle[0] = 0;
+      angle[1] = 0;
+    }
 
-    motorCmd[FRONTLEFT] = vr;
-    motorCmd[FRONTRIGHT] = vr;
-    motorCmd[REARLEFT] = vr;
-    motorCmd[REARRIGHT] = vr;
-  }else if(mode_ == DRIVE_MODE_SPIN){
+    angle[0] = angle[0] > MAX_ANGLE_PIVOT? MAX_ANGLE_PIVOT : ( angle[0] < -MAX_ANGLE_PIVOT? -MAX_ANGLE_PIVOT : angle[0]);
+    angle[1] = angle[1] > MAX_ANGLE_PIVOT? MAX_ANGLE_PIVOT : ( angle[1] < -MAX_ANGLE_PIVOT? -MAX_ANGLE_PIVOT : angle[1]);
+
+    if(heading_ > 0){
+      motorCmd[SERVOLEFT] = angle[0]+135;
+      motorCmd[SERVORIGHT] = -angle[1]+135;
+    }else{
+      motorCmd[SERVOLEFT] = angle[1]+135;
+      motorCmd[SERVORIGHT] = -angle[0]+135;
+    }
+    motorCmd[FRONTRIGHT] = speed_*speedMult[0];
+    motorCmd[FRONTLEFT] = speed_*speedMult[1];
+    motorCmd[REARLEFT] = speed_*speedMult[1];
+    motorCmd[REARRIGHT] = speed_*speedMult[0];
+
+  }else if(intMode == roberto_msgs::MotorState::DRIVE_MODE_SPIN){
+    if(spinAngle == 0){
+      if(heading_ != 0){
+        spinningAutonomously = true;
+        spinAngle = heading_;
+      }else{
+        spinningAutonomously = false;
+      }
+      motorCmd[SERVOLEFT] = 90;
+      motorCmd[SERVORIGHT] = 90;
+
+      motorCmd[FRONTRIGHT] = speed_;
+      motorCmd[FRONTLEFT] = -speed_;
+      motorCmd[REARLEFT] = -speed_;
+      motorCmd[REARRIGHT] = speed_;
+    }
+
+  }else if(intMode == roberto_msgs::MotorState::DRIVE_MODE_SIDEWAYS){
     motorCmd[SERVOLEFT] = 45;
     motorCmd[SERVORIGHT] = 45;
 
-    motorCmd[FRONTLEFT] = -vr;
-    motorCmd[FRONTRIGHT] = vr;
-    motorCmd[REARLEFT] = -vr;
-    motorCmd[REARRIGHT] = vr;
-  }else if(mode_ == DRIVE_MODE_SIDEWAYS){
-    motorCmd[SERVOLEFT] = 90;
-    motorCmd[SERVORIGHT] = 90;
-
-    motorCmd[FRONTLEFT] = -vr;
-    motorCmd[FRONTRIGHT] = vr;
-    motorCmd[REARLEFT] = -vr;
-    motorCmd[REARRIGHT] = vr;
+    motorCmd[FRONTRIGHT] = speed_;  //FR
+    motorCmd[FRONTLEFT] = -speed_; //FL
+    motorCmd[REARLEFT] = speed_; //RL
+    motorCmd[REARRIGHT] = -speed_;  //RR
   }
+  currentMode = intMode;
 
 
   lock.unlock();
@@ -278,10 +326,9 @@ void MotorDrivePlugin::GetPositionCmd(){
 
 void MotorDrivePlugin::cmdVelCallback(const roberto_msgs::MotorStateConstPtr & cmd_msg){
   lock.lock();
-  ROS_INFO("Callback");
+  //ROS_INFO("Callback");
   heading_ = cmd_msg->heading_angle;
   speed_ = cmd_msg->speed;
-  acceleration_ = cmd_msg->acceleration;
   mode_ = cmd_msg->mode;
 
   lock.unlock();

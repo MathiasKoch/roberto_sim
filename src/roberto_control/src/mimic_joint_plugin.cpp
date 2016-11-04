@@ -141,7 +141,7 @@ void MimicJointPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf )
   if(!has_pid_)
     mimic_joint_->SetMaxForce(0,max_effort_);
 
-  ROS_INFO("Successfully loaded mimicJoint plugin.");
+  ROS_INFO("Successfully loaded mimicJoint plugin. Mimicing joint name: %s onto joint name: %s, with multiplier: %1.1f", joint_name_.c_str(), mimic_joint_name_.c_str(), multiplier_);
 
   // Listen to the update event. This event is broadcast every
   // simulation iteration.
@@ -165,6 +165,7 @@ void MimicJointPlugin::UpdateChild()
         a = angle;
       double error = angle-a;
       double effort = gazebo::math::clamp(pid_.computeCommand(error, period), -max_effort_, max_effort_);
+      mimic_joint_->SetForce(0, effort);
     }
     else
       mimic_joint_->SetAngle(0, math::Angle(angle));

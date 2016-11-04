@@ -6,10 +6,9 @@
   <!-- load the controllers -->
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
     output="screen" ns="/roberto" args="joint_state_controller 
-                                        servo_joint_position_controller
-                                        motor_joint_velocity_controller" />
+                                        servo_joint_position_controller" />
 
-
+<!-- motor_joint_velocity_controller -->
 
 
   <!-- convert joint states to TF transforms for rviz, etc -->
