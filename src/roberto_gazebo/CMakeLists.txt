@@ -5,7 +5,9 @@ find_package(catkin
 	REQUIRED COMPONENTS
 	roscpp
 	gazebo_ros
+	control_toolbox
 	roberto_msgs)
+
 
 find_package(gazebo REQUIRED)
 
@@ -27,12 +29,24 @@ include_directories(include
 
 add_library(roberto_gazebo_ros_control
   plugins/motor_plugin.cpp
+  plugins/gazebo_ros_utils.cpp
 )
 
 target_link_libraries(roberto_gazebo_ros_control
   ${catkin_LIBRARIES}
   ${GAZEBO_LIBRARIES}
 )
+
+
+add_library(roberto_gazebo_mimic_joint_plugin 
+	plugins/mimic_joint_plugin.cpp
+)
+
+target_link_libraries(roberto_gazebo_mimic_joint_plugin 
+	${catkin_LIBRARIES} 
+	${GAZEBO_LIBRARIES}
+)
+
 
 add_dependencies(
   roberto_gazebo_ros_control
