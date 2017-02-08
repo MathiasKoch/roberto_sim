@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    
+<xacro:macro name="RobertoMotorDrivePlugin">
+	<gazebo>
+        <plugin name="roberto_motor_drive" filename="libroberto_gazebo_ros_control.so">
+		    <robotNamespace></robotNamespace>
+	        <rosDebugLevel>Debug</rosDebugLevel>
+		    <alwaysOn>1</alwaysOn>
+		    <updateRate>10.0</updateRate>
+		    
+		    <robotBaseFrame>base_link</robotBaseFrame>
+		    <odometryFrame>odom</odometryFrame>
+		    
+		    <commandTopic>cmd_vel</commandTopic>
+            <odometryTopic>odom</odometryTopic>
+            <odometrySource>encoder</odometrySource>
+	    
+            <servoLeftJoint>servo_front_left</servoLeftJoint>
+            <servoRightJoint>servo_front_right</servoRightJoint>
+            <servoLeftMimicJoint>servo_rear_left</servoLeftMimicJoint>
+            <servoRightMimicJoint>servo_rear_right</servoRightMimicJoint>
+
+            <frontLeftJoint>front_left_wheel_hinge</frontLeftJoint>
+            <frontRightJoint>front_right_wheel_hinge</frontRightJoint>
+            <rearLeftJoint>rear_left_wheel_hinge</rearLeftJoint>
+            <rearRightJoint>rear_right_wheel_hinge</rearRightJoint>
+	    
+            <wheelDiameter>0.08</wheelDiameter>
+            <wheelTorque>10</wheelTorque>
+            <wheelAcceleration>1.5</wheelAcceleration>
+            <!--<wheelAcceleration>0</wheelAcceleration>-->
+            <widthBetweenMotorPivotPoints>0.17</widthBetweenMotorPivotPoints>
+            <motorPivotPointToWheel>0.045</motorPivotPointToWheel>
+            
+            <publishTf>1</publishTf>
+		    <publishWheelTF>true</publishWheelTF>
+            <publishWheelJointState>true</publishWheelJointState>
+        </plugin>
+
+        <plugin name="roberto_gazebo_mimic_joint_plugin_2" filename="libroberto_gazebo_mimic_joint_plugin.so">
+			<robotNamespace></robotNamespace>
+			<joint>servo_front_right</joint>
+			<mimicJoint>servo_rear_right</mimicJoint>
+			<multiplier>-1</multiplier>
+		</plugin>
+
+		<plugin name="roberto_gazebo_mimic_joint_plugin_1" filename="libroberto_gazebo_mimic_joint_plugin.so">
+			<robotNamespace></robotNamespace>
+			<joint>servo_front_left</joint>
+			<mimicJoint>servo_rear_left</mimicJoint>
+			<multiplier>-1</multiplier>
+		</plugin>
+    </gazebo>
+</xacro:macro>
+
+</robot>

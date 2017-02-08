@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<robot name="roberto" xmlns:xacro="http://www.ros.org/wiki/xacro">
+        
+	<xacro:property name="PI" value="3.1415926535897931"/>
+
+	<xacro:property name="platformHeight" value="0.008"/>
+	<xacro:property name="platformLength" value="0.225"/>
+	<xacro:property name="platformWidth" value="0.225"/>
+	<xacro:property name="platformMass" value="0.200"/>
+
+	<xacro:property name="platformTopHeight" value="0.005"/>
+	<xacro:property name="platformTopLength" value="0.200"/>
+	<xacro:property name="platformTopWidth" value="0.200"/>
+	<xacro:property name="platformTopMass" value="0.125"/>
+
+	<xacro:property name="wheelRadius" value="0.04"/>
+	<xacro:property name="wheelPos" value="0.05"/>
+
+	<xacro:property name="frontWheelWidth" value="0.03"/>
+	<xacro:property name="frontWheelMass" value="0.045"/>
+
+	<xacro:property name="rearWheelWidth" value="0.04"/>
+	<xacro:property name="rearWheelMass" value="0.05"/>
+
+	<xacro:property name="motorMountRadius" value="0.02"/>
+	<xacro:property name="motorMountLength" value="0.07"/>
+	<xacro:property name="motorMountMass" value="0.19"/>
+	<xacro:property name="motorMountPos" value="0.085"/>
+
+	<xacro:property name="spacerRadius" value="0.004"/>
+	<xacro:property name="spacerLength" value="0.022"/>
+	<xacro:property name="spacerMass" value="0.005"/>
+	<xacro:property name="spacerPosX" value="0.071"/>
+	<xacro:property name="spacerPosY" value="0.052"/>
+	<xacro:property name="spacerPosZ" value="0.079"/>
+
+	<xacro:property name="cameraRadius" value="0.01"/>
+	<xacro:property name="cameraHeight" value="0.01"/>
+	<xacro:property name="cameraMass" value="1e-5"/>
+
+
+
+	<xacro:include filename="$(find roberto_models_indigo)/models/macros.xacro" />
+	<xacro:include filename="$(find roberto_models_indigo)/models/roberto.gazebo" />
+	<xacro:include filename="$(find roberto_models_indigo)/models/materials.xacro" />
+	<xacro:include filename="$(find roberto_models_indigo)/models/sensors/camera/camera.xacro" />
+
+	<link name="footprint" />
+
+	<joint name="base_joint" type="fixed">
+	  <parent link="footprint"/>
+	  <child link="platform"/>
+	</joint>
+
+
+	<link name="platform">
+		<visual>
+		  	<geometry>
+		    	<mesh filename="package://roberto_models_indigo/models/meshes/platform.dae"/>
+		  	</geometry>
+		  	<origin rpy="0 0 0" xyz="${-platformLength/2} ${-platformWidth/2} 0.06"/>
+		</visual>
+		<collision>
+			<geometry>
+				<box size="${platformLength} ${platformWidth} ${platformHeight}"/>
+			</geometry>
+			<origin rpy="0 0 0" xyz="0 0 0.06"/>
+		</collision>
+		<inertial>
+			<mass value="${platformMass}"/>
+			<xacro:box_inertia m="${platformMass}" x="${platformLength}" y="${platformWidth}" z="${platformHeight}"/>
+		</inertial>
+	</link>
+
+	<xacro:motorMount fr="rear" lr="right" tX="1" tY="-1" adjust="0.01" ll="-1.57" ul="0.2618"/>
+	<xacro:motorMount fr="rear" lr="left" tX="-1" tY="-1" adjust="0.01" ll="-0.2618" ul="1.57"/>
+	<xacro:motorMount fr="front" lr="left" tX="-1" tY="1" adjust="0" ll="-1.57" ul="0.2618"/>
+	<xacro:motorMount fr="front" lr="right" tX="1" tY="1" adjust="0" ll="-0.2618" ul="1.57"/>
+
+	<xacro:frontWheel lr="left" tY="-1"/>
+	<xacro:frontWheel lr="right" tY="1"/>
+
+	<xacro:rearWheel lr="left" tY="-1"/>
+	<xacro:rearWheel lr="right" tY="1"/>
+
+	<link name="platform_top">
+		<visual>
+		  	<geometry>
+		    	<mesh filename="package://roberto_models_indigo/models/meshes/platform_top.dae"/>
+		  	</geometry>
+		  	<origin rpy="0 ${PI} 0" xyz="0.02 -0.03 0"/>
+		</visual>
+		<!--<collision>
+			<geometry>
+				<box size="${platformTopLength} ${platformTopWidth} ${platformTopHeight}"/>
+			</geometry>
+			<origin rpy="0 ${PI} 0" xyz="0 0 0"/>
+		</collision>-->
+		<inertial>
+			<mass value="${platformTopMass}"/>
+			<xacro:box_inertia m="${platformTopMass}" x="${platformTopLength}" y="${platformTopWidth}" z="${platformTopHeight}"/>
+		</inertial>
+	</link>
+
+	<xacro:spacer fr="front" lr="left" tX="-1" tY="1"/>
+	<xacro:spacer fr="front" lr="right" tX="1" tY="1"/>
+	<xacro:spacer fr="rear" lr="left" tX="-1" tY="-1"/>
+	<xacro:spacer fr="rear" lr="right" tX="1" tY="-1"/>
+
+	<xacro:cam name="cam" parent="platform_top" xyz="0 0 0.02" rpy="0 ${-PI/2} ${-PI/2}" />
+
+
+
+</robot>

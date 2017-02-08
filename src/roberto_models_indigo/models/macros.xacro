@@ -1,0 +1,214 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="cylinder_inertia" params="m r h">
+    <inertia  ixx="${m*(3*r*r+h*h)/12}" ixy = "0" ixz = "0"
+      iyy="${m*(3*r*r+h*h)/12}" iyz = "0"
+      izz="${m*r*r/2}"
+    />
+  </xacro:macro>
+
+  <xacro:macro name="box_inertia" params="m x y z">
+    <inertia  ixx="${m*(y*y+z*z)/12}" ixy = "0" ixz = "0"
+      iyy="${m*(x*x+z*z)/12}" iyz = "0"
+      izz="${m*(x*x+z*z)/12}"
+    />
+  </xacro:macro>
+
+  <xacro:macro name="sphere_inertia" params="m r">
+    <inertia  ixx="${2*m*r*r/5}" ixy = "0" ixz = "0"
+      iyy="${2*m*r*r/5}" iyz = "0"
+      izz="${2*m*r*r/5}"
+    />
+  </xacro:macro>
+
+
+  <!--  
+      Parameters:
+        fr = [front | rear]   - Used for placement
+        lr = [left | right]   - Used for placement
+        tY = [-1 | 1]         - Used for placement
+        tX = [-1 | 1]         - Used for placement
+        adjust = [R]          - Adjusts the wheelbase, for wider rear tires
+        ll = [R]              - Lower limit of servo
+        ul = [R]              - Upper limit of servo
+  -->
+  <xacro:macro name="motorMount" params="fr lr tY tX adjust ll ul">
+    <link name="${fr}_${lr}_motor_mount">
+      <collision>
+        <origin xyz="0 0 0" rpy="0 ${PI/2} 0" />
+        <geometry>
+          <cylinder length="${motorMountLength+adjust}" radius="${motorMountRadius}"/>
+        </geometry>
+      </collision>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 ${PI/2} 0" />
+        <geometry>
+          <cylinder length="${motorMountLength+adjust}" radius="${motorMountRadius}"/>
+        </geometry>
+        <material name="grey"/>
+      </visual>
+
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 ${PI/2} 0" />
+        <mass value="${motorMountMass}"/>
+        <xacro:cylinder_inertia m="${motorMountMass}" r="${motorMountRadius}" h="${motorMountLength+adjust}"/>
+      </inertial>
+    </link>
+
+    <gazebo reference="${fr}_${lr}_motor_mount">
+      <mu1 value="0.2"/>
+      <mu2 value="0.2"/>
+      <kp value="10000"/>
+      <kd value="1"/>
+      <material>Gazebo/Grey</material>
+    </gazebo>
+
+
+    <joint name="servo_${fr}_${lr}" type="revolute">
+      <parent link="platform"/>
+      <child link="${fr}_${lr}_motor_mount"/>
+      <origin xyz="${motorMountPos*tX} ${motorMountPos*tY} ${wheelRadius}" rpy="0 0 0" />
+      <axis xyz="0 0 1" rpy="0 0 0" />
+      <limit effort="1000.0" velocity="4" lower="${ll}" upper="${ul}"/>
+    </joint>
+
+  </xacro:macro>
+
+  <xacro:macro name="frontWheel" params="lr tY">
+    <link name="front_${lr}_wheel">
+      <collision>
+        <origin xyz="0 0 0" rpy="0 ${PI/2} 0" />
+        <geometry>
+          <cylinder length="${frontWheelWidth}" radius="${wheelRadius}"/>
+        </geometry>
+      </collision>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 ${PI/2} 0" />
+        <geometry>
+          <cylinder length="${frontWheelWidth}" radius="${wheelRadius}"/>
+        </geometry>
+        <material name="black"/>
+      </visual>
+
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 ${PI/2} 0" />
+        <mass value="${frontWheelMass}"/>
+        <xacro:cylinder_inertia m="${frontWheelMass}" r="${wheelRadius}" h="${frontWheelWidth}"/>
+      </inertial>
+    </link>
+
+    <gazebo reference="front_${lr}_wheel">
+      <mu1 value="0.8"/>
+      <mu2 value="0.8"/>
+      <kp value="10000"/>
+      <kd value="1"/>
+      <material>Gazebo/Black</material>
+    </gazebo>
+
+
+    <joint name="front_${lr}_wheel_hinge" type="continuous">
+      <parent link="front_${lr}_motor_mount"/>
+      <child link="front_${lr}_wheel"/>
+      <origin xyz="${wheelPos*tY} 0 0" rpy="0 0 0" />
+      <axis xyz="1 0 0" rpy="0 0 0" />
+      <limit effort="10" velocity="4"/>
+      <joint_properties damping="0.0" friction="0.0"/>
+    </joint>
+
+
+    </xacro:macro>
+
+
+
+
+    <xacro:macro name="rearWheel" params="lr tY">
+      <link name="rear_${lr}_wheel">
+        <collision>
+          <origin xyz="0 0 0" rpy="0 ${PI/2} 0" />
+          <geometry>
+            <cylinder length="${rearWheelWidth}" radius="${wheelRadius}"/>
+          </geometry>
+        </collision>
+
+        <visual>
+          <origin xyz="0 0 0" rpy="0 ${PI/2} 0" />
+          <geometry>
+            <cylinder length="${rearWheelWidth}" radius="${wheelRadius}"/>
+          </geometry>
+          <material name="black"/>
+        </visual>
+
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 ${PI/2} 0" />
+          <mass value="${rearWheelMass}"/>
+          <xacro:cylinder_inertia m="${rearWheelMass}" r="${wheelRadius}" h="${rearWheelWidth}"/>
+        </inertial>
+      </link>
+
+      <gazebo reference="rear_${lr}_wheel">
+        <mu1 value="0.8"/>
+        <mu2 value="0.8"/>
+        <kp value="10000"/>
+        <kd value="1"/>
+        <material>Gazebo/Black</material>
+      </gazebo>
+
+
+      <joint name="rear_${lr}_wheel_hinge" type="continuous">
+        <parent link="rear_${lr}_motor_mount"/>
+        <child link="rear_${lr}_wheel"/>
+        <origin xyz="${wheelPos*tY} 0 0" rpy="0 0 0" />
+        <axis xyz="1 0 0" rpy="0 0 0" />
+        <limit effort="10" velocity="4"/>
+        <joint_properties damping="0.0" friction="0.0"/>
+      </joint>
+
+    </xacro:macro>
+
+
+    <xacro:macro name="spacer" params="fr lr tX tY">
+      <link name="${fr}_${lr}_spacer">
+        <visual>
+          <geometry>
+            <cylinder length="${spacerLength}" radius="${spacerRadius}"/>
+          </geometry>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <material name="white">
+            <color rgba="1 1 1 1"/>
+          </material>
+        </visual>
+        <collision>
+          <geometry>
+            <cylinder length="${spacerLength}" radius="${spacerRadius}"/>
+          </geometry>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+        </collision>
+        <inertial>
+          <mass value="${spacerMass}"/>
+          <xacro:cylinder_inertia m="${spacerMass}" r="${spacerRadius}" h="${spacerLength}"/>
+        </inertial>
+      </link>
+
+      <gazebo reference="${fr}_${lr}_spacer">
+        <material>Gazebo/White</material>
+      </gazebo>
+
+      <joint name="${fr}_${lr}_spacer_platform" type="fixed">
+        <axis xyz="0 0 1"/>
+        <origin xyz="${spacerPosX*tX} ${spacerPosY*tY} ${spacerPosZ}" rpy="0 0 0" />
+        <parent link="platform"/>
+        <child link="${fr}_${lr}_spacer"/>
+      </joint>
+
+      <joint name="${fr}_${lr}_spacer_platform_top" type="fixed">
+        <axis xyz="0 0 1"/>
+        <origin xyz="0 0 ${spacerRadius}" rpy="0 0 0" />
+        <parent link="${fr}_${lr}_spacer"/>
+        <child link="platform_top"/>
+      </joint>
+
+    </xacro:macro>
+
+</robot>

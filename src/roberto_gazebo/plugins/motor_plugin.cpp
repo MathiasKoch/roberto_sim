@@ -375,21 +375,66 @@ void MotorDrivePlugin::UpdateChild()
         last_update_time_ = current_time;
 
 #if GAZEBO_MAJOR_VERSION > 2
-        joints_[SERVOLEFT ]->SetParam ( "ang", 0, math::Angle(motorCmd[SERVOLEFT ]) );
-        joints_[SERVORIGHT]->SetParam ( "ang", 0, math::Angle(motorCmd[SERVORIGHT]) );
-        joints_[FRONTLEFT ]->SetParam ( "vel", 0, wheel_applied_vel[FRONTLEFT ] );
-        joints_[FRONTRIGHT]->SetParam ( "vel", 0, wheel_applied_vel[FRONTRIGHT] );
-        joints_[REARLEFT  ]->SetParam ( "vel", 0, wheel_applied_vel[REARLEFT  ] );
-        joints_[REARRIGHT ]->SetParam ( "vel", 0, wheel_applied_vel[REARRIGHT ] );
+        // TODO: Calculate these parameters from servo joint limits!
+        joints_[SERVOLEFT ]->SetParam ( "ang", 0, math::Angle(((180-motorCmd[SERVOLEFT]) * -0.0176134615) + 0.830902913) );
+        joints_[SERVORIGHT]->SetParam ( "ang", 0, math::Angle((motorCmd[SERVORIGHT] * -0.0176134615) + 2.36260577) );
 #else
         // TODO: Calculate these parameters from servo joint limits!
         joints_[SERVOLEFT ]->SetAngle ( 0, math::Angle(((180-motorCmd[SERVOLEFT]) * -0.0176134615) + 0.830902913) );
         joints_[SERVORIGHT]->SetAngle ( 0, math::Angle((motorCmd[SERVORIGHT] * -0.0176134615) + 2.36260577) );
-        joints_[FRONTLEFT ]->SetVelocity ( 0, wheel_applied_vel[FRONTLEFT ] );
-        joints_[FRONTRIGHT]->SetVelocity ( 0, wheel_applied_vel[FRONTRIGHT] );
-        joints_[REARLEFT  ]->SetVelocity ( 0, wheel_applied_vel[REARLEFT  ] );
-        joints_[REARRIGHT ]->SetVelocity ( 0, wheel_applied_vel[REARRIGHT ] );
 #endif
+
+
+        // (sr, sl) output of low pass filtered servo references, compare these to the setpoint, in order to see whether filter has reached setpoint
+        /*if(waitForServos && ((int)sr == (int)servo_right->getReference() && (int)sl == (int)servo_left->getReference())){
+
+            waitForServos = false;*/
+
+#if GAZEBO_MAJOR_VERSION > 2
+            joints_[FRONTLEFT ]->SetParam ( "vel", 0, wheel_applied_vel[FRONTLEFT ] );
+            joints_[FRONTRIGHT]->SetParam ( "vel", 0, wheel_applied_vel[FRONTRIGHT] );
+            joints_[REARLEFT  ]->SetParam ( "vel", 0, wheel_applied_vel[REARLEFT  ] );
+            joints_[REARRIGHT ]->SetParam ( "vel", 0, wheel_applied_vel[REARRIGHT ] );
+#else
+            joints_[FRONTLEFT ]->SetVelocity ( 0, wheel_applied_vel[FRONTLEFT ] );
+            joints_[FRONTRIGHT]->SetVelocity ( 0, wheel_applied_vel[FRONTRIGHT] );
+            joints_[REARLEFT  ]->SetVelocity ( 0, wheel_applied_vel[REARLEFT  ] );
+            joints_[REARRIGHT ]->SetVelocity ( 0, wheel_applied_vel[REARRIGHT ] );
+#endif
+
+        /*}else{
+
+#if GAZEBO_MAJOR_VERSION > 2
+            joints_[FRONTLEFT ]->SetParam ( "vel", 0, 0.0 );
+            joints_[FRONTRIGHT]->SetParam ( "vel", 0, 0.0 );
+            joints_[REARLEFT  ]->SetParam ( "vel", 0, 0.0 );
+            joints_[REARRIGHT ]->SetParam ( "vel", 0, 0.0 );
+#else
+            joints_[FRONTLEFT ]->SetVelocity ( 0, 0.0 );
+            joints_[FRONTRIGHT]->SetVelocity ( 0, 0.0 );
+            joints_[REARLEFT  ]->SetVelocity ( 0, 0.0 );
+            joints_[REARRIGHT ]->SetVelocity ( 0, 0.0 );
+#endif
+        }*/
+
+
+
+        // Check autonomous spinning.
+        // TODO: Convert this to be an actual controller based approach
+        /*if(currentMode == roberto_msgs::MotorState::DRIVE_MODE_SPIN && spinningAutonomously && !waitForServos){
+            if(spinAngle > 0){
+                spinAngle -= (abs(theta_dot)*180/M_PI) * seconds_since_last_update;
+            }else{
+                spinAngle = 0;
+                motorCmd[0] = 0.0;
+                motorCmd[1] = 0.0;
+                motorCmd[2] = 0.0;
+                motorCmd[3] = 0.0;
+            }
+        }*/
+
+        
+
     }
 }
 
@@ -397,7 +442,6 @@ void MotorDrivePlugin::UpdateChild()
 void MotorDrivePlugin::GetPositionCmd(){
   boost::mutex::scoped_lock scoped_lock ( lock );
 
-  //lastMsg = millis();
   uint8_t intMode = mode_;
   if(intMode == roberto_msgs::MotorState::DRIVE_MODE_AUTO){
 
@@ -441,7 +485,7 @@ void MotorDrivePlugin::GetPositionCmd(){
     if(spinAngle == 0){
       if(heading_ != 0){
         spinningAutonomously = true;
-        //spinAngle = heading_;
+        spinAngle = heading_;
       }else{
         spinningAutonomously = false;
       }

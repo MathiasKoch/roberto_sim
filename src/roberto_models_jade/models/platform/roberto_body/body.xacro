@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+	<xacro:include filename="parameters.xacro"/>
+
+	<xacro:include filename="platform_bottom.xacro"/>
+	<xacro:include filename="platform_top.xacro"/>
+	<xacro:include filename="wheel_mount.xacro"/>
+	<xacro:include filename="wheel.xacro"/>
+
+	<xacro:macro name="RobertoBody" params="name parent mesh_collis mesh_visual" >
+
+		<!-- Base link -->
+		<link name="${parent}_link" />
+
+		<!-- Chassis -->
+	    <xacro:RobertoPlatformBottom name="${name}" parent="${parent}"/>
+	    <xacro:RobertoPlatformTop name="${name}_top" parent="${name}"/>
+
+	    <!-- Visual spacers in chassis -->
+	    <xacro:Spacer name="spacer" parent="${name}" fb="F" lr="L" />
+		<xacro:Spacer name="spacer" parent="${name}" fb="F" lr="R" />
+		<xacro:Spacer name="spacer" parent="${name}" fb="B" lr="L" />
+		<xacro:Spacer name="spacer" parent="${name}" fb="B" lr="R" />
+	    
+	    <!-- Motor mounts, servos and gears --> 
+	    <xacro:WheelMount name="mount" parent="${name}" fb="B" lr="R" />
+		<xacro:WheelMount name="mount" parent="${name}" fb="B" lr="L" />
+		<xacro:WheelMount name="mount" parent="${name}" fb="F" lr="L" />
+		<xacro:WheelMount name="mount" parent="${name}" fb="F" lr="R" />
+
+		<!-- Wheels and motors -->
+		<xacro:Wheel name="wheel" parent="mount" fb="F" lr="L" />
+		<xacro:Wheel name="wheel" parent="mount" fb="F" lr="R" />
+		<xacro:Wheel name="wheel" parent="mount" fb="B" lr="L" />
+		<xacro:Wheel name="wheel" parent="mount" fb="B" lr="R" />
+
+	    	
+	</xacro:macro>
+</robot>
