@@ -1,36 +1,36 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find roberto_models)/models/inertia_tensors.xacro"/>
+  <xacro:include filename="$(find roberto_models_jade)/models/inertia_tensors.xacro"/>
   
 
   <xacro:macro name="WheelMount" params="name parent fb lr mesh_collis:=^|simplified mesh_visual:=^|detailed model_dir:=^">
 
 
     <!-- Selecting origin position -->
-    <xacro:property name="adjust">0</xacro:property>
-    <xacro:property name="tX">1</xacro:property>
-    <xacro:property name="tY">1</xacro:property>
-    <xacro:if value="${lr ==   'L'}"> <xacro:property name="tX">-1</xacro:property> </xacro:if>
-    <xacro:if value="${fb ==   'B'}"> <xacro:property name="adjust" value="0.01" /> </xacro:if>
+    <xacro:property name="adjust" value="0" />
+    <xacro:property name="tX" value="1" />
+    <xacro:property name="tY" value="1" />
+    <xacro:if value="${lr == 'L'}"> <xacro:property name="tX" value="-1" /> </xacro:if>
+    <xacro:if value="${fb == 'B'}"> <xacro:property name="tY" value="-1" /> <xacro:property name="adjust" value="0.01" /> </xacro:if>
 
     
     <!-- Select servo limits -->
     <xacro:property name="ll" value="${servoLowerLimit}"/>
     <xacro:property name="ul" value="${servoUpperLimit}"/>
-    <xacro:if value="${fb ==   'B' and lr == 'L'}"> <xacro:property name="ll" value="-${servoLowerLimit}" /> <xacro:property name="ul" value="${servoUpperLimit}" /> </xacro:if>
-    <xacro:if value="${fb ==   'B' and lr == 'R'}"> <xacro:property name="ll" value="-${servoUpperLimit}" /> <xacro:property name="ul" value="${servoLowerLimit}" /> </xacro:if>
-    <xacro:if value="${fb ==   'F' and lr == 'L'}"> <xacro:property name="ll" value="-${servoUpperLimit}" /> <xacro:property name="ul" value="${servoLowerLimit}" /> </xacro:if>
-    <xacro:if value="${fb ==   'F' and lr == 'R'}"> <xacro:property name="ll" value="-${servoLowerLimit}" /> <xacro:property name="ul" value="${servoUpperLimit}" /> </xacro:if>
+    <xacro:if value="${fb == 'B' and lr == 'L'}"> <xacro:property name="ll" value="-${servoLowerLimit}" /> <xacro:property name="ul" value="${servoUpperLimit}" /> </xacro:if>
+    <xacro:if value="${fb == 'B' and lr == 'R'}"> <xacro:property name="ll" value="-${servoUpperLimit}" /> <xacro:property name="ul" value="${servoLowerLimit}" /> </xacro:if>
+    <xacro:if value="${fb == 'F' and lr == 'L'}"> <xacro:property name="ll" value="-${servoUpperLimit}" /> <xacro:property name="ul" value="${servoLowerLimit}" /> </xacro:if>
+    <xacro:if value="${fb == 'F' and lr == 'R'}"> <xacro:property name="ll" value="-${servoLowerLimit}" /> <xacro:property name="ul" value="${servoUpperLimit}" /> </xacro:if>
 
 
-    <xacro:property name="ParrentLink2ThisLink"> <!--parrent link to this joint tf-->
+    <xacro:property name="ParentLink2ThisLink"> <!--parent link to this joint tf-->
       <origin xyz="${motorMountPos*tX} ${motorMountPos*tY} ${wheelRadius}" rpy="0 0 0" />
       <axis xyz="0 0 1" rpy="0 0 0" />
-      <limit effort="1000.0" velocity="4" lower="${ll}" upper="${ul}"/>
-
-      <origin xyz="${wheelPos*tY} 0 0" rpy="0 0 0" />
-      <limit effort="10" velocity="4"/>
+      <limit effort="10.0" velocity="4" lower="${ll}" upper="${ul}"/>
+      <!--<dynamics damping="0.7" />-->
+      <!--<origin xyz="${wheelPos*tY} 0 0" rpy="0 0 0" />
+      <limit effort="10" velocity="4"/>-->
     </xacro:property>
 
     <xacro:property name="ThisLink2Inert"> <!--this link 2 inertial center tf, mass data-->
@@ -38,7 +38,7 @@
     </xacro:property>
 
     <xacro:property name="ThisLink2STL"> <!--this link 2 mesh center tf, file-->
-      <origin xyz="0.02 -0.03 0" rpy="0 ${pi/2} 0"/> 
+      <origin xyz="0 0 0" rpy="0 ${pi/2} 0"/> 
       <geometry> <mesh filename="file://${model_dir}/meshes/platform_top.dae"/> </geometry> 
       <material name="grey"/>
     </xacro:property>
@@ -59,10 +59,10 @@
     
     
     <!-- joint and link definition -->    
-    <joint name="${parent}2${name}${fb}${lr}_joint" type="continuous">
+    <joint name="${parent}2${name}${fb}${lr}_joint" type="revolute">
       <parent link="${parent}_link"/>
       <child  link="${name}${fb}${lr}_link" />
-      <xacro:insert_block name="ParrentLink2ThisLink" />
+      <xacro:insert_block name="ParentLink2ThisLink" />
     </joint>    
 
     <link name="${name}${fb}${lr}_link">    
@@ -73,12 +73,13 @@
     
     
     <gazebo reference="${name}${fb}${lr}_link"> 
-      <mu1 value="5.9"/>
-      <mu2 value="5.9"/>
-      <kp value="1000000.0"/>
-      <kd value="10"/>
+      <mu1>5.9</mu1>
+      <mu2>5.9</mu2>
+      <kp>1000000.0</kp>
+      <kd>100.0</kd>
+      <minDepth>0.001</minDepth>
+      <maxVel>1.0</maxVel>
       <material>Gazebo/Grey</material>
-      <selfCollide>false</selfCollide>
     </gazebo>
     
   </xacro:macro>

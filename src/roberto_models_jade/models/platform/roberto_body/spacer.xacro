@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find roberto_models)/models/inertia_tensors.xacro"/>
+  <xacro:include filename="$(find roberto_models_jade)/models/inertia_tensors.xacro"/>
   
 
   <xacro:macro name="Spacer" params="name parent fb lr mesh_collis:=^|simplified mesh_visual:=^|detailed model_dir:=^">
 
 
     <!-- Selecting origin position -->
-    <xacro:property name="tX">1</xacro:property>
-    <xacro:property name="tY">1</xacro:property>
-    <xacro:if value="${fb ==   'B'}"> <xacro:property name="tY">-1</xacro:property> </xacro:if>
-    <xacro:if value="${lr ==   'L'}"> <xacro:property name="tX">-1</xacro:property> </xacro:if>
+    <xacro:property name="tX" value="1" />
+    <xacro:property name="tY" value="1" />
+    <xacro:if value="${fb ==   'B'}"> <xacro:property name="tY" value="-1" /> </xacro:if>
+    <xacro:if value="${lr ==   'L'}"> <xacro:property name="tX" value="-1" /> </xacro:if>
     
 
 
-    <xacro:property name="ParrentLink2ThisLink"> <!--parrent link to this joint tf-->
+    <xacro:property name="ParentLink2ThisLink"> <!--parent link to this joint tf-->
       <axis xyz="0 0 1"/>
       <origin xyz="${spacerPosX*tX} ${spacerPosY*tY} ${spacerPosZ}" rpy="0 0 0" />
     </xacro:property>
@@ -49,7 +49,7 @@
     <joint name="${parent}2${name}${fb}${lr}_joint" type="fixed">
       <parent link="${parent}_link"/>
       <child  link="${name}${fb}${lr}_link" />
-      <xacro:insert_block name="ParrentLink2ThisLink" />
+      <xacro:insert_block name="ParentLink2ThisLink" />
     </joint>    
 
     <link name="${name}${fb}${lr}_link">    

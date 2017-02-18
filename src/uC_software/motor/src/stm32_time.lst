@@ -1,28 +1,26 @@
-   1              		.syntax unified
-   2              		.cpu cortex-m3
-   3              		.fpu softvfp
-   4              		.eabi_attribute 20, 1
-   5              		.eabi_attribute 21, 1
-   6              		.eabi_attribute 23, 3
-   7              		.eabi_attribute 24, 1
-   8              		.eabi_attribute 25, 1
-   9              		.eabi_attribute 26, 1
-  10              		.eabi_attribute 30, 4
-  11              		.eabi_attribute 34, 1
-  12              		.eabi_attribute 18, 4
-  13              		.thumb
-  14              		.syntax unified
-  15              		.file	"stm32_time.c"
-  16              		.text
-  17              	.Ltext0:
-  18              		.cfi_sections	.debug_frame
-  19              		.align	1
-  20              		.global	SysTick_Init
-  21              		.thumb
-  22              		.thumb_func
-  24              	SysTick_Init:
-  25              	.LFB29:
-  26              		.file 1 "src/stm32_time.c"
+   1              		.cpu cortex-m3
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 4
+   9              		.eabi_attribute 34, 1
+  10              		.eabi_attribute 18, 4
+  11              		.file	"stm32_time.c"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.align	1
+  16              		.global	SysTick_Init
+  17              		.syntax unified
+  18              		.thumb
+  19              		.thumb_func
+  20              		.fpu softvfp
+  22              	SysTick_Init:
+  23              	.LFB29:
+  24              		.file 1 "src/stm32_time.c"
    1:src/stm32_time.c **** 
    2:src/stm32_time.c **** #include <stm32f10x.h>
    3:src/stm32_time.c **** #include "stm32_time.h"
@@ -30,31 +28,36 @@
    5:src/stm32_time.c **** static __IO uint32_t sysTickCounter;
    6:src/stm32_time.c ****  
    7:src/stm32_time.c **** void SysTick_Init(void) {
-  27              		.loc 1 7 0
-  28              		.cfi_startproc
-  29              		@ args = 0, pretend = 0, frame = 0
-  30              		@ frame_needed = 0, uses_anonymous_args = 0
-  31 0000 08B5     		push	{r3, lr}
-  32              	.LCFI0:
-  33              		.cfi_def_cfa_offset 8
-  34              		.cfi_offset 3, -8
-  35              		.cfi_offset 14, -4
+  25              		.loc 1 7 0
+  26              		.cfi_startproc
+  27              		@ args = 0, pretend = 0, frame = 0
+  28              		@ frame_needed = 0, uses_anonymous_args = 0
+  29 0000 08B5     		push	{r3, lr}
+  30              	.LCFI0:
+  31              		.cfi_def_cfa_offset 8
+  32              		.cfi_offset 3, -8
+  33              		.cfi_offset 14, -4
    8:src/stm32_time.c **** 	/****************************************
    9:src/stm32_time.c **** 	 *SystemFrequency/1000      1ms         *
   10:src/stm32_time.c **** 	 *SystemFrequency/100000    10us        *
   11:src/stm32_time.c **** 	 *SystemFrequency/1000000   1us         *
   12:src/stm32_time.c **** 	 *****************************************/
   13:src/stm32_time.c **** 	SystemCoreClockUpdate();
-  36              		.loc 1 13 0
-  37 0002 FFF7FEFF 		bl	SystemCoreClockUpdate
-  38              	.LVL0:
+  34              		.loc 1 13 0
+  35 0002 FFF7FEFF 		bl	SystemCoreClockUpdate
+  36              	.LVL0:
   14:src/stm32_time.c **** 	while (SysTick_Config(SystemCoreClock / 1000000) != 0); // One SysTick interrupt now equals 1us
-  39              		.loc 1 14 0
-  40 0006 084B     		ldr	r3, .L2
-  41              	.LVL1:
-  42              	.LBB20:
-  43              	.LBB21:
-  44              		.file 2 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
+  37              		.loc 1 14 0
+  38 0006 084B     		ldr	r3, .L2
+  39              	.LVL1:
+  40 0008 084A     		ldr	r2, .L2+4
+  41 000a 1B68     		ldr	r3, [r3]
+  42              	.LVL2:
+  43              	.LBB20:
+  44              	.LBB21:
+  45              	.LBB22:
+  46              	.LBB23:
+  47              		.file 2 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
    1:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** /**************************************************************************//**
    2:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @file     core_cm3.h
    3:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****  * @brief    CMSIS Cortex-M3 Core Peripheral Access Layer Header File
@@ -1644,6 +1647,17 @@
 1587:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** {
 1588:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   if(IRQn < 0) {
 1589:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****     SCB->SHP[((uint32_t)(IRQn) & 0xF)-4] = ((priority << (8 - __NVIC_PRIO_BITS)) & 0xff); } /* set 
+  48              		.loc 2 1589 0
+  49 000c F021     		movs	r1, #240
+  50              	.LBE23:
+  51              	.LBE22:
+  52              	.LBE21:
+  53              	.LBE20:
+  54              		.loc 1 14 0
+  55 000e B3FBF2F3 		udiv	r3, r3, r2
+  56              	.LVL3:
+  57              	.LBB27:
+  58              	.LBB26:
 1590:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   else {
 1591:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****     NVIC->IP[(uint32_t)(IRQn)] = ((priority << (8 - __NVIC_PRIO_BITS)) & 0xff);    }        /* set 
 1592:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** }
@@ -1753,62 +1767,51 @@
 1696:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   if (ticks > SysTick_LOAD_RELOAD_Msk)  return (1);            /* Reload value impossible */
 1697:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****                                                                
 1698:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   SysTick->LOAD  = (ticks & SysTick_LOAD_RELOAD_Msk) - 1;      /* set reload register */
-  45              		.loc 2 1698 0
-  46 0008 084A     		ldr	r2, .L2+4
-  47 000a 1B68     		ldr	r3, [r3]
-  48              	.LVL2:
-  49              	.LBB22:
-  50              	.LBB23:
+  59              		.loc 2 1698 0
+  60 0012 074A     		ldr	r2, .L2+8
+  61 0014 013B     		subs	r3, r3, #1
+  62              	.LVL4:
+  63 0016 5360     		str	r3, [r2, #4]
+  64              	.LVL5:
+  65              	.LBB25:
+  66              	.LBB24:
 1589:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   else {
-  51              		.loc 2 1589 0
-  52 000c F021     		movs	r1, #240
-  53              	.LBE23:
-  54              	.LBE22:
-  55              		.loc 2 1698 0
-  56 000e B3FBF2F3 		udiv	r3, r3, r2
-  57              	.LVL3:
-  58 0012 074A     		ldr	r2, .L2+8
-  59 0014 013B     		subs	r3, r3, #1
-  60              	.LVL4:
-  61 0016 5360     		str	r3, [r2, #4]
-  62              	.LVL5:
-  63              	.LBB25:
-  64              	.LBB24:
-1589:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   else {
-  65              		.loc 2 1589 0
-  66 0018 064B     		ldr	r3, .L2+12
-  67              	.LVL6:
-  68 001a 83F82310 		strb	r1, [r3, #35]
-  69              	.LVL7:
-  70              	.LBE24:
-  71              	.LBE25:
+  67              		.loc 2 1589 0
+  68 0018 064B     		ldr	r3, .L2+12
+  69              	.LVL6:
+  70 001a 83F82310 		strb	r1, [r3, #35]
+  71              	.LVL7:
+  72              	.LBE24:
+  73              	.LBE25:
 1699:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   NVIC_SetPriority (SysTick_IRQn, (1<<__NVIC_PRIO_BITS) - 1);  /* set Priority for Cortex-M0 System
 1700:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   SysTick->VAL   = 0;                                          /* Load the SysTick Counter Value */
-  72              		.loc 2 1700 0
-  73 001e 0023     		movs	r3, #0
-  74 0020 9360     		str	r3, [r2, #8]
+  74              		.loc 2 1700 0
+  75 001e 0023     		movs	r3, #0
+  76 0020 9360     		str	r3, [r2, #8]
 1701:./lib/CMSIS/CM3/CoreSupport/core_cm3.h ****   SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk | 
-  75              		.loc 2 1701 0
-  76 0022 0723     		movs	r3, #7
-  77 0024 1360     		str	r3, [r2]
-  78 0026 08BD     		pop	{r3, pc}
-  79              	.L3:
-  80              		.align	2
-  81              	.L2:
-  82 0028 00000000 		.word	SystemCoreClock
-  83 002c 40420F00 		.word	1000000
-  84 0030 10E000E0 		.word	-536813552
-  85 0034 00ED00E0 		.word	-536810240
-  86              	.LBE21:
-  87              	.LBE20:
-  88              		.cfi_endproc
-  89              	.LFE29:
-  91              		.align	1
-  92              		.global	SysTick_Handler
-  93              		.thumb
-  94              		.thumb_func
-  96              	SysTick_Handler:
-  97              	.LFB30:
+  77              		.loc 2 1701 0
+  78 0022 0723     		movs	r3, #7
+  79 0024 1360     		str	r3, [r2]
+  80 0026 08BD     		pop	{r3, pc}
+  81              	.L3:
+  82              		.align	2
+  83              	.L2:
+  84 0028 00000000 		.word	SystemCoreClock
+  85 002c 40420F00 		.word	1000000
+  86 0030 10E000E0 		.word	-536813552
+  87 0034 00ED00E0 		.word	-536810240
+  88              	.LBE26:
+  89              	.LBE27:
+  90              		.cfi_endproc
+  91              	.LFE29:
+  93              		.align	1
+  94              		.global	SysTick_Handler
+  95              		.syntax unified
+  96              		.thumb
+  97              		.thumb_func
+  98              		.fpu softvfp
+ 100              	SysTick_Handler:
+ 101              	.LFB30:
   15:src/stm32_time.c ****  
   16:src/stm32_time.c **** }
   17:src/stm32_time.c ****  
@@ -1817,55 +1820,57 @@
   20:src/stm32_time.c ****  */
   21:src/stm32_time.c **** 
   22:src/stm32_time.c **** void SysTick_Handler(void) {
-  98              		.loc 1 22 0
-  99              		.cfi_startproc
- 100              		@ args = 0, pretend = 0, frame = 0
- 101              		@ frame_needed = 0, uses_anonymous_args = 0
- 102              		@ link register save eliminated.
- 103              	.LBB26:
- 104              	.LBB27:
+ 102              		.loc 1 22 0
+ 103              		.cfi_startproc
+ 104              		@ args = 0, pretend = 0, frame = 0
+ 105              		@ frame_needed = 0, uses_anonymous_args = 0
+ 106              		@ link register save eliminated.
+ 107              	.LBB28:
+ 108              	.LBB29:
 1205:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** 
- 105              		.loc 2 1205 0
- 106              		.syntax unified
- 107              	@ 1205 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h" 1
- 108 0038 72B6     		cpsid i
- 109              	@ 0 "" 2
- 110              		.thumb
- 111              		.syntax unified
- 112              	.LBE27:
- 113              	.LBE26:
+ 109              		.loc 2 1205 0
+ 110              		.syntax unified
+ 111              	@ 1205 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h" 1
+ 112 0038 72B6     		cpsid i
+ 113              	@ 0 "" 2
+ 114              		.thumb
+ 115              		.syntax unified
+ 116              	.LBE29:
+ 117              	.LBE28:
   23:src/stm32_time.c **** 	__disable_irq();
   24:src/stm32_time.c **** 	sysTickCounter++;
- 114              		.loc 1 24 0
- 115 003a 034A     		ldr	r2, .L5
- 116 003c 1368     		ldr	r3, [r2]
- 117 003e 0133     		adds	r3, r3, #1
- 118 0040 1360     		str	r3, [r2]
- 119              	.LBB28:
- 120              	.LBB29:
+ 118              		.loc 1 24 0
+ 119 003a 034A     		ldr	r2, .L5
+ 120 003c 1368     		ldr	r3, [r2]
+ 121 003e 0133     		adds	r3, r3, #1
+ 122 0040 1360     		str	r3, [r2]
+ 123              	.LBB30:
+ 124              	.LBB31:
 1204:./lib/CMSIS/CM3/CoreSupport/core_cm3.h **** static __INLINE void __disable_irq()              { __ASM volatile ("cpsid i"); }
- 121              		.loc 2 1204 0
- 122              		.syntax unified
- 123              	@ 1204 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h" 1
- 124 0042 62B6     		cpsie i
- 125              	@ 0 "" 2
- 126              		.thumb
- 127              		.syntax unified
- 128 0044 7047     		bx	lr
- 129              	.L6:
- 130 0046 00BF     		.align	2
- 131              	.L5:
- 132 0048 00000000 		.word	.LANCHOR0
- 133              	.LBE29:
- 134              	.LBE28:
- 135              		.cfi_endproc
- 136              	.LFE30:
- 138              		.align	1
- 139              		.global	delay
- 140              		.thumb
- 141              		.thumb_func
- 143              	delay:
- 144              	.LFB31:
+ 125              		.loc 2 1204 0
+ 126              		.syntax unified
+ 127              	@ 1204 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h" 1
+ 128 0042 62B6     		cpsie i
+ 129              	@ 0 "" 2
+ 130              		.thumb
+ 131              		.syntax unified
+ 132 0044 7047     		bx	lr
+ 133              	.L6:
+ 134 0046 00BF     		.align	2
+ 135              	.L5:
+ 136 0048 00000000 		.word	.LANCHOR0
+ 137              	.LBE31:
+ 138              	.LBE30:
+ 139              		.cfi_endproc
+ 140              	.LFE30:
+ 142              		.align	1
+ 143              		.global	delay
+ 144              		.syntax unified
+ 145              		.thumb
+ 146              		.thumb_func
+ 147              		.fpu softvfp
+ 149              	delay:
+ 150              	.LFB31:
   25:src/stm32_time.c **** 	__enable_irq();
   26:src/stm32_time.c **** }
   27:src/stm32_time.c ****  
@@ -1875,13 +1880,13 @@
   31:src/stm32_time.c **** }*/
   32:src/stm32_time.c ****  
   33:src/stm32_time.c **** void delay(uint32_t n) {
- 145              		.loc 1 33 0
- 146              		.cfi_startproc
- 147              		@ args = 0, pretend = 0, frame = 0
- 148              		@ frame_needed = 0, uses_anonymous_args = 0
- 149              	.LVL8:
- 150              	.LBB30:
- 151              	.LBB31:
+ 151              		.loc 1 33 0
+ 152              		.cfi_startproc
+ 153              		@ args = 0, pretend = 0, frame = 0
+ 154              		@ frame_needed = 0, uses_anonymous_args = 0
+ 155              	.LVL8:
+ 156              	.LBB32:
+ 157              	.LBB33:
   34:src/stm32_time.c **** 	uint32_t i = millis();
   35:src/stm32_time.c **** 	while ((millis() - i) < (n));
   36:src/stm32_time.c **** }
@@ -1894,194 +1899,207 @@
   43:src/stm32_time.c **** 
   44:src/stm32_time.c **** uint32_t millis(void){
   45:src/stm32_time.c **** 	return sysTickCounter/1000;
- 152              		.loc 1 45 0
- 153 004c 074A     		ldr	r2, .L11
- 154              	.LBE31:
- 155              	.LBE30:
+ 158              		.loc 1 45 0
+ 159 004c 4FF47A73 		mov	r3, #1000
+ 160 0050 0649     		ldr	r1, .L10
+ 161              	.LBE33:
+ 162              	.LBE32:
   33:src/stm32_time.c **** 	uint32_t i = millis();
- 156              		.loc 1 33 0
- 157 004e 10B5     		push	{r4, lr}
- 158              	.LCFI1:
- 159              		.cfi_def_cfa_offset 8
- 160              		.cfi_offset 4, -8
- 161              		.cfi_offset 14, -4
- 162              	.LBB33:
- 163              	.LBB32:
- 164              		.loc 1 45 0
- 165 0050 1468     		ldr	r4, [r2]
- 166 0052 4FF47A73 		mov	r3, #1000
- 167 0056 1146     		mov	r1, r2
- 168 0058 B4FBF3F4 		udiv	r4, r4, r3
- 169              	.LBE32:
- 170              	.LBE33:
+ 163              		.loc 1 33 0
+ 164 0052 10B5     		push	{r4, lr}
+ 165              	.LCFI1:
+ 166              		.cfi_def_cfa_offset 8
+ 167              		.cfi_offset 4, -8
+ 168              		.cfi_offset 14, -4
+ 169              	.LBB36:
+ 170              	.LBB34:
+ 171              		.loc 1 45 0
+ 172 0054 0C68     		ldr	r4, [r1]
+ 173              	.LBE34:
+ 174              	.LBE36:
+ 175              	.LBB37:
+ 176              	.LBB38:
+ 177 0056 1A46     		mov	r2, r3
+ 178              	.LBE38:
+ 179              	.LBE37:
+ 180              	.LBB40:
+ 181              	.LBB35:
+ 182 0058 B4FBF3F4 		udiv	r4, r4, r3
+ 183              	.L8:
+ 184              	.LBE35:
+ 185              	.LBE40:
+ 186              	.LBB41:
+ 187              	.LBB39:
+ 188              		.loc 1 45 0 is_stmt 0 discriminator 1
+ 189 005c 0B68     		ldr	r3, [r1]
+ 190 005e B3FBF2F3 		udiv	r3, r3, r2
+ 191              	.LBE39:
+ 192              	.LBE41:
   35:src/stm32_time.c **** }
- 171              		.loc 1 35 0
- 172 005c 1A46     		mov	r2, r3
- 173              	.L8:
- 174              	.LBB34:
- 175              	.LBB35:
- 176              		.loc 1 45 0 discriminator 1
- 177 005e 0B68     		ldr	r3, [r1]
- 178              	.LBE35:
- 179              	.LBE34:
-  35:src/stm32_time.c **** }
- 180              		.loc 1 35 0 discriminator 1
- 181 0060 B3FBF2F3 		udiv	r3, r3, r2
- 182 0064 1B1B     		subs	r3, r3, r4
- 183 0066 8342     		cmp	r3, r0
- 184 0068 F9D3     		bcc	.L8
+ 193              		.loc 1 35 0 is_stmt 1 discriminator 1
+ 194 0062 1B1B     		subs	r3, r3, r4
+ 195 0064 8342     		cmp	r3, r0
+ 196 0066 F9D3     		bcc	.L8
   36:src/stm32_time.c **** 
- 185              		.loc 1 36 0
- 186 006a 10BD     		pop	{r4, pc}
- 187              	.L12:
- 188              		.align	2
- 189              	.L11:
- 190 006c 00000000 		.word	.LANCHOR0
- 191              		.cfi_endproc
- 192              	.LFE31:
- 194              		.align	1
- 195              		.global	udelay
- 196              		.thumb
- 197              		.thumb_func
- 199              	udelay:
- 200              	.LFB32:
+ 197              		.loc 1 36 0
+ 198 0068 10BD     		pop	{r4, pc}
+ 199              	.L11:
+ 200 006a 00BF     		.align	2
+ 201              	.L10:
+ 202 006c 00000000 		.word	.LANCHOR0
+ 203              		.cfi_endproc
+ 204              	.LFE31:
+ 206              		.align	1
+ 207              		.global	udelay
+ 208              		.syntax unified
+ 209              		.thumb
+ 210              		.thumb_func
+ 211              		.fpu softvfp
+ 213              	udelay:
+ 214              	.LFB32:
   38:src/stm32_time.c **** 	uint32_t i = micros();
- 201              		.loc 1 38 0
- 202              		.cfi_startproc
- 203              		@ args = 0, pretend = 0, frame = 0
- 204              		@ frame_needed = 0, uses_anonymous_args = 0
- 205              		@ link register save eliminated.
- 206              	.LVL9:
- 207              	.LBB36:
- 208              	.LBB37:
+ 215              		.loc 1 38 0
+ 216              		.cfi_startproc
+ 217              		@ args = 0, pretend = 0, frame = 0
+ 218              		@ frame_needed = 0, uses_anonymous_args = 0
+ 219              		@ link register save eliminated.
+ 220              	.LVL9:
+ 221              	.LBB42:
+ 222              	.LBB43:
   46:src/stm32_time.c **** }
   47:src/stm32_time.c **** 
   48:src/stm32_time.c **** uint32_t micros(void){
   49:src/stm32_time.c **** 	return sysTickCounter;
- 209              		.loc 1 49 0
- 210 0070 034B     		ldr	r3, .L16
- 211 0072 1968     		ldr	r1, [r3]
- 212              	.L14:
- 213              	.LBE37:
- 214              	.LBE36:
- 215              	.LBB38:
- 216              	.LBB39:
- 217              		.loc 1 49 0 is_stmt 0 discriminator 1
- 218 0074 1A68     		ldr	r2, [r3]
- 219              	.LBE39:
- 220              	.LBE38:
+ 223              		.loc 1 49 0
+ 224 0070 034B     		ldr	r3, .L15
+ 225 0072 1968     		ldr	r1, [r3]
+ 226              	.L13:
+ 227              	.LBE43:
+ 228              	.LBE42:
+ 229              	.LBB44:
+ 230              	.LBB45:
+ 231              		.loc 1 49 0 is_stmt 0 discriminator 1
+ 232 0074 1A68     		ldr	r2, [r3]
+ 233              	.LBE45:
+ 234              	.LBE44:
   40:src/stm32_time.c **** }
- 221              		.loc 1 40 0 is_stmt 1 discriminator 1
- 222 0076 521A     		subs	r2, r2, r1
- 223 0078 8242     		cmp	r2, r0
- 224 007a FBD3     		bcc	.L14
+ 235              		.loc 1 40 0 is_stmt 1 discriminator 1
+ 236 0076 521A     		subs	r2, r2, r1
+ 237 0078 8242     		cmp	r2, r0
+ 238 007a FBD3     		bcc	.L13
   41:src/stm32_time.c **** 
- 225              		.loc 1 41 0
- 226 007c 7047     		bx	lr
- 227              	.L17:
- 228 007e 00BF     		.align	2
- 229              	.L16:
- 230 0080 00000000 		.word	.LANCHOR0
- 231              		.cfi_endproc
- 232              	.LFE32:
- 234              		.align	1
- 235              		.global	millis
- 236              		.thumb
- 237              		.thumb_func
- 239              	millis:
- 240              	.LFB33:
+ 239              		.loc 1 41 0
+ 240 007c 7047     		bx	lr
+ 241              	.L16:
+ 242 007e 00BF     		.align	2
+ 243              	.L15:
+ 244 0080 00000000 		.word	.LANCHOR0
+ 245              		.cfi_endproc
+ 246              	.LFE32:
+ 248              		.align	1
+ 249              		.global	millis
+ 250              		.syntax unified
+ 251              		.thumb
+ 252              		.thumb_func
+ 253              		.fpu softvfp
+ 255              	millis:
+ 256              	.LFB33:
   44:src/stm32_time.c **** 	return sysTickCounter/1000;
- 241              		.loc 1 44 0
- 242              		.cfi_startproc
- 243              		@ args = 0, pretend = 0, frame = 0
- 244              		@ frame_needed = 0, uses_anonymous_args = 0
- 245              		@ link register save eliminated.
+ 257              		.loc 1 44 0
+ 258              		.cfi_startproc
+ 259              		@ args = 0, pretend = 0, frame = 0
+ 260              		@ frame_needed = 0, uses_anonymous_args = 0
+ 261              		@ link register save eliminated.
   45:src/stm32_time.c **** }
- 246              		.loc 1 45 0
- 247 0084 034B     		ldr	r3, .L19
- 248 0086 1868     		ldr	r0, [r3]
+ 262              		.loc 1 45 0
+ 263 0084 034B     		ldr	r3, .L18
+ 264 0086 1868     		ldr	r0, [r3]
   46:src/stm32_time.c **** 
- 249              		.loc 1 46 0
- 250 0088 4FF47A73 		mov	r3, #1000
- 251 008c B0FBF3F0 		udiv	r0, r0, r3
- 252 0090 7047     		bx	lr
- 253              	.L20:
- 254 0092 00BF     		.align	2
- 255              	.L19:
- 256 0094 00000000 		.word	.LANCHOR0
- 257              		.cfi_endproc
- 258              	.LFE33:
- 260              		.align	1
- 261              		.global	micros
- 262              		.thumb
- 263              		.thumb_func
- 265              	micros:
- 266              	.LFB34:
+ 265              		.loc 1 46 0
+ 266 0088 4FF47A73 		mov	r3, #1000
+ 267 008c B0FBF3F0 		udiv	r0, r0, r3
+ 268 0090 7047     		bx	lr
+ 269              	.L19:
+ 270 0092 00BF     		.align	2
+ 271              	.L18:
+ 272 0094 00000000 		.word	.LANCHOR0
+ 273              		.cfi_endproc
+ 274              	.LFE33:
+ 276              		.align	1
+ 277              		.global	micros
+ 278              		.syntax unified
+ 279              		.thumb
+ 280              		.thumb_func
+ 281              		.fpu softvfp
+ 283              	micros:
+ 284              	.LFB34:
   48:src/stm32_time.c **** 	return sysTickCounter;
- 267              		.loc 1 48 0
- 268              		.cfi_startproc
- 269              		@ args = 0, pretend = 0, frame = 0
- 270              		@ frame_needed = 0, uses_anonymous_args = 0
- 271              		@ link register save eliminated.
- 272              		.loc 1 49 0
- 273 0098 014B     		ldr	r3, .L22
- 274 009a 1868     		ldr	r0, [r3]
+ 285              		.loc 1 48 0
+ 286              		.cfi_startproc
+ 287              		@ args = 0, pretend = 0, frame = 0
+ 288              		@ frame_needed = 0, uses_anonymous_args = 0
+ 289              		@ link register save eliminated.
+ 290              		.loc 1 49 0
+ 291 0098 014B     		ldr	r3, .L21
+ 292 009a 1868     		ldr	r0, [r3]
   50:src/stm32_time.c **** }
- 275              		.loc 1 50 0
- 276 009c 7047     		bx	lr
- 277              	.L23:
- 278 009e 00BF     		.align	2
- 279              	.L22:
- 280 00a0 00000000 		.word	.LANCHOR0
- 281              		.cfi_endproc
- 282              	.LFE34:
- 284              		.align	1
- 285              		.global	RCC_Configuration
- 286              		.thumb
- 287              		.thumb_func
- 289              	RCC_Configuration:
- 290              	.LFB35:
+ 293              		.loc 1 50 0
+ 294 009c 7047     		bx	lr
+ 295              	.L22:
+ 296 009e 00BF     		.align	2
+ 297              	.L21:
+ 298 00a0 00000000 		.word	.LANCHOR0
+ 299              		.cfi_endproc
+ 300              	.LFE34:
+ 302              		.align	1
+ 303              		.global	RCC_Configuration
+ 304              		.syntax unified
+ 305              		.thumb
+ 306              		.thumb_func
+ 307              		.fpu softvfp
+ 309              	RCC_Configuration:
+ 310              	.LFB35:
   51:src/stm32_time.c **** 
   52:src/stm32_time.c **** void RCC_Configuration(void){
- 291              		.loc 1 52 0
- 292              		.cfi_startproc
- 293              		@ args = 0, pretend = 0, frame = 0
- 294              		@ frame_needed = 0, uses_anonymous_args = 0
- 295 00a4 10B5     		push	{r4, lr}
- 296              	.LCFI2:
- 297              		.cfi_def_cfa_offset 8
- 298              		.cfi_offset 4, -8
- 299              		.cfi_offset 14, -4
+ 311              		.loc 1 52 0
+ 312              		.cfi_startproc
+ 313              		@ args = 0, pretend = 0, frame = 0
+ 314              		@ frame_needed = 0, uses_anonymous_args = 0
+ 315 00a4 10B5     		push	{r4, lr}
+ 316              	.LCFI2:
+ 317              		.cfi_def_cfa_offset 8
+ 318              		.cfi_offset 4, -8
+ 319              		.cfi_offset 14, -4
   53:src/stm32_time.c **** //#if 0
   54:src/stm32_time.c **** 	ErrorStatus HSEStartUpStatus;
   55:src/stm32_time.c **** 	RCC_DeInit();
- 300              		.loc 1 55 0
- 301 00a6 FFF7FEFF 		bl	RCC_DeInit
- 302              	.LVL10:
+ 320              		.loc 1 55 0
+ 321 00a6 FFF7FEFF 		bl	RCC_DeInit
+ 322              	.LVL10:
   56:src/stm32_time.c **** 
   57:src/stm32_time.c **** 	/* Enable HSE */
   58:src/stm32_time.c ****  	RCC_HSEConfig(RCC_HSE_ON);
- 303              		.loc 1 58 0
- 304 00aa 4FF48030 		mov	r0, #65536
- 305 00ae FFF7FEFF 		bl	RCC_HSEConfig
- 306              	.LVL11:
+ 323              		.loc 1 58 0
+ 324 00aa 4FF48030 		mov	r0, #65536
+ 325 00ae FFF7FEFF 		bl	RCC_HSEConfig
+ 326              	.LVL11:
   59:src/stm32_time.c ****  	/* Wait till HSE is ready */
   60:src/stm32_time.c ****  	HSEStartUpStatus = RCC_WaitForHSEStartUp();
- 307              		.loc 1 60 0
- 308 00b2 FFF7FEFF 		bl	RCC_WaitForHSEStartUp
- 309              	.LVL12:
+ 327              		.loc 1 60 0
+ 328 00b2 FFF7FEFF 		bl	RCC_WaitForHSEStartUp
+ 329              	.LVL12:
   61:src/stm32_time.c ****  
   62:src/stm32_time.c ****  	if(HSEStartUpStatus == SUCCESS){
- 310              		.loc 1 62 0
- 311 00b6 0128     		cmp	r0, #1
+ 330              		.loc 1 62 0
+ 331 00b6 0128     		cmp	r0, #1
   60:src/stm32_time.c ****  
- 312              		.loc 1 60 0
- 313 00b8 0446     		mov	r4, r0
- 314              	.LVL13:
- 315              		.loc 1 62 0
- 316 00ba 0ED0     		beq	.L25
- 317              	.LVL14:
- 318              	.L28:
+ 332              		.loc 1 60 0
+ 333 00b8 0446     		mov	r4, r0
+ 334              	.LVL13:
+ 335              		.loc 1 62 0
+ 336 00ba 0ED0     		beq	.L24
+ 337              	.LVL14:
+ 338              	.L27:
   63:src/stm32_time.c **** 		 /* HCLK = SYSCLK */
   64:src/stm32_time.c **** 		 RCC_HCLKConfig(RCC_SYSCLK_Div1);
   65:src/stm32_time.c **** 
@@ -2119,141 +2137,141 @@
   97:src/stm32_time.c ****   //RCC_PCLK1Config(RCC_HCLK_Div2);
   98:src/stm32_time.c **** 
   99:src/stm32_time.c ****   RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2 | RCC_APB1Periph_TIM3 | RCC_APB1Periph_TIM4, ENABLE);
- 319              		.loc 1 99 0
- 320 00bc 0121     		movs	r1, #1
- 321 00be 0720     		movs	r0, #7
- 322 00c0 FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
- 323              	.LVL15:
+ 339              		.loc 1 99 0
+ 340 00bc 0121     		movs	r1, #1
+ 341 00be 0720     		movs	r0, #7
+ 342 00c0 FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
+ 343              	.LVL15:
  100:src/stm32_time.c ****   RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
- 324              		.loc 1 100 0
- 325 00c4 0121     		movs	r1, #1
- 326 00c6 4FF40060 		mov	r0, #2048
- 327 00ca FFF7FEFF 		bl	RCC_APB2PeriphClockCmd
- 328              	.LVL16:
+ 344              		.loc 1 100 0
+ 345 00c4 0121     		movs	r1, #1
+ 346 00c6 4FF40060 		mov	r0, #2048
+ 347 00ca FFF7FEFF 		bl	RCC_APB2PeriphClockCmd
+ 348              	.LVL16:
  101:src/stm32_time.c ****  
  102:src/stm32_time.c ****  
  103:src/stm32_time.c ****   /* GPIOA, GPIOB and GPIOC clock enable */
  104:src/stm32_time.c ****   RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB | RCC_APB2Periph_GPIOC | RCC_A
  105:src/stm32_time.c **** }...
- 329              		.loc 1 105 0
- 330 00ce BDE81040 		pop	{r4, lr}
- 331              	.LCFI3:
- 332              		.cfi_remember_state
- 333              		.cfi_restore 14
- 334              		.cfi_restore 4
- 335              		.cfi_def_cfa_offset 0
+ 349              		.loc 1 105 0
+ 350 00ce BDE81040 		pop	{r4, lr}
+ 351              	.LCFI3:
+ 352              		.cfi_remember_state
+ 353              		.cfi_restore 14
+ 354              		.cfi_restore 4
+ 355              		.cfi_def_cfa_offset 0
  104:src/stm32_time.c ****   RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB | RCC_APB2Periph_GPIOC | RCC_A
- 336              		.loc 1 104 0
- 337 00d2 0121     		movs	r1, #1
- 338 00d4 1D20     		movs	r0, #29
- 339 00d6 FFF7FEBF 		b	RCC_APB2PeriphClockCmd
- 340              	.LVL17:
- 341              	.L25:
- 342              	.LCFI4:
- 343              		.cfi_restore_state
+ 356              		.loc 1 104 0
+ 357 00d2 0121     		movs	r1, #1
+ 358 00d4 1D20     		movs	r0, #29
+ 359 00d6 FFF7FEBF 		b	RCC_APB2PeriphClockCmd
+ 360              	.LVL17:
+ 361              	.L24:
+ 362              	.LCFI4:
+ 363              		.cfi_restore_state
   64:src/stm32_time.c **** 		 RCC_HCLKConfig(RCC_SYSCLK_Div1);
- 344              		.loc 1 64 0
- 345 00da 0020     		movs	r0, #0
- 346              	.LVL18:
- 347 00dc FFF7FEFF 		bl	RCC_HCLKConfig
- 348              	.LVL19:
+ 364              		.loc 1 64 0
+ 365 00da 0020     		movs	r0, #0
+ 366              	.LVL18:
+ 367 00dc FFF7FEFF 		bl	RCC_HCLKConfig
+ 368              	.LVL19:
   67:src/stm32_time.c **** 		 RCC_PCLK2Config(RCC_HCLK_Div1);
- 349              		.loc 1 67 0
- 350 00e0 0020     		movs	r0, #0
- 351 00e2 FFF7FEFF 		bl	RCC_PCLK2Config
- 352              	.LVL20:
+ 369              		.loc 1 67 0
+ 370 00e0 0020     		movs	r0, #0
+ 371 00e2 FFF7FEFF 		bl	RCC_PCLK2Config
+ 372              	.LVL20:
   70:src/stm32_time.c **** 		 RCC_PCLK1Config(RCC_HCLK_Div4);
- 353              		.loc 1 70 0
- 354 00e6 4FF4A060 		mov	r0, #1280
- 355 00ea FFF7FEFF 		bl	RCC_PCLK1Config
- 356              	.LVL21:
+ 373              		.loc 1 70 0
+ 374 00e6 4FF4A060 		mov	r0, #1280
+ 375 00ea FFF7FEFF 		bl	RCC_PCLK1Config
+ 376              	.LVL21:
   73:src/stm32_time.c **** 		 RCC_ADCCLKConfig(RCC_PCLK2_Div4);
- 357              		.loc 1 73 0
- 358 00ee 4FF48040 		mov	r0, #16384
- 359 00f2 FFF7FEFF 		bl	RCC_ADCCLKConfig
- 360              	.LVL22:
+ 377              		.loc 1 73 0
+ 378 00ee 4FF48040 		mov	r0, #16384
+ 379 00f2 FFF7FEFF 		bl	RCC_ADCCLKConfig
+ 380              	.LVL22:
   76:src/stm32_time.c **** 		 FLASH_SetLatency(FLASH_Latency_2);
- 361              		.loc 1 76 0
- 362 00f6 0220     		movs	r0, #2
- 363 00f8 FFF7FEFF 		bl	FLASH_SetLatency
- 364              	.LVL23:
+ 381              		.loc 1 76 0
+ 382 00f6 0220     		movs	r0, #2
+ 383 00f8 FFF7FEFF 		bl	FLASH_SetLatency
+ 384              	.LVL23:
   79:src/stm32_time.c **** 		 FLASH_PrefetchBufferCmd(FLASH_PrefetchBuffer_Enable);
- 365              		.loc 1 79 0
- 366 00fc 1020     		movs	r0, #16
- 367 00fe FFF7FEFF 		bl	FLASH_PrefetchBufferCmd
- 368              	.LVL24:
+ 385              		.loc 1 79 0
+ 386 00fc 1020     		movs	r0, #16
+ 387 00fe FFF7FEFF 		bl	FLASH_PrefetchBufferCmd
+ 388              	.LVL24:
   82:src/stm32_time.c **** 		 RCC_PLLConfig(RCC_PLLSource_HSE_Div1, RCC_PLLMul_9);
- 369              		.loc 1 82 0
- 370 0102 4FF48030 		mov	r0, #65536
- 371 0106 4FF4E011 		mov	r1, #1835008
- 372 010a FFF7FEFF 		bl	RCC_PLLConfig
- 373              	.LVL25:
+ 389              		.loc 1 82 0
+ 390 0102 4FF48030 		mov	r0, #65536
+ 391 0106 4FF4E011 		mov	r1, #1835008
+ 392 010a FFF7FEFF 		bl	RCC_PLLConfig
+ 393              	.LVL25:
   85:src/stm32_time.c **** 		 RCC_PLLCmd(ENABLE);
- 374              		.loc 1 85 0
- 375 010e 2046     		mov	r0, r4
- 376 0110 FFF7FEFF 		bl	RCC_PLLCmd
- 377              	.LVL26:
- 378              	.L26:
+ 394              		.loc 1 85 0
+ 395 010e 2046     		mov	r0, r4
+ 396 0110 FFF7FEFF 		bl	RCC_PLLCmd
+ 397              	.LVL26:
+ 398              	.L25:
   88:src/stm32_time.c **** 		 while(RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET);
- 379              		.loc 1 88 0 discriminator 1
- 380 0114 3920     		movs	r0, #57
- 381 0116 FFF7FEFF 		bl	RCC_GetFlagStatus
- 382              	.LVL27:
- 383 011a 0028     		cmp	r0, #0
- 384 011c FAD0     		beq	.L26
+ 399              		.loc 1 88 0 discriminator 1
+ 400 0114 3920     		movs	r0, #57
+ 401 0116 FFF7FEFF 		bl	RCC_GetFlagStatus
+ 402              	.LVL27:
+ 403 011a 0028     		cmp	r0, #0
+ 404 011c FAD0     		beq	.L25
   91:src/stm32_time.c **** 		 RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);
- 385              		.loc 1 91 0
- 386 011e 0220     		movs	r0, #2
- 387 0120 FFF7FEFF 		bl	RCC_SYSCLKConfig
- 388              	.LVL28:
- 389              	.L27:
+ 405              		.loc 1 91 0
+ 406 011e 0220     		movs	r0, #2
+ 407 0120 FFF7FEFF 		bl	RCC_SYSCLKConfig
+ 408              	.LVL28:
+ 409              	.L26:
   93:src/stm32_time.c **** 		 while(RCC_GetSYSCLKSource() != 0x08);
- 390              		.loc 1 93 0 discriminator 1
- 391 0124 FFF7FEFF 		bl	RCC_GetSYSCLKSource
- 392              	.LVL29:
- 393 0128 0828     		cmp	r0, #8
- 394 012a FBD1     		bne	.L27
- 395 012c C6E7     		b	.L28
- 396              		.cfi_endproc
- 397              	.LFE35:
- 399              		.bss
- 400              		.align	2
- 401              		.set	.LANCHOR0,. + 0
- 404              	sysTickCounter:
- 405 0000 00000000 		.space	4
- 406              		.text
- 407              	.Letext0:
- 408              		.file 3 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
- 409              		.file 4 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
- 410              		.file 5 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
- 411              		.file 6 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.h"
- 412              		.file 7 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
- 413              		.file 8 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_flash.h"
+ 410              		.loc 1 93 0 discriminator 1
+ 411 0124 FFF7FEFF 		bl	RCC_GetSYSCLKSource
+ 412              	.LVL29:
+ 413 0128 0828     		cmp	r0, #8
+ 414 012a FBD1     		bne	.L26
+ 415 012c C6E7     		b	.L27
+ 416              		.cfi_endproc
+ 417              	.LFE35:
+ 419              		.bss
+ 420              		.align	2
+ 421              		.set	.LANCHOR0,. + 0
+ 424              	sysTickCounter:
+ 425 0000 00000000 		.space	4
+ 426              		.text
+ 427              	.Letext0:
+ 428              		.file 3 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
+ 429              		.file 4 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/machine/_default_types.h"
+ 430              		.file 5 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/sys/_stdint.h"
+ 431              		.file 6 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.h"
+ 432              		.file 7 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
+ 433              		.file 8 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_flash.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 stm32_time.c
-     /tmp/ccW9dnOc.s:19     .text:00000000 $t
-     /tmp/ccW9dnOc.s:24     .text:00000000 SysTick_Init
-     /tmp/ccW9dnOc.s:82     .text:00000028 $d
-     /tmp/ccW9dnOc.s:91     .text:00000038 $t
-     /tmp/ccW9dnOc.s:96     .text:00000038 SysTick_Handler
-     /tmp/ccW9dnOc.s:132    .text:00000048 $d
-     /tmp/ccW9dnOc.s:138    .text:0000004c $t
-     /tmp/ccW9dnOc.s:143    .text:0000004c delay
-     /tmp/ccW9dnOc.s:190    .text:0000006c $d
-     /tmp/ccW9dnOc.s:194    .text:00000070 $t
-     /tmp/ccW9dnOc.s:199    .text:00000070 udelay
-     /tmp/ccW9dnOc.s:230    .text:00000080 $d
-     /tmp/ccW9dnOc.s:234    .text:00000084 $t
-     /tmp/ccW9dnOc.s:239    .text:00000084 millis
-     /tmp/ccW9dnOc.s:256    .text:00000094 $d
-     /tmp/ccW9dnOc.s:260    .text:00000098 $t
-     /tmp/ccW9dnOc.s:265    .text:00000098 micros
-     /tmp/ccW9dnOc.s:280    .text:000000a0 $d
-     /tmp/ccW9dnOc.s:284    .text:000000a4 $t
-     /tmp/ccW9dnOc.s:289    .text:000000a4 RCC_Configuration
-     /tmp/ccW9dnOc.s:400    .bss:00000000 $d
-     /tmp/ccW9dnOc.s:404    .bss:00000000 sysTickCounter
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 stm32_time.c
+     /tmp/ccYgDdk0.s:15     .text:0000000000000000 $t
+     /tmp/ccYgDdk0.s:22     .text:0000000000000000 SysTick_Init
+     /tmp/ccYgDdk0.s:84     .text:0000000000000028 $d
+     /tmp/ccYgDdk0.s:93     .text:0000000000000038 $t
+     /tmp/ccYgDdk0.s:100    .text:0000000000000038 SysTick_Handler
+     /tmp/ccYgDdk0.s:136    .text:0000000000000048 $d
+     /tmp/ccYgDdk0.s:142    .text:000000000000004c $t
+     /tmp/ccYgDdk0.s:149    .text:000000000000004c delay
+     /tmp/ccYgDdk0.s:202    .text:000000000000006c $d
+     /tmp/ccYgDdk0.s:206    .text:0000000000000070 $t
+     /tmp/ccYgDdk0.s:213    .text:0000000000000070 udelay
+     /tmp/ccYgDdk0.s:244    .text:0000000000000080 $d
+     /tmp/ccYgDdk0.s:248    .text:0000000000000084 $t
+     /tmp/ccYgDdk0.s:255    .text:0000000000000084 millis
+     /tmp/ccYgDdk0.s:272    .text:0000000000000094 $d
+     /tmp/ccYgDdk0.s:276    .text:0000000000000098 $t
+     /tmp/ccYgDdk0.s:283    .text:0000000000000098 micros
+     /tmp/ccYgDdk0.s:298    .text:00000000000000a0 $d
+     /tmp/ccYgDdk0.s:302    .text:00000000000000a4 $t
+     /tmp/ccYgDdk0.s:309    .text:00000000000000a4 RCC_Configuration
+     /tmp/ccYgDdk0.s:420    .bss:0000000000000000 $d
+     /tmp/ccYgDdk0.s:424    .bss:0000000000000000 sysTickCounter
+                     .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
 SystemCoreClockUpdate

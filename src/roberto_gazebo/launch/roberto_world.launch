@@ -6,11 +6,12 @@
 	</include>	
 
 	<!-- urdf xml robot description loaded on the Parameter Server, converting the xacro into a proper urdf file-->
-	<param name="robot_description" command="$(find xacro)/xacro.py '$(find roberto_models_indigo)/models/roberto.xacro'" />
+	<!--<param name="robot_description" command="$(find xacro)/xacro '$(find roberto_models_indigo)/models/roberto.xacro'" />-->
+	<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find roberto_models_jade)/models/platform/roberto.xacro'" />
 
 	<!-- push robot_description to factory and spawn robot in gazebo -->
 	<node name="roberto_spawn" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-	 args="-urdf -param robot_description -model roberto" />
+	 args="-urdf -param robot_description -model roberto -z 5" />
 
 	<!-- convert joint states to TF transforms for rviz, etc -->
   	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">

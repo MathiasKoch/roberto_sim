@@ -1,30 +1,28 @@
-   1              		.syntax unified
-   2              		.cpu cortex-m3
-   3              		.fpu softvfp
-   4              		.eabi_attribute 20, 1
-   5              		.eabi_attribute 21, 1
-   6              		.eabi_attribute 23, 3
-   7              		.eabi_attribute 24, 1
-   8              		.eabi_attribute 25, 1
-   9              		.eabi_attribute 26, 1
-  10              		.eabi_attribute 30, 4
-  11              		.eabi_attribute 34, 1
-  12              		.eabi_attribute 18, 4
-  13              		.thumb
-  14              		.syntax unified
-  15              		.file	"DCMotor.cpp"
-  16              		.text
-  17              	.Ltext0:
-  18              		.cfi_sections	.debug_frame
-  19              		.section	.text._ZN7DCMotor9motorTypeEv,"axG",%progbits,_ZN7DCMotor9motorTypeEv,comdat
-  20              		.align	1
-  21              		.weak	_ZN7DCMotor9motorTypeEv
-  22              		.thumb
-  23              		.thumb_func
-  25              	_ZN7DCMotor9motorTypeEv:
-  26              		.fnstart
-  27              	.LFB1021:
-  28              		.file 1 "./inc/DCMotor.h"
+   1              		.cpu cortex-m3
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 4
+   9              		.eabi_attribute 34, 1
+  10              		.eabi_attribute 18, 4
+  11              		.file	"DCMotor.cpp"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.section	.text._ZN7DCMotor9motorTypeEv,"axG",%progbits,_ZN7DCMotor9motorTypeEv,comdat
+  16              		.align	1
+  17              		.weak	_ZN7DCMotor9motorTypeEv
+  18              		.syntax unified
+  19              		.thumb
+  20              		.thumb_func
+  21              		.fpu softvfp
+  23              	_ZN7DCMotor9motorTypeEv:
+  24              		.fnstart
+  25              	.LFB1137:
+  26              		.file 1 "./inc/DCMotor.h"
    1:./inc/DCMotor.h **** 
    2:./inc/DCMotor.h **** #ifndef _DCMotor_H
    3:./inc/DCMotor.h **** #define	_DCMotor_H
@@ -51,28 +49,30 @@
   24:./inc/DCMotor.h ****     virtual float update(float dt, bool connected, bool enable);
   25:./inc/DCMotor.h **** 
   26:./inc/DCMotor.h ****     virtual int motorType() { return MOTOR_TYPE_DC_MOTOR; }
-  29              		.loc 1 26 0
-  30              		.cfi_startproc
-  31              		@ args = 0, pretend = 0, frame = 0
-  32              		@ frame_needed = 0, uses_anonymous_args = 0
-  33              		@ link register save eliminated.
-  34              	.LVL0:
-  35              		.loc 1 26 0
-  36 0000 0220     		movs	r0, #2
-  37              	.LVL1:
-  38 0002 7047     		bx	lr
-  39              		.cfi_endproc
-  40              	.LFE1021:
-  41              		.cantunwind
-  42              		.fnend
-  44              		.text
-  45              		.align	1
-  46              		.global	_ZN7DCMotor12setReferenceEf
-  47              		.thumb
-  48              		.thumb_func
+  27              		.loc 1 26 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32              	.LVL0:
+  33              		.loc 1 26 0
+  34 0000 0220     		movs	r0, #2
+  35              	.LVL1:
+  36 0002 7047     		bx	lr
+  37              		.cfi_endproc
+  38              	.LFE1137:
+  39              		.cantunwind
+  40              		.fnend
+  42              		.text
+  43              		.align	1
+  44              		.global	_ZN7DCMotor12setReferenceEf
+  45              		.syntax unified
+  46              		.thumb
+  47              		.thumb_func
+  48              		.fpu softvfp
   50              	_ZN7DCMotor12setReferenceEf:
   51              		.fnstart
-  52              	.LFB1030:
+  52              	.LFB1146:
   53              		.file 2 "src/DCMotor.cpp"
    1:src/DCMotor.cpp **** 
    2:src/DCMotor.cpp **** #include "DCMotor.h"
@@ -198,16 +198,18 @@
   61 0000 8160     		str	r1, [r0, #8]	@ float
   62 0002 7047     		bx	lr
   63              		.cfi_endproc
-  64              	.LFE1030:
+  64              	.LFE1146:
   65              		.cantunwind
   66              		.fnend
   68              		.align	1
   69              		.global	_ZN7DCMotor12getReferenceEv
-  70              		.thumb
-  71              		.thumb_func
-  73              	_ZN7DCMotor12getReferenceEv:
-  74              		.fnstart
-  75              	.LFB1032:
+  70              		.syntax unified
+  71              		.thumb
+  72              		.thumb_func
+  73              		.fpu softvfp
+  75              	_ZN7DCMotor12getReferenceEv:
+  76              		.fnstart
+  77              	.LFB1148:
  115:src/DCMotor.cpp **** }
  116:src/DCMotor.cpp **** 
  117:src/DCMotor.cpp **** bool DCMotor::setSpeed(int s, bool enable){
@@ -273,1202 +275,1219 @@
  177:src/DCMotor.cpp **** }
  178:src/DCMotor.cpp **** 
  179:src/DCMotor.cpp **** float DCMotor::getReference(){
-  76              		.loc 2 179 0
-  77              		.cfi_startproc
-  78              		@ args = 0, pretend = 0, frame = 0
-  79              		@ frame_needed = 0, uses_anonymous_args = 0
-  80              		@ link register save eliminated.
-  81              	.LVL3:
+  78              		.loc 2 179 0
+  79              		.cfi_startproc
+  80              		@ args = 0, pretend = 0, frame = 0
+  81              		@ frame_needed = 0, uses_anonymous_args = 0
+  82              		@ link register save eliminated.
+  83              	.LVL3:
  180:src/DCMotor.cpp **** 	return speed;
  181:src/DCMotor.cpp **** }
-  82              		.loc 2 181 0
-  83 0004 8068     		ldr	r0, [r0, #8]	@ float
-  84              	.LVL4:
-  85 0006 7047     		bx	lr
-  86              		.cfi_endproc
-  87              	.LFE1032:
-  88              		.cantunwind
-  89              		.fnend
-  91              		.align	1
-  92              		.global	_ZN7DCMotor9motorNameEv
-  93              		.thumb
-  94              		.thumb_func
-  96              	_ZN7DCMotor9motorNameEv:
-  97              		.fnstart
-  98              	.LFB1033:
+  84              		.loc 2 181 0
+  85 0004 8068     		ldr	r0, [r0, #8]	@ float
+  86              	.LVL4:
+  87 0006 7047     		bx	lr
+  88              		.cfi_endproc
+  89              	.LFE1148:
+  90              		.cantunwind
+  91              		.fnend
+  93              		.align	1
+  94              		.global	_ZN7DCMotor9motorNameEv
+  95              		.syntax unified
+  96              		.thumb
+  97              		.thumb_func
+  98              		.fpu softvfp
+ 100              	_ZN7DCMotor9motorNameEv:
+ 101              		.fnstart
+ 102              	.LFB1149:
  182:src/DCMotor.cpp **** 
  183:src/DCMotor.cpp **** const char* DCMotor::motorName(){
-  99              		.loc 2 183 0
- 100              		.cfi_startproc
- 101              		@ args = 0, pretend = 0, frame = 0
- 102              		@ frame_needed = 0, uses_anonymous_args = 0
- 103              		@ link register save eliminated.
- 104              	.LVL5:
+ 103              		.loc 2 183 0
+ 104              		.cfi_startproc
+ 105              		@ args = 0, pretend = 0, frame = 0
+ 106              		@ frame_needed = 0, uses_anonymous_args = 0
+ 107              		@ link register save eliminated.
+ 108              	.LVL5:
  184:src/DCMotor.cpp **** 	return m_settings->m_motorName;
- 105              		.loc 2 184 0
- 106 0008 4368     		ldr	r3, [r0, #4]
+ 109              		.loc 2 184 0
+ 110 0008 4368     		ldr	r3, [r0, #4]
  185:src/DCMotor.cpp **** }
- 107              		.loc 2 185 0
- 108 000a 5868     		ldr	r0, [r3, #4]
- 109              	.LVL6:
- 110 000c 7047     		bx	lr
- 111              		.cfi_endproc
- 112              	.LFE1033:
- 113              		.cantunwind
- 114              		.fnend
- 116              		.align	1
- 117              		.global	_ZN7DCMotorD2Ev
- 118              		.thumb
- 119              		.thumb_func
- 121              	_ZN7DCMotorD2Ev:
- 122              		.fnstart
- 123              	.LFB1026:
+ 111              		.loc 2 185 0
+ 112 000a 5868     		ldr	r0, [r3, #4]
+ 113              	.LVL6:
+ 114 000c 7047     		bx	lr
+ 115              		.cfi_endproc
+ 116              	.LFE1149:
+ 117              		.cantunwind
+ 118              		.fnend
+ 120              		.align	1
+ 121              		.global	_ZN7DCMotorD2Ev
+ 122              		.syntax unified
+ 123              		.thumb
+ 124              		.thumb_func
+ 125              		.fpu softvfp
+ 127              	_ZN7DCMotorD2Ev:
+ 128              		.fnstart
+ 129              	.LFB1142:
   18:src/DCMotor.cpp **** {
- 124              		.loc 2 18 0
- 125              		.cfi_startproc
- 126              		@ args = 0, pretend = 0, frame = 0
- 127              		@ frame_needed = 0, uses_anonymous_args = 0
- 128              	.LVL7:
- 129 000e 10B5     		push	{r4, lr}
- 130              	.LCFI0:
- 131              		.cfi_def_cfa_offset 8
- 132              		.cfi_offset 4, -8
- 133              		.cfi_offset 14, -4
+ 130              		.loc 2 18 0
+ 131              		.cfi_startproc
+ 132              		@ args = 0, pretend = 0, frame = 0
+ 133              		@ frame_needed = 0, uses_anonymous_args = 0
+ 134              	.LVL7:
+ 135 000e 10B5     		push	{r4, lr}
+ 136              	.LCFI0:
+ 137              		.cfi_def_cfa_offset 8
+ 138              		.cfi_offset 4, -8
+ 139              		.cfi_offset 14, -4
   18:src/DCMotor.cpp **** {
- 134              		.loc 2 18 0
- 135 0010 0446     		mov	r4, r0
- 136              	.LBB4:
- 137 0012 034B     		ldr	r3, .L6
- 138 0014 0360     		str	r3, [r0]
- 139 0016 FFF7FEFF 		bl	_ZN5motorD2Ev
- 140              	.LVL8:
- 141              	.LBE4:
+ 140              		.loc 2 18 0
+ 141 0010 0446     		mov	r4, r0
+ 142              	.LBB4:
+ 143 0012 034B     		ldr	r3, .L6
+ 144 0014 0360     		str	r3, [r0]
+ 145 0016 FFF7FEFF 		bl	_ZN5motorD2Ev
+ 146              	.LVL8:
+ 147              	.LBE4:
   20:src/DCMotor.cpp **** 
- 142              		.loc 2 20 0
- 143 001a 2046     		mov	r0, r4
- 144 001c 10BD     		pop	{r4, pc}
- 145              	.LVL9:
- 146              	.L7:
- 147 001e 00BF     		.align	2
- 148              	.L6:
- 149 0020 08000000 		.word	.LANCHOR0+8
- 150              		.cfi_endproc
- 151              	.LFE1026:
- 152              		.cantunwind
- 153              		.fnend
- 155              		.global	_ZN7DCMotorD1Ev
- 156              		.thumb_set _ZN7DCMotorD1Ev,_ZN7DCMotorD2Ev
- 157              		.align	1
- 158              		.global	_ZN7DCMotorD0Ev
- 159              		.thumb
- 160              		.thumb_func
- 162              	_ZN7DCMotorD0Ev:
- 163              		.fnstart
- 164              	.LFB1028:
+ 148              		.loc 2 20 0
+ 149 001a 2046     		mov	r0, r4
+ 150 001c 10BD     		pop	{r4, pc}
+ 151              	.LVL9:
+ 152              	.L7:
+ 153 001e 00BF     		.align	2
+ 154              	.L6:
+ 155 0020 08000000 		.word	.LANCHOR0+8
+ 156              		.cfi_endproc
+ 157              	.LFE1142:
+ 158              		.cantunwind
+ 159              		.fnend
+ 161              		.global	_ZN7DCMotorD1Ev
+ 162              		.thumb_set _ZN7DCMotorD1Ev,_ZN7DCMotorD2Ev
+ 163              		.align	1
+ 164              		.global	_ZN7DCMotorD0Ev
+ 165              		.syntax unified
+ 166              		.thumb
+ 167              		.thumb_func
+ 168              		.fpu softvfp
+ 170              	_ZN7DCMotorD0Ev:
+ 171              		.fnstart
+ 172              	.LFB1144:
   18:src/DCMotor.cpp **** {
- 165              		.loc 2 18 0
- 166              		.cfi_startproc
- 167              		@ args = 0, pretend = 0, frame = 0
- 168              		@ frame_needed = 0, uses_anonymous_args = 0
- 169              	.LVL10:
- 170 0024 10B5     		push	{r4, lr}
- 171              	.LCFI1:
- 172              		.cfi_def_cfa_offset 8
- 173              		.cfi_offset 4, -8
- 174              		.cfi_offset 14, -4
+ 173              		.loc 2 18 0
+ 174              		.cfi_startproc
+ 175              		@ args = 0, pretend = 0, frame = 0
+ 176              		@ frame_needed = 0, uses_anonymous_args = 0
+ 177              	.LVL10:
+ 178 0024 10B5     		push	{r4, lr}
+ 179              	.LCFI1:
+ 180              		.cfi_def_cfa_offset 8
+ 181              		.cfi_offset 4, -8
+ 182              		.cfi_offset 14, -4
   18:src/DCMotor.cpp **** {
- 175              		.loc 2 18 0
- 176 0026 0446     		mov	r4, r0
+ 183              		.loc 2 18 0
+ 184 0026 0446     		mov	r4, r0
   20:src/DCMotor.cpp **** 
- 177              		.loc 2 20 0
- 178 0028 FFF7FEFF 		bl	_ZN7DCMotorD1Ev
- 179              	.LVL11:
- 180 002c 2046     		mov	r0, r4
- 181 002e FFF7FEFF 		bl	_ZdlPv
- 182              	.LVL12:
- 183 0032 2046     		mov	r0, r4
- 184 0034 10BD     		pop	{r4, pc}
- 185              		.cfi_endproc
- 186              	.LFE1028:
- 187              		.cantunwind
- 188              		.fnend
- 190              		.align	1
- 191              		.global	_ZN7DCMotor9motorInitEv
- 192              		.thumb
- 193              		.thumb_func
- 195              	_ZN7DCMotor9motorInitEv:
- 196              		.fnstart
- 197              	.LFB1029:
+ 185              		.loc 2 20 0
+ 186 0028 FFF7FEFF 		bl	_ZN7DCMotorD1Ev
+ 187              	.LVL11:
+ 188 002c 2046     		mov	r0, r4
+ 189 002e FFF7FEFF 		bl	_ZdlPv
+ 190              	.LVL12:
+ 191 0032 2046     		mov	r0, r4
+ 192 0034 10BD     		pop	{r4, pc}
+ 193              		.cfi_endproc
+ 194              	.LFE1144:
+ 195              		.cantunwind
+ 196              		.fnend
+ 198              		.align	1
+ 199              		.global	_ZN7DCMotor9motorInitEv
+ 200              		.syntax unified
+ 201              		.thumb
+ 202              		.thumb_func
+ 203              		.fpu softvfp
+ 205              	_ZN7DCMotor9motorInitEv:
+ 206              		.fnstart
+ 207              	.LFB1145:
   23:src/DCMotor.cpp **** 	GPIO_InitTypeDef GPIO_InitStructure;
- 198              		.loc 2 23 0
- 199              		.cfi_startproc
- 200              		@ args = 0, pretend = 0, frame = 32
- 201              		@ frame_needed = 0, uses_anonymous_args = 0
- 202              	.LVL13:
- 203 0036 70B5     		push	{r4, r5, r6, lr}
- 204              		.save {r4, r5, r6, lr}
- 205              	.LCFI2:
- 206              		.cfi_def_cfa_offset 16
- 207              		.cfi_offset 4, -16
- 208              		.cfi_offset 5, -12
- 209              		.cfi_offset 6, -8
- 210              		.cfi_offset 14, -4
- 211 0038 0446     		mov	r4, r0
-  26:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
- 212              		.loc 2 26 0
- 213 003a 4368     		ldr	r3, [r0, #4]
-  23:src/DCMotor.cpp **** 	GPIO_InitTypeDef GPIO_InitStructure;
- 214              		.loc 2 23 0
- 215              		.pad #32
- 216 003c 88B0     		sub	sp, sp, #32
- 217              	.LCFI3:
- 218              		.cfi_def_cfa_offset 48
-  26:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
- 219              		.loc 2 26 0
- 220 003e 1A6A     		ldr	r2, [r3, #32]
+ 208              		.loc 2 23 0
+ 209              		.cfi_startproc
+ 210              		@ args = 0, pretend = 0, frame = 32
+ 211              		@ frame_needed = 0, uses_anonymous_args = 0
+ 212              	.LVL13:
+ 213 0036 70B5     		push	{r4, r5, r6, lr}
+ 214              		.save {r4, r5, r6, lr}
+ 215              	.LCFI2:
+ 216              		.cfi_def_cfa_offset 16
+ 217              		.cfi_offset 4, -16
+ 218              		.cfi_offset 5, -12
+ 219              		.cfi_offset 6, -8
+ 220              		.cfi_offset 14, -4
   28:src/DCMotor.cpp **** 	GPIO_Init(m_settings->m_DCInAPort, &GPIO_InitStructure);
  221              		.loc 2 28 0
- 222 0040 0325     		movs	r5, #3
+ 222 0038 0325     		movs	r5, #3
   27:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
  223              		.loc 2 27 0
- 224 0042 1026     		movs	r6, #16
-  29:src/DCMotor.cpp **** 
- 225              		.loc 2 29 0
- 226 0044 586A     		ldr	r0, [r3, #36]
- 227              	.LVL14:
- 228 0046 6946     		mov	r1, sp
+ 224 003a 1026     		movs	r6, #16
+  23:src/DCMotor.cpp **** 	GPIO_InitTypeDef GPIO_InitStructure;
+ 225              		.loc 2 23 0
+ 226 003c 0446     		mov	r4, r0
   26:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
- 229              		.loc 2 26 0
- 230 0048 ADF80020 		strh	r2, [sp]	@ movhi
-  27:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
- 231              		.loc 2 27 0
- 232 004c 8DF80360 		strb	r6, [sp, #3]
-  28:src/DCMotor.cpp **** 	GPIO_Init(m_settings->m_DCInAPort, &GPIO_InitStructure);
- 233              		.loc 2 28 0
- 234 0050 8DF80250 		strb	r5, [sp, #2]
+ 227              		.loc 2 26 0
+ 228 003e 4368     		ldr	r3, [r0, #4]
+  23:src/DCMotor.cpp **** 	GPIO_InitTypeDef GPIO_InitStructure;
+ 229              		.loc 2 23 0
+ 230              		.pad #32
+ 231 0040 88B0     		sub	sp, sp, #32
+ 232              	.LCFI3:
+ 233              		.cfi_def_cfa_offset 48
+  26:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+ 234              		.loc 2 26 0
+ 235 0042 1A6A     		ldr	r2, [r3, #32]
   29:src/DCMotor.cpp **** 
- 235              		.loc 2 29 0
- 236 0054 FFF7FEFF 		bl	GPIO_Init
- 237              	.LVL15:
-  31:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
- 238              		.loc 2 31 0
- 239 0058 6368     		ldr	r3, [r4, #4]
-  34:src/DCMotor.cpp **** 
- 240              		.loc 2 34 0
- 241 005a 6946     		mov	r1, sp
-  31:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
- 242              		.loc 2 31 0
- 243 005c 1A6B     		ldr	r2, [r3, #48]
-  34:src/DCMotor.cpp **** 
- 244              		.loc 2 34 0
- 245 005e 586B     		ldr	r0, [r3, #52]
-  31:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
- 246              		.loc 2 31 0
- 247 0060 ADF80020 		strh	r2, [sp]	@ movhi
+ 236              		.loc 2 29 0
+ 237 0044 586A     		ldr	r0, [r3, #36]
+ 238              	.LVL14:
+ 239 0046 6946     		mov	r1, sp
+  26:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+ 240              		.loc 2 26 0
+ 241 0048 ADF80020 		strh	r2, [sp]	@ movhi
+  27:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 242              		.loc 2 27 0
+ 243 004c 8DF80360 		strb	r6, [sp, #3]
+  28:src/DCMotor.cpp **** 	GPIO_Init(m_settings->m_DCInAPort, &GPIO_InitStructure);
+ 244              		.loc 2 28 0
+ 245 0050 8DF80250 		strb	r5, [sp, #2]
+  29:src/DCMotor.cpp **** 
+ 246              		.loc 2 29 0
+ 247 0054 FFF7FEFF 		bl	GPIO_Init
+ 248              	.LVL15:
   32:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
- 248              		.loc 2 32 0
- 249 0064 8DF80360 		strb	r6, [sp, #3]
-  33:src/DCMotor.cpp **** 	GPIO_Init(m_settings->m_DCInBPort, &GPIO_InitStructure);
- 250              		.loc 2 33 0
- 251 0068 8DF80250 		strb	r5, [sp, #2]
+ 249              		.loc 2 32 0
+ 250 0058 8DF80360 		strb	r6, [sp, #3]
+  37:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 251              		.loc 2 37 0
+ 252 005c 1426     		movs	r6, #20
+  31:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+ 253              		.loc 2 31 0
+ 254 005e 6368     		ldr	r3, [r4, #4]
   34:src/DCMotor.cpp **** 
- 252              		.loc 2 34 0
- 253 006c FFF7FEFF 		bl	GPIO_Init
- 254              	.LVL16:
+ 255              		.loc 2 34 0
+ 256 0060 6946     		mov	r1, sp
+  31:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+ 257              		.loc 2 31 0
+ 258 0062 1A6B     		ldr	r2, [r3, #48]
+  34:src/DCMotor.cpp **** 
+ 259              		.loc 2 34 0
+ 260 0064 586B     		ldr	r0, [r3, #52]
+  31:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+ 261              		.loc 2 31 0
+ 262 0066 ADF80020 		strh	r2, [sp]	@ movhi
+  33:src/DCMotor.cpp **** 	GPIO_Init(m_settings->m_DCInBPort, &GPIO_InitStructure);
+ 263              		.loc 2 33 0
+ 264 006a 8DF80250 		strb	r5, [sp, #2]
+  34:src/DCMotor.cpp **** 
+ 265              		.loc 2 34 0
+ 266 006e FFF7FEFF 		bl	GPIO_Init
+ 267              	.LVL16:
   36:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
- 255              		.loc 2 36 0
- 256 0070 6368     		ldr	r3, [r4, #4]
-  37:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
- 257              		.loc 2 37 0
- 258 0072 1426     		movs	r6, #20
-  36:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
- 259              		.loc 2 36 0
- 260 0074 9A6A     		ldr	r2, [r3, #40]
-  39:src/DCMotor.cpp **** 
- 261              		.loc 2 39 0
- 262 0076 D86A     		ldr	r0, [r3, #44]
- 263 0078 6946     		mov	r1, sp
-  36:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
- 264              		.loc 2 36 0
- 265 007a ADF80020 		strh	r2, [sp]	@ movhi
-  38:src/DCMotor.cpp **** 	GPIO_Init(m_settings->m_DCEnAPort, &GPIO_InitStructure);
- 266              		.loc 2 38 0
- 267 007e 8DF80250 		strb	r5, [sp, #2]
-  37:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
- 268              		.loc 2 37 0
- 269 0082 8DF80360 		strb	r6, [sp, #3]
+ 268              		.loc 2 36 0
+ 269 0072 6368     		ldr	r3, [r4, #4]
   39:src/DCMotor.cpp **** 
  270              		.loc 2 39 0
- 271 0086 FFF7FEFF 		bl	GPIO_Init
- 272              	.LVL17:
+ 271 0074 6946     		mov	r1, sp
+  36:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 272              		.loc 2 36 0
+ 273 0076 9A6A     		ldr	r2, [r3, #40]
+  39:src/DCMotor.cpp **** 
+ 274              		.loc 2 39 0
+ 275 0078 D86A     		ldr	r0, [r3, #44]
+  36:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 276              		.loc 2 36 0
+ 277 007a ADF80020 		strh	r2, [sp]	@ movhi
+  38:src/DCMotor.cpp **** 	GPIO_Init(m_settings->m_DCEnAPort, &GPIO_InitStructure);
+ 278              		.loc 2 38 0
+ 279 007e 8DF80250 		strb	r5, [sp, #2]
+  37:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 280              		.loc 2 37 0
+ 281 0082 8DF80360 		strb	r6, [sp, #3]
+  39:src/DCMotor.cpp **** 
+ 282              		.loc 2 39 0
+ 283 0086 FFF7FEFF 		bl	GPIO_Init
+ 284              	.LVL17:
   41:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
- 273              		.loc 2 41 0
- 274 008a 6368     		ldr	r3, [r4, #4]
-  44:src/DCMotor.cpp **** 
- 275              		.loc 2 44 0
- 276 008c 6946     		mov	r1, sp
-  41:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
- 277              		.loc 2 41 0
- 278 008e 9A6B     		ldr	r2, [r3, #56]
-  44:src/DCMotor.cpp **** 
- 279              		.loc 2 44 0
- 280 0090 D86B     		ldr	r0, [r3, #60]
-  41:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
- 281              		.loc 2 41 0
- 282 0092 ADF80020 		strh	r2, [sp]	@ movhi
-  43:src/DCMotor.cpp **** 	GPIO_Init(m_settings->m_DCEnBPort, &GPIO_InitStructure);
- 283              		.loc 2 43 0
- 284 0096 8DF80250 		strb	r5, [sp, #2]
-  42:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
- 285              		.loc 2 42 0
- 286 009a 8DF80360 		strb	r6, [sp, #3]
+ 285              		.loc 2 41 0
+ 286 008a 6368     		ldr	r3, [r4, #4]
   44:src/DCMotor.cpp **** 
  287              		.loc 2 44 0
- 288 009e FFF7FEFF 		bl	GPIO_Init
- 289              	.LVL18:
+ 288 008c 6946     		mov	r1, sp
+  41:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 289              		.loc 2 41 0
+ 290 008e 9A6B     		ldr	r2, [r3, #56]
+  44:src/DCMotor.cpp **** 
+ 291              		.loc 2 44 0
+ 292 0090 D86B     		ldr	r0, [r3, #60]
+  41:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+ 293              		.loc 2 41 0
+ 294 0092 ADF80020 		strh	r2, [sp]	@ movhi
+  43:src/DCMotor.cpp **** 	GPIO_Init(m_settings->m_DCEnBPort, &GPIO_InitStructure);
+ 295              		.loc 2 43 0
+ 296 0096 8DF80250 		strb	r5, [sp, #2]
+  42:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 297              		.loc 2 42 0
+ 298 009a 8DF80360 		strb	r6, [sp, #3]
+  44:src/DCMotor.cpp **** 
+ 299              		.loc 2 44 0
+ 300 009e FFF7FEFF 		bl	GPIO_Init
+ 301              	.LVL18:
   46:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
- 290              		.loc 2 46 0
- 291 00a2 6368     		ldr	r3, [r4, #4]
+ 302              		.loc 2 46 0
+ 303 00a2 6368     		ldr	r3, [r4, #4]
   49:src/DCMotor.cpp **** 
- 292              		.loc 2 49 0
- 293 00a4 6946     		mov	r1, sp
+ 304              		.loc 2 49 0
+ 305 00a4 6946     		mov	r1, sp
   46:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
- 294              		.loc 2 46 0
- 295 00a6 1A6C     		ldr	r2, [r3, #64]
+ 306              		.loc 2 46 0
+ 307 00a6 1A6C     		ldr	r2, [r3, #64]
   49:src/DCMotor.cpp **** 
- 296              		.loc 2 49 0
- 297 00a8 586C     		ldr	r0, [r3, #68]
+ 308              		.loc 2 49 0
+ 309 00a8 586C     		ldr	r0, [r3, #68]
   46:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
- 298              		.loc 2 46 0
- 299 00aa ADF80020 		strh	r2, [sp]	@ movhi
+ 310              		.loc 2 46 0
+ 311 00aa ADF80020 		strh	r2, [sp]	@ movhi
   47:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
- 300              		.loc 2 47 0
- 301 00ae 1822     		movs	r2, #24
- 302 00b0 8DF80320 		strb	r2, [sp, #3]
+ 312              		.loc 2 47 0
+ 313 00ae 1822     		movs	r2, #24
   48:src/DCMotor.cpp **** 	GPIO_Init(m_settings->m_DCPWMPort, &GPIO_InitStructure);
- 303              		.loc 2 48 0
- 304 00b4 8DF80250 		strb	r5, [sp, #2]
+ 314              		.loc 2 48 0
+ 315 00b0 8DF80250 		strb	r5, [sp, #2]
+  47:src/DCMotor.cpp **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 316              		.loc 2 47 0
+ 317 00b4 8DF80320 		strb	r2, [sp, #3]
   49:src/DCMotor.cpp **** 
- 305              		.loc 2 49 0
- 306 00b8 FFF7FEFF 		bl	GPIO_Init
- 307              	.LVL19:
+ 318              		.loc 2 49 0
+ 319 00b8 FFF7FEFF 		bl	GPIO_Init
+ 320              	.LVL19:
   52:src/DCMotor.cpp **** 		TIM_TimeBaseStructure.TIM_Period = PERIOD*2;
- 308              		.loc 2 52 0
- 309 00bc 6368     		ldr	r3, [r4, #4]
+ 321              		.loc 2 52 0
+ 322 00bc 6368     		ldr	r3, [r4, #4]
   56:src/DCMotor.cpp **** 	TIM_TimeBaseStructure.TIM_ClockDivision = CLOCKDIV;
- 310              		.loc 2 56 0
- 311 00be 0025     		movs	r5, #0
+ 323              		.loc 2 56 0
+ 324 00be 0025     		movs	r5, #0
   52:src/DCMotor.cpp **** 		TIM_TimeBaseStructure.TIM_Period = PERIOD*2;
- 312              		.loc 2 52 0
- 313 00c0 9868     		ldr	r0, [r3, #8]
- 314 00c2 3B4B     		ldr	r3, .L22
+ 325              		.loc 2 52 0
+ 326 00c0 9868     		ldr	r0, [r3, #8]
+ 327 00c2 3B4B     		ldr	r3, .L21
   60:src/DCMotor.cpp **** 
- 315              		.loc 2 60 0
- 316 00c4 01A9     		add	r1, sp, #4
+ 328              		.loc 2 60 0
+ 329 00c4 01A9     		add	r1, sp, #4
   52:src/DCMotor.cpp **** 		TIM_TimeBaseStructure.TIM_Period = PERIOD*2;
- 317              		.loc 2 52 0
- 318 00c6 9842     		cmp	r0, r3
+ 330              		.loc 2 52 0
+ 331 00c6 9842     		cmp	r0, r3
   53:src/DCMotor.cpp **** 	else
- 319              		.loc 2 53 0
- 320 00c8 0CBF     		ite	eq
- 321 00ca 47F27E03 		movweq	r3, #28798
+ 332              		.loc 2 53 0
+ 333 00c8 0CBF     		ite	eq
+ 334 00ca 47F27E03 		movweq	r3, #28798
   55:src/DCMotor.cpp **** 	TIM_TimeBaseStructure.TIM_Prescaler = PRESCALER;
- 322              		.loc 2 55 0
- 323 00ce 43F63F03 		movwne	r3, #14399
+ 335              		.loc 2 55 0
+ 336 00ce 43F63F03 		movwne	r3, #14399
   56:src/DCMotor.cpp **** 	TIM_TimeBaseStructure.TIM_ClockDivision = CLOCKDIV;
- 324              		.loc 2 56 0
- 325 00d2 ADF80450 		strh	r5, [sp, #4]	@ movhi
+ 337              		.loc 2 56 0
+ 338 00d2 ADF80450 		strh	r5, [sp, #4]	@ movhi
   55:src/DCMotor.cpp **** 	TIM_TimeBaseStructure.TIM_Prescaler = PRESCALER;
- 326              		.loc 2 55 0
- 327 00d6 ADF80830 		strh	r3, [sp, #8]	@ movhi
+ 339              		.loc 2 55 0
+ 340 00d6 ADF80830 		strh	r3, [sp, #8]	@ movhi
   57:src/DCMotor.cpp **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
- 328              		.loc 2 57 0
- 329 00da ADF80A50 		strh	r5, [sp, #10]	@ movhi
+ 341              		.loc 2 57 0
+ 342 00da ADF80A50 		strh	r5, [sp, #10]	@ movhi
   58:src/DCMotor.cpp **** 
- 330              		.loc 2 58 0
- 331 00de ADF80650 		strh	r5, [sp, #6]	@ movhi
+ 343              		.loc 2 58 0
+ 344 00de ADF80650 		strh	r5, [sp, #6]	@ movhi
   60:src/DCMotor.cpp **** 
- 332              		.loc 2 60 0
- 333 00e2 FFF7FEFF 		bl	TIM_TimeBaseInit
- 334              	.LVL20:
+ 345              		.loc 2 60 0
+ 346 00e2 FFF7FEFF 		bl	TIM_TimeBaseInit
+ 347              	.LVL20:
   63:src/DCMotor.cpp **** 
- 335              		.loc 2 63 0
- 336 00e6 04A8     		add	r0, sp, #16
- 337 00e8 FFF7FEFF 		bl	TIM_OCStructInit
- 338              	.LVL21:
+ 348              		.loc 2 63 0
+ 349 00e6 04A8     		add	r0, sp, #16
+ 350 00e8 FFF7FEFF 		bl	TIM_OCStructInit
+ 351              	.LVL21:
   65:src/DCMotor.cpp **** 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
- 339              		.loc 2 65 0
- 340 00ec 6023     		movs	r3, #96
- 341 00ee ADF81030 		strh	r3, [sp, #16]	@ movhi
+ 352              		.loc 2 65 0
+ 353 00ec 6023     		movs	r3, #96
+ 354 00ee ADF81030 		strh	r3, [sp, #16]	@ movhi
   66:src/DCMotor.cpp **** 	TIM_OCInitStructure.TIM_Pulse = 0x00;
- 342              		.loc 2 66 0
- 343 00f2 0123     		movs	r3, #1
- 344 00f4 ADF81230 		strh	r3, [sp, #18]	@ movhi
+ 355              		.loc 2 66 0
+ 356 00f2 0123     		movs	r3, #1
+ 357 00f4 ADF81230 		strh	r3, [sp, #18]	@ movhi
   70:src/DCMotor.cpp **** 		case 1:
- 345              		.loc 2 70 0
- 346 00f8 6368     		ldr	r3, [r4, #4]
+ 358              		.loc 2 70 0
+ 359 00f8 6368     		ldr	r3, [r4, #4]
   67:src/DCMotor.cpp **** 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
- 347              		.loc 2 67 0
- 348 00fa ADF81650 		strh	r5, [sp, #22]	@ movhi
+ 360              		.loc 2 67 0
+ 361 00fa ADF81650 		strh	r5, [sp, #22]	@ movhi
   70:src/DCMotor.cpp **** 		case 1:
- 349              		.loc 2 70 0
- 350 00fe DA68     		ldr	r2, [r3, #12]
+ 362              		.loc 2 70 0
+ 363 00fe DA68     		ldr	r2, [r3, #12]
   68:src/DCMotor.cpp **** 
- 351              		.loc 2 68 0
- 352 0100 ADF81850 		strh	r5, [sp, #24]	@ movhi
+ 364              		.loc 2 68 0
+ 365 0100 ADF81850 		strh	r5, [sp, #24]	@ movhi
   70:src/DCMotor.cpp **** 		case 1:
- 353              		.loc 2 70 0
- 354 0104 013A     		subs	r2, r2, #1
- 355 0106 032A     		cmp	r2, #3
- 356 0108 4ED8     		bhi	.L19
- 357 010a DFE802F0 		tbb	[pc, r2]
- 358              	.L14:
- 359 010e 02       		.byte	(.L13-.L14)/2
- 360 010f 0C       		.byte	(.L15-.L14)/2
- 361 0110 16       		.byte	(.L16-.L14)/2
- 362 0111 20       		.byte	(.L17-.L14)/2
- 363              		.p2align 1
- 364              	.L13:
+ 366              		.loc 2 70 0
+ 367 0104 013A     		subs	r2, r2, #1
+ 368 0106 032A     		cmp	r2, #3
+ 369 0108 4FD8     		bhi	.L19
+ 370 010a DFE802F0 		tbb	[pc, r2]
+ 371              	.L14:
+ 372 010e 02       		.byte	(.L13-.L14)/2
+ 373 010f 30       		.byte	(.L15-.L14)/2
+ 374 0110 3A       		.byte	(.L16-.L14)/2
+ 375 0111 44       		.byte	(.L17-.L14)/2
+ 376              		.p2align 1
+ 377              	.L13:
   72:src/DCMotor.cpp **** 			TIM_OC1PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
- 365              		.loc 2 72 0
- 366 0112 04A9     		add	r1, sp, #16
- 367 0114 9868     		ldr	r0, [r3, #8]
- 368 0116 FFF7FEFF 		bl	TIM_OC1Init
- 369              	.LVL22:
+ 378              		.loc 2 72 0
+ 379 0112 9868     		ldr	r0, [r3, #8]
+ 380 0114 04A9     		add	r1, sp, #16
+ 381 0116 FFF7FEFF 		bl	TIM_OC1Init
+ 382              	.LVL22:
   73:src/DCMotor.cpp **** 			break;
- 370              		.loc 2 73 0
- 371 011a 6368     		ldr	r3, [r4, #4]
- 372 011c 0821     		movs	r1, #8
- 373 011e 9868     		ldr	r0, [r3, #8]
- 374 0120 FFF7FEFF 		bl	TIM_OC1PreloadConfig
- 375              	.LVL23:
- 376 0124 1CE0     		b	.L18
- 377              	.L15:
-  76:src/DCMotor.cpp **** 			TIM_OC2PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
- 378              		.loc 2 76 0
- 379 0126 04A9     		add	r1, sp, #16
- 380 0128 9868     		ldr	r0, [r3, #8]
- 381 012a FFF7FEFF 		bl	TIM_OC2Init
- 382              	.LVL24:
-  77:src/DCMotor.cpp **** 			break;
- 383              		.loc 2 77 0
- 384 012e 6368     		ldr	r3, [r4, #4]
- 385 0130 0821     		movs	r1, #8
- 386 0132 9868     		ldr	r0, [r3, #8]
- 387 0134 FFF7FEFF 		bl	TIM_OC2PreloadConfig
- 388              	.LVL25:
- 389 0138 12E0     		b	.L18
- 390              	.L16:
-  80:src/DCMotor.cpp **** 			TIM_OC3PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
- 391              		.loc 2 80 0
- 392 013a 04A9     		add	r1, sp, #16
- 393 013c 9868     		ldr	r0, [r3, #8]
- 394 013e FFF7FEFF 		bl	TIM_OC3Init
- 395              	.LVL26:
-  81:src/DCMotor.cpp **** 			break;
- 396              		.loc 2 81 0
- 397 0142 6368     		ldr	r3, [r4, #4]
- 398 0144 0821     		movs	r1, #8
- 399 0146 9868     		ldr	r0, [r3, #8]
- 400 0148 FFF7FEFF 		bl	TIM_OC3PreloadConfig
- 401              	.LVL27:
- 402 014c 08E0     		b	.L18
- 403              	.L17:
-  84:src/DCMotor.cpp **** 			TIM_OC4PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
- 404              		.loc 2 84 0
- 405 014e 9868     		ldr	r0, [r3, #8]
- 406 0150 04A9     		add	r1, sp, #16
- 407 0152 FFF7FEFF 		bl	TIM_OC4Init
- 408              	.LVL28:
-  85:src/DCMotor.cpp **** 			break;
- 409              		.loc 2 85 0
- 410 0156 6368     		ldr	r3, [r4, #4]
- 411 0158 0821     		movs	r1, #8
- 412 015a 9868     		ldr	r0, [r3, #8]
- 413 015c FFF7FEFF 		bl	TIM_OC4PreloadConfig
- 414              	.LVL29:
- 415              	.L18:
+ 383              		.loc 2 73 0
+ 384 011a 6368     		ldr	r3, [r4, #4]
+ 385 011c 0821     		movs	r1, #8
+ 386 011e 9868     		ldr	r0, [r3, #8]
+ 387 0120 FFF7FEFF 		bl	TIM_OC1PreloadConfig
+ 388              	.LVL23:
+ 389              	.L18:
   91:src/DCMotor.cpp **** 
- 416              		.loc 2 91 0
- 417 0160 6368     		ldr	r3, [r4, #4]
- 418 0162 0121     		movs	r1, #1
- 419 0164 9868     		ldr	r0, [r3, #8]
- 420 0166 FFF7FEFF 		bl	TIM_ARRPreloadConfig
- 421              	.LVL30:
+ 390              		.loc 2 91 0
+ 391 0124 6368     		ldr	r3, [r4, #4]
+ 392 0126 0121     		movs	r1, #1
+ 393 0128 9868     		ldr	r0, [r3, #8]
+ 394 012a FFF7FEFF 		bl	TIM_ARRPreloadConfig
+ 395              	.LVL24:
   93:src/DCMotor.cpp **** 
- 422              		.loc 2 93 0
- 423 016a 6368     		ldr	r3, [r4, #4]
- 424 016c 0121     		movs	r1, #1
- 425 016e 9868     		ldr	r0, [r3, #8]
- 426 0170 FFF7FEFF 		bl	TIM_CtrlPWMOutputs
- 427              	.LVL31:
+ 396              		.loc 2 93 0
+ 397 012e 6368     		ldr	r3, [r4, #4]
+ 398 0130 0121     		movs	r1, #1
+ 399 0132 9868     		ldr	r0, [r3, #8]
+ 400 0134 FFF7FEFF 		bl	TIM_CtrlPWMOutputs
+ 401              	.LVL25:
   95:src/DCMotor.cpp **** 
- 428              		.loc 2 95 0
- 429 0174 6368     		ldr	r3, [r4, #4]
- 430 0176 0121     		movs	r1, #1
- 431 0178 9868     		ldr	r0, [r3, #8]
- 432 017a FFF7FEFF 		bl	TIM_Cmd
- 433              	.LVL32:
+ 402              		.loc 2 95 0
+ 403 0138 6368     		ldr	r3, [r4, #4]
+ 404 013a 0121     		movs	r1, #1
+ 405 013c 9868     		ldr	r0, [r3, #8]
+ 406 013e FFF7FEFF 		bl	TIM_Cmd
+ 407              	.LVL26:
   98:src/DCMotor.cpp **** 
- 434              		.loc 2 98 0
- 435 017e 6368     		ldr	r3, [r4, #4]
- 436              	.LVL33:
+ 408              		.loc 2 98 0
+ 409 0142 6368     		ldr	r3, [r4, #4]
+ 410              	.LVL27:
  110:src/DCMotor.cpp **** }
- 437              		.loc 2 110 0
- 438 0180 0120     		movs	r0, #1
- 439              	.LBB5:
- 440              	.LBB6:
+ 411              		.loc 2 110 0
+ 412 0144 0120     		movs	r0, #1
+ 413              	.LBB5:
+ 414              	.LBB6:
  186:src/DCMotor.cpp **** 
  187:src/DCMotor.cpp **** void DCMotor::initEncoder(uint16_t addr){
  188:src/DCMotor.cpp **** 	encAddr = addr;
- 441              		.loc 2 188 0
- 442 0182 B3F84820 		ldrh	r2, [r3, #72]
- 443 0186 2273     		strb	r2, [r4, #12]
- 444              	.LVL34:
- 445              	.LBE6:
- 446              	.LBE5:
+ 415              		.loc 2 188 0
+ 416 0146 B3F84820 		ldrh	r2, [r3, #72]
+ 417 014a 2273     		strb	r2, [r4, #12]
+ 418              	.LVL28:
+ 419              	.LBE6:
+ 420              	.LBE5:
  100:src/DCMotor.cpp **** 	error = 0;
- 447              		.loc 2 100 0
- 448 0188 0022     		movs	r2, #0
- 449 018a E262     		str	r2, [r4, #44]	@ float
+ 421              		.loc 2 100 0
+ 422 014c 0022     		movs	r2, #0
+ 423 014e E262     		str	r2, [r4, #44]	@ float
  101:src/DCMotor.cpp **** 
- 450              		.loc 2 101 0
- 451 018c A262     		str	r2, [r4, #40]	@ float
+ 424              		.loc 2 101 0
+ 425 0150 A262     		str	r2, [r4, #40]	@ float
  103:src/DCMotor.cpp **** 	FF = m_settings->FF;
- 452              		.loc 2 103 0
- 453 018e 5A6E     		ldr	r2, [r3, #100]	@ float
- 454 0190 2261     		str	r2, [r4, #16]	@ float
+ 426              		.loc 2 103 0
+ 427 0152 5A6E     		ldr	r2, [r3, #100]	@ float
+ 428 0154 2261     		str	r2, [r4, #16]	@ float
  104:src/DCMotor.cpp **** 	KP = m_settings->KP;
- 455              		.loc 2 104 0
- 456 0192 1A6D     		ldr	r2, [r3, #80]	@ float
- 457 0194 6261     		str	r2, [r4, #20]	@ float
+ 429              		.loc 2 104 0
+ 430 0156 1A6D     		ldr	r2, [r3, #80]	@ float
+ 431 0158 6261     		str	r2, [r4, #20]	@ float
  105:src/DCMotor.cpp **** 	KI = m_settings->KI;
- 458              		.loc 2 105 0
- 459 0196 5A6D     		ldr	r2, [r3, #84]	@ float
- 460 0198 A261     		str	r2, [r4, #24]	@ float
+ 432              		.loc 2 105 0
+ 433 015a 5A6D     		ldr	r2, [r3, #84]	@ float
+ 434 015c A261     		str	r2, [r4, #24]	@ float
  106:src/DCMotor.cpp **** 	KD = m_settings->KD;
- 461              		.loc 2 106 0
- 462 019a 9A6D     		ldr	r2, [r3, #88]	@ float
- 463 019c E261     		str	r2, [r4, #28]	@ float
+ 435              		.loc 2 106 0
+ 436 015e 9A6D     		ldr	r2, [r3, #88]	@ float
+ 437 0160 E261     		str	r2, [r4, #28]	@ float
  107:src/DCMotor.cpp **** 	integralSaturation = m_settings->integralSaturation;
- 464              		.loc 2 107 0
- 465 019e DA6D     		ldr	r2, [r3, #92]	@ float
+ 438              		.loc 2 107 0
+ 439 0162 DA6D     		ldr	r2, [r3, #92]	@ float
  108:src/DCMotor.cpp **** 
- 466              		.loc 2 108 0
- 467 01a0 1B6E     		ldr	r3, [r3, #96]	@ float
+ 440              		.loc 2 108 0
+ 441 0164 1B6E     		ldr	r3, [r3, #96]	@ float
  107:src/DCMotor.cpp **** 	integralSaturation = m_settings->integralSaturation;
- 468              		.loc 2 107 0
- 469 01a2 2262     		str	r2, [r4, #32]	@ float
+ 442              		.loc 2 107 0
+ 443 0166 2262     		str	r2, [r4, #32]	@ float
  108:src/DCMotor.cpp **** 
- 470              		.loc 2 108 0
- 471 01a4 6362     		str	r3, [r4, #36]	@ float
- 110:src/DCMotor.cpp **** }
- 472              		.loc 2 110 0
- 473 01a6 00E0     		b	.L12
- 474              	.L19:
-  88:src/DCMotor.cpp **** 	}
- 475              		.loc 2 88 0
- 476 01a8 0020     		movs	r0, #0
- 477              	.L12:
+ 444              		.loc 2 108 0
+ 445 0168 6362     		str	r3, [r4, #36]	@ float
+ 446              	.L12:
  111:src/DCMotor.cpp **** 
- 478              		.loc 2 111 0
- 479 01aa 08B0     		add	sp, sp, #32
- 480              	.LCFI4:
- 481              		.cfi_def_cfa_offset 16
- 482              		@ sp needed
- 483 01ac 70BD     		pop	{r4, r5, r6, pc}
- 484              	.LVL35:
- 485              	.L23:
- 486 01ae 00BF     		.align	2
- 487              	.L22:
- 488 01b0 002C0140 		.word	1073818624
- 489              		.cfi_endproc
- 490              	.LFE1029:
- 491              		.fnend
- 493              		.align	1
- 494              		.global	_ZN7DCMotorC2EP13motorSettings
- 495              		.thumb
- 496              		.thumb_func
- 498              	_ZN7DCMotorC2EP13motorSettings:
- 499              		.fnstart
- 500              	.LFB1023:
+ 447              		.loc 2 111 0
+ 448 016a 08B0     		add	sp, sp, #32
+ 449              	.LCFI4:
+ 450              		.cfi_remember_state
+ 451              		.cfi_def_cfa_offset 16
+ 452              		@ sp needed
+ 453 016c 70BD     		pop	{r4, r5, r6, pc}
+ 454              	.LVL29:
+ 455              	.L15:
+ 456              	.LCFI5:
+ 457              		.cfi_restore_state
+  76:src/DCMotor.cpp **** 			TIM_OC2PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
+ 458              		.loc 2 76 0
+ 459 016e 04A9     		add	r1, sp, #16
+ 460 0170 9868     		ldr	r0, [r3, #8]
+ 461 0172 FFF7FEFF 		bl	TIM_OC2Init
+ 462              	.LVL30:
+  77:src/DCMotor.cpp **** 			break;
+ 463              		.loc 2 77 0
+ 464 0176 6368     		ldr	r3, [r4, #4]
+ 465 0178 0821     		movs	r1, #8
+ 466 017a 9868     		ldr	r0, [r3, #8]
+ 467 017c FFF7FEFF 		bl	TIM_OC2PreloadConfig
+ 468              	.LVL31:
+ 469 0180 D0E7     		b	.L18
+ 470              	.L16:
+  80:src/DCMotor.cpp **** 			TIM_OC3PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
+ 471              		.loc 2 80 0
+ 472 0182 04A9     		add	r1, sp, #16
+ 473 0184 9868     		ldr	r0, [r3, #8]
+ 474 0186 FFF7FEFF 		bl	TIM_OC3Init
+ 475              	.LVL32:
+  81:src/DCMotor.cpp **** 			break;
+ 476              		.loc 2 81 0
+ 477 018a 6368     		ldr	r3, [r4, #4]
+ 478 018c 0821     		movs	r1, #8
+ 479 018e 9868     		ldr	r0, [r3, #8]
+ 480 0190 FFF7FEFF 		bl	TIM_OC3PreloadConfig
+ 481              	.LVL33:
+ 482 0194 C6E7     		b	.L18
+ 483              	.L17:
+  84:src/DCMotor.cpp **** 			TIM_OC4PreloadConfig(m_settings->m_Timer, TIM_OCPreload_Enable);
+ 484              		.loc 2 84 0
+ 485 0196 04A9     		add	r1, sp, #16
+ 486 0198 9868     		ldr	r0, [r3, #8]
+ 487 019a FFF7FEFF 		bl	TIM_OC4Init
+ 488              	.LVL34:
+  85:src/DCMotor.cpp **** 			break;
+ 489              		.loc 2 85 0
+ 490 019e 6368     		ldr	r3, [r4, #4]
+ 491 01a0 0821     		movs	r1, #8
+ 492 01a2 9868     		ldr	r0, [r3, #8]
+ 493 01a4 FFF7FEFF 		bl	TIM_OC4PreloadConfig
+ 494              	.LVL35:
+ 495 01a8 BCE7     		b	.L18
+ 496              	.L19:
+  88:src/DCMotor.cpp **** 	}
+ 497              		.loc 2 88 0
+ 498 01aa 0020     		movs	r0, #0
+ 499 01ac DDE7     		b	.L12
+ 500              	.L22:
+ 501 01ae 00BF     		.align	2
+ 502              	.L21:
+ 503 01b0 002C0140 		.word	1073818624
+ 504              		.cfi_endproc
+ 505              	.LFE1145:
+ 506              		.fnend
+ 508              		.align	1
+ 509              		.global	_ZN7DCMotorC2EP13motorSettings
+ 510              		.syntax unified
+ 511              		.thumb
+ 512              		.thumb_func
+ 513              		.fpu softvfp
+ 515              	_ZN7DCMotorC2EP13motorSettings:
+ 516              		.fnstart
+ 517              	.LFB1139:
   13:src/DCMotor.cpp **** {
- 501              		.loc 2 13 0
- 502              		.cfi_startproc
- 503              		@ args = 0, pretend = 0, frame = 0
- 504              		@ frame_needed = 0, uses_anonymous_args = 0
- 505              	.LVL36:
- 506 01b4 10B5     		push	{r4, lr}
- 507              		.save {r4, lr}
- 508              	.LCFI5:
- 509              		.cfi_def_cfa_offset 8
- 510              		.cfi_offset 4, -8
- 511              		.cfi_offset 14, -4
+ 518              		.loc 2 13 0
+ 519              		.cfi_startproc
+ 520              		@ args = 0, pretend = 0, frame = 0
+ 521              		@ frame_needed = 0, uses_anonymous_args = 0
+ 522              	.LVL36:
+ 523 01b4 10B5     		push	{r4, lr}
+ 524              		.save {r4, lr}
+ 525              	.LCFI6:
+ 526              		.cfi_def_cfa_offset 8
+ 527              		.cfi_offset 4, -8
+ 528              		.cfi_offset 14, -4
   13:src/DCMotor.cpp **** {
- 512              		.loc 2 13 0
- 513 01b6 0446     		mov	r4, r0
- 514              	.LBB7:
- 515 01b8 FFF7FEFF 		bl	_ZN5motorC2EP13motorSettings
- 516              	.LVL37:
- 517 01bc 014B     		ldr	r3, .L25
- 518              	.LBE7:
+ 529              		.loc 2 13 0
+ 530 01b6 0446     		mov	r4, r0
+ 531              	.LBB7:
+ 532 01b8 FFF7FEFF 		bl	_ZN5motorC2EP13motorSettings
+ 533              	.LVL37:
+ 534 01bc 014B     		ldr	r3, .L24
+ 535              	.LBE7:
   16:src/DCMotor.cpp **** 
- 519              		.loc 2 16 0
- 520 01be 2046     		mov	r0, r4
- 521              	.LBB8:
+ 536              		.loc 2 16 0
+ 537 01be 2046     		mov	r0, r4
+ 538              	.LBB8:
   13:src/DCMotor.cpp **** {
- 522              		.loc 2 13 0
- 523 01c0 2360     		str	r3, [r4]
- 524              	.LBE8:
+ 539              		.loc 2 13 0
+ 540 01c0 2360     		str	r3, [r4]
+ 541              	.LBE8:
   16:src/DCMotor.cpp **** 
- 525              		.loc 2 16 0
- 526 01c2 10BD     		pop	{r4, pc}
- 527              	.LVL38:
- 528              	.L26:
- 529              		.align	2
- 530              	.L25:
- 531 01c4 08000000 		.word	.LANCHOR0+8
- 532              		.cfi_endproc
- 533              	.LFE1023:
- 534              		.fnend
- 536              		.global	_ZN7DCMotorC1EP13motorSettings
- 537              		.thumb_set _ZN7DCMotorC1EP13motorSettings,_ZN7DCMotorC2EP13motorSettings
- 538              		.align	1
- 539              		.global	_ZN7DCMotor8setSpeedEib
- 540              		.thumb
- 541              		.thumb_func
- 543              	_ZN7DCMotor8setSpeedEib:
- 544              		.fnstart
- 545              	.LFB1031:
+ 542              		.loc 2 16 0
+ 543 01c2 10BD     		pop	{r4, pc}
+ 544              	.LVL38:
+ 545              	.L25:
+ 546              		.align	2
+ 547              	.L24:
+ 548 01c4 08000000 		.word	.LANCHOR0+8
+ 549              		.cfi_endproc
+ 550              	.LFE1139:
+ 551              		.fnend
+ 553              		.global	_ZN7DCMotorC1EP13motorSettings
+ 554              		.thumb_set _ZN7DCMotorC1EP13motorSettings,_ZN7DCMotorC2EP13motorSettings
+ 555              		.align	1
+ 556              		.global	_ZN7DCMotor8setSpeedEib
+ 557              		.syntax unified
+ 558              		.thumb
+ 559              		.thumb_func
+ 560              		.fpu softvfp
+ 562              	_ZN7DCMotor8setSpeedEib:
+ 563              		.fnstart
+ 564              	.LFB1147:
  117:src/DCMotor.cpp **** 
- 546              		.loc 2 117 0
- 547              		.cfi_startproc
- 548              		@ args = 0, pretend = 0, frame = 0
- 549              		@ frame_needed = 0, uses_anonymous_args = 0
- 550              	.LVL39:
- 119:src/DCMotor.cpp **** 		s = -PERIOD;
- 551              		.loc 2 119 0
- 552 01c8 344B     		ldr	r3, .L45
+ 565              		.loc 2 117 0
+ 566              		.cfi_startproc
+ 567              		@ args = 0, pretend = 0, frame = 0
+ 568              		@ frame_needed = 0, uses_anonymous_args = 0
+ 569              	.LVL39:
+ 570 01c8 38B5     		push	{r3, r4, r5, lr}
+ 571              		.save {r3, r4, r5, lr}
+ 572              	.LCFI7:
+ 573              		.cfi_def_cfa_offset 16
+ 574              		.cfi_offset 3, -16
+ 575              		.cfi_offset 4, -12
+ 576              		.cfi_offset 5, -8
+ 577              		.cfi_offset 14, -4
  117:src/DCMotor.cpp **** 
- 553              		.loc 2 117 0
- 554 01ca 70B5     		push	{r4, r5, r6, lr}
- 555              		.save {r4, r5, r6, lr}
- 556              	.LCFI6:
- 557              		.cfi_def_cfa_offset 16
- 558              		.cfi_offset 4, -16
- 559              		.cfi_offset 5, -12
- 560              		.cfi_offset 6, -8
- 561              		.cfi_offset 14, -4
- 119:src/DCMotor.cpp **** 		s = -PERIOD;
- 562              		.loc 2 119 0
- 563 01cc 9942     		cmp	r1, r3
- 117:src/DCMotor.cpp **** 
- 564              		.loc 2 117 0
- 565 01ce 0546     		mov	r5, r0
- 566 01d0 0C46     		mov	r4, r1
- 567 01d2 1646     		mov	r6, r2
- 119:src/DCMotor.cpp **** 		s = -PERIOD;
- 568              		.loc 2 119 0
- 569 01d4 05DB     		blt	.L40
- 123:src/DCMotor.cpp **** 
- 570              		.loc 2 123 0
- 571 01d6 43F63F03 		movw	r3, #14399
- 572 01da 9942     		cmp	r1, r3
- 573 01dc A8BF     		it	ge
- 574 01de 1C46     		movge	r4, r3
- 575 01e0 00E0     		b	.L29
- 576              	.L40:
- 120:src/DCMotor.cpp **** 
- 577              		.loc 2 120 0
- 578 01e2 1C46     		mov	r4, r3
- 579              	.LVL40:
- 580              	.L29:
- 581 01e4 6B68     		ldr	r3, [r5, #4]
+ 578              		.loc 2 117 0
+ 579 01ca 0546     		mov	r5, r0
  125:src/DCMotor.cpp **** 		GPIO_ResetBits(m_settings->m_DCInAPort, m_settings->m_DCInAPin);
- 582              		.loc 2 125 0
- 583 01e6 56B9     		cbnz	r6, .L30
- 126:src/DCMotor.cpp **** 		GPIO_SetBits(m_settings->m_DCInBPort, m_settings->m_DCInBPin);
- 584              		.loc 2 126 0
- 585 01e8 198C     		ldrh	r1, [r3, #32]
- 586 01ea 586A     		ldr	r0, [r3, #36]
- 587              	.LVL41:
- 588 01ec FFF7FEFF 		bl	GPIO_ResetBits
- 589              	.LVL42:
- 127:src/DCMotor.cpp **** 		s = 0;
- 590              		.loc 2 127 0
- 591 01f0 6B68     		ldr	r3, [r5, #4]
- 128:src/DCMotor.cpp **** 	}else{
- 592              		.loc 2 128 0
- 593 01f2 3446     		mov	r4, r6
- 594              	.LVL43:
- 127:src/DCMotor.cpp **** 		s = 0;
- 595              		.loc 2 127 0
- 596 01f4 198E     		ldrh	r1, [r3, #48]
- 597 01f6 586B     		ldr	r0, [r3, #52]
- 598 01f8 FFF7FEFF 		bl	GPIO_SetBits
- 599              	.LVL44:
- 600 01fc 20E0     		b	.L31
- 601              	.LVL45:
- 602              	.L30:
- 131:src/DCMotor.cpp **** 			GPIO_SetBits(m_settings->m_DCEnBPort, m_settings->m_DCEnBPin);
- 603              		.loc 2 131 0
- 604 01fe 198D     		ldrh	r1, [r3, #40]
- 605 0200 D86A     		ldr	r0, [r3, #44]
- 606              	.LVL46:
- 607 0202 FFF7FEFF 		bl	GPIO_SetBits
- 608              	.LVL47:
- 132:src/DCMotor.cpp **** 
- 609              		.loc 2 132 0
- 610 0206 6B68     		ldr	r3, [r5, #4]
- 611 0208 198F     		ldrh	r1, [r3, #56]
- 612 020a D86B     		ldr	r0, [r3, #60]
- 613 020c FFF7FEFF 		bl	GPIO_SetBits
- 614              	.LVL48:
- 134:src/DCMotor.cpp **** 				GPIO_SetBits(m_settings->m_DCInAPort, m_settings->m_DCInAPin);
- 615              		.loc 2 134 0
- 616 0210 002C     		cmp	r4, #0
- 617 0212 0ADD     		ble	.L32
- 135:src/DCMotor.cpp **** 				GPIO_ResetBits(m_settings->m_DCInBPort, m_settings->m_DCInBPin);
- 618              		.loc 2 135 0
- 619 0214 6B68     		ldr	r3, [r5, #4]
- 620 0216 198C     		ldrh	r1, [r3, #32]
- 621 0218 586A     		ldr	r0, [r3, #36]
- 622 021a FFF7FEFF 		bl	GPIO_SetBits
- 623              	.LVL49:
- 136:src/DCMotor.cpp **** 			}else if(s < 0){
- 624              		.loc 2 136 0
- 625 021e 6B68     		ldr	r3, [r5, #4]
- 626 0220 198E     		ldrh	r1, [r3, #48]
- 627 0222 586B     		ldr	r0, [r3, #52]
- 628 0224 FFF7FEFF 		bl	GPIO_ResetBits
- 629              	.LVL50:
- 630 0228 0AE0     		b	.L31
- 631              	.L32:
- 137:src/DCMotor.cpp **** 				GPIO_ResetBits(m_settings->m_DCInAPort, m_settings->m_DCInAPin);
- 632              		.loc 2 137 0
- 633 022a 32D0     		beq	.L42
+ 580              		.loc 2 125 0
+ 581 01cc 1446     		mov	r4, r2
+ 582 01ce 4368     		ldr	r3, [r0, #4]
+ 583 01d0 4AB9     		cbnz	r2, .L27
+ 584              	.LVL40:
+ 585              	.L39:
  138:src/DCMotor.cpp **** 				GPIO_SetBits(m_settings->m_DCInBPort, m_settings->m_DCInBPin);
- 634              		.loc 2 138 0
- 635 022c 6B68     		ldr	r3, [r5, #4]
- 636 022e 198C     		ldrh	r1, [r3, #32]
- 637 0230 586A     		ldr	r0, [r3, #36]
- 638 0232 FFF7FEFF 		bl	GPIO_ResetBits
- 639              	.LVL51:
+ 586              		.loc 2 138 0
+ 587 01d2 198C     		ldrh	r1, [r3, #32]
+ 588 01d4 586A     		ldr	r0, [r3, #36]
+ 589 01d6 FFF7FEFF 		bl	GPIO_ResetBits
+ 590              	.LVL41:
  139:src/DCMotor.cpp **** 			}else{
- 640              		.loc 2 139 0
- 641 0236 6B68     		ldr	r3, [r5, #4]
- 642 0238 198E     		ldrh	r1, [r3, #48]
- 643 023a 586B     		ldr	r0, [r3, #52]
- 644 023c FFF7FEFF 		bl	GPIO_SetBits
- 645              	.LVL52:
- 646              	.L31:
+ 591              		.loc 2 139 0
+ 592 01da 6B68     		ldr	r3, [r5, #4]
+ 593 01dc 198E     		ldrh	r1, [r3, #48]
+ 594 01de 586B     		ldr	r0, [r3, #52]
+ 595 01e0 FFF7FEFF 		bl	GPIO_SetBits
+ 596              	.LVL42:
+ 597 01e4 1DE0     		b	.L28
+ 598              	.LVL43:
+ 599              	.L27:
+ 600 01e6 43F63F04 		movw	r4, #14399
+ 601 01ea A142     		cmp	r1, r4
+ 602 01ec A8BF     		it	ge
+ 603 01ee 2146     		movge	r1, r4
+ 604              	.LVL44:
+ 605 01f0 234C     		ldr	r4, .L41
+ 131:src/DCMotor.cpp **** 			GPIO_SetBits(m_settings->m_DCEnBPort, m_settings->m_DCEnBPin);
+ 606              		.loc 2 131 0
+ 607 01f2 D86A     		ldr	r0, [r3, #44]
+ 608              	.LVL45:
+ 609 01f4 8C42     		cmp	r4, r1
+ 610 01f6 B8BF     		it	lt
+ 611 01f8 0C46     		movlt	r4, r1
+ 612 01fa 198D     		ldrh	r1, [r3, #40]
+ 613 01fc FFF7FEFF 		bl	GPIO_SetBits
+ 614              	.LVL46:
+ 132:src/DCMotor.cpp **** 
+ 615              		.loc 2 132 0
+ 616 0200 6B68     		ldr	r3, [r5, #4]
+ 617 0202 198F     		ldrh	r1, [r3, #56]
+ 618 0204 D86B     		ldr	r0, [r3, #60]
+ 619 0206 FFF7FEFF 		bl	GPIO_SetBits
+ 620              	.LVL47:
+ 134:src/DCMotor.cpp **** 				GPIO_SetBits(m_settings->m_DCInAPort, m_settings->m_DCInAPin);
+ 621              		.loc 2 134 0
+ 622 020a 002C     		cmp	r4, #0
+ 623 020c 18DD     		ble	.L29
+ 135:src/DCMotor.cpp **** 				GPIO_ResetBits(m_settings->m_DCInBPort, m_settings->m_DCInBPin);
+ 624              		.loc 2 135 0
+ 625 020e 6B68     		ldr	r3, [r5, #4]
+ 626 0210 198C     		ldrh	r1, [r3, #32]
+ 627 0212 586A     		ldr	r0, [r3, #36]
+ 628 0214 FFF7FEFF 		bl	GPIO_SetBits
+ 629              	.LVL48:
+ 136:src/DCMotor.cpp **** 			}else if(s < 0){
+ 630              		.loc 2 136 0
+ 631 0218 6B68     		ldr	r3, [r5, #4]
+ 632 021a 198E     		ldrh	r1, [r3, #48]
+ 633 021c 586B     		ldr	r0, [r3, #52]
+ 634 021e FFF7FEFF 		bl	GPIO_ResetBits
+ 635              	.LVL49:
+ 636              	.L28:
  156:src/DCMotor.cpp **** 		s = s * 2;
- 647              		.loc 2 156 0
- 648 0240 6A68     		ldr	r2, [r5, #4]
- 649 0242 1749     		ldr	r1, .L45+4
- 650 0244 9368     		ldr	r3, [r2, #8]
+ 637              		.loc 2 156 0
+ 638 0222 6A68     		ldr	r2, [r5, #4]
+ 639 0224 1749     		ldr	r1, .L41+4
+ 640 0226 9368     		ldr	r3, [r2, #8]
+ 159:src/DCMotor.cpp **** 		case 1:
+ 641              		.loc 2 159 0
+ 642 0228 D268     		ldr	r2, [r2, #12]
+ 156:src/DCMotor.cpp **** 		s = s * 2;
+ 643              		.loc 2 156 0
+ 644 022a 8B42     		cmp	r3, r1
+ 159:src/DCMotor.cpp **** 		case 1:
+ 645              		.loc 2 159 0
+ 646 022c 02F1FF32 		add	r2, r2, #-1
+ 157:src/DCMotor.cpp **** 
+ 647              		.loc 2 157 0
+ 648 0230 08BF     		it	eq
+ 649 0232 6400     		lsleq	r4, r4, #1
+ 650              	.LVL50:
  159:src/DCMotor.cpp **** 		case 1:
  651              		.loc 2 159 0
- 652 0246 D268     		ldr	r2, [r2, #12]
- 156:src/DCMotor.cpp **** 		s = s * 2;
- 653              		.loc 2 156 0
- 654 0248 8B42     		cmp	r3, r1
- 159:src/DCMotor.cpp **** 		case 1:
- 655              		.loc 2 159 0
- 656 024a 02F1FF32 		add	r2, r2, #-1
- 157:src/DCMotor.cpp **** 
- 657              		.loc 2 157 0
- 658 024e 08BF     		it	eq
- 659 0250 6400     		lsleq	r4, r4, #1
- 660              	.LVL53:
- 159:src/DCMotor.cpp **** 		case 1:
- 661              		.loc 2 159 0
- 662 0252 032A     		cmp	r2, #3
- 663 0254 1FD8     		bhi	.L43
- 664 0256 DFE802F0 		tbb	[pc, r2]
- 665              	.L36:
- 666 025a 02       		.byte	(.L35-.L36)/2
- 667 025b 08       		.byte	(.L37-.L36)/2
- 668 025c 0E       		.byte	(.L38-.L36)/2
- 669 025d 14       		.byte	(.L39-.L36)/2
- 670              		.p2align 1
- 671              	.L35:
+ 652 0234 032A     		cmp	r2, #3
+ 653 0236 20D8     		bhi	.L38
+ 654 0238 DFE802F0 		tbb	[pc, r2]
+ 655              	.L33:
+ 656 023c 05       		.byte	(.L32-.L33)/2
+ 657 023d 0C       		.byte	(.L34-.L33)/2
+ 658 023e 12       		.byte	(.L35-.L33)/2
+ 659 023f 18       		.byte	(.L36-.L33)/2
+ 660              	.LVL51:
+ 661              		.p2align 1
+ 662              	.L29:
+ 137:src/DCMotor.cpp **** 				GPIO_ResetBits(m_settings->m_DCInAPort, m_settings->m_DCInAPin);
+ 663              		.loc 2 137 0
+ 664 0240 1BD0     		beq	.L38
+ 138:src/DCMotor.cpp **** 				GPIO_SetBits(m_settings->m_DCInBPort, m_settings->m_DCInBPin);
+ 665              		.loc 2 138 0
+ 666 0242 6B68     		ldr	r3, [r5, #4]
+ 667 0244 C5E7     		b	.L39
+ 668              	.LVL52:
+ 669              	.L32:
  161:src/DCMotor.cpp **** 			break;
- 672              		.loc 2 161 0
- 673 025e 002C     		cmp	r4, #0
- 674 0260 B8BF     		it	lt
- 675 0262 6442     		rsblt	r4, r4, #0
- 676              	.LVL54:
- 677 0264 A4B2     		uxth	r4, r4
- 678 0266 9C86     		strh	r4, [r3, #52]	@ movhi
- 679 0268 11E0     		b	.L44
- 680              	.LVL55:
- 681              	.L37:
- 164:src/DCMotor.cpp **** 			break;
- 682              		.loc 2 164 0
- 683 026a 002C     		cmp	r4, #0
- 684 026c B8BF     		it	lt
- 685 026e 6442     		rsblt	r4, r4, #0
- 686              	.LVL56:
- 687 0270 A4B2     		uxth	r4, r4
- 688 0272 1C87     		strh	r4, [r3, #56]	@ movhi
- 689 0274 0BE0     		b	.L44
- 690              	.LVL57:
- 691              	.L38:
- 167:src/DCMotor.cpp **** 			break;
- 692              		.loc 2 167 0
- 693 0276 002C     		cmp	r4, #0
- 694 0278 B8BF     		it	lt
- 695 027a 6442     		rsblt	r4, r4, #0
- 696              	.LVL58:
- 697 027c A4B2     		uxth	r4, r4
- 698 027e 9C87     		strh	r4, [r3, #60]	@ movhi
- 699 0280 05E0     		b	.L44
- 700              	.LVL59:
- 701              	.L39:
- 170:src/DCMotor.cpp **** 			break;
- 702              		.loc 2 170 0
- 703 0282 002C     		cmp	r4, #0
- 704 0284 B8BF     		it	lt
- 705 0286 6442     		rsblt	r4, r4, #0
- 706              	.LVL60:
- 707 0288 A4B2     		uxth	r4, r4
- 708 028a A3F84040 		strh	r4, [r3, #64]	@ movhi
- 709              	.L44:
+ 670              		.loc 2 161 0
+ 671 0246 002C     		cmp	r4, #0
+ 672 0248 B8BF     		it	lt
+ 673 024a 6442     		rsblt	r4, r4, #0
+ 674              	.LVL53:
+ 675 024c A4B2     		uxth	r4, r4
+ 676 024e 9C86     		strh	r4, [r3, #52]	@ movhi
+ 677              	.L40:
  176:src/DCMotor.cpp **** }
- 710              		.loc 2 176 0
- 711 028e 0120     		movs	r0, #1
+ 678              		.loc 2 176 0
+ 679 0250 0120     		movs	r0, #1
  171:src/DCMotor.cpp **** 		default:
- 712              		.loc 2 171 0
- 713 0290 70BD     		pop	{r4, r5, r6, pc}
- 714              	.LVL61:
- 715              	.L42:
- 141:src/DCMotor.cpp **** 			}
- 716              		.loc 2 141 0
- 717 0292 2046     		mov	r0, r4
- 718 0294 70BD     		pop	{r4, r5, r6, pc}
- 719              	.LVL62:
- 720              	.L43:
+ 680              		.loc 2 171 0
+ 681 0252 38BD     		pop	{r3, r4, r5, pc}
+ 682              	.LVL54:
+ 683              	.L34:
+ 164:src/DCMotor.cpp **** 			break;
+ 684              		.loc 2 164 0
+ 685 0254 002C     		cmp	r4, #0
+ 686 0256 B8BF     		it	lt
+ 687 0258 6442     		rsblt	r4, r4, #0
+ 688              	.LVL55:
+ 689 025a A4B2     		uxth	r4, r4
+ 690 025c 1C87     		strh	r4, [r3, #56]	@ movhi
+ 691 025e F7E7     		b	.L40
+ 692              	.LVL56:
+ 693              	.L35:
+ 167:src/DCMotor.cpp **** 			break;
+ 694              		.loc 2 167 0
+ 695 0260 002C     		cmp	r4, #0
+ 696 0262 B8BF     		it	lt
+ 697 0264 6442     		rsblt	r4, r4, #0
+ 698              	.LVL57:
+ 699 0266 A4B2     		uxth	r4, r4
+ 700 0268 9C87     		strh	r4, [r3, #60]	@ movhi
+ 701 026a F1E7     		b	.L40
+ 702              	.LVL58:
+ 703              	.L36:
+ 170:src/DCMotor.cpp **** 			break;
+ 704              		.loc 2 170 0
+ 705 026c 002C     		cmp	r4, #0
+ 706 026e B8BF     		it	lt
+ 707 0270 6442     		rsblt	r4, r4, #0
+ 708              	.LVL59:
+ 709 0272 A4B2     		uxth	r4, r4
+ 710 0274 A3F84040 		strh	r4, [r3, #64]	@ movhi
+ 711 0278 EAE7     		b	.L40
+ 712              	.L38:
  173:src/DCMotor.cpp **** 	}
- 721              		.loc 2 173 0
- 722 0296 0020     		movs	r0, #0
+ 713              		.loc 2 173 0
+ 714 027a 0020     		movs	r0, #0
  177:src/DCMotor.cpp **** 
- 723              		.loc 2 177 0
- 724 0298 70BD     		pop	{r4, r5, r6, pc}
- 725              	.LVL63:
- 726              	.L46:
- 727 029a 00BF     		.align	2
- 728              	.L45:
- 729 029c C1C7FFFF 		.word	-14399
- 730 02a0 002C0140 		.word	1073818624
- 731              		.cfi_endproc
- 732              	.LFE1031:
- 733              		.fnend
- 735              		.align	1
- 736              		.global	_ZN7DCMotor11initEncoderEt
- 737              		.thumb
- 738              		.thumb_func
- 740              	_ZN7DCMotor11initEncoderEt:
- 741              		.fnstart
- 742              	.LFB1034:
+ 715              		.loc 2 177 0
+ 716 027c 38BD     		pop	{r3, r4, r5, pc}
+ 717              	.LVL60:
+ 718              	.L42:
+ 719 027e 00BF     		.align	2
+ 720              	.L41:
+ 721 0280 C1C7FFFF 		.word	-14399
+ 722 0284 002C0140 		.word	1073818624
+ 723              		.cfi_endproc
+ 724              	.LFE1147:
+ 725              		.fnend
+ 727              		.align	1
+ 728              		.global	_ZN7DCMotor11initEncoderEt
+ 729              		.syntax unified
+ 730              		.thumb
+ 731              		.thumb_func
+ 732              		.fpu softvfp
+ 734              	_ZN7DCMotor11initEncoderEt:
+ 735              		.fnstart
+ 736              	.LFB1150:
  187:src/DCMotor.cpp **** 	encAddr = addr;
- 743              		.loc 2 187 0
- 744              		.cfi_startproc
- 745              		@ args = 0, pretend = 0, frame = 0
- 746              		@ frame_needed = 0, uses_anonymous_args = 0
- 747              		@ link register save eliminated.
- 748              	.LVL64:
- 749              		.loc 2 188 0
- 750 02a4 0173     		strb	r1, [r0, #12]
- 751 02a6 7047     		bx	lr
- 752              		.cfi_endproc
- 753              	.LFE1034:
- 754              		.cantunwind
- 755              		.fnend
- 757              		.align	1
- 758              		.global	_ZN7DCMotor11readEncoderEv
- 759              		.thumb
- 760              		.thumb_func
- 762              	_ZN7DCMotor11readEncoderEv:
- 763              		.fnstart
- 764              	.LFB1035:
+ 737              		.loc 2 187 0
+ 738              		.cfi_startproc
+ 739              		@ args = 0, pretend = 0, frame = 0
+ 740              		@ frame_needed = 0, uses_anonymous_args = 0
+ 741              		@ link register save eliminated.
+ 742              	.LVL61:
+ 743              		.loc 2 188 0
+ 744 0288 0173     		strb	r1, [r0, #12]
+ 745 028a 7047     		bx	lr
+ 746              		.cfi_endproc
+ 747              	.LFE1150:
+ 748              		.cantunwind
+ 749              		.fnend
+ 751              		.align	1
+ 752              		.global	_ZN7DCMotor11readEncoderEv
+ 753              		.syntax unified
+ 754              		.thumb
+ 755              		.thumb_func
+ 756              		.fpu softvfp
+ 758              	_ZN7DCMotor11readEncoderEv:
+ 759              		.fnstart
+ 760              	.LFB1151:
  189:src/DCMotor.cpp **** }
  190:src/DCMotor.cpp **** 
  191:src/DCMotor.cpp **** int32_t DCMotor::readEncoder(){
- 765              		.loc 2 191 0
- 766              		.cfi_startproc
- 767              		@ args = 0, pretend = 0, frame = 0
- 768              		@ frame_needed = 0, uses_anonymous_args = 0
- 769              	.LVL65:
- 770 02a8 70B5     		push	{r4, r5, r6, lr}
- 771              		.save {r4, r5, r6, lr}
- 772              	.LCFI7:
- 773              		.cfi_def_cfa_offset 16
- 774              		.cfi_offset 4, -16
- 775              		.cfi_offset 5, -12
- 776              		.cfi_offset 6, -8
- 777              		.cfi_offset 14, -4
- 778 02aa 0446     		mov	r4, r0
- 779              	.LVL66:
- 780              	.L49:
+ 761              		.loc 2 191 0
+ 762              		.cfi_startproc
+ 763              		@ args = 0, pretend = 0, frame = 0
+ 764              		@ frame_needed = 0, uses_anonymous_args = 0
+ 765              	.LVL62:
+ 766 028c 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 767              		.save {r4, r5, r6, r7, r8, lr}
+ 768              	.LCFI8:
+ 769              		.cfi_def_cfa_offset 24
+ 770              		.cfi_offset 4, -24
+ 771              		.cfi_offset 5, -20
+ 772              		.cfi_offset 6, -16
+ 773              		.cfi_offset 7, -12
+ 774              		.cfi_offset 8, -8
+ 775              		.cfi_offset 14, -4
+ 776              		.loc 2 191 0
+ 777 0290 0446     		mov	r4, r0
  192:src/DCMotor.cpp ****     uint8_t Rx_Idx = 0;
  193:src/DCMotor.cpp ****     uint8_t RxBuffer[4] = {0};
  194:src/DCMotor.cpp **** 
  195:src/DCMotor.cpp **** 
  196:src/DCMotor.cpp ****     // START
  197:src/DCMotor.cpp ****     while(I2C_GetFlagStatus(I2C1, I2C_FLAG_BUSY));
- 781              		.loc 2 197 0
- 782 02ac 4FF40031 		mov	r1, #131072
- 783 02b0 2F48     		ldr	r0, .L69
- 784 02b2 FFF7FEFF 		bl	I2C_GetFlagStatus
- 785              	.LVL67:
- 786 02b6 0028     		cmp	r0, #0
- 787 02b8 F8D1     		bne	.L49
+ 778              		.loc 2 197 0
+ 779 0292 384D     		ldr	r5, .L65
+ 780              	.LVL63:
+ 781              	.L45:
+ 782 0294 4FF40031 		mov	r1, #131072
+ 783 0298 2846     		mov	r0, r5
+ 784 029a FFF7FEFF 		bl	I2C_GetFlagStatus
+ 785              	.LVL64:
+ 786 029e 0028     		cmp	r0, #0
+ 787 02a0 F8D1     		bne	.L45
  198:src/DCMotor.cpp ****     I2C_GenerateSTART(I2C1, ENABLE);
  788              		.loc 2 198 0
- 789 02ba 0121     		movs	r1, #1
- 790 02bc 2C48     		ldr	r0, .L69
- 791 02be FFF7FEFF 		bl	I2C_GenerateSTART
- 792              	.LVL68:
- 793              	.L50:
+ 789 02a2 0121     		movs	r1, #1
+ 790 02a4 3348     		ldr	r0, .L65
+ 791 02a6 FFF7FEFF 		bl	I2C_GenerateSTART
+ 792              	.LVL65:
  199:src/DCMotor.cpp **** 	// wait for I2C1 EV5 --> Slave has acknowledged start condition
  200:src/DCMotor.cpp **** 	while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT));
- 794              		.loc 2 200 0
- 795 02c2 2C49     		ldr	r1, .L69+4
- 796 02c4 2A48     		ldr	r0, .L69
- 797 02c6 FFF7FEFF 		bl	I2C_CheckEvent
- 798              	.LVL69:
- 799 02ca 0028     		cmp	r0, #0
- 800 02cc F9D0     		beq	.L50
+ 793              		.loc 2 200 0
+ 794 02aa 334E     		ldr	r6, .L65+4
+ 795 02ac 314D     		ldr	r5, .L65
+ 796              	.L46:
+ 797 02ae 3146     		mov	r1, r6
+ 798 02b0 2846     		mov	r0, r5
+ 799 02b2 FFF7FEFF 		bl	I2C_CheckEvent
+ 800              	.LVL66:
+ 801 02b6 0028     		cmp	r0, #0
+ 802 02b8 F9D0     		beq	.L46
  201:src/DCMotor.cpp ****     I2C_Send7bitAddress(I2C1, encAddr<<1, I2C_Direction_Receiver);
- 801              		.loc 2 201 0
- 802 02ce 217B     		ldrb	r1, [r4, #12]	@ zero_extendqisi2
- 803 02d0 0122     		movs	r2, #1
- 804 02d2 4900     		lsls	r1, r1, #1
- 805 02d4 01F0FE01 		and	r1, r1, #254
- 806 02d8 2548     		ldr	r0, .L69
- 807 02da FFF7FEFF 		bl	I2C_Send7bitAddress
- 808              	.LVL70:
- 809              	.L51:
+ 803              		.loc 2 201 0
+ 804 02ba 217B     		ldrb	r1, [r4, #12]	@ zero_extendqisi2
+ 805 02bc 0122     		movs	r2, #1
+ 806 02be 4900     		lsls	r1, r1, #1
+ 807 02c0 01F0FE01 		and	r1, r1, #254
+ 808 02c4 2B48     		ldr	r0, .L65
+ 809 02c6 FFF7FEFF 		bl	I2C_Send7bitAddress
+ 810              	.LVL67:
  202:src/DCMotor.cpp **** 	while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED));
- 810              		.loc 2 202 0
- 811 02de 2649     		ldr	r1, .L69+8
- 812 02e0 2348     		ldr	r0, .L69
- 813 02e2 FFF7FEFF 		bl	I2C_CheckEvent
- 814              	.LVL71:
- 815 02e6 0028     		cmp	r0, #0
- 816 02e8 F9D0     		beq	.L51
+ 811              		.loc 2 202 0
+ 812 02ca 2C4D     		ldr	r5, .L65+8
+ 813 02cc 294C     		ldr	r4, .L65
+ 814              	.LVL68:
+ 815              	.L47:
+ 816 02ce 2946     		mov	r1, r5
+ 817 02d0 2046     		mov	r0, r4
+ 818 02d2 FFF7FEFF 		bl	I2C_CheckEvent
+ 819              	.LVL69:
+ 820 02d6 0028     		cmp	r0, #0
+ 821 02d8 F9D0     		beq	.L47
  203:src/DCMotor.cpp **** 
  204:src/DCMotor.cpp **** 
  205:src/DCMotor.cpp **** 
  206:src/DCMotor.cpp ****     // ACK
  207:src/DCMotor.cpp **** 	I2C_AcknowledgeConfig(I2C1, ENABLE);
- 817              		.loc 2 207 0
- 818 02ea 0121     		movs	r1, #1
- 819 02ec 2048     		ldr	r0, .L69
- 820 02ee FFF7FEFF 		bl	I2C_AcknowledgeConfig
- 821              	.LVL72:
- 822              	.L52:
+ 822              		.loc 2 207 0
+ 823 02da 0121     		movs	r1, #1
+ 824 02dc 2548     		ldr	r0, .L65
+ 825 02de FFF7FEFF 		bl	I2C_AcknowledgeConfig
+ 826              	.LVL70:
  208:src/DCMotor.cpp **** 	while( !I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_RECEIVED) );
- 823              		.loc 2 208 0
- 824 02f2 2249     		ldr	r1, .L69+12
- 825 02f4 1E48     		ldr	r0, .L69
- 826 02f6 FFF7FEFF 		bl	I2C_CheckEvent
- 827              	.LVL73:
- 828 02fa 0028     		cmp	r0, #0
- 829 02fc F9D0     		beq	.L52
- 830              	.LVL74:
+ 827              		.loc 2 208 0
+ 828 02e2 274D     		ldr	r5, .L65+12
+ 829 02e4 234C     		ldr	r4, .L65
+ 830              	.L48:
+ 831 02e6 2946     		mov	r1, r5
+ 832 02e8 2046     		mov	r0, r4
+ 833 02ea FFF7FEFF 		bl	I2C_CheckEvent
+ 834              	.LVL71:
+ 835 02ee 0028     		cmp	r0, #0
+ 836 02f0 F9D0     		beq	.L48
+ 837              	.LVL72:
  209:src/DCMotor.cpp **** 	RxBuffer[Rx_Idx++] = I2C_ReceiveData(I2C1);
- 831              		.loc 2 209 0
- 832 02fe 1C48     		ldr	r0, .L69
- 833 0300 FFF7FEFF 		bl	I2C_ReceiveData
- 834              	.LVL75:
+ 838              		.loc 2 209 0
+ 839 02f2 2048     		ldr	r0, .L65
+ 840 02f4 FFF7FEFF 		bl	I2C_ReceiveData
+ 841              	.LVL73:
  210:src/DCMotor.cpp **** 
  211:src/DCMotor.cpp **** 	// ACK
  212:src/DCMotor.cpp **** 	I2C_AcknowledgeConfig(I2C1, ENABLE);
- 835              		.loc 2 212 0
- 836 0304 0121     		movs	r1, #1
+ 842              		.loc 2 212 0
+ 843 02f8 0121     		movs	r1, #1
  209:src/DCMotor.cpp **** 	RxBuffer[Rx_Idx++] = I2C_ReceiveData(I2C1);
- 837              		.loc 2 209 0
- 838 0306 0646     		mov	r6, r0
- 839              	.LVL76:
- 840              		.loc 2 212 0
- 841 0308 1948     		ldr	r0, .L69
- 842 030a FFF7FEFF 		bl	I2C_AcknowledgeConfig
- 843              	.LVL77:
- 844              	.L53:
+ 844              		.loc 2 209 0
+ 845 02fa 0646     		mov	r6, r0
+ 846              	.LVL74:
+ 847              		.loc 2 212 0
+ 848 02fc 1D48     		ldr	r0, .L65
+ 849 02fe FFF7FEFF 		bl	I2C_AcknowledgeConfig
+ 850              	.LVL75:
  213:src/DCMotor.cpp **** 	while( !I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_RECEIVED) );
- 845              		.loc 2 213 0
- 846 030e 1B49     		ldr	r1, .L69+12
- 847 0310 1748     		ldr	r0, .L69
- 848 0312 FFF7FEFF 		bl	I2C_CheckEvent
- 849              	.LVL78:
- 850 0316 0028     		cmp	r0, #0
- 851 0318 F9D0     		beq	.L53
- 852              	.LVL79:
+ 851              		.loc 2 213 0
+ 852 0302 1F4D     		ldr	r5, .L65+12
+ 853 0304 1B4C     		ldr	r4, .L65
+ 854              	.L49:
+ 855 0306 2946     		mov	r1, r5
+ 856 0308 2046     		mov	r0, r4
+ 857 030a FFF7FEFF 		bl	I2C_CheckEvent
+ 858              	.LVL76:
+ 859 030e 0028     		cmp	r0, #0
+ 860 0310 F9D0     		beq	.L49
+ 861              	.LVL77:
  214:src/DCMotor.cpp **** 	RxBuffer[Rx_Idx++] = I2C_ReceiveData(I2C1);
- 853              		.loc 2 214 0
- 854 031a 1548     		ldr	r0, .L69
- 855 031c FFF7FEFF 		bl	I2C_ReceiveData
- 856              	.LVL80:
+ 862              		.loc 2 214 0
+ 863 0312 1848     		ldr	r0, .L65
+ 864 0314 FFF7FEFF 		bl	I2C_ReceiveData
+ 865              	.LVL78:
  215:src/DCMotor.cpp **** 
  216:src/DCMotor.cpp **** 
  217:src/DCMotor.cpp ****     // ACK
  218:src/DCMotor.cpp **** 	I2C_AcknowledgeConfig(I2C1, ENABLE);
- 857              		.loc 2 218 0
- 858 0320 0121     		movs	r1, #1
+ 866              		.loc 2 218 0
+ 867 0318 0121     		movs	r1, #1
  214:src/DCMotor.cpp **** 	RxBuffer[Rx_Idx++] = I2C_ReceiveData(I2C1);
- 859              		.loc 2 214 0
- 860 0322 0446     		mov	r4, r0
- 861              	.LVL81:
- 862              		.loc 2 218 0
- 863 0324 1248     		ldr	r0, .L69
- 864 0326 FFF7FEFF 		bl	I2C_AcknowledgeConfig
- 865              	.LVL82:
- 866              	.L54:
+ 868              		.loc 2 214 0
+ 869 031a 0446     		mov	r4, r0
+ 870              	.LVL79:
+ 871              		.loc 2 218 0
+ 872 031c 1548     		ldr	r0, .L65
+ 873 031e FFF7FEFF 		bl	I2C_AcknowledgeConfig
+ 874              	.LVL80:
  219:src/DCMotor.cpp **** 	while( !I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_RECEIVED) );
- 867              		.loc 2 219 0
- 868 032a 1449     		ldr	r1, .L69+12
- 869 032c 1048     		ldr	r0, .L69
- 870 032e FFF7FEFF 		bl	I2C_CheckEvent
- 871              	.LVL83:
- 872 0332 0028     		cmp	r0, #0
- 873 0334 F9D0     		beq	.L54
- 874              	.LVL84:
+ 875              		.loc 2 219 0
+ 876 0322 174F     		ldr	r7, .L65+12
+ 877 0324 134D     		ldr	r5, .L65
+ 878              	.L50:
+ 879 0326 3946     		mov	r1, r7
+ 880 0328 2846     		mov	r0, r5
+ 881 032a FFF7FEFF 		bl	I2C_CheckEvent
+ 882              	.LVL81:
+ 883 032e 0028     		cmp	r0, #0
+ 884 0330 F9D0     		beq	.L50
+ 885              	.LVL82:
  220:src/DCMotor.cpp **** 	RxBuffer[Rx_Idx++] = I2C_ReceiveData(I2C1);
- 875              		.loc 2 220 0
- 876 0336 0E48     		ldr	r0, .L69
- 877 0338 FFF7FEFF 		bl	I2C_ReceiveData
- 878              	.LVL85:
+ 886              		.loc 2 220 0
+ 887 0332 1048     		ldr	r0, .L65
+ 888 0334 FFF7FEFF 		bl	I2C_ReceiveData
+ 889              	.LVL83:
  221:src/DCMotor.cpp **** 
  222:src/DCMotor.cpp **** 
  223:src/DCMotor.cpp ****     // NACK
  224:src/DCMotor.cpp ****     I2C_AcknowledgeConfig(I2C1, DISABLE);
- 879              		.loc 2 224 0
- 880 033c 0021     		movs	r1, #0
+ 890              		.loc 2 224 0
+ 891 0338 0021     		movs	r1, #0
  220:src/DCMotor.cpp **** 	RxBuffer[Rx_Idx++] = I2C_ReceiveData(I2C1);
- 881              		.loc 2 220 0
- 882 033e 0546     		mov	r5, r0
- 883              	.LVL86:
- 884              		.loc 2 224 0
- 885 0340 0B48     		ldr	r0, .L69
- 886 0342 FFF7FEFF 		bl	I2C_AcknowledgeConfig
- 887              	.LVL87:
+ 892              		.loc 2 220 0
+ 893 033a 0546     		mov	r5, r0
+ 894              	.LVL84:
+ 895              		.loc 2 224 0
+ 896 033c 0D48     		ldr	r0, .L65
+ 897 033e FFF7FEFF 		bl	I2C_AcknowledgeConfig
+ 898              	.LVL85:
  225:src/DCMotor.cpp **** 	I2C_GenerateSTOP(I2C1, ENABLE);
- 888              		.loc 2 225 0
- 889 0346 0121     		movs	r1, #1
- 890 0348 0948     		ldr	r0, .L69
- 891 034a FFF7FEFF 		bl	I2C_GenerateSTOP
- 892              	.LVL88:
- 893              	.L55:
+ 899              		.loc 2 225 0
+ 900 0342 0121     		movs	r1, #1
+ 901 0344 0B48     		ldr	r0, .L65
+ 902 0346 FFF7FEFF 		bl	I2C_GenerateSTOP
+ 903              	.LVL86:
  226:src/DCMotor.cpp **** 	while( !I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_RECEIVED) );
- 894              		.loc 2 226 0
- 895 034e 0B49     		ldr	r1, .L69+12
- 896 0350 0748     		ldr	r0, .L69
- 897 0352 FFF7FEFF 		bl	I2C_CheckEvent
- 898              	.LVL89:
- 899 0356 0028     		cmp	r0, #0
- 900 0358 F9D0     		beq	.L55
+ 904              		.loc 2 226 0
+ 905 034a DFF83480 		ldr	r8, .L65+12
+ 906 034e 094F     		ldr	r7, .L65
+ 907              	.L51:
+ 908 0350 4146     		mov	r1, r8
+ 909 0352 3846     		mov	r0, r7
+ 910 0354 FFF7FEFF 		bl	I2C_CheckEvent
+ 911              	.LVL87:
+ 912 0358 0028     		cmp	r0, #0
+ 913 035a F9D0     		beq	.L51
  227:src/DCMotor.cpp **** 	RxBuffer[Rx_Idx] = I2C_ReceiveData(I2C1);
- 901              		.loc 2 227 0
- 902 035a 0548     		ldr	r0, .L69
- 903 035c FFF7FEFF 		bl	I2C_ReceiveData
- 904              	.LVL90:
+ 914              		.loc 2 227 0
+ 915 035c 0548     		ldr	r0, .L65
+ 916 035e FFF7FEFF 		bl	I2C_ReceiveData
+ 917              	.LVL88:
  228:src/DCMotor.cpp **** 
  229:src/DCMotor.cpp ****    
  230:src/DCMotor.cpp **** 	return ((int32_t)((RxBuffer[0] << 24)|(RxBuffer[1] << 16)|(RxBuffer[2] << 8) | RxBuffer[3]));
- 905              		.loc 2 230 0
- 906 0360 2304     		lsls	r3, r4, #16
- 907 0362 43EA0664 		orr	r4, r3, r6, lsl #24
- 908 0366 44EA0524 		orr	r4, r4, r5, lsl #8
+ 918              		.loc 2 230 0
+ 919 0362 2404     		lsls	r4, r4, #16
+ 920 0364 44EA0664 		orr	r4, r4, r6, lsl #24
+ 921 0368 44EA0524 		orr	r4, r4, r5, lsl #8
  231:src/DCMotor.cpp **** }
- 909              		.loc 2 231 0
- 910 036a 2043     		orrs	r0, r0, r4
- 911 036c 70BD     		pop	{r4, r5, r6, pc}
- 912              	.L70:
- 913 036e 00BF     		.align	2
- 914              	.L69:
- 915 0370 00540040 		.word	1073763328
- 916 0374 01000300 		.word	196609
- 917 0378 02000300 		.word	196610
- 918 037c 40000300 		.word	196672
- 919              		.cfi_endproc
- 920              	.LFE1035:
- 921              		.fnend
- 923              		.global	__aeabi_fsub
- 924              		.global	__aeabi_fmul
- 925              		.global	__aeabi_fadd
- 926              		.global	__aeabi_fcmpgt
- 927              		.global	__aeabi_fcmplt
- 928              		.global	__aeabi_fdiv
- 929              		.align	1
- 930              		.global	_ZN7DCMotor15updateRegulatorEfff
- 931              		.thumb
- 932              		.thumb_func
- 934              	_ZN7DCMotor15updateRegulatorEfff:
- 935              		.fnstart
- 936              	.LFB1036:
+ 922              		.loc 2 231 0
+ 923 036c 2043     		orrs	r0, r0, r4
+ 924 036e BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 925              	.L66:
+ 926 0372 00BF     		.align	2
+ 927              	.L65:
+ 928 0374 00540040 		.word	1073763328
+ 929 0378 01000300 		.word	196609
+ 930 037c 02000300 		.word	196610
+ 931 0380 40000300 		.word	196672
+ 932              		.cfi_endproc
+ 933              	.LFE1151:
+ 934              		.fnend
+ 936              		.global	__aeabi_fsub
+ 937              		.global	__aeabi_fmul
+ 938              		.global	__aeabi_fadd
+ 939              		.global	__aeabi_fcmpgt
+ 940              		.global	__aeabi_fcmplt
+ 941              		.global	__aeabi_fdiv
+ 942              		.align	1
+ 943              		.global	_ZN7DCMotor15updateRegulatorEfff
+ 944              		.syntax unified
+ 945              		.thumb
+ 946              		.thumb_func
+ 947              		.fpu softvfp
+ 949              	_ZN7DCMotor15updateRegulatorEfff:
+ 950              		.fnstart
+ 951              	.LFB1152:
  232:src/DCMotor.cpp **** 
  233:src/DCMotor.cpp **** float DCMotor::updateRegulator(float enc, float sp, float dt){
- 937              		.loc 2 233 0
- 938              		.cfi_startproc
- 939              		@ args = 0, pretend = 0, frame = 0
- 940              		@ frame_needed = 0, uses_anonymous_args = 0
- 941              	.LVL91:
- 942 0380 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
- 943              	.LCFI8:
- 944              		.cfi_def_cfa_offset 32
- 945              		.cfi_offset 3, -32
- 946              		.cfi_offset 4, -28
- 947              		.cfi_offset 5, -24
- 948              		.cfi_offset 6, -20
- 949              		.cfi_offset 7, -16
- 950              		.cfi_offset 8, -12
- 951              		.cfi_offset 9, -8
- 952              		.cfi_offset 14, -4
- 953              		.loc 2 233 0
- 954 0384 0446     		mov	r4, r0
- 955 0386 1F46     		mov	r7, r3
+ 952              		.loc 2 233 0
+ 953              		.cfi_startproc
+ 954              		@ args = 0, pretend = 0, frame = 0
+ 955              		@ frame_needed = 0, uses_anonymous_args = 0
+ 956              	.LVL89:
+ 957 0384 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 958              	.LCFI9:
+ 959              		.cfi_def_cfa_offset 32
+ 960              		.cfi_offset 3, -32
+ 961              		.cfi_offset 4, -28
+ 962              		.cfi_offset 5, -24
+ 963              		.cfi_offset 6, -20
+ 964              		.cfi_offset 7, -16
+ 965              		.cfi_offset 8, -12
+ 966              		.cfi_offset 9, -8
+ 967              		.cfi_offset 14, -4
+ 968              		.loc 2 233 0
+ 969 0388 0446     		mov	r4, r0
+ 970 038a 1F46     		mov	r7, r3
  234:src/DCMotor.cpp **** 	float error_new = sp-enc;		// m/s
- 956              		.loc 2 234 0
- 957 0388 1046     		mov	r0, r2
- 958              	.LVL92:
+ 971              		.loc 2 234 0
+ 972 038c 1046     		mov	r0, r2
+ 973              	.LVL90:
  233:src/DCMotor.cpp **** 	float error_new = sp-enc;		// m/s
- 959              		.loc 2 233 0
- 960 038a 9046     		mov	r8, r2
- 961              		.loc 2 234 0
- 962 038c FFF7FEFF 		bl	__aeabi_fsub
- 963              	.LVL93:
+ 974              		.loc 2 233 0
+ 975 038e 9046     		mov	r8, r2
+ 976              		.loc 2 234 0
+ 977 0390 FFF7FEFF 		bl	__aeabi_fsub
+ 978              	.LVL91:
  235:src/DCMotor.cpp **** 	
  236:src/DCMotor.cpp **** 	integral += error_new*dt;
- 964              		.loc 2 236 0
- 965 0390 3946     		mov	r1, r7
+ 979              		.loc 2 236 0
+ 980 0394 3946     		mov	r1, r7
  234:src/DCMotor.cpp **** 	
- 966              		.loc 2 234 0
- 967 0392 0646     		mov	r6, r0
- 968              	.LVL94:
- 969              		.loc 2 236 0
- 970 0394 FFF7FEFF 		bl	__aeabi_fmul
- 971              	.LVL95:
- 972 0398 E16A     		ldr	r1, [r4, #44]	@ float
- 973 039a FFF7FEFF 		bl	__aeabi_fadd
- 974              	.LVL96:
+ 981              		.loc 2 234 0
+ 982 0396 0646     		mov	r6, r0
+ 983              	.LVL92:
+ 984              		.loc 2 236 0
+ 985 0398 FFF7FEFF 		bl	__aeabi_fmul
+ 986              	.LVL93:
+ 987 039c E16A     		ldr	r1, [r4, #44]	@ float
+ 988 039e FFF7FEFF 		bl	__aeabi_fadd
+ 989              	.LVL94:
  237:src/DCMotor.cpp **** 	
  238:src/DCMotor.cpp **** 	if (integral > integralSaturation){
- 975              		.loc 2 238 0
- 976 039e 656A     		ldr	r5, [r4, #36]	@ float
+ 990              		.loc 2 238 0
+ 991 03a2 656A     		ldr	r5, [r4, #36]	@ float
  236:src/DCMotor.cpp **** 	
- 977              		.loc 2 236 0
- 978 03a0 E062     		str	r0, [r4, #44]	@ float
- 979              		.loc 2 238 0
- 980 03a2 2946     		mov	r1, r5
+ 992              		.loc 2 236 0
+ 993 03a4 E062     		str	r0, [r4, #44]	@ float
+ 994              		.loc 2 238 0
+ 995 03a6 2946     		mov	r1, r5
  236:src/DCMotor.cpp **** 	
- 981              		.loc 2 236 0
- 982 03a4 8146     		mov	r9, r0
- 983              		.loc 2 238 0
- 984 03a6 FFF7FEFF 		bl	__aeabi_fcmpgt
- 985              	.LVL97:
- 986 03aa 30B9     		cbnz	r0, .L79
+ 996              		.loc 2 236 0
+ 997 03a8 8146     		mov	r9, r0
+ 998              		.loc 2 238 0
+ 999 03aa FFF7FEFF 		bl	__aeabi_fcmpgt
+ 1000              	.LVL95:
+ 1001 03ae 08B1     		cbz	r0, .L74
+ 1002              	.L75:
  239:src/DCMotor.cpp **** 		integral = integralSaturation;
  240:src/DCMotor.cpp **** 	}else if (integral < -(integralSaturation)){
- 987              		.loc 2 240 0
- 988 03ac 05F10045 		add	r5, r5, #-2147483648
- 989 03b0 2946     		mov	r1, r5
- 990 03b2 4846     		mov	r0, r9
- 991 03b4 FFF7FEFF 		bl	__aeabi_fcmplt
- 992              	.LVL98:
- 993 03b8 00B1     		cbz	r0, .L74
- 994              	.L79:
  241:src/DCMotor.cpp **** 		integral = -(integralSaturation);
- 995              		.loc 2 241 0
- 996 03ba E562     		str	r5, [r4, #44]	@ float
- 997              	.L74:
- 998              	.LVL99:
+ 1003              		.loc 2 241 0
+ 1004 03b0 E562     		str	r5, [r4, #44]	@ float
+ 1005 03b2 07E0     		b	.L70
+ 1006              	.L74:
+ 240:src/DCMotor.cpp **** 		integral = -(integralSaturation);
+ 1007              		.loc 2 240 0
+ 1008 03b4 05F10045 		add	r5, r5, #-2147483648
+ 1009 03b8 2946     		mov	r1, r5
+ 1010 03ba 4846     		mov	r0, r9
+ 1011 03bc FFF7FEFF 		bl	__aeabi_fcmplt
+ 1012              	.LVL96:
+ 1013 03c0 0028     		cmp	r0, #0
+ 1014 03c2 F5D1     		bne	.L75
+ 1015              	.L70:
+ 1016              	.LVL97:
  242:src/DCMotor.cpp **** 	}
  243:src/DCMotor.cpp **** 	
  244:src/DCMotor.cpp **** 	float derivative = (error_new-error)/dt;
  245:src/DCMotor.cpp **** 	float output = (FF*sp + KP*error_new + KI*integral + KD*derivative);
- 999              		.loc 2 245 0
- 1000 03bc 6169     		ldr	r1, [r4, #20]	@ float
- 1001 03be 4046     		mov	r0, r8
- 1002 03c0 FFF7FEFF 		bl	__aeabi_fmul
- 1003              	.LVL100:
- 1004 03c4 A169     		ldr	r1, [r4, #24]	@ float
- 1005 03c6 0546     		mov	r5, r0
- 1006 03c8 3046     		mov	r0, r6
- 1007 03ca FFF7FEFF 		bl	__aeabi_fmul
- 1008              	.LVL101:
- 1009 03ce 0146     		mov	r1, r0
- 1010 03d0 2846     		mov	r0, r5
- 1011 03d2 FFF7FEFF 		bl	__aeabi_fadd
- 1012              	.LVL102:
- 1013 03d6 E16A     		ldr	r1, [r4, #44]	@ float
- 1014 03d8 0546     		mov	r5, r0
- 1015 03da E069     		ldr	r0, [r4, #28]	@ float
- 1016 03dc FFF7FEFF 		bl	__aeabi_fmul
- 1017              	.LVL103:
- 1018 03e0 0146     		mov	r1, r0
- 1019 03e2 2846     		mov	r0, r5
- 1020 03e4 FFF7FEFF 		bl	__aeabi_fadd
- 1021              	.LVL104:
- 1022 03e8 A16A     		ldr	r1, [r4, #40]	@ float
- 1023              	.LVL105:
- 1024 03ea 0546     		mov	r5, r0
- 1025 03ec 3046     		mov	r0, r6
- 1026 03ee FFF7FEFF 		bl	__aeabi_fsub
- 1027              	.LVL106:
- 1028 03f2 3946     		mov	r1, r7
- 1029 03f4 FFF7FEFF 		bl	__aeabi_fdiv
- 1030              	.LVL107:
- 1031 03f8 216A     		ldr	r1, [r4, #32]	@ float
- 1032 03fa FFF7FEFF 		bl	__aeabi_fmul
- 1033              	.LVL108:
- 1034 03fe 0146     		mov	r1, r0
- 1035 0400 2846     		mov	r0, r5
- 1036 0402 FFF7FEFF 		bl	__aeabi_fadd
- 1037              	.LVL109:
+ 1017              		.loc 2 245 0
+ 1018 03c4 6169     		ldr	r1, [r4, #20]	@ float
+ 1019 03c6 4046     		mov	r0, r8
+ 1020 03c8 FFF7FEFF 		bl	__aeabi_fmul
+ 1021              	.LVL98:
+ 1022 03cc A169     		ldr	r1, [r4, #24]	@ float
+ 1023 03ce 0546     		mov	r5, r0
+ 1024 03d0 3046     		mov	r0, r6
+ 1025 03d2 FFF7FEFF 		bl	__aeabi_fmul
+ 1026              	.LVL99:
+ 1027 03d6 0146     		mov	r1, r0
+ 1028 03d8 2846     		mov	r0, r5
+ 1029 03da FFF7FEFF 		bl	__aeabi_fadd
+ 1030              	.LVL100:
+ 1031 03de E16A     		ldr	r1, [r4, #44]	@ float
+ 1032 03e0 0546     		mov	r5, r0
+ 1033 03e2 E069     		ldr	r0, [r4, #28]	@ float
+ 1034 03e4 FFF7FEFF 		bl	__aeabi_fmul
+ 1035              	.LVL101:
+ 1036 03e8 0146     		mov	r1, r0
+ 1037 03ea 2846     		mov	r0, r5
+ 1038 03ec FFF7FEFF 		bl	__aeabi_fadd
+ 1039              	.LVL102:
+ 244:src/DCMotor.cpp **** 	float output = (FF*sp + KP*error_new + KI*integral + KD*derivative);
+ 1040              		.loc 2 244 0
+ 1041 03f0 A16A     		ldr	r1, [r4, #40]	@ float
+ 1042              	.LVL103:
+ 1043              		.loc 2 245 0
+ 1044 03f2 0546     		mov	r5, r0
+ 244:src/DCMotor.cpp **** 	float output = (FF*sp + KP*error_new + KI*integral + KD*derivative);
+ 1045              		.loc 2 244 0
+ 1046 03f4 3046     		mov	r0, r6
+ 1047 03f6 FFF7FEFF 		bl	__aeabi_fsub
+ 1048              	.LVL104:
+ 1049 03fa 3946     		mov	r1, r7
+ 1050 03fc FFF7FEFF 		bl	__aeabi_fdiv
+ 1051              	.LVL105:
+ 1052              		.loc 2 245 0
+ 1053 0400 216A     		ldr	r1, [r4, #32]	@ float
+ 1054 0402 FFF7FEFF 		bl	__aeabi_fmul
+ 1055              	.LVL106:
+ 1056 0406 0146     		mov	r1, r0
+ 1057 0408 2846     		mov	r0, r5
+ 1058 040a FFF7FEFF 		bl	__aeabi_fadd
+ 1059              	.LVL107:
  246:src/DCMotor.cpp **** 	error = error_new;
- 1038              		.loc 2 246 0
- 1039 0406 A662     		str	r6, [r4, #40]	@ float
+ 1060              		.loc 2 246 0
+ 1061 040e A662     		str	r6, [r4, #40]	@ float
  247:src/DCMotor.cpp **** 	return output;
  248:src/DCMotor.cpp **** }
- 1040              		.loc 2 248 0
- 1041 0408 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
- 1042              		.cfi_endproc
- 1043              	.LFE1036:
- 1044              		.cantunwind
- 1045              		.fnend
- 1047              		.global	__aeabi_i2f
- 1048              		.global	__aeabi_f2iz
- 1049              		.align	1
- 1050              		.global	_ZN7DCMotor6updateEfbb
- 1051              		.thumb
- 1052              		.thumb_func
- 1054              	_ZN7DCMotor6updateEfbb:
- 1055              		.fnstart
- 1056              	.LFB1037:
+ 1062              		.loc 2 248 0
+ 1063 0410 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 1064              		.cfi_endproc
+ 1065              	.LFE1152:
+ 1066              		.cantunwind
+ 1067              		.fnend
+ 1069              		.global	__aeabi_i2f
+ 1070              		.global	__aeabi_f2iz
+ 1071              		.align	1
+ 1072              		.global	_ZN7DCMotor6updateEfbb
+ 1073              		.syntax unified
+ 1074              		.thumb
+ 1075              		.thumb_func
+ 1076              		.fpu softvfp
+ 1078              	_ZN7DCMotor6updateEfbb:
+ 1079              		.fnstart
+ 1080              	.LFB1153:
  249:src/DCMotor.cpp **** 
  250:src/DCMotor.cpp **** //std::tuple<float, int, int, int> DCMotor::update(float dt, bool connected){
  251:src/DCMotor.cpp **** float DCMotor::update(float dt, bool connected, bool enable){
- 1057              		.loc 2 251 0
- 1058              		.cfi_startproc
- 1059              		@ args = 0, pretend = 0, frame = 0
- 1060              		@ frame_needed = 0, uses_anonymous_args = 0
- 1061              	.LVL110:
- 1062 040c 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
- 1063              		.save {r4, r5, r6, r7, r8, lr}
- 1064              	.LCFI9:
- 1065              		.cfi_def_cfa_offset 24
- 1066              		.cfi_offset 4, -24
- 1067              		.cfi_offset 5, -20
- 1068              		.cfi_offset 6, -16
- 1069              		.cfi_offset 7, -12
- 1070              		.cfi_offset 8, -8
- 1071              		.cfi_offset 14, -4
- 1072              		.loc 2 251 0
- 1073 0410 0546     		mov	r5, r0
- 1074 0412 8846     		mov	r8, r1
- 1075 0414 1F46     		mov	r7, r3
+ 1081              		.loc 2 251 0
+ 1082              		.cfi_startproc
+ 1083              		@ args = 0, pretend = 0, frame = 0
+ 1084              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1085              	.LVL108:
+ 1086 0414 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 1087              		.save {r4, r5, r6, r7, r8, lr}
+ 1088              	.LCFI10:
+ 1089              		.cfi_def_cfa_offset 24
+ 1090              		.cfi_offset 4, -24
+ 1091              		.cfi_offset 5, -20
+ 1092              		.cfi_offset 6, -16
+ 1093              		.cfi_offset 7, -12
+ 1094              		.cfi_offset 8, -8
+ 1095              		.cfi_offset 14, -4
+ 1096              		.loc 2 251 0
+ 1097 0418 0546     		mov	r5, r0
+ 1098 041a 8846     		mov	r8, r1
+ 1099 041c 1F46     		mov	r7, r3
  252:src/DCMotor.cpp **** 	// Read encoder
  253:src/DCMotor.cpp **** 	
  254:src/DCMotor.cpp **** 	int s = 0;
@@ -1476,196 +1495,204 @@
  256:src/DCMotor.cpp **** 	int32_t encoder_speed = 0;
  257:src/DCMotor.cpp **** 	float sp = 0.0;
  258:src/DCMotor.cpp **** 	if(connected){
- 1076              		.loc 2 258 0
- 1077 0416 0AB1     		cbz	r2, .L83
+ 1100              		.loc 2 258 0
+ 1101 041e 1AB3     		cbz	r2, .L79
  259:src/DCMotor.cpp **** 		sp = speed;
- 1078              		.loc 2 259 0
- 1079 0418 8668     		ldr	r6, [r0, #8]	@ float
- 1080              	.LVL111:
- 1081 041a 00E0     		b	.L81
- 1082              	.LVL112:
- 1083              	.L83:
- 257:src/DCMotor.cpp **** 	if(connected){
- 1084              		.loc 2 257 0
- 1085 041c 0026     		movs	r6, #0
- 1086              	.LVL113:
- 1087              	.L81:
+ 1102              		.loc 2 259 0
+ 1103 0420 8668     		ldr	r6, [r0, #8]	@ float
+ 1104              	.LVL109:
+ 1105              	.L77:
  260:src/DCMotor.cpp **** 	}
  261:src/DCMotor.cpp **** 	//std::tie(encoder_speed, retryCount, busyCount) = readEncoder();
  262:src/DCMotor.cpp **** 	encoder_speed = readEncoder();
- 1088              		.loc 2 262 0
- 1089 041e 2846     		mov	r0, r5
- 1090              	.LVL114:
- 1091 0420 FFF7FEFF 		bl	_ZN7DCMotor11readEncoderEv
- 1092              	.LVL115:
+ 1106              		.loc 2 262 0
+ 1107 0422 2846     		mov	r0, r5
+ 1108              	.LVL110:
+ 1109 0424 FFF7FEFF 		bl	_ZN7DCMotor11readEncoderEv
+ 1110              	.LVL111:
  263:src/DCMotor.cpp **** 	// (2 * pi * F)/(2^14 * N)	[N = 8][F = 2Khz]
  264:src/DCMotor.cpp **** 	float encSpeed = encoder_speed*0.479368996f;		// rad/s
+ 1111              		.loc 2 264 0
+ 1112 0428 FFF7FEFF 		bl	__aeabi_i2f
+ 1113              	.LVL112:
+ 1114 042c 0F49     		ldr	r1, .L80
+ 1115 042e FFF7FEFF 		bl	__aeabi_fmul
+ 1116              	.LVL113:
  265:src/DCMotor.cpp **** 	speed_si = encSpeed * wheelRadius;	// m/s
- 1093              		.loc 2 265 0
- 1094 0424 FFF7FEFF 		bl	__aeabi_i2f
- 1095              	.LVL116:
- 1096 0428 0E49     		ldr	r1, .L84
- 1097 042a FFF7FEFF 		bl	__aeabi_fmul
- 1098              	.LVL117:
- 1099 042e 2969     		ldr	r1, [r5, #16]	@ float
- 1100 0430 FFF7FEFF 		bl	__aeabi_fmul
- 1101              	.LVL118:
- 1102 0434 0446     		mov	r4, r0
- 1103              	.LVL119:
+ 1117              		.loc 2 265 0
+ 1118 0432 2969     		ldr	r1, [r5, #16]	@ float
+ 1119 0434 FFF7FEFF 		bl	__aeabi_fmul
+ 1120              	.LVL114:
+ 1121 0438 0446     		mov	r4, r0
+ 1122              	.LVL115:
  266:src/DCMotor.cpp **** 	/*if(strstr(m_settings->m_motorName, "left") > 0)
  267:src/DCMotor.cpp **** 		speed_si = speed_si * -1;*/
  268:src/DCMotor.cpp **** 
  269:src/DCMotor.cpp **** 	if(encAddr == 0x10 || encAddr == (0x10 | 0x04)){
- 1104              		.loc 2 269 0
- 1105 0436 2B7B     		ldrb	r3, [r5, #12]	@ zero_extendqisi2
+ 1123              		.loc 2 269 0
+ 1124 043a 2B7B     		ldrb	r3, [r5, #12]	@ zero_extendqisi2
  270:src/DCMotor.cpp **** 		speed_si *= -1;
  271:src/DCMotor.cpp **** 	}
  272:src/DCMotor.cpp **** 
  273:src/DCMotor.cpp **** 	// Update PID regulator
  274:src/DCMotor.cpp **** 	s = (int) updateRegulator(speed_si, sp, dt);		// m/s*/
- 1106              		.loc 2 274 0
- 1107 0438 3246     		mov	r2, r6
+ 1125              		.loc 2 274 0
+ 1126 043c 3246     		mov	r2, r6
  269:src/DCMotor.cpp **** 		speed_si *= -1;
- 1108              		.loc 2 269 0
- 1109 043a 03F0FB03 		and	r3, r3, #251
- 1110 043e 102B     		cmp	r3, #16
+ 1127              		.loc 2 269 0
+ 1128 043e 03F0FB03 		and	r3, r3, #251
+ 1129 0442 102B     		cmp	r3, #16
  270:src/DCMotor.cpp **** 		speed_si *= -1;
- 1111              		.loc 2 270 0
- 1112 0440 08BF     		it	eq
- 1113 0442 00F10044 		addeq	r4, r0, #-2147483648
- 1114              	.LVL120:
- 1115              		.loc 2 274 0
- 1116 0446 4346     		mov	r3, r8
- 1117 0448 2146     		mov	r1, r4
- 1118 044a 2846     		mov	r0, r5
- 1119 044c FFF7FEFF 		bl	_ZN7DCMotor15updateRegulatorEfff
- 1120              	.LVL121:
+ 1130              		.loc 2 270 0
+ 1131 0444 08BF     		it	eq
+ 1132 0446 00F10044 		addeq	r4, r0, #-2147483648
+ 1133              	.LVL116:
+ 1134              		.loc 2 274 0
+ 1135 044a 4346     		mov	r3, r8
+ 1136 044c 2146     		mov	r1, r4
+ 1137 044e 2846     		mov	r0, r5
+ 1138 0450 FFF7FEFF 		bl	_ZN7DCMotor15updateRegulatorEfff
+ 1139              	.LVL117:
+ 1140 0454 FFF7FEFF 		bl	__aeabi_f2iz
+ 1141              	.LVL118:
  275:src/DCMotor.cpp **** 	// Set motor speed to process value
  276:src/DCMotor.cpp **** 	
  277:src/DCMotor.cpp **** 	setSpeed(s, enable);		// m/s
- 1121              		.loc 2 277 0
- 1122 0450 FFF7FEFF 		bl	__aeabi_f2iz
- 1123              	.LVL122:
- 1124 0454 3A46     		mov	r2, r7
- 1125 0456 0146     		mov	r1, r0
- 1126 0458 2846     		mov	r0, r5
- 1127 045a FFF7FEFF 		bl	_ZN7DCMotor8setSpeedEib
- 1128              	.LVL123:
+ 1142              		.loc 2 277 0
+ 1143 0458 3A46     		mov	r2, r7
+ 1144 045a 0146     		mov	r1, r0
+ 1145 045c 2846     		mov	r0, r5
+ 1146 045e FFF7FEFF 		bl	_ZN7DCMotor8setSpeedEib
+ 1147              	.LVL119:
  278:src/DCMotor.cpp **** 	
  279:src/DCMotor.cpp **** 	// Return encoder values for publishing to localization
  280:src/DCMotor.cpp **** 	return speed_si;
  281:src/DCMotor.cpp **** }
- 1129              		.loc 2 281 0
- 1130 045e 2046     		mov	r0, r4
- 1131 0460 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
- 1132              	.LVL124:
- 1133              	.L85:
- 1134              		.align	2
- 1135              	.L84:
- 1136 0464 DA6FF53E 		.word	1056272346
- 1137              		.cfi_endproc
- 1138              	.LFE1037:
- 1139              		.fnend
- 1141              		.global	_ZTS7DCMotor
- 1142              		.global	_ZTI7DCMotor
- 1143              		.global	_ZTV7DCMotor
- 1144              		.section	.rodata
- 1145              		.align	2
- 1146              		.set	.LANCHOR0,. + 0
- 1149              	_ZTV7DCMotor:
- 1150 0000 00000000 		.word	0
- 1151 0004 00000000 		.word	_ZTI7DCMotor
- 1152 0008 00000000 		.word	_ZN7DCMotorD1Ev
- 1153 000c 00000000 		.word	_ZN7DCMotorD0Ev
- 1154 0010 00000000 		.word	_ZN7DCMotor9motorTypeEv
- 1155 0014 00000000 		.word	_ZN7DCMotor9motorInitEv
- 1156 0018 00000000 		.word	_ZN7DCMotor9motorNameEv
- 1157 001c 00000000 		.word	_ZN7DCMotor12setReferenceEf
- 1158 0020 00000000 		.word	_ZN7DCMotor12getReferenceEv
- 1159 0024 00000000 		.word	_ZN7DCMotor6updateEfbb
- 1162              	_ZTS7DCMotor:
- 1163 0028 3744434D 		.ascii	"7DCMotor\000"
- 1163      6F746F72 
- 1163      00
- 1164 0031 000000   		.space	3
- 1167              	_ZTI7DCMotor:
- 1168 0034 08000000 		.word	_ZTVN10__cxxabiv120__si_class_type_infoE+8
- 1169 0038 00000000 		.word	_ZTS7DCMotor
- 1170 003c 00000000 		.word	_ZTI5motor
- 1171              		.text
- 1172              	.Letext0:
- 1173              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
- 1174              		.file 4 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
- 1175              		.file 5 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/stdint.h"
- 1176              		.file 6 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
- 1177              		.file 7 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
- 1178              		.file 8 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_tim.h"
- 1179              		.file 9 "/opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stddef.h"
- 1180              		.file 10 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/lock.h"
- 1181              		.file 11 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_types.h"
- 1182              		.file 12 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/reent.h"
- 1183              		.file 13 "/opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stdarg.h"
- 1184              		.file 14 "<built-in>"
- 1185              		.file 15 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/type_traits"
- 1186              		.file 16 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/exception_ptr.h"
- 1187              		.file 17 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/arm-none-eabi/armv7-m/
- 1188              		.file 18 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/debug/debug.h"
- 1189              		.file 19 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/cwchar"
- 1190              		.file 20 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/cstdint"
- 1191              		.file 21 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/clocale"
- 1192              		.file 22 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/stl_pair.h"
- 1193              		.file 23 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/uses_allocator.h"
- 1194              		.file 24 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/tuple"
- 1195              		.file 25 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/bits/predefined_ops.h"
- 1196              		.file 26 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/ext/new_allocator.h"
- 1197              		.file 27 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/ext/numeric_traits.h"
- 1198              		.file 28 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/wchar.h"
- 1199              		.file 29 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/locale.h"
- 1200              		.file 30 "./inc/motorSettings.h"
- 1201              		.file 31 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
- 1202              		.file 32 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_i2c.h"
- 1203              		.file 33 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/c++/5.2.1/new"
+ 1148              		.loc 2 281 0
+ 1149 0462 2046     		mov	r0, r4
+ 1150 0464 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 1151              	.LVL120:
+ 1152              	.L79:
+ 257:src/DCMotor.cpp **** 	if(connected){
+ 1153              		.loc 2 257 0
+ 1154 0468 0026     		movs	r6, #0
+ 1155 046a DAE7     		b	.L77
+ 1156              	.L81:
+ 1157              		.align	2
+ 1158              	.L80:
+ 1159 046c DA6FF53E 		.word	1056272346
+ 1160              		.cfi_endproc
+ 1161              	.LFE1153:
+ 1162              		.fnend
+ 1164              		.global	_ZTS7DCMotor
+ 1165              		.global	_ZTI7DCMotor
+ 1166              		.global	_ZTV7DCMotor
+ 1167              		.section	.rodata
+ 1168              		.align	2
+ 1169              		.set	.LANCHOR0,. + 0
+ 1172              	_ZTV7DCMotor:
+ 1173 0000 00000000 		.word	0
+ 1174 0004 00000000 		.word	_ZTI7DCMotor
+ 1175 0008 00000000 		.word	_ZN7DCMotorD1Ev
+ 1176 000c 00000000 		.word	_ZN7DCMotorD0Ev
+ 1177 0010 00000000 		.word	_ZN7DCMotor9motorTypeEv
+ 1178 0014 00000000 		.word	_ZN7DCMotor9motorInitEv
+ 1179 0018 00000000 		.word	_ZN7DCMotor9motorNameEv
+ 1180 001c 00000000 		.word	_ZN7DCMotor12setReferenceEf
+ 1181 0020 00000000 		.word	_ZN7DCMotor12getReferenceEv
+ 1182 0024 00000000 		.word	_ZN7DCMotor6updateEfbb
+ 1185              	_ZTS7DCMotor:
+ 1186 0028 3744434D 		.ascii	"7DCMotor\000"
+ 1186      6F746F72 
+ 1186      00
+ 1187 0031 000000   		.space	3
+ 1190              	_ZTI7DCMotor:
+ 1191 0034 08000000 		.word	_ZTVN10__cxxabiv120__si_class_type_infoE+8
+ 1192 0038 00000000 		.word	_ZTS7DCMotor
+ 1193 003c 00000000 		.word	_ZTI5motor
+ 1194              		.text
+ 1195              	.Letext0:
+ 1196              		.file 3 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/machine/_default_types.h"
+ 1197              		.file 4 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/sys/_stdint.h"
+ 1198              		.file 5 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/stdint.h"
+ 1199              		.file 6 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
+ 1200              		.file 7 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.h"
+ 1201              		.file 8 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
+ 1202              		.file 9 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
+ 1203              		.file 10 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_tim.h"
+ 1204              		.file 11 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/c++/6.2.1/cstdlib"
+ 1205              		.file 12 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/c++/6.2.1/type_traits"
+ 1206              		.file 13 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/c++/6.2.1/arm-none-eabi/
+ 1207              		.file 14 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/c++/6.2.1/bits/stl_pair.
+ 1208              		.file 15 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/c++/6.2.1/bits/exception
+ 1209              		.file 16 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/c++/6.2.1/debug/debug.h"
+ 1210              		.file 17 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/c++/6.2.1/cwchar"
+ 1211              		.file 18 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/c++/6.2.1/cstdint"
+ 1212              		.file 19 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/c++/6.2.1/new"
+ 1213              		.file 20 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/c++/6.2.1/clocale"
+ 1214              		.file 21 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/c++/6.2.1/cstdio"
+ 1215              		.file 22 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/c++/6.2.1/bits/uses_allo
+ 1216              		.file 23 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/c++/6.2.1/bits/stl_itera
+ 1217              		.file 24 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/c++/6.2.1/tuple"
+ 1218              		.file 25 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/c++/6.2.1/bits/predefine
+ 1219              		.file 26 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/c++/6.2.1/ext/new_alloca
+ 1220              		.file 27 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/c++/6.2.1/ext/numeric_tr
+ 1221              		.file 28 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/lib/gcc/arm-none-eabi/6.2.1/include/stddef.h"
+ 1222              		.file 29 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/sys/lock.h"
+ 1223              		.file 30 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/sys/_types.h"
+ 1224              		.file 31 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/sys/reent.h"
+ 1225              		.file 32 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/stdlib.h"
+ 1226              		.file 33 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/c++/6.2.1/stdlib.h"
+ 1227              		.file 34 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/lib/gcc/arm-none-eabi/6.2.1/include/stdarg.h"
+ 1228              		.file 35 "<built-in>"
+ 1229              		.file 36 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/stdio.h"
+ 1230              		.file 37 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/wchar.h"
+ 1231              		.file 38 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/locale.h"
+ 1232              		.file 39 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/ctype.h"
+ 1233              		.file 40 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/sys/errno.h"
+ 1234              		.file 41 "./inc/motorSettings.h"
+ 1235              		.file 42 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_i2c.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 DCMotor.cpp
-     /tmp/ccF49PDO.s:20     .text._ZN7DCMotor9motorTypeEv:00000000 $t
-     /tmp/ccF49PDO.s:25     .text._ZN7DCMotor9motorTypeEv:00000000 _ZN7DCMotor9motorTypeEv
-.ARM.exidx.text._ZN7DCMotor9motorTypeEv:00000000 $d
-     /tmp/ccF49PDO.s:45     .text:00000000 $t
-     /tmp/ccF49PDO.s:50     .text:00000000 _ZN7DCMotor12setReferenceEf
-                       .ARM.exidx:00000000 $d
-     /tmp/ccF49PDO.s:73     .text:00000004 _ZN7DCMotor12getReferenceEv
-     /tmp/ccF49PDO.s:96     .text:00000008 _ZN7DCMotor9motorNameEv
-     /tmp/ccF49PDO.s:121    .text:0000000e _ZN7DCMotorD2Ev
-     /tmp/ccF49PDO.s:149    .text:00000020 $d
-     /tmp/ccF49PDO.s:121    .text:0000000e _ZN7DCMotorD1Ev
-     /tmp/ccF49PDO.s:157    .text:00000024 $t
-     /tmp/ccF49PDO.s:162    .text:00000024 _ZN7DCMotorD0Ev
-     /tmp/ccF49PDO.s:195    .text:00000036 _ZN7DCMotor9motorInitEv
-     /tmp/ccF49PDO.s:359    .text:0000010e $d
-     /tmp/ccF49PDO.s:363    .text:00000112 $t
-     /tmp/ccF49PDO.s:488    .text:000001b0 $d
-     /tmp/ccF49PDO.s:493    .text:000001b4 $t
-     /tmp/ccF49PDO.s:498    .text:000001b4 _ZN7DCMotorC2EP13motorSettings
-     /tmp/ccF49PDO.s:531    .text:000001c4 $d
-     /tmp/ccF49PDO.s:498    .text:000001b4 _ZN7DCMotorC1EP13motorSettings
-     /tmp/ccF49PDO.s:538    .text:000001c8 $t
-     /tmp/ccF49PDO.s:543    .text:000001c8 _ZN7DCMotor8setSpeedEib
-     /tmp/ccF49PDO.s:666    .text:0000025a $d
-     /tmp/ccF49PDO.s:670    .text:0000025e $t
-     /tmp/ccF49PDO.s:729    .text:0000029c $d
-     /tmp/ccF49PDO.s:735    .text:000002a4 $t
-     /tmp/ccF49PDO.s:740    .text:000002a4 _ZN7DCMotor11initEncoderEt
-     /tmp/ccF49PDO.s:762    .text:000002a8 _ZN7DCMotor11readEncoderEv
-     /tmp/ccF49PDO.s:915    .text:00000370 $d
-     /tmp/ccF49PDO.s:929    .text:00000380 $t
-     /tmp/ccF49PDO.s:934    .text:00000380 _ZN7DCMotor15updateRegulatorEfff
-     /tmp/ccF49PDO.s:1054   .text:0000040c _ZN7DCMotor6updateEfbb
-     /tmp/ccF49PDO.s:1136   .text:00000464 $d
-     /tmp/ccF49PDO.s:1162   .rodata:00000028 _ZTS7DCMotor
-     /tmp/ccF49PDO.s:1167   .rodata:00000034 _ZTI7DCMotor
-     /tmp/ccF49PDO.s:1149   .rodata:00000000 _ZTV7DCMotor
-     /tmp/ccF49PDO.s:1145   .rodata:00000000 $d
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 DCMotor.cpp
+     /tmp/ccMRzvby.s:16     .text._ZN7DCMotor9motorTypeEv:0000000000000000 $t
+     /tmp/ccMRzvby.s:23     .text._ZN7DCMotor9motorTypeEv:0000000000000000 _ZN7DCMotor9motorTypeEv
+.ARM.exidx.text._ZN7DCMotor9motorTypeEv:0000000000000000 $d
+     /tmp/ccMRzvby.s:43     .text:0000000000000000 $t
+     /tmp/ccMRzvby.s:50     .text:0000000000000000 _ZN7DCMotor12setReferenceEf
+                       .ARM.exidx:0000000000000000 $d
+     /tmp/ccMRzvby.s:75     .text:0000000000000004 _ZN7DCMotor12getReferenceEv
+     /tmp/ccMRzvby.s:100    .text:0000000000000008 _ZN7DCMotor9motorNameEv
+     /tmp/ccMRzvby.s:127    .text:000000000000000e _ZN7DCMotorD2Ev
+     /tmp/ccMRzvby.s:155    .text:0000000000000020 $d
+     /tmp/ccMRzvby.s:127    .text:000000000000000e _ZN7DCMotorD1Ev
+     /tmp/ccMRzvby.s:163    .text:0000000000000024 $t
+     /tmp/ccMRzvby.s:170    .text:0000000000000024 _ZN7DCMotorD0Ev
+     /tmp/ccMRzvby.s:205    .text:0000000000000036 _ZN7DCMotor9motorInitEv
+     /tmp/ccMRzvby.s:372    .text:000000000000010e $d
+     /tmp/ccMRzvby.s:376    .text:0000000000000112 $t
+     /tmp/ccMRzvby.s:503    .text:00000000000001b0 $d
+     /tmp/ccMRzvby.s:508    .text:00000000000001b4 $t
+     /tmp/ccMRzvby.s:515    .text:00000000000001b4 _ZN7DCMotorC2EP13motorSettings
+     /tmp/ccMRzvby.s:548    .text:00000000000001c4 $d
+     /tmp/ccMRzvby.s:515    .text:00000000000001b4 _ZN7DCMotorC1EP13motorSettings
+     /tmp/ccMRzvby.s:555    .text:00000000000001c8 $t
+     /tmp/ccMRzvby.s:562    .text:00000000000001c8 _ZN7DCMotor8setSpeedEib
+     /tmp/ccMRzvby.s:656    .text:000000000000023c $d
+     /tmp/ccMRzvby.s:661    .text:0000000000000240 $t
+     /tmp/ccMRzvby.s:721    .text:0000000000000280 $d
+     /tmp/ccMRzvby.s:727    .text:0000000000000288 $t
+     /tmp/ccMRzvby.s:734    .text:0000000000000288 _ZN7DCMotor11initEncoderEt
+     /tmp/ccMRzvby.s:758    .text:000000000000028c _ZN7DCMotor11readEncoderEv
+     /tmp/ccMRzvby.s:928    .text:0000000000000374 $d
+     /tmp/ccMRzvby.s:942    .text:0000000000000384 $t
+     /tmp/ccMRzvby.s:949    .text:0000000000000384 _ZN7DCMotor15updateRegulatorEfff
+     /tmp/ccMRzvby.s:1078   .text:0000000000000414 _ZN7DCMotor6updateEfbb
+     /tmp/ccMRzvby.s:1159   .text:000000000000046c $d
+     /tmp/ccMRzvby.s:1185   .rodata:0000000000000028 _ZTS7DCMotor
+     /tmp/ccMRzvby.s:1190   .rodata:0000000000000034 _ZTI7DCMotor
+     /tmp/ccMRzvby.s:1172   .rodata:0000000000000000 _ZTV7DCMotor
+     /tmp/ccMRzvby.s:1168   .rodata:0000000000000000 $d
+                     .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
 _ZN5motorD2Ev
@@ -1675,15 +1702,15 @@ TIM_TimeBaseInit
 TIM_OCStructInit
 TIM_OC1Init
 TIM_OC1PreloadConfig
+TIM_ARRPreloadConfig
+TIM_CtrlPWMOutputs
+TIM_Cmd
 TIM_OC2Init
 TIM_OC2PreloadConfig
 TIM_OC3Init
 TIM_OC3PreloadConfig
 TIM_OC4Init
 TIM_OC4PreloadConfig
-TIM_ARRPreloadConfig
-TIM_CtrlPWMOutputs
-TIM_Cmd
 __aeabi_unwind_cpp_pr0
 _ZN5motorC2EP13motorSettings
 GPIO_ResetBits

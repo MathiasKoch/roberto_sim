@@ -1,12 +1,13 @@
 src/encoder.o: src/encoder.c \
  lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h \
  lib/CMSIS/CM3/CoreSupport/core_cm3.h \
- /opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stdint.h \
- /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/stdint.h \
- /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h \
- /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/features.h \
- /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_intsup.h \
- /opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h \
+ /opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/lib/gcc/arm-none-eabi/6.2.1/include/stdint.h \
+ /opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/stdint.h \
+ /opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/machine/_default_types.h \
+ /opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/sys/features.h \
+ /opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/_newlib_version.h \
+ /opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/sys/_intsup.h \
+ /opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/sys/_stdint.h \
  lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.h \
  inc/f1/stm32f10x_conf.h \
  lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_adc.h \
@@ -25,23 +26,25 @@ src/encoder.o: src/encoder.c \
  lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_tim.h \
  lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_usart.h \
  lib/STM32F10x_StdPeriph_Driver/inc/misc.h inc/encoder.h \
- /opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stdbool.h
+ /opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/lib/gcc/arm-none-eabi/6.2.1/include/stdbool.h
 
 lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h:
 
 lib/CMSIS/CM3/CoreSupport/core_cm3.h:
 
-/opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stdint.h:
+/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/lib/gcc/arm-none-eabi/6.2.1/include/stdint.h:
 
-/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/stdint.h:
+/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/stdint.h:
 
-/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h:
+/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/machine/_default_types.h:
 
-/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/features.h:
+/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/sys/features.h:
 
-/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_intsup.h:
+/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/_newlib_version.h:
 
-/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h:
+/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/sys/_intsup.h:
+
+/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/sys/_stdint.h:
 
 lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.h:
 
@@ -81,4 +84,4 @@ lib/STM32F10x_StdPeriph_Driver/inc/misc.h:
 
 inc/encoder.h:
 
-/opt/gcc-arm-none-eabi-5_2-2015q4/lib/gcc/arm-none-eabi/5.2.1/include/stdbool.h:
+/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/lib/gcc/arm-none-eabi/6.2.1/include/stdbool.h:

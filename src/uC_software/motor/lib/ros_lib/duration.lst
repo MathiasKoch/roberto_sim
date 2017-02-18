@@ -1,29 +1,27 @@
-   1              		.syntax unified
-   2              		.cpu cortex-m3
-   3              		.fpu softvfp
-   4              		.eabi_attribute 20, 1
-   5              		.eabi_attribute 21, 1
-   6              		.eabi_attribute 23, 3
-   7              		.eabi_attribute 24, 1
-   8              		.eabi_attribute 25, 1
-   9              		.eabi_attribute 26, 1
-  10              		.eabi_attribute 30, 4
-  11              		.eabi_attribute 34, 1
-  12              		.eabi_attribute 18, 4
-  13              		.thumb
-  14              		.syntax unified
-  15              		.file	"duration.cpp"
-  16              		.text
-  17              	.Ltext0:
-  18              		.cfi_sections	.debug_frame
-  19              		.align	1
-  20              		.global	_ZN3ros22normalizeSecNSecSignedERlS0_
-  21              		.thumb
-  22              		.thumb_func
-  24              	_ZN3ros22normalizeSecNSecSignedERlS0_:
-  25              		.fnstart
-  26              	.LFB8:
-  27              		.file 1 "lib/ros_lib/duration.cpp"
+   1              		.cpu cortex-m3
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 4
+   9              		.eabi_attribute 34, 1
+  10              		.eabi_attribute 18, 4
+  11              		.file	"duration.cpp"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.align	1
+  16              		.global	_ZN3ros22normalizeSecNSecSignedERlS0_
+  17              		.syntax unified
+  18              		.thumb
+  19              		.thumb_func
+  20              		.fpu softvfp
+  22              	_ZN3ros22normalizeSecNSecSignedERlS0_:
+  23              		.fnstart
+  24              	.LFB231:
+  25              		.file 1 "lib/ros_lib/duration.cpp"
    1:lib/ros_lib/duration.cpp **** /*
    2:lib/ros_lib/duration.cpp ****  * Software License Agreement (BSD License)
    3:lib/ros_lib/duration.cpp ****  *
@@ -65,270 +63,285 @@
   39:lib/ros_lib/duration.cpp **** {
   40:lib/ros_lib/duration.cpp ****   void normalizeSecNSecSigned(int32_t &sec, int32_t &nsec)
   41:lib/ros_lib/duration.cpp ****   {
-  28              		.loc 1 41 0
-  29              		.cfi_startproc
-  30              		@ args = 0, pretend = 0, frame = 0
-  31              		@ frame_needed = 0, uses_anonymous_args = 0
-  32              	.LVL0:
-  33 0000 10B5     		push	{r4, lr}
-  34              	.LCFI0:
-  35              		.cfi_def_cfa_offset 8
-  36              		.cfi_offset 4, -8
-  37              		.cfi_offset 14, -4
+  26              		.loc 1 41 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              	.LVL0:
+  31 0000 30B5     		push	{r4, r5, lr}
+  32              	.LCFI0:
+  33              		.cfi_def_cfa_offset 12
+  34              		.cfi_offset 4, -12
+  35              		.cfi_offset 5, -8
+  36              		.cfi_offset 14, -4
   42:lib/ros_lib/duration.cpp ****     int32_t nsec_part = nsec;
-  38              		.loc 1 42 0
-  39 0002 0B68     		ldr	r3, [r1]
-  40              	.LVL1:
   43:lib/ros_lib/duration.cpp ****     int32_t sec_part = sec;
-  41              		.loc 1 43 0
-  42 0004 0268     		ldr	r2, [r0]
-  43              	.LVL2:
   44:lib/ros_lib/duration.cpp **** 
   45:lib/ros_lib/duration.cpp ****     while (nsec_part > 1000000000L)
-  44              		.loc 1 45 0
-  45 0006 0C4C     		ldr	r4, .L8
+  37              		.loc 1 45 0
+  38 0002 084C     		ldr	r4, .L7
+  42:lib/ros_lib/duration.cpp ****     int32_t nsec_part = nsec;
+  39              		.loc 1 42 0
+  40 0004 0B68     		ldr	r3, [r1]
+  41              	.LVL1:
+  42 0006 2546     		mov	r5, r4
+  43:lib/ros_lib/duration.cpp **** 
+  43              		.loc 1 43 0
+  44 0008 0268     		ldr	r2, [r0]
+  45              	.LVL2:
   46              	.L4:
-  47 0008 A342     		cmp	r3, r4
-  48 000a 07DD     		ble	.L3
+  47              		.loc 1 45 0
+  48 000a A342     		cmp	r3, r4
+  49 000c 02DD     		ble	.L3
   46:lib/ros_lib/duration.cpp ****     {
   47:lib/ros_lib/duration.cpp ****       nsec_part -= 1000000000L;
-  49              		.loc 1 47 0
-  50 000c 03F14443 		add	r3, r3, #-1006632960
-  51              	.LVL3:
-  52 0010 03F5CA03 		add	r3, r3, #6619136
-  53              	.LVL4:
-  54 0014 03F55853 		add	r3, r3, #13824
-  55              	.LVL5:
+  50              		.loc 1 47 0
+  51 000e 1B1B     		subs	r3, r3, r4
+  52              	.LVL3:
   48:lib/ros_lib/duration.cpp ****       ++sec_part;
-  56              		.loc 1 48 0
-  57 0018 0132     		adds	r2, r2, #1
-  58              	.LVL6:
+  53              		.loc 1 48 0
+  54 0010 0132     		adds	r2, r2, #1
+  55              	.LVL4:
   45:lib/ros_lib/duration.cpp ****     {
-  59              		.loc 1 45 0
-  60 001a F5E7     		b	.L4
-  61              	.L3:
+  56              		.loc 1 45 0
+  57 0012 FAE7     		b	.L4
+  58              	.L3:
   49:lib/ros_lib/duration.cpp ****     }
   50:lib/ros_lib/duration.cpp ****     while (nsec_part < 0)
-  62              		.loc 1 50 0
-  63 001c 002B     		cmp	r3, #0
-  64 001e 07DA     		bge	.L5
+  59              		.loc 1 50 0
+  60 0014 002B     		cmp	r3, #0
+  61 0016 02DA     		bge	.L5
   51:lib/ros_lib/duration.cpp ****     {
   52:lib/ros_lib/duration.cpp ****       nsec_part += 1000000000L;
-  65              		.loc 1 52 0
-  66 0020 03F16E53 		add	r3, r3, #998244352
-  67              	.LVL7:
-  68 0024 03F5D613 		add	r3, r3, #1753088
-  69              	.LVL8:
-  70 0028 03F52063 		add	r3, r3, #2560
-  71              	.LVL9:
+  62              		.loc 1 52 0
+  63 0018 2B44     		add	r3, r3, r5
+  64              	.LVL5:
   53:lib/ros_lib/duration.cpp ****       --sec_part;
-  72              		.loc 1 53 0
-  73 002c 013A     		subs	r2, r2, #1
-  74              	.LVL10:
+  65              		.loc 1 53 0
+  66 001a 013A     		subs	r2, r2, #1
+  67              	.LVL6:
   50:lib/ros_lib/duration.cpp ****     {
-  75              		.loc 1 50 0
-  76 002e F5E7     		b	.L3
-  77              	.L5:
+  68              		.loc 1 50 0
+  69 001c FAE7     		b	.L3
+  70              	.L5:
   54:lib/ros_lib/duration.cpp ****     }
   55:lib/ros_lib/duration.cpp ****     sec = sec_part;
-  78              		.loc 1 55 0
-  79 0030 0260     		str	r2, [r0]
+  71              		.loc 1 55 0
+  72 001e 0260     		str	r2, [r0]
   56:lib/ros_lib/duration.cpp ****     nsec = nsec_part;
-  80              		.loc 1 56 0
-  81 0032 0B60     		str	r3, [r1]
-  82 0034 10BD     		pop	{r4, pc}
-  83              	.L9:
-  84 0036 00BF     		.align	2
-  85              	.L8:
-  86 0038 00CA9A3B 		.word	1000000000
-  87              		.cfi_endproc
-  88              	.LFE8:
-  89              		.cantunwind
-  90              		.fnend
-  92              		.align	1
-  93              		.global	_ZN3ros8DurationpLERKS0_
-  94              		.thumb
-  95              		.thumb_func
-  97              	_ZN3ros8DurationpLERKS0_:
-  98              		.fnstart
-  99              	.LFB9:
+  73              		.loc 1 56 0
+  74 0020 0B60     		str	r3, [r1]
+  75 0022 30BD     		pop	{r4, r5, pc}
+  76              	.L8:
+  77              		.align	2
+  78              	.L7:
+  79 0024 00CA9A3B 		.word	1000000000
+  80              		.cfi_endproc
+  81              	.LFE231:
+  82              		.cantunwind
+  83              		.fnend
+  85              		.align	1
+  86              		.global	_ZN3ros8DurationpLERKS0_
+  87              		.syntax unified
+  88              		.thumb
+  89              		.thumb_func
+  90              		.fpu softvfp
+  92              	_ZN3ros8DurationpLERKS0_:
+  93              		.fnstart
+  94              	.LFB232:
   57:lib/ros_lib/duration.cpp ****   }
   58:lib/ros_lib/duration.cpp **** 
   59:lib/ros_lib/duration.cpp ****   Duration& Duration::operator+=(const Duration &rhs)
   60:lib/ros_lib/duration.cpp ****   {
- 100              		.loc 1 60 0
- 101              		.cfi_startproc
- 102              		@ args = 0, pretend = 0, frame = 0
- 103              		@ frame_needed = 0, uses_anonymous_args = 0
- 104              	.LVL11:
+  95              		.loc 1 60 0
+  96              		.cfi_startproc
+  97              		@ args = 0, pretend = 0, frame = 0
+  98              		@ frame_needed = 0, uses_anonymous_args = 0
+  99              	.LVL7:
   61:lib/ros_lib/duration.cpp ****     sec += rhs.sec;
- 105              		.loc 1 61 0
- 106 003c 0268     		ldr	r2, [r0]
- 107 003e 0B68     		ldr	r3, [r1]
+ 100              		.loc 1 61 0
+ 101 0028 0368     		ldr	r3, [r0]
+ 102 002a 0A68     		ldr	r2, [r1]
   60:lib/ros_lib/duration.cpp ****     sec += rhs.sec;
- 108              		.loc 1 60 0
- 109 0040 10B5     		push	{r4, lr}
- 110              	.LCFI1:
- 111              		.cfi_def_cfa_offset 8
- 112              		.cfi_offset 4, -8
- 113              		.cfi_offset 14, -4
- 114              		.loc 1 61 0
- 115 0042 1344     		add	r3, r3, r2
- 116 0044 0360     		str	r3, [r0]
+ 103              		.loc 1 60 0
+ 104 002c 10B5     		push	{r4, lr}
+ 105              	.LCFI1:
+ 106              		.cfi_def_cfa_offset 8
+ 107              		.cfi_offset 4, -8
+ 108              		.cfi_offset 14, -4
+ 109              		.loc 1 61 0
+ 110 002e 1344     		add	r3, r3, r2
   62:lib/ros_lib/duration.cpp ****     nsec += rhs.nsec;
+ 111              		.loc 1 62 0
+ 112 0030 4A68     		ldr	r2, [r1, #4]
+ 113 0032 0146     		mov	r1, r0
+ 114              	.LVL8:
+  61:lib/ros_lib/duration.cpp ****     sec += rhs.sec;
+ 115              		.loc 1 61 0
+ 116 0034 0360     		str	r3, [r0]
  117              		.loc 1 62 0
- 118 0046 4B68     		ldr	r3, [r1, #4]
- 119 0048 0146     		mov	r1, r0
- 120              	.LVL12:
- 121 004a 4268     		ldr	r2, [r0, #4]
- 122 004c 1344     		add	r3, r3, r2
- 123 004e 41F8043F 		str	r3, [r1, #4]!
+ 118 0036 4368     		ldr	r3, [r0, #4]
+ 119 0038 1344     		add	r3, r3, r2
+ 120 003a 41F8043F 		str	r3, [r1, #4]!
   63:lib/ros_lib/duration.cpp ****     normalizeSecNSecSigned(sec, nsec);
- 124              		.loc 1 63 0
- 125 0052 FFF7FEFF 		bl	_ZN3ros22normalizeSecNSecSignedERlS0_
- 126              	.LVL13:
+ 121              		.loc 1 63 0
+ 122 003e FFF7FEFF 		bl	_ZN3ros22normalizeSecNSecSignedERlS0_
+ 123              	.LVL9:
   64:lib/ros_lib/duration.cpp ****     return *this;
   65:lib/ros_lib/duration.cpp ****   }
- 127              		.loc 1 65 0
- 128 0056 10BD     		pop	{r4, pc}
- 129              		.cfi_endproc
- 130              	.LFE9:
- 131              		.cantunwind
- 132              		.fnend
- 134              		.align	1
- 135              		.global	_ZN3ros8DurationmIERKS0_
- 136              		.thumb
- 137              		.thumb_func
- 139              	_ZN3ros8DurationmIERKS0_:
- 140              		.fnstart
- 141              	.LFB10:
+ 124              		.loc 1 65 0
+ 125 0042 10BD     		pop	{r4, pc}
+ 126              		.cfi_endproc
+ 127              	.LFE232:
+ 128              		.cantunwind
+ 129              		.fnend
+ 131              		.align	1
+ 132              		.global	_ZN3ros8DurationmIERKS0_
+ 133              		.syntax unified
+ 134              		.thumb
+ 135              		.thumb_func
+ 136              		.fpu softvfp
+ 138              	_ZN3ros8DurationmIERKS0_:
+ 139              		.fnstart
+ 140              	.LFB233:
   66:lib/ros_lib/duration.cpp **** 
   67:lib/ros_lib/duration.cpp ****   Duration& Duration::operator-=(const Duration &rhs){
- 142              		.loc 1 67 0
- 143              		.cfi_startproc
- 144              		@ args = 0, pretend = 0, frame = 0
- 145              		@ frame_needed = 0, uses_anonymous_args = 0
- 146              	.LVL14:
+ 141              		.loc 1 67 0
+ 142              		.cfi_startproc
+ 143              		@ args = 0, pretend = 0, frame = 0
+ 144              		@ frame_needed = 0, uses_anonymous_args = 0
+ 145              	.LVL10:
   68:lib/ros_lib/duration.cpp ****     sec += -rhs.sec;
- 147              		.loc 1 68 0
- 148 0058 0368     		ldr	r3, [r0]
- 149 005a 0A68     		ldr	r2, [r1]
+ 146              		.loc 1 68 0
+ 147 0044 0368     		ldr	r3, [r0]
+ 148 0046 0A68     		ldr	r2, [r1]
   67:lib/ros_lib/duration.cpp ****     sec += -rhs.sec;
- 150              		.loc 1 67 0
- 151 005c 10B5     		push	{r4, lr}
- 152              	.LCFI2:
- 153              		.cfi_def_cfa_offset 8
- 154              		.cfi_offset 4, -8
- 155              		.cfi_offset 14, -4
- 156              		.loc 1 68 0
- 157 005e 9B1A     		subs	r3, r3, r2
+ 149              		.loc 1 67 0
+ 150 0048 10B5     		push	{r4, lr}
+ 151              	.LCFI2:
+ 152              		.cfi_def_cfa_offset 8
+ 153              		.cfi_offset 4, -8
+ 154              		.cfi_offset 14, -4
+ 155              		.loc 1 68 0
+ 156 004a 9B1A     		subs	r3, r3, r2
   69:lib/ros_lib/duration.cpp ****     nsec += -rhs.nsec;
- 158              		.loc 1 69 0
- 159 0060 4A68     		ldr	r2, [r1, #4]
- 160 0062 0146     		mov	r1, r0
- 161              	.LVL15:
+ 157              		.loc 1 69 0
+ 158 004c 4A68     		ldr	r2, [r1, #4]
+ 159 004e 0146     		mov	r1, r0
+ 160              	.LVL11:
   68:lib/ros_lib/duration.cpp ****     sec += -rhs.sec;
- 162              		.loc 1 68 0
- 163 0064 0360     		str	r3, [r0]
- 164              		.loc 1 69 0
- 165 0066 4368     		ldr	r3, [r0, #4]
- 166 0068 9B1A     		subs	r3, r3, r2
- 167 006a 41F8043F 		str	r3, [r1, #4]!
+ 161              		.loc 1 68 0
+ 162 0050 0360     		str	r3, [r0]
+ 163              		.loc 1 69 0
+ 164 0052 4368     		ldr	r3, [r0, #4]
+ 165 0054 9B1A     		subs	r3, r3, r2
+ 166 0056 41F8043F 		str	r3, [r1, #4]!
   70:lib/ros_lib/duration.cpp ****     normalizeSecNSecSigned(sec, nsec);
- 168              		.loc 1 70 0
- 169 006e FFF7FEFF 		bl	_ZN3ros22normalizeSecNSecSignedERlS0_
- 170              	.LVL16:
+ 167              		.loc 1 70 0
+ 168 005a FFF7FEFF 		bl	_ZN3ros22normalizeSecNSecSignedERlS0_
+ 169              	.LVL12:
   71:lib/ros_lib/duration.cpp ****     return *this;
   72:lib/ros_lib/duration.cpp ****   }
- 171              		.loc 1 72 0
- 172 0072 10BD     		pop	{r4, pc}
- 173              		.cfi_endproc
- 174              	.LFE10:
- 175              		.cantunwind
- 176              		.fnend
- 178              		.global	__aeabi_i2d
- 179              		.global	__aeabi_dmul
- 180              		.global	__aeabi_d2iz
- 181              		.align	1
- 182              		.global	_ZN3ros8DurationmLEd
+ 170              		.loc 1 72 0
+ 171 005e 10BD     		pop	{r4, pc}
+ 172              		.cfi_endproc
+ 173              	.LFE233:
+ 174              		.cantunwind
+ 175              		.fnend
+ 177              		.global	__aeabi_i2d
+ 178              		.global	__aeabi_dmul
+ 179              		.global	__aeabi_d2iz
+ 180              		.align	1
+ 181              		.global	_ZN3ros8DurationmLEd
+ 182              		.syntax unified
  183              		.thumb
  184              		.thumb_func
- 186              	_ZN3ros8DurationmLEd:
- 187              		.fnstart
- 188              	.LFB11:
+ 185              		.fpu softvfp
+ 187              	_ZN3ros8DurationmLEd:
+ 188              		.fnstart
+ 189              	.LFB234:
   73:lib/ros_lib/duration.cpp **** 
   74:lib/ros_lib/duration.cpp ****   Duration& Duration::operator*=(double scale){
- 189              		.loc 1 74 0
- 190              		.cfi_startproc
- 191              		@ args = 0, pretend = 0, frame = 0
- 192              		@ frame_needed = 0, uses_anonymous_args = 0
- 193              	.LVL17:
- 194 0074 D0B5     		push	{r4, r6, r7, lr}
- 195              	.LCFI3:
- 196              		.cfi_def_cfa_offset 16
- 197              		.cfi_offset 4, -16
- 198              		.cfi_offset 6, -12
- 199              		.cfi_offset 7, -8
- 200              		.cfi_offset 14, -4
- 201              		.loc 1 74 0
- 202 0076 1646     		mov	r6, r2
- 203 0078 1F46     		mov	r7, r3
- 204 007a 0446     		mov	r4, r0
+ 190              		.loc 1 74 0
+ 191              		.cfi_startproc
+ 192              		@ args = 0, pretend = 0, frame = 0
+ 193              		@ frame_needed = 0, uses_anonymous_args = 0
+ 194              	.LVL13:
+ 195 0060 D0B5     		push	{r4, r6, r7, lr}
+ 196              	.LCFI3:
+ 197              		.cfi_def_cfa_offset 16
+ 198              		.cfi_offset 4, -16
+ 199              		.cfi_offset 6, -12
+ 200              		.cfi_offset 7, -8
+ 201              		.cfi_offset 14, -4
+ 202              		.loc 1 74 0
+ 203 0062 1646     		mov	r6, r2
+ 204 0064 1F46     		mov	r7, r3
+ 205 0066 0446     		mov	r4, r0
   75:lib/ros_lib/duration.cpp ****     sec *= scale;
- 205              		.loc 1 75 0
- 206 007c 0068     		ldr	r0, [r0]
- 207              	.LVL18:
- 208 007e FFF7FEFF 		bl	__aeabi_i2d
- 209              	.LVL19:
- 210 0082 3246     		mov	r2, r6
- 211 0084 3B46     		mov	r3, r7
- 212 0086 FFF7FEFF 		bl	__aeabi_dmul
- 213              	.LVL20:
- 214 008a FFF7FEFF 		bl	__aeabi_d2iz
- 215              	.LVL21:
- 216 008e 2060     		str	r0, [r4]
+ 206              		.loc 1 75 0
+ 207 0068 0068     		ldr	r0, [r0]
+ 208              	.LVL14:
+ 209 006a FFF7FEFF 		bl	__aeabi_i2d
+ 210              	.LVL15:
+ 211 006e 3246     		mov	r2, r6
+ 212 0070 3B46     		mov	r3, r7
+ 213 0072 FFF7FEFF 		bl	__aeabi_dmul
+ 214              	.LVL16:
+ 215 0076 FFF7FEFF 		bl	__aeabi_d2iz
+ 216              	.LVL17:
+ 217 007a 2060     		str	r0, [r4]
   76:lib/ros_lib/duration.cpp ****     nsec *= scale;
- 217              		.loc 1 76 0
- 218 0090 6068     		ldr	r0, [r4, #4]
- 219 0092 FFF7FEFF 		bl	__aeabi_i2d
- 220              	.LVL22:
- 221 0096 3246     		mov	r2, r6
- 222 0098 3B46     		mov	r3, r7
- 223 009a FFF7FEFF 		bl	__aeabi_dmul
- 224              	.LVL23:
- 225 009e FFF7FEFF 		bl	__aeabi_d2iz
- 226              	.LVL24:
- 227 00a2 2146     		mov	r1, r4
- 228 00a4 41F8040F 		str	r0, [r1, #4]!
+ 218              		.loc 1 76 0
+ 219 007c 6068     		ldr	r0, [r4, #4]
+ 220 007e FFF7FEFF 		bl	__aeabi_i2d
+ 221              	.LVL18:
+ 222 0082 3246     		mov	r2, r6
+ 223 0084 3B46     		mov	r3, r7
+ 224 0086 FFF7FEFF 		bl	__aeabi_dmul
+ 225              	.LVL19:
+ 226 008a FFF7FEFF 		bl	__aeabi_d2iz
+ 227              	.LVL20:
+ 228 008e 2146     		mov	r1, r4
+ 229 0090 41F8040F 		str	r0, [r1, #4]!
   77:lib/ros_lib/duration.cpp ****     normalizeSecNSecSigned(sec, nsec);
- 229              		.loc 1 77 0
- 230 00a8 2046     		mov	r0, r4
- 231 00aa FFF7FEFF 		bl	_ZN3ros22normalizeSecNSecSignedERlS0_
- 232              	.LVL25:
+ 230              		.loc 1 77 0
+ 231 0094 2046     		mov	r0, r4
+ 232 0096 FFF7FEFF 		bl	_ZN3ros22normalizeSecNSecSignedERlS0_
+ 233              	.LVL21:
   78:lib/ros_lib/duration.cpp ****     return *this;
   79:lib/ros_lib/duration.cpp ****   }
- 233              		.loc 1 79 0
- 234 00ae 2046     		mov	r0, r4
- 235 00b0 D0BD     		pop	{r4, r6, r7, pc}
- 236              		.cfi_endproc
- 237              	.LFE11:
- 238              		.cantunwind
- 239              		.fnend
- 241              	.Letext0:
- 242              		.file 2 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
- 243              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
- 244              		.file 4 "lib/ros_lib/ros/duration.h"
+ 234              		.loc 1 79 0
+ 235 009a 2046     		mov	r0, r4
+ 236 009c D0BD     		pop	{r4, r6, r7, pc}
+ 237              		.cfi_endproc
+ 238              	.LFE234:
+ 239              		.cantunwind
+ 240              		.fnend
+ 242              	.Letext0:
+ 243              		.file 2 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/c++/6.2.1/cmath"
+ 244              		.file 3 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/c++/6.2.1/arm-none-eabi/t
+ 245              		.file 4 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/machine/_default_types.h"
+ 246              		.file 5 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/sys/lock.h"
+ 247              		.file 6 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/sys/_types.h"
+ 248              		.file 7 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/lib/gcc/arm-none-eabi/6.2.1/include/stddef.h"
+ 249              		.file 8 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/sys/reent.h"
+ 250              		.file 9 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/math.h"
+ 251              		.file 10 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/c++/6.2.1/math.h"
+ 252              		.file 11 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/sys/_stdint.h"
+ 253              		.file 12 "<built-in>"
+ 254              		.file 13 "lib/ros_lib/ros/duration.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 duration.cpp
-     /tmp/ccVuiACD.s:19     .text:00000000 $t
-     /tmp/ccVuiACD.s:24     .text:00000000 _ZN3ros22normalizeSecNSecSignedERlS0_
-     /tmp/ccVuiACD.s:86     .text:00000038 $d
-                       .ARM.exidx:00000000 $d
-     /tmp/ccVuiACD.s:92     .text:0000003c $t
-     /tmp/ccVuiACD.s:97     .text:0000003c _ZN3ros8DurationpLERKS0_
-     /tmp/ccVuiACD.s:139    .text:00000058 _ZN3ros8DurationmIERKS0_
-     /tmp/ccVuiACD.s:186    .text:00000074 _ZN3ros8DurationmLEd
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 duration.cpp
+     /tmp/ccYa2Ata.s:15     .text:0000000000000000 $t
+     /tmp/ccYa2Ata.s:22     .text:0000000000000000 _ZN3ros22normalizeSecNSecSignedERlS0_
+     /tmp/ccYa2Ata.s:79     .text:0000000000000024 $d
+                       .ARM.exidx:0000000000000000 $d
+     /tmp/ccYa2Ata.s:85     .text:0000000000000028 $t
+     /tmp/ccYa2Ata.s:92     .text:0000000000000028 _ZN3ros8DurationpLERKS0_
+     /tmp/ccYa2Ata.s:138    .text:0000000000000044 _ZN3ros8DurationmIERKS0_
+     /tmp/ccYa2Ata.s:187    .text:0000000000000060 _ZN3ros8DurationmLEd
+                     .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
 __aeabi_i2d

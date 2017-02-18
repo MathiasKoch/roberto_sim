@@ -138,8 +138,15 @@ void MimicJointPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf )
   }
   
   // Set max effort
-  if(!has_pid_)
-    mimic_joint_->SetMaxForce(0,max_effort_);
+  if(!has_pid_){
+
+#if GAZEBO_MAJOR_VERSION > 2
+  mimic_joint_->SetParam("fmax", 0, max_effort_ );
+#else
+  mimic_joint_->SetMaxForce(0,max_effort_);
+#endif
+
+  }
 
   ROS_INFO("Successfully loaded mimicJoint plugin. Mimicing joint name: %s onto joint name: %s, with multiplier: %1.1f", joint_name_.c_str(), mimic_joint_name_.c_str(), multiplier_);
 
@@ -158,17 +165,24 @@ void MimicJointPlugin::UpdateChild()
   
   if(abs(angle-mimic_joint_->GetAngle(0).Radian())>=sensitiveness_)
   {
-    if(has_pid_)
-    {
+    if(has_pid_){
       double a = mimic_joint_->GetAngle(0).Radian();
       if(a!=a)
         a = angle;
       double error = angle-a;
       double effort = gazebo::math::clamp(pid_.computeCommand(error, period), -max_effort_, max_effort_);
-      mimic_joint_->SetForce(0, effort);
-    }
-    else
+#if GAZEBO_MAJOR_VERSION > 2
+      mimic_joint_->SetParam("fmax", 0, effort );
+#else
+      mimic_joint_->SetMaxForce(0,effort);
+#endif
+    }else{
+#if GAZEBO_MAJOR_VERSION > 2
+      mimic_joint_->SetPosition(0, angle) ;
+#else
       mimic_joint_->SetAngle(0, math::Angle(angle));
+#endif
+    }
   }
 }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
     
 <xacro:macro name="RobertoMotorDrivePlugin">
 	<gazebo>
@@ -7,7 +7,7 @@
 		    <robotNamespace></robotNamespace>
 	        <rosDebugLevel>Debug</rosDebugLevel>
 		    <alwaysOn>1</alwaysOn>
-		    <updateRate>10.0</updateRate>
+		    <updateRate>1.0</updateRate>
 		    
 		    <robotBaseFrame>base_link</robotBaseFrame>
 		    <odometryFrame>odom</odometryFrame>
@@ -16,15 +16,15 @@
             <odometryTopic>odom</odometryTopic>
             <odometrySource>encoder</odometrySource>
 	    
-            <servoLeftJoint>servo_front_left</servoLeftJoint>
-            <servoRightJoint>servo_front_right</servoRightJoint>
-            <servoLeftMimicJoint>servo_rear_left</servoLeftMimicJoint>
-            <servoRightMimicJoint>servo_rear_right</servoRightMimicJoint>
+            <servoLeftJoint>body2mountFL_joint</servoLeftJoint>
+            <servoRightJoint>body2mountFR_joint</servoRightJoint>
+            <servoLeftMimicJoint>body2mountBL_joint</servoLeftMimicJoint>
+            <servoRightMimicJoint>body2mountBR_joint</servoRightMimicJoint>
 
-            <frontLeftJoint>front_left_wheel_hinge</frontLeftJoint>
-            <frontRightJoint>front_right_wheel_hinge</frontRightJoint>
-            <rearLeftJoint>rear_left_wheel_hinge</rearLeftJoint>
-            <rearRightJoint>rear_right_wheel_hinge</rearRightJoint>
+            <frontLeftJoint>mountFL2wheelFL_joint</frontLeftJoint>
+            <frontRightJoint>mountFR2wheelFR_joint</frontRightJoint>
+            <rearLeftJoint>mountBL2wheelBL_joint</rearLeftJoint>
+            <rearRightJoint>mountBR2wheelBR_joint</rearRightJoint>
 	    
             <wheelDiameter>0.08</wheelDiameter>
             <wheelTorque>10</wheelTorque>
@@ -37,20 +37,6 @@
 		    <publishWheelTF>true</publishWheelTF>
             <publishWheelJointState>true</publishWheelJointState>
         </plugin>
-
-        <plugin name="roberto_gazebo_mimic_joint_plugin_2" filename="libroberto_gazebo_mimic_joint_plugin.so">
-			<robotNamespace></robotNamespace>
-			<joint>servo_front_right</joint>
-			<mimicJoint>servo_rear_right</mimicJoint>
-			<multiplier>-1</multiplier>
-		</plugin>
-
-		<plugin name="roberto_gazebo_mimic_joint_plugin_1" filename="libroberto_gazebo_mimic_joint_plugin.so">
-			<robotNamespace></robotNamespace>
-			<joint>servo_front_left</joint>
-			<mimicJoint>servo_rear_left</mimicJoint>
-			<multiplier>-1</multiplier>
-		</plugin>
     </gazebo>
 </xacro:macro>
 

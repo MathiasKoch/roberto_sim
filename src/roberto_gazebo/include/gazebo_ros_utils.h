@@ -55,7 +55,7 @@ inline std::string GetModelName ( const sensors::SensorPtr &parent )
 {
     std::string modelName;
     std::vector<std::string> values;
-    std::string scopedName = parent->GetScopedName();
+    std::string scopedName = parent->ScopedName();
     boost::replace_all ( scopedName, "::", "," );
     boost::split ( values, scopedName, boost::is_any_of ( "," ) );
     if ( values.size() < 2 ) {
@@ -152,7 +152,7 @@ public:
      **/
     GazeboRos ( sensors::SensorPtr _parent, sdf::ElementPtr _sdf, const std::string &_plugin, bool _internalNS=false  )
         : base_sdf_( _sdf ), sdf_ ( _sdf ), plugin_ ( _plugin ) {
-	namespace_ = _parent->GetName();
+	namespace_ = _parent->Name();
         if ( !sdf_->HasElement ( "robotNamespace" ) ) {
             ROS_INFO_NAMED(plugin_.c_str(), "%s missing <robotNamespace>, defaults is %s", plugin_.c_str(), namespace_.c_str() );
         }  else {

@@ -1,28 +1,26 @@
-   1              		.syntax unified
-   2              		.cpu cortex-m3
-   3              		.fpu softvfp
-   4              		.eabi_attribute 20, 1
-   5              		.eabi_attribute 21, 1
-   6              		.eabi_attribute 23, 3
-   7              		.eabi_attribute 24, 1
-   8              		.eabi_attribute 25, 1
-   9              		.eabi_attribute 26, 1
-  10              		.eabi_attribute 30, 4
-  11              		.eabi_attribute 34, 1
-  12              		.eabi_attribute 18, 4
-  13              		.thumb
-  14              		.syntax unified
-  15              		.file	"stm32f10x_adc.c"
-  16              		.text
-  17              	.Ltext0:
-  18              		.cfi_sections	.debug_frame
-  19              		.align	1
-  20              		.global	ADC_DeInit
-  21              		.thumb
-  22              		.thumb_func
-  24              	ADC_DeInit:
-  25              	.LFB29:
-  26              		.file 1 "lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c"
+   1              		.cpu cortex-m3
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 4
+   9              		.eabi_attribute 34, 1
+  10              		.eabi_attribute 18, 4
+  11              		.file	"stm32f10x_adc.c"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.align	1
+  16              		.global	ADC_DeInit
+  17              		.syntax unified
+  18              		.thumb
+  19              		.thumb_func
+  20              		.fpu softvfp
+  22              	ADC_DeInit:
+  23              	.LFB29:
+  24              		.file 1 "lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c"
    1:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** /**
    2:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   ******************************************************************************
    3:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   * @file    stm32f10x_adc.c
@@ -203,117 +201,125 @@
  178:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  179:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_DeInit(ADC_TypeDef* ADCx)
  180:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
-  27              		.loc 1 180 0
-  28              		.cfi_startproc
-  29              		@ args = 0, pretend = 0, frame = 0
-  30              		@ frame_needed = 0, uses_anonymous_args = 0
-  31              	.LVL0:
-  32 0000 08B5     		push	{r3, lr}
-  33              	.LCFI0:
-  34              		.cfi_def_cfa_offset 8
-  35              		.cfi_offset 3, -8
-  36              		.cfi_offset 14, -4
+  25              		.loc 1 180 0
+  26              		.cfi_startproc
+  27              		@ args = 0, pretend = 0, frame = 0
+  28              		@ frame_needed = 0, uses_anonymous_args = 0
+  29              	.LVL0:
+  30 0000 08B5     		push	{r3, lr}
+  31              	.LCFI0:
+  32              		.cfi_def_cfa_offset 8
+  33              		.cfi_offset 3, -8
+  34              		.cfi_offset 14, -4
  181:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
  182:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
  183:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   
  184:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   if (ADCx == ADC1)
-  37              		.loc 1 184 0
-  38 0002 144B     		ldr	r3, .L7
-  39 0004 9842     		cmp	r0, r3
-  40 0006 08D1     		bne	.L2
+  35              		.loc 1 184 0
+  36 0002 144B     		ldr	r3, .L6
+  37 0004 9842     		cmp	r0, r3
+  38 0006 0BD1     		bne	.L2
  185:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  186:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Enable ADC1 reset state */
  187:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     RCC_APB2PeriphResetCmd(RCC_APB2Periph_ADC1, ENABLE);
-  41              		.loc 1 187 0
-  42 0008 0121     		movs	r1, #1
-  43 000a 4FF40070 		mov	r0, #512
-  44              	.LVL1:
-  45 000e FFF7FEFF 		bl	RCC_APB2PeriphResetCmd
-  46              	.LVL2:
+  39              		.loc 1 187 0
+  40 0008 0121     		movs	r1, #1
+  41 000a 4FF40070 		mov	r0, #512
+  42              	.LVL1:
+  43 000e FFF7FEFF 		bl	RCC_APB2PeriphResetCmd
+  44              	.LVL2:
  188:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Release ADC1 from reset state */
  189:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     RCC_APB2PeriphResetCmd(RCC_APB2Periph_ADC1, DISABLE);
-  47              		.loc 1 189 0
-  48 0012 0021     		movs	r1, #0
-  49 0014 4FF40070 		mov	r0, #512
-  50 0018 16E0     		b	.L5
-  51              	.LVL3:
-  52              	.L2:
+  45              		.loc 1 189 0
+  46 0012 0021     		movs	r1, #0
+  47 0014 4FF40070 		mov	r0, #512
+  48              	.L5:
  190:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  191:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   else if (ADCx == ADC2)
-  53              		.loc 1 191 0
-  54 001a 0F4B     		ldr	r3, .L7+4
-  55 001c 9842     		cmp	r0, r3
-  56 001e 08D1     		bne	.L3
  192:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  193:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Enable ADC2 reset state */
  194:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     RCC_APB2PeriphResetCmd(RCC_APB2Periph_ADC2, ENABLE);
-  57              		.loc 1 194 0
-  58 0020 0121     		movs	r1, #1
-  59 0022 4FF48060 		mov	r0, #1024
-  60              	.LVL4:
-  61 0026 FFF7FEFF 		bl	RCC_APB2PeriphResetCmd
-  62              	.LVL5:
  195:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Release ADC2 from reset state */
  196:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     RCC_APB2PeriphResetCmd(RCC_APB2Periph_ADC2, DISABLE);
-  63              		.loc 1 196 0
-  64 002a 0021     		movs	r1, #0
-  65 002c 4FF48060 		mov	r0, #1024
-  66 0030 0AE0     		b	.L5
-  67              	.LVL6:
-  68              	.L3:
  197:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  198:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   else
  199:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  200:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     if (ADCx == ADC3)
-  69              		.loc 1 200 0
-  70 0032 0A4B     		ldr	r3, .L7+8
-  71 0034 9842     		cmp	r0, r3
-  72 0036 0BD1     		bne	.L1
  201:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     {
  202:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****       /* Enable ADC3 reset state */
  203:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****       RCC_APB2PeriphResetCmd(RCC_APB2Periph_ADC3, ENABLE);
-  73              		.loc 1 203 0
-  74 0038 0121     		movs	r1, #1
-  75 003a 4FF40040 		mov	r0, #32768
-  76              	.LVL7:
-  77 003e FFF7FEFF 		bl	RCC_APB2PeriphResetCmd
-  78              	.LVL8:
  204:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****       /* Release ADC3 from reset state */
  205:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****       RCC_APB2PeriphResetCmd(RCC_APB2Periph_ADC3, DISABLE);
-  79              		.loc 1 205 0
-  80 0042 0021     		movs	r1, #0
-  81 0044 4FF40040 		mov	r0, #32768
-  82              	.L5:
  206:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     }
  207:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  208:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
-  83              		.loc 1 208 0
-  84 0048 BDE80840 		pop	{r3, lr}
-  85              	.LCFI1:
-  86              		.cfi_remember_state
-  87              		.cfi_restore 14
-  88              		.cfi_restore 3
-  89              		.cfi_def_cfa_offset 0
+  49              		.loc 1 208 0
+  50 0018 BDE80840 		pop	{r3, lr}
+  51              	.LCFI1:
+  52              		.cfi_remember_state
+  53              		.cfi_restore 14
+  54              		.cfi_restore 3
+  55              		.cfi_def_cfa_offset 0
  205:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     }
-  90              		.loc 1 205 0
-  91 004c FFF7FEBF 		b	RCC_APB2PeriphResetCmd
+  56              		.loc 1 205 0
+  57 001c FFF7FEBF 		b	RCC_APB2PeriphResetCmd
+  58              	.LVL3:
+  59              	.L2:
+  60              	.LCFI2:
+  61              		.cfi_restore_state
+ 191:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
+  62              		.loc 1 191 0
+  63 0020 0D4B     		ldr	r3, .L6+4
+  64 0022 9842     		cmp	r0, r3
+  65 0024 08D1     		bne	.L3
+ 194:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Release ADC2 from reset state */
+  66              		.loc 1 194 0
+  67 0026 0121     		movs	r1, #1
+  68 0028 4FF48060 		mov	r0, #1024
+  69              	.LVL4:
+  70 002c FFF7FEFF 		bl	RCC_APB2PeriphResetCmd
+  71              	.LVL5:
+ 196:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
+  72              		.loc 1 196 0
+  73 0030 0021     		movs	r1, #0
+  74 0032 4FF48060 		mov	r0, #1024
+  75 0036 EFE7     		b	.L5
+  76              	.LVL6:
+  77              	.L3:
+ 200:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     {
+  78              		.loc 1 200 0
+  79 0038 084B     		ldr	r3, .L6+8
+  80 003a 9842     		cmp	r0, r3
+  81 003c 08D1     		bne	.L1
+ 203:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****       /* Release ADC3 from reset state */
+  82              		.loc 1 203 0
+  83 003e 0121     		movs	r1, #1
+  84 0040 4FF40040 		mov	r0, #32768
+  85              	.LVL7:
+  86 0044 FFF7FEFF 		bl	RCC_APB2PeriphResetCmd
+  87              	.LVL8:
+ 205:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     }
+  88              		.loc 1 205 0
+  89 0048 0021     		movs	r1, #0
+  90 004a 4FF40040 		mov	r0, #32768
+  91 004e E3E7     		b	.L5
   92              	.LVL9:
   93              	.L1:
-  94              	.LCFI2:
-  95              		.cfi_restore_state
-  96 0050 08BD     		pop	{r3, pc}
-  97              	.L8:
-  98 0052 00BF     		.align	2
-  99              	.L7:
- 100 0054 00240140 		.word	1073816576
- 101 0058 00280140 		.word	1073817600
- 102 005c 003C0140 		.word	1073822720
- 103              		.cfi_endproc
- 104              	.LFE29:
- 106              		.align	1
- 107              		.global	ADC_Init
- 108              		.thumb
- 109              		.thumb_func
+  94 0050 08BD     		pop	{r3, pc}
+  95              	.L7:
+  96 0052 00BF     		.align	2
+  97              	.L6:
+  98 0054 00240140 		.word	1073816576
+  99 0058 00280140 		.word	1073817600
+ 100 005c 003C0140 		.word	1073822720
+ 101              		.cfi_endproc
+ 102              	.LFE29:
+ 104              		.align	1
+ 105              		.global	ADC_Init
+ 106              		.syntax unified
+ 107              		.thumb
+ 108              		.thumb_func
+ 109              		.fpu softvfp
  111              	ADC_Init:
  112              	.LFB30:
  209:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
@@ -349,104 +355,117 @@
  118              		.loc 1 233 0
  119 0060 4368     		ldr	r3, [r0, #4]
  120              	.LVL11:
- 219:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   uint32_t tmpreg1 = 0;
- 121              		.loc 1 219 0
- 122 0062 10B5     		push	{r4, lr}
- 123              	.LCFI3:
- 124              		.cfi_def_cfa_offset 8
- 125              		.cfi_offset 4, -8
- 126              		.cfi_offset 14, -4
- 127 0064 23F47022 		bic	r2, r3, #983040
- 128 0068 0B68     		ldr	r3, [r1]
- 129              	.LVL12:
- 130 006a 22F48072 		bic	r2, r2, #256
- 131 006e 1343     		orrs	r3, r3, r2
  234:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Clear DUALMOD and SCAN bits */
  235:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg1 &= CR1_CLEAR_Mask;
  236:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Configure ADCx: Dual mode and scan conversion mode */
  237:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Set DUALMOD bits according to ADC_Mode value */
  238:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Set SCAN bit according to ADC_ScanConvMode value */
  239:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg1 |= (uint32_t)(ADC_InitStruct->ADC_Mode | ((uint32_t)ADC_InitStruct->ADC_ScanConvMode << 8
- 132              		.loc 1 239 0
- 133 0070 0A79     		ldrb	r2, [r1, #4]	@ zero_extendqisi2
- 134 0072 43EA0223 		orr	r3, r3, r2, lsl #8
- 135              	.LVL13:
+ 121              		.loc 1 239 0
+ 122 0062 0A79     		ldrb	r2, [r1, #4]	@ zero_extendqisi2
+ 235:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Configure ADCx: Dual mode and scan conversion mode */
+ 123              		.loc 1 235 0
+ 124 0064 23F47023 		bic	r3, r3, #983040
+ 125              	.LVL12:
+ 126 0068 23F48073 		bic	r3, r3, #256
+ 127 006c 43EA0223 		orr	r3, r3, r2, lsl #8
+ 128              		.loc 1 239 0
+ 129 0070 0A68     		ldr	r2, [r1]
+ 219:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   uint32_t tmpreg1 = 0;
+ 130              		.loc 1 219 0
+ 131 0072 10B5     		push	{r4, lr}
+ 132              	.LCFI3:
+ 133              		.cfi_def_cfa_offset 8
+ 134              		.cfi_offset 4, -8
+ 135              		.cfi_offset 14, -4
+ 136              		.loc 1 239 0
+ 137 0074 1343     		orrs	r3, r3, r2
+ 138              	.LVL13:
  240:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Write to ADCx CR1 */
  241:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   ADCx->CR1 = tmpreg1;
- 136              		.loc 1 241 0
- 137 0076 4360     		str	r3, [r0, #4]
- 138 0078 CA68     		ldr	r2, [r1, #12]
- 139 007a 8B68     		ldr	r3, [r1, #8]
- 140              	.LVL14:
+ 139              		.loc 1 241 0
+ 140 0076 4360     		str	r3, [r0, #4]
+ 141 0078 8A68     		ldr	r2, [r1, #8]
+ 142 007a CB68     		ldr	r3, [r1, #12]
+ 143              	.LVL14:
  242:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
  243:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /*---------------------------- ADCx CR2 Configuration -----------------*/
  244:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Get the ADCx CR2 value */
  245:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg1 = ADCx->CR2;
- 141              		.loc 1 245 0
- 142 007c 8468     		ldr	r4, [r0, #8]
- 143              	.LVL15:
- 144 007e 1A43     		orrs	r2, r2, r3
- 145 0080 084B     		ldr	r3, .L10
- 146 0082 2340     		ands	r3, r3, r4
- 147              	.LVL16:
- 148 0084 1343     		orrs	r3, r3, r2
- 149              	.LVL17:
+ 144              		.loc 1 245 0
+ 145 007c 8468     		ldr	r4, [r0, #8]
+ 146              	.LVL15:
+ 147 007e 1343     		orrs	r3, r3, r2
  246:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Clear CONT, ALIGN and EXTSEL bits */
  247:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg1 &= CR2_CLEAR_Mask;
+ 148              		.loc 1 247 0
+ 149 0080 084A     		ldr	r2, .L9
+ 150 0082 2240     		ands	r2, r2, r4
+ 151              	.LVL16:
+ 152 0084 1343     		orrs	r3, r3, r2
  248:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Configure ADCx: external trigger event and continuous conversion mode */
  249:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Set ALIGN bit according to ADC_DataAlign value */
  250:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Set EXTSEL bits according to ADC_ExternalTrigConv value */
  251:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Set CONT bit according to ADC_ContinuousConvMode value */
  252:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg1 |= (uint32_t)(ADC_InitStruct->ADC_DataAlign | ADC_InitStruct->ADC_ExternalTrigConv |
- 150              		.loc 1 252 0
- 151 0086 4A79     		ldrb	r2, [r1, #5]	@ zero_extendqisi2
- 152 0088 43EA4203 		orr	r3, r3, r2, lsl #1
- 153              	.LVL18:
  253:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****             ((uint32_t)ADC_InitStruct->ADC_ContinuousConvMode << 1));
+ 153              		.loc 1 253 0
+ 154 0086 4A79     		ldrb	r2, [r1, #5]	@ zero_extendqisi2
+ 155              	.LVL17:
+ 252:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****             ((uint32_t)ADC_InitStruct->ADC_ContinuousConvMode << 1));
+ 156              		.loc 1 252 0
+ 157 0088 43EA4203 		orr	r3, r3, r2, lsl #1
+ 158              	.LVL18:
  254:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Write to ADCx CR2 */
  255:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   ADCx->CR2 = tmpreg1;
- 154              		.loc 1 255 0
- 155 008c 8360     		str	r3, [r0, #8]
+ 159              		.loc 1 255 0
+ 160 008c 8360     		str	r3, [r0, #8]
  256:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
  257:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /*---------------------------- ADCx SQR1 Configuration -----------------*/
  258:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Get the ADCx SQR1 value */
  259:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg1 = ADCx->SQR1;
- 156              		.loc 1 259 0
- 157 008e C36A     		ldr	r3, [r0, #44]
- 158              	.LVL19:
  260:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Clear L bits */
  261:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg1 &= SQR1_CLEAR_Mask;
- 159              		.loc 1 261 0
- 160 0090 23F47002 		bic	r2, r3, #15728640
- 161              	.LVL20:
  262:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Configure ADCx: regular channel sequence length */
  263:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Set L bits according to ADC_NbrOfChannel value */
  264:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg2 |= (uint8_t) (ADC_InitStruct->ADC_NbrOfChannel - (uint8_t)1);
+ 161              		.loc 1 264 0
+ 162 008e 0A7C     		ldrb	r2, [r1, #16]	@ zero_extendqisi2
+ 259:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Clear L bits */
+ 163              		.loc 1 259 0
+ 164 0090 C36A     		ldr	r3, [r0, #44]
+ 165              	.LVL19:
+ 166              		.loc 1 264 0
+ 167 0092 013A     		subs	r2, r2, #1
+ 261:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Configure ADCx: regular channel sequence length */
+ 168              		.loc 1 261 0
+ 169 0094 23F47003 		bic	r3, r3, #15728640
+ 170              	.LVL20:
  265:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg1 |= (uint32_t)tmpreg2 << 20;
- 162              		.loc 1 265 0
- 163 0094 0B7C     		ldrb	r3, [r1, #16]	@ zero_extendqisi2
- 164 0096 013B     		subs	r3, r3, #1
- 165 0098 DBB2     		uxtb	r3, r3
- 166 009a 42EA0353 		orr	r3, r2, r3, lsl #20
- 167              	.LVL21:
+ 171              		.loc 1 265 0
+ 172 0098 D2B2     		uxtb	r2, r2
+ 173 009a 43EA0253 		orr	r3, r3, r2, lsl #20
+ 174              	.LVL21:
  266:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Write to ADCx SQR1 */
  267:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   ADCx->SQR1 = tmpreg1;
- 168              		.loc 1 267 0
- 169 009e C362     		str	r3, [r0, #44]
- 170              	.LVL22:
- 171 00a0 10BD     		pop	{r4, pc}
- 172              	.L11:
- 173 00a2 00BF     		.align	2
- 174              	.L10:
- 175 00a4 FDF7F1FF 		.word	-919555
- 176              		.cfi_endproc
- 177              	.LFE30:
- 179              		.align	1
- 180              		.global	ADC_StructInit
- 181              		.thumb
- 182              		.thumb_func
- 184              	ADC_StructInit:
- 185              	.LFB31:
+ 175              		.loc 1 267 0
+ 176 009e C362     		str	r3, [r0, #44]
+ 177              	.LVL22:
+ 178 00a0 10BD     		pop	{r4, pc}
+ 179              	.L10:
+ 180 00a2 00BF     		.align	2
+ 181              	.L9:
+ 182 00a4 FDF7F1FF 		.word	-919555
+ 183              		.cfi_endproc
+ 184              	.LFE30:
+ 186              		.align	1
+ 187              		.global	ADC_StructInit
+ 188              		.syntax unified
+ 189              		.thumb
+ 190              		.thumb_func
+ 191              		.fpu softvfp
+ 193              	ADC_StructInit:
+ 194              	.LFB31:
  268:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
  269:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
  270:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** /**
@@ -456,48 +475,50 @@
  274:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  275:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_StructInit(ADC_InitTypeDef* ADC_InitStruct)
  276:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 186              		.loc 1 276 0
- 187              		.cfi_startproc
- 188              		@ args = 0, pretend = 0, frame = 0
- 189              		@ frame_needed = 0, uses_anonymous_args = 0
- 190              		@ link register save eliminated.
- 191              	.LVL23:
+ 195              		.loc 1 276 0
+ 196              		.cfi_startproc
+ 197              		@ args = 0, pretend = 0, frame = 0
+ 198              		@ frame_needed = 0, uses_anonymous_args = 0
+ 199              		@ link register save eliminated.
+ 200              	.LVL23:
  277:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Reset ADC init structure parameters values */
  278:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Initialize the ADC_Mode member */
  279:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   ADC_InitStruct->ADC_Mode = ADC_Mode_Independent;
- 192              		.loc 1 279 0
- 193 00a8 0023     		movs	r3, #0
- 194 00aa 0360     		str	r3, [r0]
+ 201              		.loc 1 279 0
+ 202 00a8 0023     		movs	r3, #0
+ 203 00aa 0360     		str	r3, [r0]
  280:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* initialize the ADC_ScanConvMode member */
  281:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   ADC_InitStruct->ADC_ScanConvMode = DISABLE;
- 195              		.loc 1 281 0
- 196 00ac 0371     		strb	r3, [r0, #4]
+ 204              		.loc 1 281 0
+ 205 00ac 0371     		strb	r3, [r0, #4]
  282:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Initialize the ADC_ContinuousConvMode member */
  283:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   ADC_InitStruct->ADC_ContinuousConvMode = DISABLE;
- 197              		.loc 1 283 0
- 198 00ae 4371     		strb	r3, [r0, #5]
+ 206              		.loc 1 283 0
+ 207 00ae 4371     		strb	r3, [r0, #5]
  284:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Initialize the ADC_ExternalTrigConv member */
  285:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   ADC_InitStruct->ADC_ExternalTrigConv = ADC_ExternalTrigConv_T1_CC1;
- 199              		.loc 1 285 0
- 200 00b0 8360     		str	r3, [r0, #8]
+ 208              		.loc 1 285 0
+ 209 00b0 8360     		str	r3, [r0, #8]
  286:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Initialize the ADC_DataAlign member */
  287:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   ADC_InitStruct->ADC_DataAlign = ADC_DataAlign_Right;
- 201              		.loc 1 287 0
- 202 00b2 C360     		str	r3, [r0, #12]
+ 210              		.loc 1 287 0
+ 211 00b2 C360     		str	r3, [r0, #12]
  288:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Initialize the ADC_NbrOfChannel member */
  289:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   ADC_InitStruct->ADC_NbrOfChannel = 1;
- 203              		.loc 1 289 0
- 204 00b4 0123     		movs	r3, #1
- 205 00b6 0374     		strb	r3, [r0, #16]
- 206 00b8 7047     		bx	lr
- 207              		.cfi_endproc
- 208              	.LFE31:
- 210              		.align	1
- 211              		.global	ADC_Cmd
- 212              		.thumb
- 213              		.thumb_func
- 215              	ADC_Cmd:
- 216              	.LFB32:
+ 212              		.loc 1 289 0
+ 213 00b4 0123     		movs	r3, #1
+ 214 00b6 0374     		strb	r3, [r0, #16]
+ 215 00b8 7047     		bx	lr
+ 216              		.cfi_endproc
+ 217              	.LFE31:
+ 219              		.align	1
+ 220              		.global	ADC_Cmd
+ 221              		.syntax unified
+ 222              		.thumb
+ 223              		.thumb_func
+ 224              		.fpu softvfp
+ 226              	ADC_Cmd:
+ 227              	.LFB32:
  290:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
  291:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
  292:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** /**
@@ -509,12 +530,12 @@
  298:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  299:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_Cmd(ADC_TypeDef* ADCx, FunctionalState NewState)
  300:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 217              		.loc 1 300 0
- 218              		.cfi_startproc
- 219              		@ args = 0, pretend = 0, frame = 0
- 220              		@ frame_needed = 0, uses_anonymous_args = 0
- 221              		@ link register save eliminated.
- 222              	.LVL24:
+ 228              		.loc 1 300 0
+ 229              		.cfi_startproc
+ 230              		@ args = 0, pretend = 0, frame = 0
+ 231              		@ frame_needed = 0, uses_anonymous_args = 0
+ 232              		@ link register save eliminated.
+ 233              	.LVL24:
  301:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
  302:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
  303:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_FUNCTIONAL_STATE(NewState));
@@ -522,33 +543,35 @@
  305:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  306:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Set the ADON bit to wake up the ADC from power down mode */
  307:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR2 |= CR2_ADON_Set;
- 223              		.loc 1 307 0
- 224 00ba 8368     		ldr	r3, [r0, #8]
+ 234              		.loc 1 307 0
+ 235 00ba 8368     		ldr	r3, [r0, #8]
  304:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
- 225              		.loc 1 304 0
- 226 00bc 11B1     		cbz	r1, .L14
- 227              		.loc 1 307 0
- 228 00be 43F00103 		orr	r3, r3, #1
- 229 00c2 01E0     		b	.L16
- 230              	.L14:
+ 236              		.loc 1 304 0
+ 237 00bc 19B1     		cbz	r1, .L13
+ 238              		.loc 1 307 0
+ 239 00be 43F00103 		orr	r3, r3, #1
+ 240              	.L15:
  308:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  309:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   else
  310:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  311:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Disable the selected ADC peripheral */
  312:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR2 &= CR2_ADON_Reset;
- 231              		.loc 1 312 0
- 232 00c4 23F00103 		bic	r3, r3, #1
- 233              	.L16:
- 234 00c8 8360     		str	r3, [r0, #8]
- 235 00ca 7047     		bx	lr
- 236              		.cfi_endproc
- 237              	.LFE32:
- 239              		.align	1
- 240              		.global	ADC_DMACmd
- 241              		.thumb
- 242              		.thumb_func
- 244              	ADC_DMACmd:
- 245              	.LFB33:
+ 241              		.loc 1 312 0
+ 242 00c2 8360     		str	r3, [r0, #8]
+ 243 00c4 7047     		bx	lr
+ 244              	.L13:
+ 245 00c6 23F00103 		bic	r3, r3, #1
+ 246 00ca FAE7     		b	.L15
+ 247              		.cfi_endproc
+ 248              	.LFE32:
+ 250              		.align	1
+ 251              		.global	ADC_DMACmd
+ 252              		.syntax unified
+ 253              		.thumb
+ 254              		.thumb_func
+ 255              		.fpu softvfp
+ 257              	ADC_DMACmd:
+ 258              	.LFB33:
  313:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  314:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
  315:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
@@ -562,12 +585,12 @@
  323:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  324:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_DMACmd(ADC_TypeDef* ADCx, FunctionalState NewState)
  325:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 246              		.loc 1 325 0
- 247              		.cfi_startproc
- 248              		@ args = 0, pretend = 0, frame = 0
- 249              		@ frame_needed = 0, uses_anonymous_args = 0
- 250              		@ link register save eliminated.
- 251              	.LVL25:
+ 259              		.loc 1 325 0
+ 260              		.cfi_startproc
+ 261              		@ args = 0, pretend = 0, frame = 0
+ 262              		@ frame_needed = 0, uses_anonymous_args = 0
+ 263              		@ link register save eliminated.
+ 264              	.LVL25:
  326:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
  327:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_DMA_PERIPH(ADCx));
  328:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_FUNCTIONAL_STATE(NewState));
@@ -575,33 +598,35 @@
  330:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  331:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Enable the selected ADC DMA request */
  332:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR2 |= CR2_DMA_Set;
- 252              		.loc 1 332 0
- 253 00cc 8368     		ldr	r3, [r0, #8]
+ 265              		.loc 1 332 0
+ 266 00cc 8368     		ldr	r3, [r0, #8]
  329:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
- 254              		.loc 1 329 0
- 255 00ce 11B1     		cbz	r1, .L18
- 256              		.loc 1 332 0
- 257 00d0 43F48073 		orr	r3, r3, #256
- 258 00d4 01E0     		b	.L20
- 259              	.L18:
+ 267              		.loc 1 329 0
+ 268 00ce 19B1     		cbz	r1, .L17
+ 269              		.loc 1 332 0
+ 270 00d0 43F48073 		orr	r3, r3, #256
+ 271              	.L19:
  333:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  334:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   else
  335:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  336:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Disable the selected ADC DMA request */
  337:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR2 &= CR2_DMA_Reset;
- 260              		.loc 1 337 0
- 261 00d6 23F48073 		bic	r3, r3, #256
- 262              	.L20:
- 263 00da 8360     		str	r3, [r0, #8]
- 264 00dc 7047     		bx	lr
- 265              		.cfi_endproc
- 266              	.LFE33:
- 268              		.align	1
- 269              		.global	ADC_ITConfig
- 270              		.thumb
- 271              		.thumb_func
- 273              	ADC_ITConfig:
- 274              	.LFB34:
+ 272              		.loc 1 337 0
+ 273 00d4 8360     		str	r3, [r0, #8]
+ 274 00d6 7047     		bx	lr
+ 275              	.L17:
+ 276 00d8 23F48073 		bic	r3, r3, #256
+ 277 00dc FAE7     		b	.L19
+ 278              		.cfi_endproc
+ 279              	.LFE33:
+ 281              		.align	1
+ 282              		.global	ADC_ITConfig
+ 283              		.syntax unified
+ 284              		.thumb
+ 285              		.thumb_func
+ 286              		.fpu softvfp
+ 288              	ADC_ITConfig:
+ 289              	.LFB34:
  338:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  339:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
  340:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
@@ -619,12 +644,12 @@
  352:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  353:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_ITConfig(ADC_TypeDef* ADCx, uint16_t ADC_IT, FunctionalState NewState)
  354:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 275              		.loc 1 354 0
- 276              		.cfi_startproc
- 277              		@ args = 0, pretend = 0, frame = 0
- 278              		@ frame_needed = 0, uses_anonymous_args = 0
- 279              		@ link register save eliminated.
- 280              	.LVL26:
+ 290              		.loc 1 354 0
+ 291              		.cfi_startproc
+ 292              		@ args = 0, pretend = 0, frame = 0
+ 293              		@ frame_needed = 0, uses_anonymous_args = 0
+ 294              		@ link register save eliminated.
+ 295              	.LVL26:
  355:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   uint8_t itmask = 0;
  356:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
  357:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
@@ -632,43 +657,45 @@
  359:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_IT(ADC_IT));
  360:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Get the ADC IT index */
  361:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   itmask = (uint8_t)ADC_IT;
- 281              		.loc 1 361 0
- 282 00de C9B2     		uxtb	r1, r1
- 283              	.LVL27:
+ 296              		.loc 1 361 0
+ 297 00de C9B2     		uxtb	r1, r1
+ 298              	.LVL27:
  362:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   if (NewState != DISABLE)
  363:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  364:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Enable the selected ADC interrupts */
  365:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR1 |= itmask;
- 284              		.loc 1 365 0
- 285 00e0 4368     		ldr	r3, [r0, #4]
+ 299              		.loc 1 365 0
+ 300 00e0 4368     		ldr	r3, [r0, #4]
  362:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   if (NewState != DISABLE)
- 286              		.loc 1 362 0
- 287 00e2 0AB1     		cbz	r2, .L22
- 288              		.loc 1 365 0
- 289 00e4 1943     		orrs	r1, r1, r3
- 290              	.LVL28:
- 291 00e6 01E0     		b	.L24
- 292              	.LVL29:
- 293              	.L22:
+ 301              		.loc 1 362 0
+ 302 00e2 12B1     		cbz	r2, .L21
+ 303              		.loc 1 365 0
+ 304 00e4 1943     		orrs	r1, r1, r3
+ 305              	.LVL28:
+ 306              	.L23:
  366:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  367:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   else
  368:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  369:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Disable the selected ADC interrupts */
  370:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR1 &= (~(uint32_t)itmask);
- 294              		.loc 1 370 0
- 295 00e8 23EA0101 		bic	r1, r3, r1
- 296              	.LVL30:
- 297              	.L24:
- 298 00ec 4160     		str	r1, [r0, #4]
- 299 00ee 7047     		bx	lr
- 300              		.cfi_endproc
- 301              	.LFE34:
- 303              		.align	1
- 304              		.global	ADC_ResetCalibration
- 305              		.thumb
- 306              		.thumb_func
- 308              	ADC_ResetCalibration:
- 309              	.LFB35:
+ 307              		.loc 1 370 0
+ 308 00e6 4160     		str	r1, [r0, #4]
+ 309 00e8 7047     		bx	lr
+ 310              	.LVL29:
+ 311              	.L21:
+ 312 00ea 23EA0101 		bic	r1, r3, r1
+ 313              	.LVL30:
+ 314 00ee FAE7     		b	.L23
+ 315              		.cfi_endproc
+ 316              	.LFE34:
+ 318              		.align	1
+ 319              		.global	ADC_ResetCalibration
+ 320              		.syntax unified
+ 321              		.thumb
+ 322              		.thumb_func
+ 323              		.fpu softvfp
+ 325              	ADC_ResetCalibration:
+ 326              	.LFB35:
  371:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  372:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
  373:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
@@ -679,29 +706,31 @@
  378:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  379:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_ResetCalibration(ADC_TypeDef* ADCx)
  380:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 310              		.loc 1 380 0
- 311              		.cfi_startproc
- 312              		@ args = 0, pretend = 0, frame = 0
- 313              		@ frame_needed = 0, uses_anonymous_args = 0
- 314              		@ link register save eliminated.
- 315              	.LVL31:
+ 327              		.loc 1 380 0
+ 328              		.cfi_startproc
+ 329              		@ args = 0, pretend = 0, frame = 0
+ 330              		@ frame_needed = 0, uses_anonymous_args = 0
+ 331              		@ link register save eliminated.
+ 332              	.LVL31:
  381:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
  382:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
  383:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Resets the selected ADC calibration registers */  
  384:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   ADCx->CR2 |= CR2_RSTCAL_Set;
- 316              		.loc 1 384 0
- 317 00f0 8368     		ldr	r3, [r0, #8]
- 318 00f2 43F00803 		orr	r3, r3, #8
- 319 00f6 8360     		str	r3, [r0, #8]
- 320 00f8 7047     		bx	lr
- 321              		.cfi_endproc
- 322              	.LFE35:
- 324              		.align	1
- 325              		.global	ADC_GetResetCalibrationStatus
- 326              		.thumb
- 327              		.thumb_func
- 329              	ADC_GetResetCalibrationStatus:
- 330              	.LFB36:
+ 333              		.loc 1 384 0
+ 334 00f0 8368     		ldr	r3, [r0, #8]
+ 335 00f2 43F00803 		orr	r3, r3, #8
+ 336 00f6 8360     		str	r3, [r0, #8]
+ 337 00f8 7047     		bx	lr
+ 338              		.cfi_endproc
+ 339              	.LFE35:
+ 341              		.align	1
+ 342              		.global	ADC_GetResetCalibrationStatus
+ 343              		.syntax unified
+ 344              		.thumb
+ 345              		.thumb_func
+ 346              		.fpu softvfp
+ 348              	ADC_GetResetCalibrationStatus:
+ 349              	.LFB36:
  385:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
  386:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
  387:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** /**
@@ -711,20 +740,20 @@
  391:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  392:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** FlagStatus ADC_GetResetCalibrationStatus(ADC_TypeDef* ADCx)
  393:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 331              		.loc 1 393 0
- 332              		.cfi_startproc
- 333              		@ args = 0, pretend = 0, frame = 0
- 334              		@ frame_needed = 0, uses_anonymous_args = 0
- 335              		@ link register save eliminated.
- 336              	.LVL32:
+ 350              		.loc 1 393 0
+ 351              		.cfi_startproc
+ 352              		@ args = 0, pretend = 0, frame = 0
+ 353              		@ frame_needed = 0, uses_anonymous_args = 0
+ 354              		@ link register save eliminated.
+ 355              	.LVL32:
  394:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   FlagStatus bitstatus = RESET;
  395:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
  396:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
  397:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the status of RSTCAL bit */
  398:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   if ((ADCx->CR2 & CR2_RSTCAL_Set) != (uint32_t)RESET)
- 337              		.loc 1 398 0
- 338 00fa 8068     		ldr	r0, [r0, #8]
- 339              	.LVL33:
+ 356              		.loc 1 398 0
+ 357 00fa 8068     		ldr	r0, [r0, #8]
+ 358              	.LVL33:
  399:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  400:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* RSTCAL bit is set */
  401:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     bitstatus = SET;
@@ -737,18 +766,20 @@
  408:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Return the RSTCAL bit status */
  409:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   return  bitstatus;
  410:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
- 340              		.loc 1 410 0
- 341 00fc C0F3C000 		ubfx	r0, r0, #3, #1
- 342              	.LVL34:
- 343 0100 7047     		bx	lr
- 344              		.cfi_endproc
- 345              	.LFE36:
- 347              		.align	1
- 348              		.global	ADC_StartCalibration
- 349              		.thumb
- 350              		.thumb_func
- 352              	ADC_StartCalibration:
- 353              	.LFB37:
+ 359              		.loc 1 410 0
+ 360 00fc C0F3C000 		ubfx	r0, r0, #3, #1
+ 361              	.LVL34:
+ 362 0100 7047     		bx	lr
+ 363              		.cfi_endproc
+ 364              	.LFE36:
+ 366              		.align	1
+ 367              		.global	ADC_StartCalibration
+ 368              		.syntax unified
+ 369              		.thumb
+ 370              		.thumb_func
+ 371              		.fpu softvfp
+ 373              	ADC_StartCalibration:
+ 374              	.LFB37:
  411:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
  412:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** /**
  413:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   * @brief  Starts the selected ADC calibration process.
@@ -757,29 +788,31 @@
  416:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  417:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_StartCalibration(ADC_TypeDef* ADCx)
  418:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 354              		.loc 1 418 0
- 355              		.cfi_startproc
- 356              		@ args = 0, pretend = 0, frame = 0
- 357              		@ frame_needed = 0, uses_anonymous_args = 0
- 358              		@ link register save eliminated.
- 359              	.LVL35:
+ 375              		.loc 1 418 0
+ 376              		.cfi_startproc
+ 377              		@ args = 0, pretend = 0, frame = 0
+ 378              		@ frame_needed = 0, uses_anonymous_args = 0
+ 379              		@ link register save eliminated.
+ 380              	.LVL35:
  419:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
  420:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
  421:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Enable the selected ADC calibration process */  
  422:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   ADCx->CR2 |= CR2_CAL_Set;
- 360              		.loc 1 422 0
- 361 0102 8368     		ldr	r3, [r0, #8]
- 362 0104 43F00403 		orr	r3, r3, #4
- 363 0108 8360     		str	r3, [r0, #8]
- 364 010a 7047     		bx	lr
- 365              		.cfi_endproc
- 366              	.LFE37:
- 368              		.align	1
- 369              		.global	ADC_GetCalibrationStatus
- 370              		.thumb
- 371              		.thumb_func
- 373              	ADC_GetCalibrationStatus:
- 374              	.LFB38:
+ 381              		.loc 1 422 0
+ 382 0102 8368     		ldr	r3, [r0, #8]
+ 383 0104 43F00403 		orr	r3, r3, #4
+ 384 0108 8360     		str	r3, [r0, #8]
+ 385 010a 7047     		bx	lr
+ 386              		.cfi_endproc
+ 387              	.LFE37:
+ 389              		.align	1
+ 390              		.global	ADC_GetCalibrationStatus
+ 391              		.syntax unified
+ 392              		.thumb
+ 393              		.thumb_func
+ 394              		.fpu softvfp
+ 396              	ADC_GetCalibrationStatus:
+ 397              	.LFB38:
  423:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
  424:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
  425:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** /**
@@ -789,20 +822,20 @@
  429:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  430:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** FlagStatus ADC_GetCalibrationStatus(ADC_TypeDef* ADCx)
  431:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 375              		.loc 1 431 0
- 376              		.cfi_startproc
- 377              		@ args = 0, pretend = 0, frame = 0
- 378              		@ frame_needed = 0, uses_anonymous_args = 0
- 379              		@ link register save eliminated.
- 380              	.LVL36:
+ 398              		.loc 1 431 0
+ 399              		.cfi_startproc
+ 400              		@ args = 0, pretend = 0, frame = 0
+ 401              		@ frame_needed = 0, uses_anonymous_args = 0
+ 402              		@ link register save eliminated.
+ 403              	.LVL36:
  432:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   FlagStatus bitstatus = RESET;
  433:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
  434:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
  435:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the status of CAL bit */
  436:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   if ((ADCx->CR2 & CR2_CAL_Set) != (uint32_t)RESET)
- 381              		.loc 1 436 0
- 382 010c 8068     		ldr	r0, [r0, #8]
- 383              	.LVL37:
+ 404              		.loc 1 436 0
+ 405 010c 8068     		ldr	r0, [r0, #8]
+ 406              	.LVL37:
  437:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  438:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* CAL bit is set: calibration on going */
  439:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     bitstatus = SET;
@@ -815,18 +848,20 @@
  446:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Return the CAL bit status */
  447:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   return  bitstatus;
  448:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
- 384              		.loc 1 448 0
- 385 010e C0F38000 		ubfx	r0, r0, #2, #1
- 386              	.LVL38:
- 387 0112 7047     		bx	lr
- 388              		.cfi_endproc
- 389              	.LFE38:
- 391              		.align	1
- 392              		.global	ADC_SoftwareStartConvCmd
- 393              		.thumb
- 394              		.thumb_func
- 396              	ADC_SoftwareStartConvCmd:
- 397              	.LFB39:
+ 407              		.loc 1 448 0
+ 408 010e C0F38000 		ubfx	r0, r0, #2, #1
+ 409              	.LVL38:
+ 410 0112 7047     		bx	lr
+ 411              		.cfi_endproc
+ 412              	.LFE38:
+ 414              		.align	1
+ 415              		.global	ADC_SoftwareStartConvCmd
+ 416              		.syntax unified
+ 417              		.thumb
+ 418              		.thumb_func
+ 419              		.fpu softvfp
+ 421              	ADC_SoftwareStartConvCmd:
+ 422              	.LFB39:
  449:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
  450:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** /**
  451:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   * @brief  Enables or disables the selected ADC software start conversion .
@@ -837,12 +872,12 @@
  456:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  457:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_SoftwareStartConvCmd(ADC_TypeDef* ADCx, FunctionalState NewState)
  458:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 398              		.loc 1 458 0
- 399              		.cfi_startproc
- 400              		@ args = 0, pretend = 0, frame = 0
- 401              		@ frame_needed = 0, uses_anonymous_args = 0
- 402              		@ link register save eliminated.
- 403              	.LVL39:
+ 423              		.loc 1 458 0
+ 424              		.cfi_startproc
+ 425              		@ args = 0, pretend = 0, frame = 0
+ 426              		@ frame_needed = 0, uses_anonymous_args = 0
+ 427              		@ link register save eliminated.
+ 428              	.LVL39:
  459:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
  460:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
  461:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_FUNCTIONAL_STATE(NewState));
@@ -851,34 +886,36 @@
  464:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Enable the selected ADC conversion on external event and start the selected
  465:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****        ADC conversion */
  466:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR2 |= CR2_EXTTRIG_SWSTART_Set;
- 404              		.loc 1 466 0
- 405 0114 8368     		ldr	r3, [r0, #8]
+ 429              		.loc 1 466 0
+ 430 0114 8368     		ldr	r3, [r0, #8]
  462:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
- 406              		.loc 1 462 0
- 407 0116 11B1     		cbz	r1, .L30
- 408              		.loc 1 466 0
- 409 0118 43F4A003 		orr	r3, r3, #5242880
- 410 011c 01E0     		b	.L32
- 411              	.L30:
+ 431              		.loc 1 462 0
+ 432 0116 19B1     		cbz	r1, .L29
+ 433              		.loc 1 466 0
+ 434 0118 43F4A003 		orr	r3, r3, #5242880
+ 435              	.L31:
  467:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  468:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   else
  469:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  470:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Disable the selected ADC conversion on external event and stop the selected
  471:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****        ADC conversion */
  472:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR2 &= CR2_EXTTRIG_SWSTART_Reset;
- 412              		.loc 1 472 0
- 413 011e 23F4A003 		bic	r3, r3, #5242880
- 414              	.L32:
- 415 0122 8360     		str	r3, [r0, #8]
- 416 0124 7047     		bx	lr
- 417              		.cfi_endproc
- 418              	.LFE39:
- 420              		.align	1
- 421              		.global	ADC_GetSoftwareStartConvStatus
- 422              		.thumb
- 423              		.thumb_func
- 425              	ADC_GetSoftwareStartConvStatus:
- 426              	.LFB40:
+ 436              		.loc 1 472 0
+ 437 011c 8360     		str	r3, [r0, #8]
+ 438 011e 7047     		bx	lr
+ 439              	.L29:
+ 440 0120 23F4A003 		bic	r3, r3, #5242880
+ 441 0124 FAE7     		b	.L31
+ 442              		.cfi_endproc
+ 443              	.LFE39:
+ 445              		.align	1
+ 446              		.global	ADC_GetSoftwareStartConvStatus
+ 447              		.syntax unified
+ 448              		.thumb
+ 449              		.thumb_func
+ 450              		.fpu softvfp
+ 452              	ADC_GetSoftwareStartConvStatus:
+ 453              	.LFB40:
  473:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  474:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
  475:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
@@ -889,20 +926,20 @@
  480:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  481:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** FlagStatus ADC_GetSoftwareStartConvStatus(ADC_TypeDef* ADCx)
  482:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 427              		.loc 1 482 0
- 428              		.cfi_startproc
- 429              		@ args = 0, pretend = 0, frame = 0
- 430              		@ frame_needed = 0, uses_anonymous_args = 0
- 431              		@ link register save eliminated.
- 432              	.LVL40:
+ 454              		.loc 1 482 0
+ 455              		.cfi_startproc
+ 456              		@ args = 0, pretend = 0, frame = 0
+ 457              		@ frame_needed = 0, uses_anonymous_args = 0
+ 458              		@ link register save eliminated.
+ 459              	.LVL40:
  483:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   FlagStatus bitstatus = RESET;
  484:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
  485:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
  486:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the status of SWSTART bit */
  487:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   if ((ADCx->CR2 & CR2_SWSTART_Set) != (uint32_t)RESET)
- 433              		.loc 1 487 0
- 434 0126 8068     		ldr	r0, [r0, #8]
- 435              	.LVL41:
+ 460              		.loc 1 487 0
+ 461 0126 8068     		ldr	r0, [r0, #8]
+ 462              	.LVL41:
  488:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  489:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* SWSTART bit is set */
  490:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     bitstatus = SET;
@@ -915,18 +952,20 @@
  497:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Return the SWSTART bit status */
  498:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   return  bitstatus;
  499:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
- 436              		.loc 1 499 0
- 437 0128 C0F38050 		ubfx	r0, r0, #22, #1
- 438              	.LVL42:
- 439 012c 7047     		bx	lr
- 440              		.cfi_endproc
- 441              	.LFE40:
- 443              		.align	1
- 444              		.global	ADC_DiscModeChannelCountConfig
- 445              		.thumb
- 446              		.thumb_func
- 448              	ADC_DiscModeChannelCountConfig:
- 449              	.LFB41:
+ 463              		.loc 1 499 0
+ 464 0128 C0F38050 		ubfx	r0, r0, #22, #1
+ 465              	.LVL42:
+ 466 012c 7047     		bx	lr
+ 467              		.cfi_endproc
+ 468              	.LFE40:
+ 470              		.align	1
+ 471              		.global	ADC_DiscModeChannelCountConfig
+ 472              		.syntax unified
+ 473              		.thumb
+ 474              		.thumb_func
+ 475              		.fpu softvfp
+ 477              	ADC_DiscModeChannelCountConfig:
+ 478              	.LFB41:
  500:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
  501:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** /**
  502:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   * @brief  Configures the discontinuous mode for the selected ADC regular
@@ -938,12 +977,12 @@
  508:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  509:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_DiscModeChannelCountConfig(ADC_TypeDef* ADCx, uint8_t Number)
  510:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 450              		.loc 1 510 0
- 451              		.cfi_startproc
- 452              		@ args = 0, pretend = 0, frame = 0
- 453              		@ frame_needed = 0, uses_anonymous_args = 0
- 454              		@ link register save eliminated.
- 455              	.LVL43:
+ 479              		.loc 1 510 0
+ 480              		.cfi_startproc
+ 481              		@ args = 0, pretend = 0, frame = 0
+ 482              		@ frame_needed = 0, uses_anonymous_args = 0
+ 483              		@ link register save eliminated.
+ 484              	.LVL43:
  511:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   uint32_t tmpreg1 = 0;
  512:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   uint32_t tmpreg2 = 0;
  513:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
@@ -951,37 +990,39 @@
  515:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_REGULAR_DISC_NUMBER(Number));
  516:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Get the old register value */
  517:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg1 = ADCx->CR1;
- 456              		.loc 1 517 0
- 457 012e 4368     		ldr	r3, [r0, #4]
- 458              	.LVL44:
+ 485              		.loc 1 517 0
+ 486 012e 4368     		ldr	r3, [r0, #4]
+ 487              	.LVL44:
  518:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Clear the old discontinuous mode channel count */
  519:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg1 &= CR1_DISCNUM_Reset;
  520:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Set the discontinuous mode channel count */
  521:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg2 = Number - 1;
- 522:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg1 |= tmpreg2 << 13;
- 459              		.loc 1 522 0
- 460 0130 0139     		subs	r1, r1, #1
- 461              	.LVL45:
+ 488              		.loc 1 521 0
+ 489 0130 0139     		subs	r1, r1, #1
+ 490              	.LVL45:
  519:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Set the discontinuous mode channel count */
- 462              		.loc 1 519 0
- 463 0132 23F46043 		bic	r3, r3, #57344
- 464              	.LVL46:
- 465              		.loc 1 522 0
- 466 0136 43EA4133 		orr	r3, r3, r1, lsl #13
- 467              	.LVL47:
+ 491              		.loc 1 519 0
+ 492 0132 23F46043 		bic	r3, r3, #57344
+ 493              	.LVL46:
+ 522:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg1 |= tmpreg2 << 13;
+ 494              		.loc 1 522 0
+ 495 0136 43EA4133 		orr	r3, r3, r1, lsl #13
+ 496              	.LVL47:
  523:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Store the new register value */
  524:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   ADCx->CR1 = tmpreg1;
- 468              		.loc 1 524 0
- 469 013a 4360     		str	r3, [r0, #4]
- 470 013c 7047     		bx	lr
- 471              		.cfi_endproc
- 472              	.LFE41:
- 474              		.align	1
- 475              		.global	ADC_DiscModeCmd
- 476              		.thumb
- 477              		.thumb_func
- 479              	ADC_DiscModeCmd:
- 480              	.LFB42:
+ 497              		.loc 1 524 0
+ 498 013a 4360     		str	r3, [r0, #4]
+ 499 013c 7047     		bx	lr
+ 500              		.cfi_endproc
+ 501              	.LFE41:
+ 503              		.align	1
+ 504              		.global	ADC_DiscModeCmd
+ 505              		.syntax unified
+ 506              		.thumb
+ 507              		.thumb_func
+ 508              		.fpu softvfp
+ 510              	ADC_DiscModeCmd:
+ 511              	.LFB42:
  525:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
  526:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
  527:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** /**
@@ -995,12 +1036,12 @@
  535:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  536:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_DiscModeCmd(ADC_TypeDef* ADCx, FunctionalState NewState)
  537:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 481              		.loc 1 537 0
- 482              		.cfi_startproc
- 483              		@ args = 0, pretend = 0, frame = 0
- 484              		@ frame_needed = 0, uses_anonymous_args = 0
- 485              		@ link register save eliminated.
- 486              	.LVL48:
+ 512              		.loc 1 537 0
+ 513              		.cfi_startproc
+ 514              		@ args = 0, pretend = 0, frame = 0
+ 515              		@ frame_needed = 0, uses_anonymous_args = 0
+ 516              		@ link register save eliminated.
+ 517              	.LVL48:
  538:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
  539:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
  540:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_FUNCTIONAL_STATE(NewState));
@@ -1008,33 +1049,35 @@
  542:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  543:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Enable the selected ADC regular discontinuous mode */
  544:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR1 |= CR1_DISCEN_Set;
- 487              		.loc 1 544 0
- 488 013e 4368     		ldr	r3, [r0, #4]
+ 518              		.loc 1 544 0
+ 519 013e 4368     		ldr	r3, [r0, #4]
  541:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
- 489              		.loc 1 541 0
- 490 0140 11B1     		cbz	r1, .L36
- 491              		.loc 1 544 0
- 492 0142 43F40063 		orr	r3, r3, #2048
- 493 0146 01E0     		b	.L38
- 494              	.L36:
+ 520              		.loc 1 541 0
+ 521 0140 19B1     		cbz	r1, .L35
+ 522              		.loc 1 544 0
+ 523 0142 43F40063 		orr	r3, r3, #2048
+ 524              	.L37:
  545:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  546:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   else
  547:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  548:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Disable the selected ADC regular discontinuous mode */
  549:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR1 &= CR1_DISCEN_Reset;
- 495              		.loc 1 549 0
- 496 0148 23F40063 		bic	r3, r3, #2048
- 497              	.L38:
- 498 014c 4360     		str	r3, [r0, #4]
- 499 014e 7047     		bx	lr
- 500              		.cfi_endproc
- 501              	.LFE42:
- 503              		.align	1
- 504              		.global	ADC_RegularChannelConfig
- 505              		.thumb
- 506              		.thumb_func
- 508              	ADC_RegularChannelConfig:
- 509              	.LFB43:
+ 525              		.loc 1 549 0
+ 526 0146 4360     		str	r3, [r0, #4]
+ 527 0148 7047     		bx	lr
+ 528              	.L35:
+ 529 014a 23F40063 		bic	r3, r3, #2048
+ 530 014e FAE7     		b	.L37
+ 531              		.cfi_endproc
+ 532              	.LFE42:
+ 534              		.align	1
+ 535              		.global	ADC_RegularChannelConfig
+ 536              		.syntax unified
+ 537              		.thumb
+ 538              		.thumb_func
+ 539              		.fpu softvfp
+ 541              	ADC_RegularChannelConfig:
+ 542              	.LFB43:
  550:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  551:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
  552:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
@@ -1077,11 +1120,11 @@
  589:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  590:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_RegularChannelConfig(ADC_TypeDef* ADCx, uint8_t ADC_Channel, uint8_t Rank, uint8_t ADC_Sam
  591:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 510              		.loc 1 591 0
- 511              		.cfi_startproc
- 512              		@ args = 0, pretend = 0, frame = 0
- 513              		@ frame_needed = 0, uses_anonymous_args = 0
- 514              	.LVL49:
+ 543              		.loc 1 591 0
+ 544              		.cfi_startproc
+ 545              		@ args = 0, pretend = 0, frame = 0
+ 546              		@ frame_needed = 0, uses_anonymous_args = 0
+ 547              	.LVL49:
  592:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   uint32_t tmpreg1 = 0, tmpreg2 = 0;
  593:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
  594:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
@@ -1090,185 +1133,196 @@
  597:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_SAMPLE_TIME(ADC_SampleTime));
  598:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* if ADC_Channel_10 ... ADC_Channel_17 is selected */
  599:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   if (ADC_Channel > ADC_Channel_9)
- 515              		.loc 1 599 0
- 516 0150 0929     		cmp	r1, #9
+ 548              		.loc 1 599 0
+ 549 0150 0929     		cmp	r1, #9
  591:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   uint32_t tmpreg1 = 0, tmpreg2 = 0;
- 517              		.loc 1 591 0
- 518 0152 70B5     		push	{r4, r5, r6, lr}
- 519              	.LCFI4:
- 520              		.cfi_def_cfa_offset 16
- 521              		.cfi_offset 4, -16
- 522              		.cfi_offset 5, -12
- 523              		.cfi_offset 6, -8
- 524              		.cfi_offset 14, -4
- 525              		.loc 1 599 0
- 526 0154 0DD9     		bls	.L40
+ 550              		.loc 1 591 0
+ 551 0152 70B5     		push	{r4, r5, r6, lr}
+ 552              	.LCFI4:
+ 553              		.cfi_def_cfa_offset 16
+ 554              		.cfi_offset 4, -16
+ 555              		.cfi_offset 5, -12
+ 556              		.cfi_offset 6, -8
+ 557              		.cfi_offset 14, -4
+ 558              		.loc 1 599 0
+ 559 0154 1BD9     		bls	.L39
  600:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  601:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Get the old register value */
  602:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg1 = ADCx->SMPR1;
  603:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Calculate the mask to clear */
  604:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg2 = SMPR1_SMP_Set << (3 * (ADC_Channel - 10));
- 527              		.loc 1 604 0
- 528 0156 A1F10A04 		sub	r4, r1, #10
+ 560              		.loc 1 604 0
+ 561 0156 0726     		movs	r6, #7
+ 562 0158 A1F10A04 		sub	r4, r1, #10
  602:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Calculate the mask to clear */
- 529              		.loc 1 602 0
- 530 015a C668     		ldr	r6, [r0, #12]
- 531              	.LVL50:
- 532              		.loc 1 604 0
- 533 015c 04EB4404 		add	r4, r4, r4, lsl #1
- 534              	.LVL51:
+ 563              		.loc 1 602 0
+ 564 015c C568     		ldr	r5, [r0, #12]
+ 565              	.LVL50:
+ 566              		.loc 1 604 0
+ 567 015e 04EB4404 		add	r4, r4, r4, lsl #1
+ 568              	.LVL51:
+ 569 0162 A640     		lsls	r6, r6, r4
+ 570              	.LVL52:
  605:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Clear the old channel sample time */
  606:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg1 &= ~tmpreg2;
- 535              		.loc 1 606 0
- 536 0160 0725     		movs	r5, #7
- 537 0162 A540     		lsls	r5, r5, r4
- 538              	.LVL52:
- 539 0164 26EA0505 		bic	r5, r6, r5
- 540              	.LVL53:
+ 571              		.loc 1 606 0
+ 572 0164 25EA0605 		bic	r5, r5, r6
+ 573              	.LVL53:
  607:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Calculate the mask to set */
  608:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg2 = (uint32_t)ADC_SampleTime << (3 * (ADC_Channel - 10));
+ 574              		.loc 1 608 0
+ 575 0168 03FA04F4 		lsl	r4, r3, r4
+ 576              	.LVL54:
  609:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Set the new channel sample time */
  610:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg1 |= tmpreg2;
- 541              		.loc 1 610 0
- 542 0168 03FA04F4 		lsl	r4, r3, r4
- 543              	.LVL54:
- 544 016c 2C43     		orrs	r4, r4, r5
- 545              	.LVL55:
+ 577              		.loc 1 610 0
+ 578 016c 2C43     		orrs	r4, r4, r5
+ 579              	.LVL55:
  611:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Store the new register value */
  612:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->SMPR1 = tmpreg1;
- 546              		.loc 1 612 0
- 547 016e C460     		str	r4, [r0, #12]
- 548 0170 0AE0     		b	.L41
- 549              	.LVL56:
- 550              	.L40:
+ 580              		.loc 1 612 0
+ 581 016e C460     		str	r4, [r0, #12]
+ 582              	.LVL56:
+ 583              	.L40:
  613:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  614:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   else /* ADC_Channel include in ADC_Channel_[0..9] */
  615:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  616:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Get the old register value */
  617:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg1 = ADCx->SMPR2;
- 551              		.loc 1 617 0
- 552 0172 0669     		ldr	r6, [r0, #16]
- 553              	.LVL57:
  618:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Calculate the mask to clear */
  619:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg2 = SMPR2_SMP_Set << (3 * ADC_Channel);
- 554              		.loc 1 619 0
- 555 0174 01EB4104 		add	r4, r1, r1, lsl #1
- 556              	.LVL58:
  620:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Clear the old channel sample time */
  621:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg1 &= ~tmpreg2;
- 557              		.loc 1 621 0
- 558 0178 0725     		movs	r5, #7
- 559 017a A540     		lsls	r5, r5, r4
- 560              	.LVL59:
- 561 017c 26EA0505 		bic	r5, r6, r5
- 562              	.LVL60:
  622:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Calculate the mask to set */
  623:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg2 = (uint32_t)ADC_SampleTime << (3 * ADC_Channel);
  624:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Set the new channel sample time */
  625:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg1 |= tmpreg2;
- 563              		.loc 1 625 0
- 564 0180 03FA04F4 		lsl	r4, r3, r4
- 565              	.LVL61:
- 566 0184 2C43     		orrs	r4, r4, r5
- 567              	.LVL62:
  626:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Store the new register value */
  627:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->SMPR2 = tmpreg1;
- 568              		.loc 1 627 0
- 569 0186 0461     		str	r4, [r0, #16]
- 570              	.LVL63:
- 571              	.L41:
  628:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  629:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* For Rank 1 to 6 */
  630:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   if (Rank < 7)
- 572              		.loc 1 630 0
- 573 0188 062A     		cmp	r2, #6
- 574 018a 0CD8     		bhi	.L42
+ 584              		.loc 1 630 0
+ 585 0170 062A     		cmp	r2, #6
+ 586 0172 18D8     		bhi	.L41
  631:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  632:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Get the old register value */
  633:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg1 = ADCx->SQR3;
  634:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Calculate the mask to clear */
  635:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg2 = SQR3_SQ_Set << (5 * (Rank - 1));
- 575              		.loc 1 635 0
- 576 018c 013A     		subs	r2, r2, #1
- 577              	.LVL64:
+ 587              		.loc 1 635 0
+ 588 0174 1F24     		movs	r4, #31
+ 589              	.LVL57:
+ 590 0176 013A     		subs	r2, r2, #1
+ 591              	.LVL58:
  633:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Calculate the mask to clear */
- 578              		.loc 1 633 0
- 579 018e 446B     		ldr	r4, [r0, #52]
- 580              	.LVL65:
- 581              		.loc 1 635 0
- 582 0190 02EB8202 		add	r2, r2, r2, lsl #2
- 583              	.LVL66:
+ 592              		.loc 1 633 0
+ 593 0178 436B     		ldr	r3, [r0, #52]
+ 594              	.LVL59:
+ 595              		.loc 1 635 0
+ 596 017a 02EB8202 		add	r2, r2, r2, lsl #2
+ 597              	.LVL60:
+ 598 017e 9440     		lsls	r4, r4, r2
+ 599              	.LVL61:
  636:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Clear the old SQx bits for the selected rank */
  637:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg1 &= ~tmpreg2;
- 584              		.loc 1 637 0
- 585 0194 1F23     		movs	r3, #31
- 586              	.LVL67:
- 587 0196 9340     		lsls	r3, r3, r2
- 588              	.LVL68:
- 589 0198 24EA0303 		bic	r3, r4, r3
- 590              	.LVL69:
+ 600              		.loc 1 637 0
+ 601 0180 23EA0403 		bic	r3, r3, r4
+ 602              	.LVL62:
  638:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Calculate the mask to set */
  639:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg2 = (uint32_t)ADC_Channel << (5 * (Rank - 1));
+ 603              		.loc 1 639 0
+ 604 0184 01FA02F2 		lsl	r2, r1, r2
+ 605              	.LVL63:
  640:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Set the SQx bits for the selected rank */
  641:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg1 |= tmpreg2;
- 591              		.loc 1 641 0
- 592 019c 01FA02F2 		lsl	r2, r1, r2
- 593              	.LVL70:
- 594 01a0 1A43     		orrs	r2, r2, r3
- 595              	.LVL71:
+ 606              		.loc 1 641 0
+ 607 0188 1A43     		orrs	r2, r2, r3
+ 608              	.LVL64:
  642:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Store the new register value */
  643:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->SQR3 = tmpreg1;
- 596              		.loc 1 643 0
- 597 01a2 4263     		str	r2, [r0, #52]
- 598 01a4 70BD     		pop	{r4, r5, r6, pc}
- 599              	.LVL72:
- 600              	.L42:
+ 609              		.loc 1 643 0
+ 610 018a 4263     		str	r2, [r0, #52]
+ 611 018c 70BD     		pop	{r4, r5, r6, pc}
+ 612              	.LVL65:
+ 613              	.L39:
+ 619:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Clear the old channel sample time */
+ 614              		.loc 1 619 0
+ 615 018e 0724     		movs	r4, #7
+ 617:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Calculate the mask to clear */
+ 616              		.loc 1 617 0
+ 617 0190 0569     		ldr	r5, [r0, #16]
+ 618              	.LVL66:
+ 619:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Clear the old channel sample time */
+ 619              		.loc 1 619 0
+ 620 0192 01EB4106 		add	r6, r1, r1, lsl #1
+ 621              	.LVL67:
+ 622 0196 B440     		lsls	r4, r4, r6
+ 623              	.LVL68:
+ 621:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Calculate the mask to set */
+ 624              		.loc 1 621 0
+ 625 0198 25EA0405 		bic	r5, r5, r4
+ 626              	.LVL69:
+ 623:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Set the new channel sample time */
+ 627              		.loc 1 623 0
+ 628 019c 03FA06F4 		lsl	r4, r3, r6
+ 625:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Store the new register value */
+ 629              		.loc 1 625 0
+ 630 01a0 2C43     		orrs	r4, r4, r5
+ 631              	.LVL70:
+ 627:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
+ 632              		.loc 1 627 0
+ 633 01a2 0461     		str	r4, [r0, #16]
+ 634 01a4 E4E7     		b	.L40
+ 635              	.LVL71:
+ 636              	.L41:
  644:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  645:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* For Rank 7 to 12 */
  646:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   else if (Rank < 13)
- 601              		.loc 1 646 0
- 602 01a6 0C2A     		cmp	r2, #12
- 603 01a8 0CD8     		bhi	.L44
+ 637              		.loc 1 646 0
+ 638 01a6 0C2A     		cmp	r2, #12
+ 639 01a8 0CD8     		bhi	.L43
  647:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  648:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Get the old register value */
  649:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg1 = ADCx->SQR2;
  650:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Calculate the mask to clear */
  651:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg2 = SQR2_SQ_Set << (5 * (Rank - 7));
- 604              		.loc 1 651 0
- 605 01aa 073A     		subs	r2, r2, #7
- 606              	.LVL73:
+ 640              		.loc 1 651 0
+ 641 01aa 1F24     		movs	r4, #31
+ 642              	.LVL72:
+ 643 01ac 073A     		subs	r2, r2, #7
+ 644              	.LVL73:
  649:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Calculate the mask to clear */
- 607              		.loc 1 649 0
- 608 01ac 046B     		ldr	r4, [r0, #48]
- 609              	.LVL74:
- 610              		.loc 1 651 0
- 611 01ae 02EB8202 		add	r2, r2, r2, lsl #2
- 612              	.LVL75:
+ 645              		.loc 1 649 0
+ 646 01ae 036B     		ldr	r3, [r0, #48]
+ 647              	.LVL74:
+ 648              		.loc 1 651 0
+ 649 01b0 02EB8202 		add	r2, r2, r2, lsl #2
+ 650              	.LVL75:
+ 651 01b4 9440     		lsls	r4, r4, r2
+ 652              	.LVL76:
  652:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Clear the old SQx bits for the selected rank */
  653:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg1 &= ~tmpreg2;
- 613              		.loc 1 653 0
- 614 01b2 1F23     		movs	r3, #31
- 615              	.LVL76:
- 616 01b4 9340     		lsls	r3, r3, r2
- 617              	.LVL77:
- 618 01b6 24EA0303 		bic	r3, r4, r3
- 619              	.LVL78:
+ 653              		.loc 1 653 0
+ 654 01b6 23EA0403 		bic	r3, r3, r4
+ 655              	.LVL77:
  654:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Calculate the mask to set */
  655:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg2 = (uint32_t)ADC_Channel << (5 * (Rank - 7));
+ 656              		.loc 1 655 0
+ 657 01ba 01FA02F2 		lsl	r2, r1, r2
+ 658              	.LVL78:
  656:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Set the SQx bits for the selected rank */
  657:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg1 |= tmpreg2;
- 620              		.loc 1 657 0
- 621 01ba 01FA02F2 		lsl	r2, r1, r2
- 622              	.LVL79:
- 623 01be 1A43     		orrs	r2, r2, r3
- 624              	.LVL80:
+ 659              		.loc 1 657 0
+ 660 01be 1A43     		orrs	r2, r2, r3
+ 661              	.LVL79:
  658:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Store the new register value */
  659:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->SQR2 = tmpreg1;
- 625              		.loc 1 659 0
- 626 01c0 0263     		str	r2, [r0, #48]
- 627 01c2 70BD     		pop	{r4, r5, r6, pc}
- 628              	.LVL81:
- 629              	.L44:
+ 662              		.loc 1 659 0
+ 663 01c0 0263     		str	r2, [r0, #48]
+ 664 01c2 70BD     		pop	{r4, r5, r6, pc}
+ 665              	.LVL80:
+ 666              	.L43:
  660:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  661:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* For Rank 13 to 16 */
  662:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   else
@@ -1277,47 +1331,50 @@
  665:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg1 = ADCx->SQR1;
  666:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Calculate the mask to clear */
  667:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg2 = SQR1_SQ_Set << (5 * (Rank - 13));
- 630              		.loc 1 667 0
- 631 01c4 0D3A     		subs	r2, r2, #13
- 632              	.LVL82:
+ 667              		.loc 1 667 0
+ 668 01c4 1F24     		movs	r4, #31
+ 669              	.LVL81:
+ 670 01c6 0D3A     		subs	r2, r2, #13
+ 671              	.LVL82:
  665:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Calculate the mask to clear */
- 633              		.loc 1 665 0
- 634 01c6 C46A     		ldr	r4, [r0, #44]
- 635              	.LVL83:
- 636              		.loc 1 667 0
- 637 01c8 02EB8202 		add	r2, r2, r2, lsl #2
- 638              	.LVL84:
+ 672              		.loc 1 665 0
+ 673 01c8 C36A     		ldr	r3, [r0, #44]
+ 674              	.LVL83:
+ 675              		.loc 1 667 0
+ 676 01ca 02EB8202 		add	r2, r2, r2, lsl #2
+ 677              	.LVL84:
+ 678 01ce 9440     		lsls	r4, r4, r2
+ 679              	.LVL85:
  668:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Clear the old SQx bits for the selected rank */
  669:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg1 &= ~tmpreg2;
- 639              		.loc 1 669 0
- 640 01cc 1F23     		movs	r3, #31
- 641              	.LVL85:
- 642 01ce 9340     		lsls	r3, r3, r2
- 643              	.LVL86:
- 644 01d0 24EA0303 		bic	r3, r4, r3
- 645              	.LVL87:
+ 680              		.loc 1 669 0
+ 681 01d0 23EA0403 		bic	r3, r3, r4
+ 682              	.LVL86:
  670:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Calculate the mask to set */
  671:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg2 = (uint32_t)ADC_Channel << (5 * (Rank - 13));
+ 683              		.loc 1 671 0
+ 684 01d4 9140     		lsls	r1, r1, r2
+ 685              	.LVL87:
  672:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Set the SQx bits for the selected rank */
  673:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg1 |= tmpreg2;
- 646              		.loc 1 673 0
- 647 01d4 01FA02F2 		lsl	r2, r1, r2
- 648              	.LVL88:
- 649 01d8 1A43     		orrs	r2, r2, r3
- 650              	.LVL89:
+ 686              		.loc 1 673 0
+ 687 01d6 1943     		orrs	r1, r1, r3
+ 688              	.LVL88:
  674:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Store the new register value */
  675:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->SQR1 = tmpreg1;
- 651              		.loc 1 675 0
- 652 01da C262     		str	r2, [r0, #44]
- 653 01dc 70BD     		pop	{r4, r5, r6, pc}
- 654              		.cfi_endproc
- 655              	.LFE43:
- 657              		.align	1
- 658              		.global	ADC_ExternalTrigConvCmd
- 659              		.thumb
- 660              		.thumb_func
- 662              	ADC_ExternalTrigConvCmd:
- 663              	.LFB44:
+ 689              		.loc 1 675 0
+ 690 01d8 C162     		str	r1, [r0, #44]
+ 691 01da 70BD     		pop	{r4, r5, r6, pc}
+ 692              		.cfi_endproc
+ 693              	.LFE43:
+ 695              		.align	1
+ 696              		.global	ADC_ExternalTrigConvCmd
+ 697              		.syntax unified
+ 698              		.thumb
+ 699              		.thumb_func
+ 700              		.fpu softvfp
+ 702              	ADC_ExternalTrigConvCmd:
+ 703              	.LFB44:
  676:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  677:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
  678:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
@@ -1330,12 +1387,12 @@
  685:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  686:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_ExternalTrigConvCmd(ADC_TypeDef* ADCx, FunctionalState NewState)
  687:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 664              		.loc 1 687 0
- 665              		.cfi_startproc
- 666              		@ args = 0, pretend = 0, frame = 0
- 667              		@ frame_needed = 0, uses_anonymous_args = 0
- 668              		@ link register save eliminated.
- 669              	.LVL90:
+ 704              		.loc 1 687 0
+ 705              		.cfi_startproc
+ 706              		@ args = 0, pretend = 0, frame = 0
+ 707              		@ frame_needed = 0, uses_anonymous_args = 0
+ 708              		@ link register save eliminated.
+ 709              	.LVL89:
  688:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
  689:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
  690:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_FUNCTIONAL_STATE(NewState));
@@ -1343,33 +1400,35 @@
  692:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  693:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Enable the selected ADC conversion on external event */
  694:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR2 |= CR2_EXTTRIG_Set;
- 670              		.loc 1 694 0
- 671 01de 8368     		ldr	r3, [r0, #8]
+ 710              		.loc 1 694 0
+ 711 01dc 8368     		ldr	r3, [r0, #8]
  691:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
- 672              		.loc 1 691 0
- 673 01e0 11B1     		cbz	r1, .L46
- 674              		.loc 1 694 0
- 675 01e2 43F48013 		orr	r3, r3, #1048576
- 676 01e6 01E0     		b	.L48
- 677              	.L46:
+ 712              		.loc 1 691 0
+ 713 01de 19B1     		cbz	r1, .L45
+ 714              		.loc 1 694 0
+ 715 01e0 43F48013 		orr	r3, r3, #1048576
+ 716              	.L47:
  695:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  696:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   else
  697:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  698:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Disable the selected ADC conversion on external event */
  699:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR2 &= CR2_EXTTRIG_Reset;
- 678              		.loc 1 699 0
- 679 01e8 23F48013 		bic	r3, r3, #1048576
- 680              	.L48:
- 681 01ec 8360     		str	r3, [r0, #8]
- 682 01ee 7047     		bx	lr
- 683              		.cfi_endproc
- 684              	.LFE44:
- 686              		.align	1
- 687              		.global	ADC_GetConversionValue
- 688              		.thumb
- 689              		.thumb_func
- 691              	ADC_GetConversionValue:
- 692              	.LFB45:
+ 717              		.loc 1 699 0
+ 718 01e4 8360     		str	r3, [r0, #8]
+ 719 01e6 7047     		bx	lr
+ 720              	.L45:
+ 721 01e8 23F48013 		bic	r3, r3, #1048576
+ 722 01ec FAE7     		b	.L47
+ 723              		.cfi_endproc
+ 724              	.LFE44:
+ 726              		.align	1
+ 727              		.global	ADC_GetConversionValue
+ 728              		.syntax unified
+ 729              		.thumb
+ 730              		.thumb_func
+ 731              		.fpu softvfp
+ 733              	ADC_GetConversionValue:
+ 734              	.LFB45:
  700:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  701:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
  702:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
@@ -1380,31 +1439,33 @@
  707:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  708:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** uint16_t ADC_GetConversionValue(ADC_TypeDef* ADCx)
  709:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 693              		.loc 1 709 0
- 694              		.cfi_startproc
- 695              		@ args = 0, pretend = 0, frame = 0
- 696              		@ frame_needed = 0, uses_anonymous_args = 0
- 697              		@ link register save eliminated.
- 698              	.LVL91:
+ 735              		.loc 1 709 0
+ 736              		.cfi_startproc
+ 737              		@ args = 0, pretend = 0, frame = 0
+ 738              		@ frame_needed = 0, uses_anonymous_args = 0
+ 739              		@ link register save eliminated.
+ 740              	.LVL90:
  710:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
  711:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
  712:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Return the selected ADC conversion value */
  713:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   return (uint16_t) ADCx->DR;
- 699              		.loc 1 713 0
- 700 01f0 C06C     		ldr	r0, [r0, #76]
- 701              	.LVL92:
+ 741              		.loc 1 713 0
+ 742 01ee C06C     		ldr	r0, [r0, #76]
+ 743              	.LVL91:
  714:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
- 702              		.loc 1 714 0
- 703 01f2 80B2     		uxth	r0, r0
- 704 01f4 7047     		bx	lr
- 705              		.cfi_endproc
- 706              	.LFE45:
- 708              		.align	1
- 709              		.global	ADC_GetDualModeConversionValue
- 710              		.thumb
- 711              		.thumb_func
- 713              	ADC_GetDualModeConversionValue:
- 714              	.LFB46:
+ 744              		.loc 1 714 0
+ 745 01f0 80B2     		uxth	r0, r0
+ 746 01f2 7047     		bx	lr
+ 747              		.cfi_endproc
+ 748              	.LFE45:
+ 750              		.align	1
+ 751              		.global	ADC_GetDualModeConversionValue
+ 752              		.syntax unified
+ 753              		.thumb
+ 754              		.thumb_func
+ 755              		.fpu softvfp
+ 757              	ADC_GetDualModeConversionValue:
+ 758              	.LFB46:
  715:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
  716:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** /**
  717:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   * @brief  Returns the last ADC1 and ADC2 conversion result data in dual mode.
@@ -1412,31 +1473,33 @@
  719:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  720:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** uint32_t ADC_GetDualModeConversionValue(void)
  721:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 715              		.loc 1 721 0
- 716              		.cfi_startproc
- 717              		@ args = 0, pretend = 0, frame = 0
- 718              		@ frame_needed = 0, uses_anonymous_args = 0
- 719              		@ link register save eliminated.
+ 759              		.loc 1 721 0
+ 760              		.cfi_startproc
+ 761              		@ args = 0, pretend = 0, frame = 0
+ 762              		@ frame_needed = 0, uses_anonymous_args = 0
+ 763              		@ link register save eliminated.
  722:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Return the dual mode conversion value */
  723:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   return (*(__IO uint32_t *) DR_ADDRESS);
- 720              		.loc 1 723 0
- 721 01f6 014B     		ldr	r3, .L51
- 722 01f8 1868     		ldr	r0, [r3]
+ 764              		.loc 1 723 0
+ 765 01f4 014B     		ldr	r3, .L50
+ 766 01f6 1868     		ldr	r0, [r3]
  724:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
- 723              		.loc 1 724 0
- 724 01fa 7047     		bx	lr
- 725              	.L52:
- 726              		.align	2
- 727              	.L51:
- 728 01fc 4C240140 		.word	1073816652
- 729              		.cfi_endproc
- 730              	.LFE46:
- 732              		.align	1
- 733              		.global	ADC_AutoInjectedConvCmd
- 734              		.thumb
- 735              		.thumb_func
- 737              	ADC_AutoInjectedConvCmd:
- 738              	.LFB47:
+ 767              		.loc 1 724 0
+ 768 01f8 7047     		bx	lr
+ 769              	.L51:
+ 770 01fa 00BF     		.align	2
+ 771              	.L50:
+ 772 01fc 4C240140 		.word	1073816652
+ 773              		.cfi_endproc
+ 774              	.LFE46:
+ 776              		.align	1
+ 777              		.global	ADC_AutoInjectedConvCmd
+ 778              		.syntax unified
+ 779              		.thumb
+ 780              		.thumb_func
+ 781              		.fpu softvfp
+ 783              	ADC_AutoInjectedConvCmd:
+ 784              	.LFB47:
  725:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
  726:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** /**
  727:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   * @brief  Enables or disables the selected ADC automatic injected group
@@ -1448,12 +1511,12 @@
  733:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  734:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_AutoInjectedConvCmd(ADC_TypeDef* ADCx, FunctionalState NewState)
  735:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 739              		.loc 1 735 0
- 740              		.cfi_startproc
- 741              		@ args = 0, pretend = 0, frame = 0
- 742              		@ frame_needed = 0, uses_anonymous_args = 0
- 743              		@ link register save eliminated.
- 744              	.LVL93:
+ 785              		.loc 1 735 0
+ 786              		.cfi_startproc
+ 787              		@ args = 0, pretend = 0, frame = 0
+ 788              		@ frame_needed = 0, uses_anonymous_args = 0
+ 789              		@ link register save eliminated.
+ 790              	.LVL92:
  736:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
  737:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
  738:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_FUNCTIONAL_STATE(NewState));
@@ -1461,33 +1524,35 @@
  740:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  741:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Enable the selected ADC automatic injected group conversion */
  742:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR1 |= CR1_JAUTO_Set;
- 745              		.loc 1 742 0
- 746 0200 4368     		ldr	r3, [r0, #4]
+ 791              		.loc 1 742 0
+ 792 0200 4368     		ldr	r3, [r0, #4]
  739:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
- 747              		.loc 1 739 0
- 748 0202 11B1     		cbz	r1, .L54
- 749              		.loc 1 742 0
- 750 0204 43F48063 		orr	r3, r3, #1024
- 751 0208 01E0     		b	.L56
- 752              	.L54:
+ 793              		.loc 1 739 0
+ 794 0202 19B1     		cbz	r1, .L53
+ 795              		.loc 1 742 0
+ 796 0204 43F48063 		orr	r3, r3, #1024
+ 797              	.L55:
  743:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  744:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   else
  745:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  746:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Disable the selected ADC automatic injected group conversion */
  747:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR1 &= CR1_JAUTO_Reset;
- 753              		.loc 1 747 0
- 754 020a 23F48063 		bic	r3, r3, #1024
- 755              	.L56:
- 756 020e 4360     		str	r3, [r0, #4]
- 757 0210 7047     		bx	lr
- 758              		.cfi_endproc
- 759              	.LFE47:
- 761              		.align	1
- 762              		.global	ADC_InjectedDiscModeCmd
- 763              		.thumb
- 764              		.thumb_func
- 766              	ADC_InjectedDiscModeCmd:
- 767              	.LFB48:
+ 798              		.loc 1 747 0
+ 799 0208 4360     		str	r3, [r0, #4]
+ 800 020a 7047     		bx	lr
+ 801              	.L53:
+ 802 020c 23F48063 		bic	r3, r3, #1024
+ 803 0210 FAE7     		b	.L55
+ 804              		.cfi_endproc
+ 805              	.LFE47:
+ 807              		.align	1
+ 808              		.global	ADC_InjectedDiscModeCmd
+ 809              		.syntax unified
+ 810              		.thumb
+ 811              		.thumb_func
+ 812              		.fpu softvfp
+ 814              	ADC_InjectedDiscModeCmd:
+ 815              	.LFB48:
  748:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  749:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
  750:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
@@ -1502,12 +1567,12 @@
  759:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  760:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_InjectedDiscModeCmd(ADC_TypeDef* ADCx, FunctionalState NewState)
  761:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 768              		.loc 1 761 0
- 769              		.cfi_startproc
- 770              		@ args = 0, pretend = 0, frame = 0
- 771              		@ frame_needed = 0, uses_anonymous_args = 0
- 772              		@ link register save eliminated.
- 773              	.LVL94:
+ 816              		.loc 1 761 0
+ 817              		.cfi_startproc
+ 818              		@ args = 0, pretend = 0, frame = 0
+ 819              		@ frame_needed = 0, uses_anonymous_args = 0
+ 820              		@ link register save eliminated.
+ 821              	.LVL93:
  762:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
  763:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
  764:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_FUNCTIONAL_STATE(NewState));
@@ -1515,33 +1580,35 @@
  766:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  767:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Enable the selected ADC injected discontinuous mode */
  768:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR1 |= CR1_JDISCEN_Set;
- 774              		.loc 1 768 0
- 775 0212 4368     		ldr	r3, [r0, #4]
+ 822              		.loc 1 768 0
+ 823 0212 4368     		ldr	r3, [r0, #4]
  765:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
- 776              		.loc 1 765 0
- 777 0214 11B1     		cbz	r1, .L58
- 778              		.loc 1 768 0
- 779 0216 43F48053 		orr	r3, r3, #4096
- 780 021a 01E0     		b	.L60
- 781              	.L58:
+ 824              		.loc 1 765 0
+ 825 0214 19B1     		cbz	r1, .L57
+ 826              		.loc 1 768 0
+ 827 0216 43F48053 		orr	r3, r3, #4096
+ 828              	.L59:
  769:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  770:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   else
  771:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  772:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Disable the selected ADC injected discontinuous mode */
  773:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR1 &= CR1_JDISCEN_Reset;
- 782              		.loc 1 773 0
- 783 021c 23F48053 		bic	r3, r3, #4096
- 784              	.L60:
- 785 0220 4360     		str	r3, [r0, #4]
- 786 0222 7047     		bx	lr
- 787              		.cfi_endproc
- 788              	.LFE48:
- 790              		.align	1
- 791              		.global	ADC_ExternalTrigInjectedConvConfig
- 792              		.thumb
- 793              		.thumb_func
- 795              	ADC_ExternalTrigInjectedConvConfig:
- 796              	.LFB49:
+ 829              		.loc 1 773 0
+ 830 021a 4360     		str	r3, [r0, #4]
+ 831 021c 7047     		bx	lr
+ 832              	.L57:
+ 833 021e 23F48053 		bic	r3, r3, #4096
+ 834 0222 FAE7     		b	.L59
+ 835              		.cfi_endproc
+ 836              	.LFE48:
+ 838              		.align	1
+ 839              		.global	ADC_ExternalTrigInjectedConvConfig
+ 840              		.syntax unified
+ 841              		.thumb
+ 842              		.thumb_func
+ 843              		.fpu softvfp
+ 845              	ADC_ExternalTrigInjectedConvConfig:
+ 846              	.LFB49:
  774:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  775:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
  776:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
@@ -1569,44 +1636,46 @@
  798:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  799:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_ExternalTrigInjectedConvConfig(ADC_TypeDef* ADCx, uint32_t ADC_ExternalTrigInjecConv)
  800:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 797              		.loc 1 800 0
- 798              		.cfi_startproc
- 799              		@ args = 0, pretend = 0, frame = 0
- 800              		@ frame_needed = 0, uses_anonymous_args = 0
- 801              		@ link register save eliminated.
- 802              	.LVL95:
+ 847              		.loc 1 800 0
+ 848              		.cfi_startproc
+ 849              		@ args = 0, pretend = 0, frame = 0
+ 850              		@ frame_needed = 0, uses_anonymous_args = 0
+ 851              		@ link register save eliminated.
+ 852              	.LVL94:
  801:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   uint32_t tmpreg = 0;
  802:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
  803:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
  804:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_EXT_INJEC_TRIG(ADC_ExternalTrigInjecConv));
  805:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Get the old register value */
  806:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg = ADCx->CR2;
- 803              		.loc 1 806 0
- 804 0224 8368     		ldr	r3, [r0, #8]
- 805              	.LVL96:
+ 853              		.loc 1 806 0
+ 854 0224 8368     		ldr	r3, [r0, #8]
+ 855              	.LVL95:
  807:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Clear the old external event selection for injected group */
  808:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg &= CR2_JEXTSEL_Reset;
- 806              		.loc 1 808 0
- 807 0226 23F4E043 		bic	r3, r3, #28672
- 808              	.LVL97:
+ 856              		.loc 1 808 0
+ 857 0226 23F4E043 		bic	r3, r3, #28672
+ 858              	.LVL96:
  809:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Set the external event selection for injected group */
  810:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg |= ADC_ExternalTrigInjecConv;
- 809              		.loc 1 810 0
- 810 022a 1943     		orrs	r1, r1, r3
- 811              	.LVL98:
+ 859              		.loc 1 810 0
+ 860 022a 1943     		orrs	r1, r1, r3
+ 861              	.LVL97:
  811:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Store the new register value */
  812:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   ADCx->CR2 = tmpreg;
- 812              		.loc 1 812 0
- 813 022c 8160     		str	r1, [r0, #8]
- 814 022e 7047     		bx	lr
- 815              		.cfi_endproc
- 816              	.LFE49:
- 818              		.align	1
- 819              		.global	ADC_ExternalTrigInjectedConvCmd
- 820              		.thumb
- 821              		.thumb_func
- 823              	ADC_ExternalTrigInjectedConvCmd:
- 824              	.LFB50:
+ 862              		.loc 1 812 0
+ 863 022c 8160     		str	r1, [r0, #8]
+ 864 022e 7047     		bx	lr
+ 865              		.cfi_endproc
+ 866              	.LFE49:
+ 868              		.align	1
+ 869              		.global	ADC_ExternalTrigInjectedConvCmd
+ 870              		.syntax unified
+ 871              		.thumb
+ 872              		.thumb_func
+ 873              		.fpu softvfp
+ 875              	ADC_ExternalTrigInjectedConvCmd:
+ 876              	.LFB50:
  813:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
  814:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
  815:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** /**
@@ -1620,12 +1689,12 @@
  823:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  824:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_ExternalTrigInjectedConvCmd(ADC_TypeDef* ADCx, FunctionalState NewState)
  825:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 825              		.loc 1 825 0
- 826              		.cfi_startproc
- 827              		@ args = 0, pretend = 0, frame = 0
- 828              		@ frame_needed = 0, uses_anonymous_args = 0
- 829              		@ link register save eliminated.
- 830              	.LVL99:
+ 877              		.loc 1 825 0
+ 878              		.cfi_startproc
+ 879              		@ args = 0, pretend = 0, frame = 0
+ 880              		@ frame_needed = 0, uses_anonymous_args = 0
+ 881              		@ link register save eliminated.
+ 882              	.LVL98:
  826:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
  827:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
  828:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_FUNCTIONAL_STATE(NewState));
@@ -1633,33 +1702,35 @@
  830:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  831:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Enable the selected ADC external event selection for injected group */
  832:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR2 |= CR2_JEXTTRIG_Set;
- 831              		.loc 1 832 0
- 832 0230 8368     		ldr	r3, [r0, #8]
+ 883              		.loc 1 832 0
+ 884 0230 8368     		ldr	r3, [r0, #8]
  829:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
- 833              		.loc 1 829 0
- 834 0232 11B1     		cbz	r1, .L63
- 835              		.loc 1 832 0
- 836 0234 43F40043 		orr	r3, r3, #32768
- 837 0238 01E0     		b	.L65
- 838              	.L63:
+ 885              		.loc 1 829 0
+ 886 0232 19B1     		cbz	r1, .L62
+ 887              		.loc 1 832 0
+ 888 0234 43F40043 		orr	r3, r3, #32768
+ 889              	.L64:
  833:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  834:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   else
  835:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  836:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Disable the selected ADC external event selection for injected group */
  837:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR2 &= CR2_JEXTTRIG_Reset;
- 839              		.loc 1 837 0
- 840 023a 23F40043 		bic	r3, r3, #32768
- 841              	.L65:
- 842 023e 8360     		str	r3, [r0, #8]
- 843 0240 7047     		bx	lr
- 844              		.cfi_endproc
- 845              	.LFE50:
- 847              		.align	1
- 848              		.global	ADC_SoftwareStartInjectedConvCmd
- 849              		.thumb
- 850              		.thumb_func
- 852              	ADC_SoftwareStartInjectedConvCmd:
- 853              	.LFB51:
+ 890              		.loc 1 837 0
+ 891 0238 8360     		str	r3, [r0, #8]
+ 892 023a 7047     		bx	lr
+ 893              	.L62:
+ 894 023c 23F40043 		bic	r3, r3, #32768
+ 895 0240 FAE7     		b	.L64
+ 896              		.cfi_endproc
+ 897              	.LFE50:
+ 899              		.align	1
+ 900              		.global	ADC_SoftwareStartInjectedConvCmd
+ 901              		.syntax unified
+ 902              		.thumb
+ 903              		.thumb_func
+ 904              		.fpu softvfp
+ 906              	ADC_SoftwareStartInjectedConvCmd:
+ 907              	.LFB51:
  838:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  839:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
  840:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
@@ -1673,12 +1744,12 @@
  848:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  849:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_SoftwareStartInjectedConvCmd(ADC_TypeDef* ADCx, FunctionalState NewState)
  850:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 854              		.loc 1 850 0
- 855              		.cfi_startproc
- 856              		@ args = 0, pretend = 0, frame = 0
- 857              		@ frame_needed = 0, uses_anonymous_args = 0
- 858              		@ link register save eliminated.
- 859              	.LVL100:
+ 908              		.loc 1 850 0
+ 909              		.cfi_startproc
+ 910              		@ args = 0, pretend = 0, frame = 0
+ 911              		@ frame_needed = 0, uses_anonymous_args = 0
+ 912              		@ link register save eliminated.
+ 913              	.LVL99:
  851:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
  852:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
  853:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_FUNCTIONAL_STATE(NewState));
@@ -1687,34 +1758,36 @@
  856:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Enable the selected ADC conversion for injected group on external event and start the select
  857:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****        ADC injected conversion */
  858:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR2 |= CR2_JEXTTRIG_JSWSTART_Set;
- 860              		.loc 1 858 0
- 861 0242 8368     		ldr	r3, [r0, #8]
+ 914              		.loc 1 858 0
+ 915 0242 8368     		ldr	r3, [r0, #8]
  854:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
- 862              		.loc 1 854 0
- 863 0244 11B1     		cbz	r1, .L67
- 864              		.loc 1 858 0
- 865 0246 43F40213 		orr	r3, r3, #2129920
- 866 024a 01E0     		b	.L69
- 867              	.L67:
+ 916              		.loc 1 854 0
+ 917 0244 19B1     		cbz	r1, .L66
+ 918              		.loc 1 858 0
+ 919 0246 43F40213 		orr	r3, r3, #2129920
+ 920              	.L68:
  859:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  860:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   else
  861:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  862:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Disable the selected ADC conversion on external event for injected group and stop the select
  863:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****        ADC injected conversion */
  864:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->CR2 &= CR2_JEXTTRIG_JSWSTART_Reset;
- 868              		.loc 1 864 0
- 869 024c 23F40213 		bic	r3, r3, #2129920
- 870              	.L69:
- 871 0250 8360     		str	r3, [r0, #8]
- 872 0252 7047     		bx	lr
- 873              		.cfi_endproc
- 874              	.LFE51:
- 876              		.align	1
- 877              		.global	ADC_GetSoftwareStartInjectedConvCmdStatus
- 878              		.thumb
- 879              		.thumb_func
- 881              	ADC_GetSoftwareStartInjectedConvCmdStatus:
- 882              	.LFB52:
+ 921              		.loc 1 864 0
+ 922 024a 8360     		str	r3, [r0, #8]
+ 923 024c 7047     		bx	lr
+ 924              	.L66:
+ 925 024e 23F40213 		bic	r3, r3, #2129920
+ 926 0252 FAE7     		b	.L68
+ 927              		.cfi_endproc
+ 928              	.LFE51:
+ 930              		.align	1
+ 931              		.global	ADC_GetSoftwareStartInjectedConvCmdStatus
+ 932              		.syntax unified
+ 933              		.thumb
+ 934              		.thumb_func
+ 935              		.fpu softvfp
+ 937              	ADC_GetSoftwareStartInjectedConvCmdStatus:
+ 938              	.LFB52:
  865:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  866:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
  867:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
@@ -1725,20 +1798,20 @@
  872:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  873:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** FlagStatus ADC_GetSoftwareStartInjectedConvCmdStatus(ADC_TypeDef* ADCx)
  874:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 883              		.loc 1 874 0
- 884              		.cfi_startproc
- 885              		@ args = 0, pretend = 0, frame = 0
- 886              		@ frame_needed = 0, uses_anonymous_args = 0
- 887              		@ link register save eliminated.
- 888              	.LVL101:
+ 939              		.loc 1 874 0
+ 940              		.cfi_startproc
+ 941              		@ args = 0, pretend = 0, frame = 0
+ 942              		@ frame_needed = 0, uses_anonymous_args = 0
+ 943              		@ link register save eliminated.
+ 944              	.LVL100:
  875:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   FlagStatus bitstatus = RESET;
  876:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
  877:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
  878:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the status of JSWSTART bit */
  879:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   if ((ADCx->CR2 & CR2_JSWSTART_Set) != (uint32_t)RESET)
- 889              		.loc 1 879 0
- 890 0254 8068     		ldr	r0, [r0, #8]
- 891              	.LVL102:
+ 945              		.loc 1 879 0
+ 946 0254 8068     		ldr	r0, [r0, #8]
+ 947              	.LVL101:
  880:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  881:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* JSWSTART bit is set */
  882:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     bitstatus = SET;
@@ -1751,18 +1824,20 @@
  889:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Return the JSWSTART bit status */
  890:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   return  bitstatus;
  891:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
- 892              		.loc 1 891 0
- 893 0256 C0F34050 		ubfx	r0, r0, #21, #1
- 894              	.LVL103:
- 895 025a 7047     		bx	lr
- 896              		.cfi_endproc
- 897              	.LFE52:
- 899              		.align	1
- 900              		.global	ADC_InjectedChannelConfig
- 901              		.thumb
- 902              		.thumb_func
- 904              	ADC_InjectedChannelConfig:
- 905              	.LFB53:
+ 948              		.loc 1 891 0
+ 949 0256 C0F34050 		ubfx	r0, r0, #21, #1
+ 950              	.LVL102:
+ 951 025a 7047     		bx	lr
+ 952              		.cfi_endproc
+ 953              	.LFE52:
+ 955              		.align	1
+ 956              		.global	ADC_InjectedChannelConfig
+ 957              		.syntax unified
+ 958              		.thumb
+ 959              		.thumb_func
+ 960              		.fpu softvfp
+ 962              	ADC_InjectedChannelConfig:
+ 963              	.LFB53:
  892:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
  893:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** /**
  894:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   * @brief  Configures for the selected ADC injected channel its corresponding
@@ -1803,11 +1878,11 @@
  929:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  930:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_InjectedChannelConfig(ADC_TypeDef* ADCx, uint8_t ADC_Channel, uint8_t Rank, uint8_t ADC_Sa
  931:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 906              		.loc 1 931 0
- 907              		.cfi_startproc
- 908              		@ args = 0, pretend = 0, frame = 0
- 909              		@ frame_needed = 0, uses_anonymous_args = 0
- 910              	.LVL104:
+ 964              		.loc 1 931 0
+ 965              		.cfi_startproc
+ 966              		@ args = 0, pretend = 0, frame = 0
+ 967              		@ frame_needed = 0, uses_anonymous_args = 0
+ 968              	.LVL103:
  932:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   uint32_t tmpreg1 = 0, tmpreg2 = 0, tmpreg3 = 0;
  933:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
  934:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
@@ -1816,142 +1891,157 @@
  937:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_SAMPLE_TIME(ADC_SampleTime));
  938:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* if ADC_Channel_10 ... ADC_Channel_17 is selected */
  939:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   if (ADC_Channel > ADC_Channel_9)
- 911              		.loc 1 939 0
- 912 025c 0929     		cmp	r1, #9
+ 969              		.loc 1 939 0
+ 970 025c 0929     		cmp	r1, #9
  931:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   uint32_t tmpreg1 = 0, tmpreg2 = 0, tmpreg3 = 0;
- 913              		.loc 1 931 0
- 914 025e 70B5     		push	{r4, r5, r6, lr}
- 915              	.LCFI5:
- 916              		.cfi_def_cfa_offset 16
- 917              		.cfi_offset 4, -16
- 918              		.cfi_offset 5, -12
- 919              		.cfi_offset 6, -8
- 920              		.cfi_offset 14, -4
- 921              		.loc 1 939 0
- 922 0260 0DD9     		bls	.L72
+ 971              		.loc 1 931 0
+ 972 025e 70B5     		push	{r4, r5, r6, lr}
+ 973              	.LCFI5:
+ 974              		.cfi_def_cfa_offset 16
+ 975              		.cfi_offset 4, -16
+ 976              		.cfi_offset 5, -12
+ 977              		.cfi_offset 6, -8
+ 978              		.cfi_offset 14, -4
+ 979              		.loc 1 939 0
+ 980 0260 1CD9     		bls	.L71
  940:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  941:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Get the old register value */
  942:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg1 = ADCx->SMPR1;
  943:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Calculate the mask to clear */
  944:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg2 = SMPR1_SMP_Set << (3*(ADC_Channel - 10));
- 923              		.loc 1 944 0
- 924 0262 A1F10A04 		sub	r4, r1, #10
+ 981              		.loc 1 944 0
+ 982 0262 0726     		movs	r6, #7
+ 983 0264 A1F10A04 		sub	r4, r1, #10
  942:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Calculate the mask to clear */
- 925              		.loc 1 942 0
- 926 0266 C668     		ldr	r6, [r0, #12]
- 927              	.LVL105:
- 928              		.loc 1 944 0
- 929 0268 04EB4404 		add	r4, r4, r4, lsl #1
- 930              	.LVL106:
+ 984              		.loc 1 942 0
+ 985 0268 C568     		ldr	r5, [r0, #12]
+ 986              	.LVL104:
+ 987              		.loc 1 944 0
+ 988 026a 04EB4404 		add	r4, r4, r4, lsl #1
+ 989              	.LVL105:
+ 990 026e A640     		lsls	r6, r6, r4
+ 991              	.LVL106:
  945:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Clear the old channel sample time */
  946:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg1 &= ~tmpreg2;
- 931              		.loc 1 946 0
- 932 026c 0725     		movs	r5, #7
- 933 026e A540     		lsls	r5, r5, r4
- 934              	.LVL107:
- 935 0270 26EA0505 		bic	r5, r6, r5
- 936              	.LVL108:
+ 992              		.loc 1 946 0
+ 993 0270 25EA0605 		bic	r5, r5, r6
+ 994              	.LVL107:
  947:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Calculate the mask to set */
  948:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg2 = (uint32_t)ADC_SampleTime << (3*(ADC_Channel - 10));
+ 995              		.loc 1 948 0
+ 996 0274 03FA04F4 		lsl	r4, r3, r4
+ 997              	.LVL108:
  949:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Set the new channel sample time */
  950:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg1 |= tmpreg2;
- 937              		.loc 1 950 0
- 938 0274 03FA04F4 		lsl	r4, r3, r4
- 939              	.LVL109:
- 940 0278 2C43     		orrs	r4, r4, r5
- 941              	.LVL110:
+ 998              		.loc 1 950 0
+ 999 0278 2C43     		orrs	r4, r4, r5
+ 1000              	.LVL109:
  951:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Store the new register value */
  952:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->SMPR1 = tmpreg1;
- 942              		.loc 1 952 0
- 943 027a C460     		str	r4, [r0, #12]
- 944 027c 0AE0     		b	.L73
- 945              	.LVL111:
- 946              	.L72:
+ 1001              		.loc 1 952 0
+ 1002 027a C460     		str	r4, [r0, #12]
+ 1003              	.LVL110:
+ 1004              	.L72:
  953:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  954:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   else /* ADC_Channel include in ADC_Channel_[0..9] */
  955:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
  956:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Get the old register value */
  957:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg1 = ADCx->SMPR2;
- 947              		.loc 1 957 0
- 948 027e 0669     		ldr	r6, [r0, #16]
- 949              	.LVL112:
  958:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Calculate the mask to clear */
  959:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg2 = SMPR2_SMP_Set << (3 * ADC_Channel);
- 950              		.loc 1 959 0
- 951 0280 01EB4104 		add	r4, r1, r1, lsl #1
- 952              	.LVL113:
  960:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Clear the old channel sample time */
  961:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg1 &= ~tmpreg2;
- 953              		.loc 1 961 0
- 954 0284 0725     		movs	r5, #7
- 955 0286 A540     		lsls	r5, r5, r4
- 956              	.LVL114:
- 957 0288 26EA0505 		bic	r5, r6, r5
- 958              	.LVL115:
  962:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Calculate the mask to set */
  963:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg2 = (uint32_t)ADC_SampleTime << (3 * ADC_Channel);
  964:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Set the new channel sample time */
  965:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     tmpreg1 |= tmpreg2;
- 959              		.loc 1 965 0
- 960 028c 03FA04F4 		lsl	r4, r3, r4
- 961              	.LVL116:
- 962 0290 2C43     		orrs	r4, r4, r5
- 963              	.LVL117:
  966:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Store the new register value */
  967:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADCx->SMPR2 = tmpreg1;
- 964              		.loc 1 967 0
- 965 0292 0461     		str	r4, [r0, #16]
- 966              	.LVL118:
- 967              	.L73:
  968:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
  969:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Rank configuration */
  970:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Get the old register value */
  971:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg1 = ADCx->JSQR;
- 968              		.loc 1 971 0
- 969 0294 836B     		ldr	r3, [r0, #56]
- 970              	.LVL119:
+ 1005              		.loc 1 971 0
+ 1006 027c 836B     		ldr	r3, [r0, #56]
+ 1007              	.LVL111:
  972:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Get JL value: Number = JL+1 */
  973:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg3 =  (tmpreg1 & JSQR_JL_Set)>> 20;
  974:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Calculate the mask to clear: ((Rank-1)+(4-JL-1)) */
  975:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg2 = JSQR_JSQ_Set << (5 * (uint8_t)((Rank + 3) - (tmpreg3 + 1)));
- 971              		.loc 1 975 0
- 972 0296 0232     		adds	r2, r2, #2
- 973              	.LVL120:
- 974 0298 C3F30154 		ubfx	r4, r3, #20, #2
- 975 029c 121B     		subs	r2, r2, r4
- 976 029e D2B2     		uxtb	r2, r2
- 977 02a0 02EB8202 		add	r2, r2, r2, lsl #2
- 978              	.LVL121:
+ 1008              		.loc 1 975 0
+ 1009 027e 0232     		adds	r2, r2, #2
+ 1010              	.LVL112:
+ 973:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Calculate the mask to clear: ((Rank-1)+(4-JL-1)) */
+ 1011              		.loc 1 973 0
+ 1012 0280 C3F30154 		ubfx	r4, r3, #20, #2
+ 1013              		.loc 1 975 0
+ 1014 0284 121B     		subs	r2, r2, r4
+ 1015 0286 1F24     		movs	r4, #31
+ 1016 0288 D2B2     		uxtb	r2, r2
+ 1017 028a 02EB8202 		add	r2, r2, r2, lsl #2
+ 1018              	.LVL113:
+ 1019 028e 9440     		lsls	r4, r4, r2
+ 1020              	.LVL114:
  976:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Clear the old JSQx bits for the selected rank */
  977:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg1 &= ~tmpreg2;
- 979              		.loc 1 977 0
- 980 02a4 1F24     		movs	r4, #31
- 981 02a6 9440     		lsls	r4, r4, r2
- 982              	.LVL122:
- 983 02a8 23EA0403 		bic	r3, r3, r4
- 984              	.LVL123:
+ 1021              		.loc 1 977 0
+ 1022 0290 23EA0403 		bic	r3, r3, r4
+ 1023              	.LVL115:
  978:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Calculate the mask to set: ((Rank-1)+(4-JL-1)) */
  979:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg2 = (uint32_t)ADC_Channel << (5 * (uint8_t)((Rank + 3) - (tmpreg3 + 1)));
+ 1024              		.loc 1 979 0
+ 1025 0294 9140     		lsls	r1, r1, r2
+ 1026              	.LVL116:
  980:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Set the JSQx bits for the selected rank */
  981:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg1 |= tmpreg2;
- 985              		.loc 1 981 0
- 986 02ac 9140     		lsls	r1, r1, r2
- 987              	.LVL124:
- 988 02ae 1943     		orrs	r1, r1, r3
- 989              	.LVL125:
+ 1027              		.loc 1 981 0
+ 1028 0296 1943     		orrs	r1, r1, r3
+ 1029              	.LVL117:
  982:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Store the new register value */
  983:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   ADCx->JSQR = tmpreg1;
- 990              		.loc 1 983 0
- 991 02b0 8163     		str	r1, [r0, #56]
- 992 02b2 70BD     		pop	{r4, r5, r6, pc}
- 993              		.cfi_endproc
- 994              	.LFE53:
- 996              		.align	1
- 997              		.global	ADC_InjectedSequencerLengthConfig
- 998              		.thumb
- 999              		.thumb_func
- 1001              	ADC_InjectedSequencerLengthConfig:
- 1002              	.LFB54:
+ 1030              		.loc 1 983 0
+ 1031 0298 8163     		str	r1, [r0, #56]
+ 1032 029a 70BD     		pop	{r4, r5, r6, pc}
+ 1033              	.LVL118:
+ 1034              	.L71:
+ 959:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Clear the old channel sample time */
+ 1035              		.loc 1 959 0
+ 1036 029c 0724     		movs	r4, #7
+ 957:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Calculate the mask to clear */
+ 1037              		.loc 1 957 0
+ 1038 029e 0569     		ldr	r5, [r0, #16]
+ 1039              	.LVL119:
+ 959:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Clear the old channel sample time */
+ 1040              		.loc 1 959 0
+ 1041 02a0 01EB4106 		add	r6, r1, r1, lsl #1
+ 1042              	.LVL120:
+ 1043 02a4 B440     		lsls	r4, r4, r6
+ 1044              	.LVL121:
+ 961:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Calculate the mask to set */
+ 1045              		.loc 1 961 0
+ 1046 02a6 25EA0405 		bic	r5, r5, r4
+ 1047              	.LVL122:
+ 963:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Set the new channel sample time */
+ 1048              		.loc 1 963 0
+ 1049 02aa 03FA06F4 		lsl	r4, r3, r6
+ 965:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Store the new register value */
+ 1050              		.loc 1 965 0
+ 1051 02ae 2C43     		orrs	r4, r4, r5
+ 1052              	.LVL123:
+ 967:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
+ 1053              		.loc 1 967 0
+ 1054 02b0 0461     		str	r4, [r0, #16]
+ 1055 02b2 E3E7     		b	.L72
+ 1056              		.cfi_endproc
+ 1057              	.LFE53:
+ 1059              		.align	1
+ 1060              		.global	ADC_InjectedSequencerLengthConfig
+ 1061              		.syntax unified
+ 1062              		.thumb
+ 1063              		.thumb_func
+ 1064              		.fpu softvfp
+ 1066              	ADC_InjectedSequencerLengthConfig:
+ 1067              	.LFB54:
  984:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
  985:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
  986:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** /**
@@ -1963,12 +2053,12 @@
  992:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
  993:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_InjectedSequencerLengthConfig(ADC_TypeDef* ADCx, uint8_t Length)
  994:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 1003              		.loc 1 994 0
- 1004              		.cfi_startproc
- 1005              		@ args = 0, pretend = 0, frame = 0
- 1006              		@ frame_needed = 0, uses_anonymous_args = 0
- 1007              		@ link register save eliminated.
- 1008              	.LVL126:
+ 1068              		.loc 1 994 0
+ 1069              		.cfi_startproc
+ 1070              		@ args = 0, pretend = 0, frame = 0
+ 1071              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1072              		@ link register save eliminated.
+ 1073              	.LVL124:
  995:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   uint32_t tmpreg1 = 0;
  996:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   uint32_t tmpreg2 = 0;
  997:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
@@ -1977,37 +2067,39 @@
 1000:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   
 1001:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Get the old register value */
 1002:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg1 = ADCx->JSQR;
- 1009              		.loc 1 1002 0
- 1010 02b4 836B     		ldr	r3, [r0, #56]
- 1011              	.LVL127:
+ 1074              		.loc 1 1002 0
+ 1075 02b4 836B     		ldr	r3, [r0, #56]
+ 1076              	.LVL125:
 1003:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Clear the old injected sequnence lenght JL bits */
 1004:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg1 &= JSQR_JL_Reset;
 1005:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Set the injected sequnence lenght JL bits */
 1006:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg2 = Length - 1; 
-1007:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg1 |= tmpreg2 << 20;
- 1012              		.loc 1 1007 0
- 1013 02b6 0139     		subs	r1, r1, #1
- 1014              	.LVL128:
+ 1077              		.loc 1 1006 0
+ 1078 02b6 0139     		subs	r1, r1, #1
+ 1079              	.LVL126:
 1004:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Set the injected sequnence lenght JL bits */
- 1015              		.loc 1 1004 0
- 1016 02b8 23F44013 		bic	r3, r3, #3145728
- 1017              	.LVL129:
- 1018              		.loc 1 1007 0
- 1019 02bc 43EA0153 		orr	r3, r3, r1, lsl #20
- 1020              	.LVL130:
+ 1080              		.loc 1 1004 0
+ 1081 02b8 23F44013 		bic	r3, r3, #3145728
+ 1082              	.LVL127:
+1007:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg1 |= tmpreg2 << 20;
+ 1083              		.loc 1 1007 0
+ 1084 02bc 43EA0153 		orr	r3, r3, r1, lsl #20
+ 1085              	.LVL128:
 1008:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Store the new register value */
 1009:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   ADCx->JSQR = tmpreg1;
- 1021              		.loc 1 1009 0
- 1022 02c0 8363     		str	r3, [r0, #56]
- 1023 02c2 7047     		bx	lr
- 1024              		.cfi_endproc
- 1025              	.LFE54:
- 1027              		.align	1
- 1028              		.global	ADC_SetInjectedOffset
- 1029              		.thumb
- 1030              		.thumb_func
- 1032              	ADC_SetInjectedOffset:
- 1033              	.LFB55:
+ 1086              		.loc 1 1009 0
+ 1087 02c0 8363     		str	r3, [r0, #56]
+ 1088 02c2 7047     		bx	lr
+ 1089              		.cfi_endproc
+ 1090              	.LFE54:
+ 1092              		.align	1
+ 1093              		.global	ADC_SetInjectedOffset
+ 1094              		.syntax unified
+ 1095              		.thumb
+ 1096              		.thumb_func
+ 1097              		.fpu softvfp
+ 1099              	ADC_SetInjectedOffset:
+ 1100              	.LFB55:
 1010:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
 1011:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
 1012:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** /**
@@ -2025,19 +2117,22 @@
 1024:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
 1025:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_SetInjectedOffset(ADC_TypeDef* ADCx, uint8_t ADC_InjectedChannel, uint16_t Offset)
 1026:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 1034              		.loc 1 1026 0
- 1035              		.cfi_startproc
- 1036              		@ args = 0, pretend = 0, frame = 8
- 1037              		@ frame_needed = 0, uses_anonymous_args = 0
- 1038              		@ link register save eliminated.
- 1039              	.LVL131:
- 1040 02c4 82B0     		sub	sp, sp, #8
- 1041              	.LCFI6:
- 1042              		.cfi_def_cfa_offset 8
+ 1101              		.loc 1 1026 0
+ 1102              		.cfi_startproc
+ 1103              		@ args = 0, pretend = 0, frame = 8
+ 1104              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1105              		@ link register save eliminated.
+ 1106              	.LVL129:
 1027:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   __IO uint32_t tmp = 0;
- 1043              		.loc 1 1027 0
- 1044 02c6 0023     		movs	r3, #0
- 1045 02c8 0193     		str	r3, [sp, #4]
+ 1107              		.loc 1 1027 0
+ 1108 02c4 0023     		movs	r3, #0
+1026:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   __IO uint32_t tmp = 0;
+ 1109              		.loc 1 1026 0
+ 1110 02c6 82B0     		sub	sp, sp, #8
+ 1111              	.LCFI6:
+ 1112              		.cfi_def_cfa_offset 8
+ 1113              		.loc 1 1027 0
+ 1114 02c8 0193     		str	r3, [sp, #4]
 1028:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   
 1029:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
 1030:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
@@ -2045,35 +2140,37 @@
 1032:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_OFFSET(Offset));  
 1033:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   
 1034:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmp = (uint32_t)ADCx;
- 1046              		.loc 1 1034 0
- 1047 02ca 0190     		str	r0, [sp, #4]
+ 1115              		.loc 1 1034 0
+ 1116 02ca 0190     		str	r0, [sp, #4]
 1035:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmp += ADC_InjectedChannel;
- 1048              		.loc 1 1035 0
- 1049 02cc 019B     		ldr	r3, [sp, #4]
- 1050 02ce 1944     		add	r1, r1, r3
- 1051              	.LVL132:
- 1052 02d0 0191     		str	r1, [sp, #4]
+ 1117              		.loc 1 1035 0
+ 1118 02cc 019B     		ldr	r3, [sp, #4]
+ 1119 02ce 1944     		add	r1, r1, r3
+ 1120              	.LVL130:
+ 1121 02d0 0191     		str	r1, [sp, #4]
 1036:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   
 1037:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Set the selected injected channel data offset */
 1038:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   *(__IO uint32_t *) tmp = (uint32_t)Offset;
- 1053              		.loc 1 1038 0
- 1054 02d2 019B     		ldr	r3, [sp, #4]
- 1055 02d4 1A60     		str	r2, [r3]
+ 1122              		.loc 1 1038 0
+ 1123 02d2 019B     		ldr	r3, [sp, #4]
+ 1124 02d4 1A60     		str	r2, [r3]
 1039:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
- 1056              		.loc 1 1039 0
- 1057 02d6 02B0     		add	sp, sp, #8
- 1058              	.LCFI7:
- 1059              		.cfi_def_cfa_offset 0
- 1060              		@ sp needed
- 1061 02d8 7047     		bx	lr
- 1062              		.cfi_endproc
- 1063              	.LFE55:
- 1065              		.align	1
- 1066              		.global	ADC_GetInjectedConversionValue
- 1067              		.thumb
- 1068              		.thumb_func
- 1070              	ADC_GetInjectedConversionValue:
- 1071              	.LFB56:
+ 1125              		.loc 1 1039 0
+ 1126 02d6 02B0     		add	sp, sp, #8
+ 1127              	.LCFI7:
+ 1128              		.cfi_def_cfa_offset 0
+ 1129              		@ sp needed
+ 1130 02d8 7047     		bx	lr
+ 1131              		.cfi_endproc
+ 1132              	.LFE55:
+ 1134              		.align	1
+ 1135              		.global	ADC_GetInjectedConversionValue
+ 1136              		.syntax unified
+ 1137              		.thumb
+ 1138              		.thumb_func
+ 1139              		.fpu softvfp
+ 1141              	ADC_GetInjectedConversionValue:
+ 1142              	.LFB56:
 1040:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
 1041:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** /**
 1042:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   * @brief  Returns the ADC injected channel conversion result
@@ -2088,57 +2185,62 @@
 1051:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
 1052:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** uint16_t ADC_GetInjectedConversionValue(ADC_TypeDef* ADCx, uint8_t ADC_InjectedChannel)
 1053:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 1072              		.loc 1 1053 0
- 1073              		.cfi_startproc
- 1074              		@ args = 0, pretend = 0, frame = 8
- 1075              		@ frame_needed = 0, uses_anonymous_args = 0
- 1076              		@ link register save eliminated.
- 1077              	.LVL133:
- 1078 02da 82B0     		sub	sp, sp, #8
- 1079              	.LCFI8:
- 1080              		.cfi_def_cfa_offset 8
+ 1143              		.loc 1 1053 0
+ 1144              		.cfi_startproc
+ 1145              		@ args = 0, pretend = 0, frame = 8
+ 1146              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1147              		@ link register save eliminated.
+ 1148              	.LVL131:
 1054:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   __IO uint32_t tmp = 0;
- 1081              		.loc 1 1054 0
- 1082 02dc 0023     		movs	r3, #0
- 1083 02de 0193     		str	r3, [sp, #4]
+ 1149              		.loc 1 1054 0
+ 1150 02da 0023     		movs	r3, #0
+1053:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   __IO uint32_t tmp = 0;
+ 1151              		.loc 1 1053 0
+ 1152 02dc 82B0     		sub	sp, sp, #8
+ 1153              	.LCFI8:
+ 1154              		.cfi_def_cfa_offset 8
+ 1155              		.loc 1 1054 0
+ 1156 02de 0193     		str	r3, [sp, #4]
 1055:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   
 1056:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
 1057:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
 1058:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_INJECTED_CHANNEL(ADC_InjectedChannel));
 1059:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
 1060:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmp = (uint32_t)ADCx;
- 1084              		.loc 1 1060 0
- 1085 02e0 0190     		str	r0, [sp, #4]
+ 1157              		.loc 1 1060 0
+ 1158 02e0 0190     		str	r0, [sp, #4]
 1061:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmp += ADC_InjectedChannel + JDR_Offset;
- 1086              		.loc 1 1061 0
- 1087 02e2 019B     		ldr	r3, [sp, #4]
- 1088 02e4 2833     		adds	r3, r3, #40
- 1089 02e6 1944     		add	r1, r1, r3
- 1090              	.LVL134:
- 1091 02e8 0191     		str	r1, [sp, #4]
+ 1159              		.loc 1 1061 0
+ 1160 02e2 019B     		ldr	r3, [sp, #4]
+ 1161 02e4 2833     		adds	r3, r3, #40
+ 1162 02e6 1944     		add	r1, r1, r3
+ 1163              	.LVL132:
+ 1164 02e8 0191     		str	r1, [sp, #4]
 1062:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   
 1063:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Returns the selected injected channel conversion data value */
 1064:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   return (uint16_t) (*(__IO uint32_t*)  tmp);   
- 1092              		.loc 1 1064 0
- 1093 02ea 019B     		ldr	r3, [sp, #4]
- 1094 02ec 1868     		ldr	r0, [r3]
- 1095              	.LVL135:
+ 1165              		.loc 1 1064 0
+ 1166 02ea 019B     		ldr	r3, [sp, #4]
+ 1167 02ec 1868     		ldr	r0, [r3]
+ 1168              	.LVL133:
 1065:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
- 1096              		.loc 1 1065 0
- 1097 02ee 80B2     		uxth	r0, r0
- 1098 02f0 02B0     		add	sp, sp, #8
- 1099              	.LCFI9:
- 1100              		.cfi_def_cfa_offset 0
- 1101              		@ sp needed
- 1102 02f2 7047     		bx	lr
- 1103              		.cfi_endproc
- 1104              	.LFE56:
- 1106              		.align	1
- 1107              		.global	ADC_AnalogWatchdogCmd
- 1108              		.thumb
- 1109              		.thumb_func
- 1111              	ADC_AnalogWatchdogCmd:
- 1112              	.LFB57:
+ 1169              		.loc 1 1065 0
+ 1170 02ee 80B2     		uxth	r0, r0
+ 1171 02f0 02B0     		add	sp, sp, #8
+ 1172              	.LCFI9:
+ 1173              		.cfi_def_cfa_offset 0
+ 1174              		@ sp needed
+ 1175 02f2 7047     		bx	lr
+ 1176              		.cfi_endproc
+ 1177              	.LFE56:
+ 1179              		.align	1
+ 1180              		.global	ADC_AnalogWatchdogCmd
+ 1181              		.syntax unified
+ 1182              		.thumb
+ 1183              		.thumb_func
+ 1184              		.fpu softvfp
+ 1186              	ADC_AnalogWatchdogCmd:
+ 1187              	.LFB57:
 1066:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
 1067:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** /**
 1068:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   * @brief  Enables or disables the analog watchdog on single/all regular
@@ -2157,46 +2259,48 @@
 1081:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
 1082:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_AnalogWatchdogCmd(ADC_TypeDef* ADCx, uint32_t ADC_AnalogWatchdog)
 1083:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 1113              		.loc 1 1083 0
- 1114              		.cfi_startproc
- 1115              		@ args = 0, pretend = 0, frame = 0
- 1116              		@ frame_needed = 0, uses_anonymous_args = 0
- 1117              		@ link register save eliminated.
- 1118              	.LVL136:
+ 1188              		.loc 1 1083 0
+ 1189              		.cfi_startproc
+ 1190              		@ args = 0, pretend = 0, frame = 0
+ 1191              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1192              		@ link register save eliminated.
+ 1193              	.LVL134:
 1084:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   uint32_t tmpreg = 0;
 1085:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
 1086:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
 1087:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ANALOG_WATCHDOG(ADC_AnalogWatchdog));
 1088:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Get the old register value */
 1089:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg = ADCx->CR1;
- 1119              		.loc 1 1089 0
- 1120 02f4 4368     		ldr	r3, [r0, #4]
- 1121              	.LVL137:
+ 1194              		.loc 1 1089 0
+ 1195 02f4 4368     		ldr	r3, [r0, #4]
+ 1196              	.LVL135:
 1090:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Clear AWDEN, AWDENJ and AWDSGL bits */
 1091:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg &= CR1_AWDMode_Reset;
- 1122              		.loc 1 1091 0
- 1123 02f6 23F44003 		bic	r3, r3, #12582912
- 1124              	.LVL138:
- 1125 02fa 23F40073 		bic	r3, r3, #512
- 1126              	.LVL139:
+ 1197              		.loc 1 1091 0
+ 1198 02f6 23F44003 		bic	r3, r3, #12582912
+ 1199              	.LVL136:
+ 1200 02fa 23F40073 		bic	r3, r3, #512
+ 1201              	.LVL137:
 1092:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Set the analog watchdog enable mode */
 1093:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg |= ADC_AnalogWatchdog;
- 1127              		.loc 1 1093 0
- 1128 02fe 1943     		orrs	r1, r1, r3
- 1129              	.LVL140:
+ 1202              		.loc 1 1093 0
+ 1203 02fe 1943     		orrs	r1, r1, r3
+ 1204              	.LVL138:
 1094:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Store the new register value */
 1095:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   ADCx->CR1 = tmpreg;
- 1130              		.loc 1 1095 0
- 1131 0300 4160     		str	r1, [r0, #4]
- 1132 0302 7047     		bx	lr
- 1133              		.cfi_endproc
- 1134              	.LFE57:
- 1136              		.align	1
- 1137              		.global	ADC_AnalogWatchdogThresholdsConfig
- 1138              		.thumb
- 1139              		.thumb_func
- 1141              	ADC_AnalogWatchdogThresholdsConfig:
- 1142              	.LFB58:
+ 1205              		.loc 1 1095 0
+ 1206 0300 4160     		str	r1, [r0, #4]
+ 1207 0302 7047     		bx	lr
+ 1208              		.cfi_endproc
+ 1209              	.LFE57:
+ 1211              		.align	1
+ 1212              		.global	ADC_AnalogWatchdogThresholdsConfig
+ 1213              		.syntax unified
+ 1214              		.thumb
+ 1215              		.thumb_func
+ 1216              		.fpu softvfp
+ 1218              	ADC_AnalogWatchdogThresholdsConfig:
+ 1219              	.LFB58:
 1096:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
 1097:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
 1098:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** /**
@@ -2211,33 +2315,35 @@
 1107:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_AnalogWatchdogThresholdsConfig(ADC_TypeDef* ADCx, uint16_t HighThreshold,
 1108:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****                                         uint16_t LowThreshold)
 1109:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 1143              		.loc 1 1109 0
- 1144              		.cfi_startproc
- 1145              		@ args = 0, pretend = 0, frame = 0
- 1146              		@ frame_needed = 0, uses_anonymous_args = 0
- 1147              		@ link register save eliminated.
- 1148              	.LVL141:
+ 1220              		.loc 1 1109 0
+ 1221              		.cfi_startproc
+ 1222              		@ args = 0, pretend = 0, frame = 0
+ 1223              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1224              		@ link register save eliminated.
+ 1225              	.LVL139:
 1110:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
 1111:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
 1112:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_THRESHOLD(HighThreshold));
 1113:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_THRESHOLD(LowThreshold));
 1114:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Set the ADCx high threshold */
 1115:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   ADCx->HTR = HighThreshold;
- 1149              		.loc 1 1115 0
- 1150 0304 4162     		str	r1, [r0, #36]
+ 1226              		.loc 1 1115 0
+ 1227 0304 4162     		str	r1, [r0, #36]
 1116:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Set the ADCx low threshold */
 1117:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   ADCx->LTR = LowThreshold;
- 1151              		.loc 1 1117 0
- 1152 0306 8262     		str	r2, [r0, #40]
- 1153 0308 7047     		bx	lr
- 1154              		.cfi_endproc
- 1155              	.LFE58:
- 1157              		.align	1
- 1158              		.global	ADC_AnalogWatchdogSingleChannelConfig
- 1159              		.thumb
- 1160              		.thumb_func
- 1162              	ADC_AnalogWatchdogSingleChannelConfig:
- 1163              	.LFB59:
+ 1228              		.loc 1 1117 0
+ 1229 0306 8262     		str	r2, [r0, #40]
+ 1230 0308 7047     		bx	lr
+ 1231              		.cfi_endproc
+ 1232              	.LFE58:
+ 1234              		.align	1
+ 1235              		.global	ADC_AnalogWatchdogSingleChannelConfig
+ 1236              		.syntax unified
+ 1237              		.thumb
+ 1238              		.thumb_func
+ 1239              		.fpu softvfp
+ 1241              	ADC_AnalogWatchdogSingleChannelConfig:
+ 1242              	.LFB59:
 1118:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
 1119:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
 1120:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** /**
@@ -2267,44 +2373,46 @@
 1144:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
 1145:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_AnalogWatchdogSingleChannelConfig(ADC_TypeDef* ADCx, uint8_t ADC_Channel)
 1146:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 1164              		.loc 1 1146 0
- 1165              		.cfi_startproc
- 1166              		@ args = 0, pretend = 0, frame = 0
- 1167              		@ frame_needed = 0, uses_anonymous_args = 0
- 1168              		@ link register save eliminated.
- 1169              	.LVL142:
+ 1243              		.loc 1 1146 0
+ 1244              		.cfi_startproc
+ 1245              		@ args = 0, pretend = 0, frame = 0
+ 1246              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1247              		@ link register save eliminated.
+ 1248              	.LVL140:
 1147:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   uint32_t tmpreg = 0;
 1148:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
 1149:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
 1150:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_CHANNEL(ADC_Channel));
 1151:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Get the old register value */
 1152:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg = ADCx->CR1;
- 1170              		.loc 1 1152 0
- 1171 030a 4368     		ldr	r3, [r0, #4]
- 1172              	.LVL143:
+ 1249              		.loc 1 1152 0
+ 1250 030a 4368     		ldr	r3, [r0, #4]
+ 1251              	.LVL141:
 1153:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Clear the Analog watchdog channel select bits */
 1154:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg &= CR1_AWDCH_Reset;
- 1173              		.loc 1 1154 0
- 1174 030c 23F01F03 		bic	r3, r3, #31
- 1175              	.LVL144:
+ 1252              		.loc 1 1154 0
+ 1253 030c 23F01F03 		bic	r3, r3, #31
+ 1254              	.LVL142:
 1155:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Set the Analog watchdog channel */
 1156:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   tmpreg |= ADC_Channel;
- 1176              		.loc 1 1156 0
- 1177 0310 1943     		orrs	r1, r1, r3
- 1178              	.LVL145:
+ 1255              		.loc 1 1156 0
+ 1256 0310 1943     		orrs	r1, r1, r3
+ 1257              	.LVL143:
 1157:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Store the new register value */
 1158:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   ADCx->CR1 = tmpreg;
- 1179              		.loc 1 1158 0
- 1180 0312 4160     		str	r1, [r0, #4]
- 1181 0314 7047     		bx	lr
- 1182              		.cfi_endproc
- 1183              	.LFE59:
- 1185              		.align	1
- 1186              		.global	ADC_TempSensorVrefintCmd
- 1187              		.thumb
- 1188              		.thumb_func
- 1190              	ADC_TempSensorVrefintCmd:
- 1191              	.LFB60:
+ 1258              		.loc 1 1158 0
+ 1259 0312 4160     		str	r1, [r0, #4]
+ 1260 0314 7047     		bx	lr
+ 1261              		.cfi_endproc
+ 1262              	.LFE59:
+ 1264              		.align	1
+ 1265              		.global	ADC_TempSensorVrefintCmd
+ 1266              		.syntax unified
+ 1267              		.thumb
+ 1268              		.thumb_func
+ 1269              		.fpu softvfp
+ 1271              	ADC_TempSensorVrefintCmd:
+ 1272              	.LFB60:
 1159:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
 1160:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
 1161:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** /**
@@ -2315,50 +2423,52 @@
 1166:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
 1167:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_TempSensorVrefintCmd(FunctionalState NewState)
 1168:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 1192              		.loc 1 1168 0
- 1193              		.cfi_startproc
- 1194              		@ args = 0, pretend = 0, frame = 0
- 1195              		@ frame_needed = 0, uses_anonymous_args = 0
- 1196              		@ link register save eliminated.
- 1197              	.LVL146:
- 1198 0316 054B     		ldr	r3, .L84
+ 1273              		.loc 1 1168 0
+ 1274              		.cfi_startproc
+ 1275              		@ args = 0, pretend = 0, frame = 0
+ 1276              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1277              		@ link register save eliminated.
+ 1278              	.LVL144:
+ 1279 0316 054B     		ldr	r3, .L83
 1169:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
 1170:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_FUNCTIONAL_STATE(NewState));
 1171:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   if (NewState != DISABLE)
 1172:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
 1173:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Enable the temperature sensor and Vrefint channel*/
 1174:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADC1->CR2 |= CR2_TSVREFE_Set;
- 1199              		.loc 1 1174 0
- 1200 0318 9A68     		ldr	r2, [r3, #8]
+ 1280              		.loc 1 1174 0
+ 1281 0318 9A68     		ldr	r2, [r3, #8]
 1171:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
- 1201              		.loc 1 1171 0
- 1202 031a 10B1     		cbz	r0, .L81
- 1203              		.loc 1 1174 0
- 1204 031c 42F40002 		orr	r2, r2, #8388608
- 1205 0320 01E0     		b	.L83
- 1206              	.L81:
+ 1282              		.loc 1 1171 0
+ 1283 031a 18B1     		cbz	r0, .L80
+ 1284              		.loc 1 1174 0
+ 1285 031c 42F40002 		orr	r2, r2, #8388608
+ 1286              	.L82:
 1175:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
 1176:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   else
 1177:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
 1178:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* Disable the temperature sensor and Vrefint channel*/
 1179:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     ADC1->CR2 &= CR2_TSVREFE_Reset;
- 1207              		.loc 1 1179 0
- 1208 0322 22F40002 		bic	r2, r2, #8388608
- 1209              	.L83:
- 1210 0326 9A60     		str	r2, [r3, #8]
- 1211 0328 7047     		bx	lr
- 1212              	.L85:
- 1213 032a 00BF     		.align	2
- 1214              	.L84:
- 1215 032c 00240140 		.word	1073816576
- 1216              		.cfi_endproc
- 1217              	.LFE60:
- 1219              		.align	1
- 1220              		.global	ADC_GetFlagStatus
- 1221              		.thumb
- 1222              		.thumb_func
- 1224              	ADC_GetFlagStatus:
- 1225              	.LFB61:
+ 1287              		.loc 1 1179 0
+ 1288 0320 9A60     		str	r2, [r3, #8]
+ 1289 0322 7047     		bx	lr
+ 1290              	.L80:
+ 1291 0324 22F40002 		bic	r2, r2, #8388608
+ 1292 0328 FAE7     		b	.L82
+ 1293              	.L84:
+ 1294 032a 00BF     		.align	2
+ 1295              	.L83:
+ 1296 032c 00240140 		.word	1073816576
+ 1297              		.cfi_endproc
+ 1298              	.LFE60:
+ 1300              		.align	1
+ 1301              		.global	ADC_GetFlagStatus
+ 1302              		.syntax unified
+ 1303              		.thumb
+ 1304              		.thumb_func
+ 1305              		.fpu softvfp
+ 1307              	ADC_GetFlagStatus:
+ 1308              	.LFB61:
 1180:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
 1181:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
 1182:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
@@ -2376,21 +2486,22 @@
 1194:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
 1195:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** FlagStatus ADC_GetFlagStatus(ADC_TypeDef* ADCx, uint8_t ADC_FLAG)
 1196:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 1226              		.loc 1 1196 0
- 1227              		.cfi_startproc
- 1228              		@ args = 0, pretend = 0, frame = 0
- 1229              		@ frame_needed = 0, uses_anonymous_args = 0
- 1230              		@ link register save eliminated.
- 1231              	.LVL147:
+ 1309              		.loc 1 1196 0
+ 1310              		.cfi_startproc
+ 1311              		@ args = 0, pretend = 0, frame = 0
+ 1312              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1313              		@ link register save eliminated.
+ 1314              	.LVL145:
 1197:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   FlagStatus bitstatus = RESET;
 1198:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
 1199:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
 1200:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_GET_FLAG(ADC_FLAG));
 1201:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the status of the specified ADC flag */
 1202:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   if ((ADCx->SR & ADC_FLAG) != (uint8_t)RESET)
- 1232              		.loc 1 1202 0
- 1233 0330 0368     		ldr	r3, [r0]
- 1234              	.LVL148:
+ 1315              		.loc 1 1202 0
+ 1316 0330 0368     		ldr	r3, [r0]
+ 1317              	.LVL146:
+ 1318 0332 1942     		tst	r1, r3
 1203:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
 1204:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* ADC_FLAG is set */
 1205:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     bitstatus = SET;
@@ -2402,23 +2513,23 @@
 1211:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
 1212:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Return the ADC_FLAG status */
 1213:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   return  bitstatus;
- 1235              		.loc 1 1213 0
- 1236 0332 1942     		tst	r1, r3
 1214:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
- 1237              		.loc 1 1214 0
- 1238 0334 14BF     		ite	ne
- 1239 0336 0120     		movne	r0, #1
- 1240              	.LVL149:
- 1241 0338 0020     		moveq	r0, #0
- 1242 033a 7047     		bx	lr
- 1243              		.cfi_endproc
- 1244              	.LFE61:
- 1246              		.align	1
- 1247              		.global	ADC_ClearFlag
- 1248              		.thumb
- 1249              		.thumb_func
- 1251              	ADC_ClearFlag:
- 1252              	.LFB62:
+ 1319              		.loc 1 1214 0
+ 1320 0334 14BF     		ite	ne
+ 1321 0336 0120     		movne	r0, #1
+ 1322              	.LVL147:
+ 1323 0338 0020     		moveq	r0, #0
+ 1324 033a 7047     		bx	lr
+ 1325              		.cfi_endproc
+ 1326              	.LFE61:
+ 1328              		.align	1
+ 1329              		.global	ADC_ClearFlag
+ 1330              		.syntax unified
+ 1331              		.thumb
+ 1332              		.thumb_func
+ 1333              		.fpu softvfp
+ 1335              	ADC_ClearFlag:
+ 1336              	.LFB62:
 1215:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
 1216:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** /**
 1217:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   * @brief  Clears the ADCx's pending flags.
@@ -2434,30 +2545,32 @@
 1227:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
 1228:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_ClearFlag(ADC_TypeDef* ADCx, uint8_t ADC_FLAG)
 1229:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 1253              		.loc 1 1229 0
- 1254              		.cfi_startproc
- 1255              		@ args = 0, pretend = 0, frame = 0
- 1256              		@ frame_needed = 0, uses_anonymous_args = 0
- 1257              		@ link register save eliminated.
- 1258              	.LVL150:
+ 1337              		.loc 1 1229 0
+ 1338              		.cfi_startproc
+ 1339              		@ args = 0, pretend = 0, frame = 0
+ 1340              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1341              		@ link register save eliminated.
+ 1342              	.LVL148:
 1230:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
 1231:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
 1232:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_CLEAR_FLAG(ADC_FLAG));
 1233:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Clear the selected ADC flags */
 1234:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   ADCx->SR = ~(uint32_t)ADC_FLAG;
- 1259              		.loc 1 1234 0
- 1260 033c C943     		mvns	r1, r1
- 1261              	.LVL151:
- 1262 033e 0160     		str	r1, [r0]
- 1263 0340 7047     		bx	lr
- 1264              		.cfi_endproc
- 1265              	.LFE62:
- 1267              		.align	1
- 1268              		.global	ADC_GetITStatus
- 1269              		.thumb
- 1270              		.thumb_func
- 1272              	ADC_GetITStatus:
- 1273              	.LFB63:
+ 1343              		.loc 1 1234 0
+ 1344 033c C943     		mvns	r1, r1
+ 1345              	.LVL149:
+ 1346 033e 0160     		str	r1, [r0]
+ 1347 0340 7047     		bx	lr
+ 1348              		.cfi_endproc
+ 1349              	.LFE62:
+ 1351              		.align	1
+ 1352              		.global	ADC_GetITStatus
+ 1353              		.syntax unified
+ 1354              		.thumb
+ 1355              		.thumb_func
+ 1356              		.fpu softvfp
+ 1358              	ADC_GetITStatus:
+ 1359              	.LFB63:
 1235:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
 1236:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
 1237:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** /**
@@ -2472,12 +2585,12 @@
 1246:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
 1247:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** ITStatus ADC_GetITStatus(ADC_TypeDef* ADCx, uint16_t ADC_IT)
 1248:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 1274              		.loc 1 1248 0
- 1275              		.cfi_startproc
- 1276              		@ args = 0, pretend = 0, frame = 0
- 1277              		@ frame_needed = 0, uses_anonymous_args = 0
- 1278              		@ link register save eliminated.
- 1279              	.LVL152:
+ 1360              		.loc 1 1248 0
+ 1361              		.cfi_startproc
+ 1362              		@ args = 0, pretend = 0, frame = 0
+ 1363              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1364              		@ link register save eliminated.
+ 1365              	.LVL150:
 1249:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   ITStatus bitstatus = RESET;
 1250:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   uint32_t itmask = 0, enablestatus = 0;
 1251:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
@@ -2487,28 +2600,30 @@
 1255:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   itmask = ADC_IT >> 8;
 1256:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Get the ADC_IT enable bit status */
 1257:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   enablestatus = (ADCx->CR1 & (uint8_t)ADC_IT) ;
- 1280              		.loc 1 1257 0
- 1281 0342 4368     		ldr	r3, [r0, #4]
- 1282              	.LVL153:
+ 1366              		.loc 1 1257 0
+ 1367 0342 4368     		ldr	r3, [r0, #4]
+ 1368              	.LVL151:
 1258:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the status of the specified ADC interrupt */
 1259:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   if (((ADCx->SR & itmask) != (uint32_t)RESET) && enablestatus)
- 1283              		.loc 1 1259 0
- 1284 0344 0068     		ldr	r0, [r0]
- 1285              	.LVL154:
- 1286 0346 10EA1120 		ands	r0, r0, r1, lsr #8
- 1287 034a 04D0     		beq	.L89
+ 1369              		.loc 1 1259 0
+ 1370 0344 0068     		ldr	r0, [r0]
+ 1371              	.LVL152:
+ 1372 0346 10EA1120 		ands	r0, r0, r1, lsr #8
+ 1373 034a 04D0     		beq	.L88
+1257:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the status of the specified ADC interrupt */
+ 1374              		.loc 1 1257 0 discriminator 1
+ 1375 034c C9B2     		uxtb	r1, r1
+ 1376              	.LVL153:
+ 1377              		.loc 1 1259 0 discriminator 1
+ 1378 034e 1942     		tst	r1, r3
+ 1379 0350 14BF     		ite	ne
+ 1380 0352 0120     		movne	r0, #1
+ 1381 0354 0020     		moveq	r0, #0
+ 1382              	.LVL154:
+ 1383              	.L88:
 1260:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
 1261:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     /* ADC_IT is set */
 1262:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****     bitstatus = SET;
- 1288              		.loc 1 1262 0 discriminator 1
- 1289 034c C9B2     		uxtb	r1, r1
- 1290              	.LVL155:
- 1291 034e 1942     		tst	r1, r3
- 1292 0350 14BF     		ite	ne
- 1293 0352 0120     		movne	r0, #1
- 1294 0354 0020     		moveq	r0, #0
- 1295              	.LVL156:
- 1296              	.L89:
 1263:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   }
 1264:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   else
 1265:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   {
@@ -2518,16 +2633,18 @@
 1269:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Return the ADC_IT status */
 1270:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   return  bitstatus;
 1271:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** }
- 1297              		.loc 1 1271 0
- 1298 0356 7047     		bx	lr
- 1299              		.cfi_endproc
- 1300              	.LFE63:
- 1302              		.align	1
- 1303              		.global	ADC_ClearITPendingBit
- 1304              		.thumb
- 1305              		.thumb_func
- 1307              	ADC_ClearITPendingBit:
- 1308              	.LFB64:
+ 1384              		.loc 1 1271 0
+ 1385 0356 7047     		bx	lr
+ 1386              		.cfi_endproc
+ 1387              	.LFE63:
+ 1389              		.align	1
+ 1390              		.global	ADC_ClearITPendingBit
+ 1391              		.syntax unified
+ 1392              		.thumb
+ 1393              		.thumb_func
+ 1394              		.fpu softvfp
+ 1396              	ADC_ClearITPendingBit:
+ 1397              	.LFB64:
 1272:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** 
 1273:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** /**
 1274:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   * @brief  Clears the ADCx's interrupt pending bits.
@@ -2541,12 +2658,12 @@
 1282:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   */
 1283:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** void ADC_ClearITPendingBit(ADC_TypeDef* ADCx, uint16_t ADC_IT)
 1284:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c **** {
- 1309              		.loc 1 1284 0
- 1310              		.cfi_startproc
- 1311              		@ args = 0, pretend = 0, frame = 0
- 1312              		@ frame_needed = 0, uses_anonymous_args = 0
- 1313              		@ link register save eliminated.
- 1314              	.LVL157:
+ 1398              		.loc 1 1284 0
+ 1399              		.cfi_startproc
+ 1400              		@ args = 0, pretend = 0, frame = 0
+ 1401              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1402              		@ link register save eliminated.
+ 1403              	.LVL155:
 1285:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   uint8_t itmask = 0;
 1286:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Check the parameters */
 1287:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   assert_param(IS_ADC_ALL_PERIPH(ADCx));
@@ -2555,68 +2672,69 @@
 1290:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   itmask = (uint8_t)(ADC_IT >> 8);
 1291:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   /* Clear the selected ADC interrupt pending bits */
 1292:lib/STM32F10x_StdPeriph_Driver/src/stm32f10x_adc.c ****   ADCx->SR = ~(uint32_t)itmask;
- 1315              		.loc 1 1292 0
- 1316 0358 6FEA1121 		mvn	r1, r1, lsr #8
- 1317              	.LVL158:
- 1318 035c 0160     		str	r1, [r0]
- 1319 035e 7047     		bx	lr
- 1320              		.cfi_endproc
- 1321              	.LFE64:
- 1323              	.Letext0:
- 1324              		.file 2 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/machine/_default_types.h"
- 1325              		.file 3 "/opt/gcc-arm-none-eabi-5_2-2015q4/arm-none-eabi/include/sys/_stdint.h"
- 1326              		.file 4 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
- 1327              		.file 5 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_adc.h"
- 1328              		.file 6 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
- 1329              		.file 7 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
+ 1404              		.loc 1 1292 0
+ 1405 0358 6FEA1121 		mvn	r1, r1, lsr #8
+ 1406              	.LVL156:
+ 1407 035c 0160     		str	r1, [r0]
+ 1408 035e 7047     		bx	lr
+ 1409              		.cfi_endproc
+ 1410              	.LFE64:
+ 1412              	.Letext0:
+ 1413              		.file 2 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/machine/_default_types.h"
+ 1414              		.file 3 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/sys/_stdint.h"
+ 1415              		.file 4 "./lib/CMSIS/CM3/CoreSupport/core_cm3.h"
+ 1416              		.file 5 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/system_stm32f10x.h"
+ 1417              		.file 6 "./lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/stm32f10x.h"
+ 1418              		.file 7 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_adc.h"
+ 1419              		.file 8 "./lib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
 DEFINED SYMBOLS
-                            *ABS*:00000000 stm32f10x_adc.c
-     /tmp/ccQXHeLh.s:19     .text:00000000 $t
-     /tmp/ccQXHeLh.s:24     .text:00000000 ADC_DeInit
-     /tmp/ccQXHeLh.s:100    .text:00000054 $d
-     /tmp/ccQXHeLh.s:106    .text:00000060 $t
-     /tmp/ccQXHeLh.s:111    .text:00000060 ADC_Init
-     /tmp/ccQXHeLh.s:175    .text:000000a4 $d
-     /tmp/ccQXHeLh.s:179    .text:000000a8 $t
-     /tmp/ccQXHeLh.s:184    .text:000000a8 ADC_StructInit
-     /tmp/ccQXHeLh.s:215    .text:000000ba ADC_Cmd
-     /tmp/ccQXHeLh.s:244    .text:000000cc ADC_DMACmd
-     /tmp/ccQXHeLh.s:273    .text:000000de ADC_ITConfig
-     /tmp/ccQXHeLh.s:308    .text:000000f0 ADC_ResetCalibration
-     /tmp/ccQXHeLh.s:329    .text:000000fa ADC_GetResetCalibrationStatus
-     /tmp/ccQXHeLh.s:352    .text:00000102 ADC_StartCalibration
-     /tmp/ccQXHeLh.s:373    .text:0000010c ADC_GetCalibrationStatus
-     /tmp/ccQXHeLh.s:396    .text:00000114 ADC_SoftwareStartConvCmd
-     /tmp/ccQXHeLh.s:425    .text:00000126 ADC_GetSoftwareStartConvStatus
-     /tmp/ccQXHeLh.s:448    .text:0000012e ADC_DiscModeChannelCountConfig
-     /tmp/ccQXHeLh.s:479    .text:0000013e ADC_DiscModeCmd
-     /tmp/ccQXHeLh.s:508    .text:00000150 ADC_RegularChannelConfig
-     /tmp/ccQXHeLh.s:662    .text:000001de ADC_ExternalTrigConvCmd
-     /tmp/ccQXHeLh.s:691    .text:000001f0 ADC_GetConversionValue
-     /tmp/ccQXHeLh.s:713    .text:000001f6 ADC_GetDualModeConversionValue
-     /tmp/ccQXHeLh.s:728    .text:000001fc $d
-     /tmp/ccQXHeLh.s:732    .text:00000200 $t
-     /tmp/ccQXHeLh.s:737    .text:00000200 ADC_AutoInjectedConvCmd
-     /tmp/ccQXHeLh.s:766    .text:00000212 ADC_InjectedDiscModeCmd
-     /tmp/ccQXHeLh.s:795    .text:00000224 ADC_ExternalTrigInjectedConvConfig
-     /tmp/ccQXHeLh.s:823    .text:00000230 ADC_ExternalTrigInjectedConvCmd
-     /tmp/ccQXHeLh.s:852    .text:00000242 ADC_SoftwareStartInjectedConvCmd
-     /tmp/ccQXHeLh.s:881    .text:00000254 ADC_GetSoftwareStartInjectedConvCmdStatus
-     /tmp/ccQXHeLh.s:904    .text:0000025c ADC_InjectedChannelConfig
-     /tmp/ccQXHeLh.s:1001   .text:000002b4 ADC_InjectedSequencerLengthConfig
-     /tmp/ccQXHeLh.s:1032   .text:000002c4 ADC_SetInjectedOffset
-     /tmp/ccQXHeLh.s:1070   .text:000002da ADC_GetInjectedConversionValue
-     /tmp/ccQXHeLh.s:1111   .text:000002f4 ADC_AnalogWatchdogCmd
-     /tmp/ccQXHeLh.s:1141   .text:00000304 ADC_AnalogWatchdogThresholdsConfig
-     /tmp/ccQXHeLh.s:1162   .text:0000030a ADC_AnalogWatchdogSingleChannelConfig
-     /tmp/ccQXHeLh.s:1190   .text:00000316 ADC_TempSensorVrefintCmd
-     /tmp/ccQXHeLh.s:1215   .text:0000032c $d
-     /tmp/ccQXHeLh.s:1219   .text:00000330 $t
-     /tmp/ccQXHeLh.s:1224   .text:00000330 ADC_GetFlagStatus
-     /tmp/ccQXHeLh.s:1251   .text:0000033c ADC_ClearFlag
-     /tmp/ccQXHeLh.s:1272   .text:00000342 ADC_GetITStatus
-     /tmp/ccQXHeLh.s:1307   .text:00000358 ADC_ClearITPendingBit
-                     .debug_frame:00000010 $d
+                            *ABS*:0000000000000000 stm32f10x_adc.c
+     /tmp/cc7CrZY4.s:15     .text:0000000000000000 $t
+     /tmp/cc7CrZY4.s:22     .text:0000000000000000 ADC_DeInit
+     /tmp/cc7CrZY4.s:98     .text:0000000000000054 $d
+     /tmp/cc7CrZY4.s:104    .text:0000000000000060 $t
+     /tmp/cc7CrZY4.s:111    .text:0000000000000060 ADC_Init
+     /tmp/cc7CrZY4.s:182    .text:00000000000000a4 $d
+     /tmp/cc7CrZY4.s:186    .text:00000000000000a8 $t
+     /tmp/cc7CrZY4.s:193    .text:00000000000000a8 ADC_StructInit
+     /tmp/cc7CrZY4.s:226    .text:00000000000000ba ADC_Cmd
+     /tmp/cc7CrZY4.s:257    .text:00000000000000cc ADC_DMACmd
+     /tmp/cc7CrZY4.s:288    .text:00000000000000de ADC_ITConfig
+     /tmp/cc7CrZY4.s:325    .text:00000000000000f0 ADC_ResetCalibration
+     /tmp/cc7CrZY4.s:348    .text:00000000000000fa ADC_GetResetCalibrationStatus
+     /tmp/cc7CrZY4.s:373    .text:0000000000000102 ADC_StartCalibration
+     /tmp/cc7CrZY4.s:396    .text:000000000000010c ADC_GetCalibrationStatus
+     /tmp/cc7CrZY4.s:421    .text:0000000000000114 ADC_SoftwareStartConvCmd
+     /tmp/cc7CrZY4.s:452    .text:0000000000000126 ADC_GetSoftwareStartConvStatus
+     /tmp/cc7CrZY4.s:477    .text:000000000000012e ADC_DiscModeChannelCountConfig
+     /tmp/cc7CrZY4.s:510    .text:000000000000013e ADC_DiscModeCmd
+     /tmp/cc7CrZY4.s:541    .text:0000000000000150 ADC_RegularChannelConfig
+     /tmp/cc7CrZY4.s:702    .text:00000000000001dc ADC_ExternalTrigConvCmd
+     /tmp/cc7CrZY4.s:733    .text:00000000000001ee ADC_GetConversionValue
+     /tmp/cc7CrZY4.s:757    .text:00000000000001f4 ADC_GetDualModeConversionValue
+     /tmp/cc7CrZY4.s:772    .text:00000000000001fc $d
+     /tmp/cc7CrZY4.s:776    .text:0000000000000200 $t
+     /tmp/cc7CrZY4.s:783    .text:0000000000000200 ADC_AutoInjectedConvCmd
+     /tmp/cc7CrZY4.s:814    .text:0000000000000212 ADC_InjectedDiscModeCmd
+     /tmp/cc7CrZY4.s:845    .text:0000000000000224 ADC_ExternalTrigInjectedConvConfig
+     /tmp/cc7CrZY4.s:875    .text:0000000000000230 ADC_ExternalTrigInjectedConvCmd
+     /tmp/cc7CrZY4.s:906    .text:0000000000000242 ADC_SoftwareStartInjectedConvCmd
+     /tmp/cc7CrZY4.s:937    .text:0000000000000254 ADC_GetSoftwareStartInjectedConvCmdStatus
+     /tmp/cc7CrZY4.s:962    .text:000000000000025c ADC_InjectedChannelConfig
+     /tmp/cc7CrZY4.s:1066   .text:00000000000002b4 ADC_InjectedSequencerLengthConfig
+     /tmp/cc7CrZY4.s:1099   .text:00000000000002c4 ADC_SetInjectedOffset
+     /tmp/cc7CrZY4.s:1141   .text:00000000000002da ADC_GetInjectedConversionValue
+     /tmp/cc7CrZY4.s:1186   .text:00000000000002f4 ADC_AnalogWatchdogCmd
+     /tmp/cc7CrZY4.s:1218   .text:0000000000000304 ADC_AnalogWatchdogThresholdsConfig
+     /tmp/cc7CrZY4.s:1241   .text:000000000000030a ADC_AnalogWatchdogSingleChannelConfig
+     /tmp/cc7CrZY4.s:1271   .text:0000000000000316 ADC_TempSensorVrefintCmd
+     /tmp/cc7CrZY4.s:1296   .text:000000000000032c $d
+     /tmp/cc7CrZY4.s:1300   .text:0000000000000330 $t
+     /tmp/cc7CrZY4.s:1307   .text:0000000000000330 ADC_GetFlagStatus
+     /tmp/cc7CrZY4.s:1335   .text:000000000000033c ADC_ClearFlag
+     /tmp/cc7CrZY4.s:1358   .text:0000000000000342 ADC_GetITStatus
+     /tmp/cc7CrZY4.s:1396   .text:0000000000000358 ADC_ClearITPendingBit
+                     .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
 RCC_APB2PeriphResetCmd

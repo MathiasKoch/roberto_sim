@@ -1,5 +1,5 @@
 <launch>
-       <param name="robot_description" command="$(find xacro)/xacro.py '$(find roberto_description)/urdf/roberto.xacro'" />
+    <param name="robot_description" command="$(find xacro)/xacro.py '$(find roberto_models_jade)/models/platform/roberto.xacro'" />
 
 	<!-- send fake joint values -->
 	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
@@ -10,5 +10,5 @@
 	<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
 
 	<!-- Show in Rviz   -->
-	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find roberto_description)/launch/roberto.rviz"/>
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find roberto_models_jade)/launch/roberto.rviz"/>
 </launch>

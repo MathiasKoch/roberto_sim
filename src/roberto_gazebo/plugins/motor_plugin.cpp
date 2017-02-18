@@ -104,7 +104,7 @@ void MotorDrivePlugin::Load ( physics::ModelPtr _parent, sdf::ElementPtr _sdf )
     gazebo_ros_->getParameter<std::string> ( command_topic_, "commandTopic", "cmd_vel" );
     gazebo_ros_->getParameter<std::string> ( odometry_topic_, "odometryTopic", "odom" );
     gazebo_ros_->getParameter<std::string> ( odometry_frame_, "odometryFrame", "odom" );
-    gazebo_ros_->getParameter<std::string> ( robot_base_frame_, "robotBaseFrame", "base_footprint" );
+    gazebo_ros_->getParameter<std::string> ( robot_base_frame_, "robotBaseFrame", "base_link" );
     gazebo_ros_->getParameterBoolean ( publishWheelTF_, "publishWheelTF", false );
     gazebo_ros_->getParameterBoolean ( publishWheelJointState_, "publishWheelJointState", false );
 
@@ -124,30 +124,22 @@ void MotorDrivePlugin::Load ( physics::ModelPtr _parent, sdf::ElementPtr _sdf )
     joints_.resize ( 8 );
     joints_[SERVOLEFT] = gazebo_ros_->getJoint ( parent, "servoLeftJoint", "servo_front_left" );
     joints_[SERVORIGHT] = gazebo_ros_->getJoint ( parent, "servoRightJoint", "servo_front_right" );
+    joints_[SERVOLEFTMIMIC] = gazebo_ros_->getJoint ( parent, "servoLeftMimicJoint", "servo_rear_left" );
+    joints_[SERVORIGHTMIMIC] = gazebo_ros_->getJoint ( parent, "servoRightMimicJoint", "servo_rear_right" );
     
     joints_[FRONTLEFT] = gazebo_ros_->getJoint ( parent, "frontLeftJoint", "front_left_wheel_hinge" );
     joints_[FRONTRIGHT] = gazebo_ros_->getJoint ( parent, "frontRightJoint", "front_right_wheel_hinge" );
     joints_[REARLEFT] = gazebo_ros_->getJoint ( parent, "rearLeftJoint", "rear_left_wheel_hinge" );
     joints_[REARRIGHT] = gazebo_ros_->getJoint ( parent, "rearRightJoint", "rear_right_wheel_hinge" );
 
-    joints_[SERVOLEFTMIMIC] = gazebo_ros_->getJoint ( parent, "servoLeftMimicJoint", "servo_rear_left" );
-    joints_[SERVORIGHTMIMIC] = gazebo_ros_->getJoint ( parent, "servoRightMimicJoint", "servo_rear_right" );
 
+    for ( int i = 0; i < 8; i++ ) {
 #if GAZEBO_MAJOR_VERSION > 2
-    joints_[SERVOLEFT]->SetParam ( "fmax", 0, wheel_torque );
-    joints_[SERVORIGHT]->SetParam ( "fmax", 0, wheel_torque );
-    joints_[FRONTLEFT]->SetParam ( "fmax", 0, wheel_torque );
-    joints_[FRONTRIGHT]->SetParam ( "fmax", 0, wheel_torque );
-    joints_[REARLEFT]->SetParam ( "fmax", 0, wheel_torque );
-    joints_[REARRIGHT]->SetParam ( "fmax", 0, wheel_torque );
+        joints_[i]->SetParam ( "fmax", 0, wheel_torque );
 #else
-    joints_[SERVOLEFT]->SetMaxForce ( 0, wheel_torque );
-    joints_[SERVORIGHT]->SetMaxForce ( 0, wheel_torque );
-    joints_[FRONTLEFT]->SetMaxForce ( 0, wheel_torque );
-    joints_[FRONTRIGHT]->SetMaxForce ( 0, wheel_torque );
-    joints_[REARLEFT]->SetMaxForce ( 0, wheel_torque );
-    joints_[REARLEFT]->SetMaxForce ( 0, wheel_torque );
+        joints_[i]->SetMaxForce ( 0, wheel_torque );
 #endif
+    }
 
 
 
@@ -198,7 +190,7 @@ void MotorDrivePlugin::Load ( physics::ModelPtr _parent, sdf::ElementPtr _sdf )
     transform_broadcaster_ = boost::shared_ptr<tf::TransformBroadcaster>(new tf::TransformBroadcaster());
 
     // ROS: Subscribe to the velocity command topic (usually "cmd_vel")
-    ROS_INFO("%s: Try to subscribe to %s!", gazebo_ros_->info(), command_topic_.c_str());
+    ROS_INFO("%s: Try to subscribe to \"%s\"!", gazebo_ros_->info(), command_topic_.c_str());
 
     ros::SubscribeOptions so =
         ros::SubscribeOptions::create<roberto_msgs::MotorState>(command_topic_, 1,
@@ -206,12 +198,12 @@ void MotorDrivePlugin::Load ( physics::ModelPtr _parent, sdf::ElementPtr _sdf )
                 ros::VoidPtr(), &queue_);
 
     cmd_vel_subscriber_ = gazebo_ros_->node()->subscribe(so);
-    ROS_INFO("%s: Subscribe to %s!", gazebo_ros_->info(), command_topic_.c_str());
+    ROS_INFO("%s: Subscribe to \"%s\"!", gazebo_ros_->info(), command_topic_.c_str());
 
     if (this->publish_tf_)
     {
       odometry_publisher_ = gazebo_ros_->node()->advertise<nav_msgs::Odometry>(odometry_topic_, 1);
-      ROS_INFO("%s: Advertise odom on %s !", gazebo_ros_->info(), odometry_topic_.c_str());
+      ROS_INFO("%s: Advertise odom to \"%s\" !", gazebo_ros_->info(), odometry_topic_.c_str());
     }
 
     // start custom queue for motor drive
@@ -238,21 +230,14 @@ void MotorDrivePlugin::Reset() {
     heading_ = 0;
     alive_ = true;
     mode_ = roberto_msgs::MotorState::DRIVE_MODE_PIVOT;
+
+    for ( int i = 0; i < 8; i++ ) {
 #if GAZEBO_MAJOR_VERSION > 2
-    joints_[SERVOLEFT]->SetParam ( "fmax", 0, wheel_torque );
-    joints_[SERVORIGHT]->SetParam ( "fmax", 0, wheel_torque );
-    joints_[FRONTLEFT]->SetParam ( "fmax", 0, wheel_torque );
-    joints_[FRONTRIGHT]->SetParam ( "fmax", 0, wheel_torque );
-    joints_[REARLEFT]->SetParam ( "fmax", 0, wheel_torque );
-    joints_[REARRIGHT]->SetParam ( "fmax", 0, wheel_torque );
+        joints_[i]->SetParam ( "fmax", 0, wheel_torque );
 #else
-    joints_[SERVOLEFT]->SetMaxForce ( 0, wheel_torque );
-    joints_[SERVORIGHT]->SetMaxForce ( 0, wheel_torque );
-    joints_[FRONTLEFT]->SetMaxForce ( 0, wheel_torque );
-    joints_[FRONTRIGHT]->SetMaxForce ( 0, wheel_torque );
-    joints_[REARLEFT]->SetMaxForce ( 0, wheel_torque );
-    joints_[REARLEFT]->SetMaxForce ( 0, wheel_torque );
+        joints_[i]->SetMaxForce ( 0, wheel_torque );
 #endif
+    }
 }
 
 void MotorDrivePlugin::publishWheelJointState()
@@ -263,7 +248,7 @@ void MotorDrivePlugin::publishWheelJointState()
     joint_state_.name.resize ( joints_.size() );
     joint_state_.position.resize ( joints_.size() );
 
-    for ( int i = 0; i < 6; i++ ) {
+    for ( int i = 0; i < joints_.size(); i++ ) {
         physics::JointPtr joint = joints_[i];
         math::Angle angle = joint->GetAngle ( 0 );
         joint_state_.name[i] = joint->GetName();
@@ -275,7 +260,7 @@ void MotorDrivePlugin::publishWheelJointState()
 void MotorDrivePlugin::publishWheelTF()
 {
     ros::Time current_time = ros::Time::now();
-    for ( int i = 0; i < 8; i++ ) {
+    for ( int i = 0; i < joints_.size(); i++ ) {
         
         std::string wheel_frame = gazebo_ros_->resolveTF(joints_[i]->GetChild()->GetName ());
         std::string wheel_parent_frame = gazebo_ros_->resolveTF(joints_[i]->GetParent()->GetName ());
@@ -300,8 +285,8 @@ void MotorDrivePlugin::UpdateChild()
        (this has been solved in https://bitbucket.org/osrf/gazebo/diff/gazebo/physics/Joint.cc?diff2=b64ff1b7b6ff&at=issue_964 )
        and Joint::Reset is called after ModelPlugin::Reset, so we need to set maxForce to wheel_torque other than MotorDrivePlugin::Reset
        (this seems to be solved in https://bitbucket.org/osrf/gazebo/commits/ec8801d8683160eccae22c74bf865d59fac81f1e)
-    */
-    for ( int i = 0; i < 6; i++ ) {
+    
+    for ( int i = 0; i < 8; i++ ) {
 #if GAZEBO_MAJOR_VERSION > 2
       if ( fabs(wheel_torque -joints_[i]->GetParam ( "fmax", 0 )) > 1e-6 ) {
         joints_[i]->SetParam ( "fmax", 0, wheel_torque );
@@ -311,17 +296,17 @@ void MotorDrivePlugin::UpdateChild()
 #endif
       }
     }
+*/
 
-
-    if ( odom_source_ == ENCODER ) UpdateOdometryEncoder();
+    //if ( odom_source_ == ENCODER ) UpdateOdometryEncoder();
 
     common::Time current_time = parent->GetWorld()->GetSimTime();
     double seconds_since_last_update = ( current_time - last_update_time_ ).Double();
 
     if ( seconds_since_last_update > update_period_ ) {
-        if (this->publish_tf_) publishOdometry ( seconds_since_last_update );
-        if ( publishWheelTF_ ) publishWheelTF();
-        if ( publishWheelJointState_ ) publishWheelJointState();
+        //if (this->publish_tf_) publishOdometry ( seconds_since_last_update );
+        //if ( publishWheelTF_ ) publishWheelTF();
+        //if ( publishWheelJointState_ ) publishWheelJointState();
 
         // Update robot in case new velocities have been requested
         GetPositionCmd();
@@ -374,14 +359,18 @@ void MotorDrivePlugin::UpdateChild()
 	    wheel_applied_vel[REARRIGHT ] = wheel_speed_instr_[REARRIGHT ] / ( wheel_diameter_ / 2.0 );
         last_update_time_ = current_time;
 
-#if GAZEBO_MAJOR_VERSION > 2
+#if GAZEBO_MAJOR_VERSION  >= 4
         // TODO: Calculate these parameters from servo joint limits!
-        joints_[SERVOLEFT ]->SetParam ( "ang", 0, math::Angle(((180-motorCmd[SERVOLEFT]) * -0.0176134615) + 0.830902913) );
-        joints_[SERVORIGHT]->SetParam ( "ang", 0, math::Angle((motorCmd[SERVORIGHT] * -0.0176134615) + 2.36260577) );
+        joints_[SERVOLEFT      ]->SetPosition ( 0, ((180-motorCmd[SERVOLEFT]) * -0.0176134615) + 0.830902913 );
+        joints_[SERVORIGHT     ]->SetPosition ( 0, (motorCmd[SERVORIGHT] * -0.0176134615) + 2.36260577);
+        joints_[SERVOLEFTMIMIC ]->SetPosition ( 0, -(((180-motorCmd[SERVOLEFT]) * -0.0176134615) + 0.830902913 ));
+        joints_[SERVORIGHTMIMIC]->SetPosition ( 0, -((motorCmd[SERVORIGHT] * -0.0176134615) + 2.36260577));
 #else
         // TODO: Calculate these parameters from servo joint limits!
-        joints_[SERVOLEFT ]->SetAngle ( 0, math::Angle(((180-motorCmd[SERVOLEFT]) * -0.0176134615) + 0.830902913) );
-        joints_[SERVORIGHT]->SetAngle ( 0, math::Angle((motorCmd[SERVORIGHT] * -0.0176134615) + 2.36260577) );
+        joints_[SERVOLEFT      ]->SetAngle ( 0, math::Angle(((180-motorCmd[SERVOLEFT]) * -0.0176134615) + 0.830902913) );
+        joints_[SERVORIGHT     ]->SetAngle ( 0, math::Angle((motorCmd[SERVORIGHT] * -0.0176134615) + 2.36260577) );
+        joints_[SERVOLEFTMIMIC ]->SetAngle ( 0, math::Angle(-(((180-motorCmd[SERVOLEFT]) * -0.0176134615) + 0.830902913)) );
+        joints_[SERVORIGHTMIMIC]->SetAngle ( 0, math::Angle(-((motorCmd[SERVORIGHT] * -0.0176134615) + 2.36260577)) );
 #endif
 
 
@@ -389,7 +378,6 @@ void MotorDrivePlugin::UpdateChild()
         /*if(waitForServos && ((int)sr == (int)servo_right->getReference() && (int)sl == (int)servo_left->getReference())){
 
             waitForServos = false;*/
-
 #if GAZEBO_MAJOR_VERSION > 2
             joints_[FRONTLEFT ]->SetParam ( "vel", 0, wheel_applied_vel[FRONTLEFT ] );
             joints_[FRONTRIGHT]->SetParam ( "vel", 0, wheel_applied_vel[FRONTRIGHT] );
@@ -401,7 +389,6 @@ void MotorDrivePlugin::UpdateChild()
             joints_[REARLEFT  ]->SetVelocity ( 0, wheel_applied_vel[REARLEFT  ] );
             joints_[REARRIGHT ]->SetVelocity ( 0, wheel_applied_vel[REARRIGHT ] );
 #endif
-
         /*}else{
 
 #if GAZEBO_MAJOR_VERSION > 2
@@ -539,8 +526,8 @@ void MotorDrivePlugin::UpdateOdometryEncoder()
     double actual_angles[4];
     actual_angles[FRONTLEFT ] = -joints_[SERVOLEFT ]->GetAngle ( 0 ).Radian() + M_PI/2;
     actual_angles[FRONTRIGHT] =  joints_[SERVORIGHT]->GetAngle ( 0 ).Radian() - M_PI/2;
-    actual_angles[REARLEFT  ] =  joints_[SERVOLEFT ]->GetAngle ( 0 ).Radian() + M_PI/2;
-    actual_angles[REARRIGHT ] = -joints_[SERVORIGHT]->GetAngle ( 0 ).Radian() - M_PI/2;
+    actual_angles[REARLEFT  ] =  joints_[SERVOLEFTMIMIC ]->GetAngle ( 0 ).Radian() + M_PI/2;
+    actual_angles[REARRIGHT ] = -joints_[SERVORIGHTMIMIC]->GetAngle ( 0 ).Radian() - M_PI/2;
 
     common::Time current_time = parent->GetWorld()->GetSimTime();
     double seconds_since_last_update = ( current_time - last_odom_update_ ).Double();

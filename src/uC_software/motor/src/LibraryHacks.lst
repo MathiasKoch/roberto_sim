@@ -1,0 +1,590 @@
+   1              		.cpu cortex-m3
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 4
+   9              		.eabi_attribute 34, 1
+  10              		.eabi_attribute 18, 4
+  11              		.file	"LibraryHacks.cpp"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.align	1
+  16              		.global	_ZN9__gnu_cxx27__verbose_terminate_handlerEv
+  17              		.syntax unified
+  18              		.thumb
+  19              		.thumb_func
+  20              		.fpu softvfp
+  22              	_ZN9__gnu_cxx27__verbose_terminate_handlerEv:
+  23              		.fnstart
+  24              	.LFB4:
+  25              		.file 1 "src/LibraryHacks.cpp"
+   1:src/LibraryHacks.cpp **** /*
+   2:src/LibraryHacks.cpp ****  * LibraryHacks.cpp
+   3:src/LibraryHacks.cpp ****  *
+   4:src/LibraryHacks.cpp ****  *  Created on: 23 Jan 2011
+   5:src/LibraryHacks.cpp ****  *      Author: Andy
+   6:src/LibraryHacks.cpp ****  */
+   7:src/LibraryHacks.cpp **** 
+   8:src/LibraryHacks.cpp **** #include <cstdlib>
+   9:src/LibraryHacks.cpp **** #include <sys/types.h>
+  10:src/LibraryHacks.cpp **** 
+  11:src/LibraryHacks.cpp **** 
+  12:src/LibraryHacks.cpp **** /*
+  13:src/LibraryHacks.cpp ****  * The default pulls in 70K of garbage
+  14:src/LibraryHacks.cpp ****  */
+  15:src/LibraryHacks.cpp **** 
+  16:src/LibraryHacks.cpp **** namespace __gnu_cxx {
+  17:src/LibraryHacks.cpp **** 
+  18:src/LibraryHacks.cpp **** 	void __verbose_terminate_handler() {
+  26              		.loc 1 18 0
+  27              		.cfi_startproc
+  28              		@ Volatile: function does not return.
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32              	.L2:
+  33 0000 FEE7     		b	.L2
+  34              		.cfi_endproc
+  35              	.LFE4:
+  36              		.cantunwind
+  37              		.fnend
+  39              		.align	1
+  40              		.global	__cxa_pure_virtual
+  41              		.syntax unified
+  42              		.thumb
+  43              		.thumb_func
+  44              		.fpu softvfp
+  46              	__cxa_pure_virtual:
+  47              		.fnstart
+  48              	.LFB5:
+  19:src/LibraryHacks.cpp **** 		for(;;);
+  20:src/LibraryHacks.cpp **** 	}
+  21:src/LibraryHacks.cpp **** }
+  22:src/LibraryHacks.cpp **** 
+  23:src/LibraryHacks.cpp **** 
+  24:src/LibraryHacks.cpp **** /*
+  25:src/LibraryHacks.cpp ****  * The default pulls in about 12K of garbage
+  26:src/LibraryHacks.cpp ****  */
+  27:src/LibraryHacks.cpp **** 
+  28:src/LibraryHacks.cpp **** extern "C" void __cxa_pure_virtual() {
+  49              		.loc 1 28 0
+  50              		.cfi_startproc
+  51              		@ Volatile: function does not return.
+  52              		@ args = 0, pretend = 0, frame = 0
+  53              		@ frame_needed = 0, uses_anonymous_args = 0
+  54              		@ link register save eliminated.
+  55              	.L4:
+  56 0002 FEE7     		b	.L4
+  57              		.cfi_endproc
+  58              	.LFE5:
+  59              		.cantunwind
+  60              		.fnend
+  62              		.align	1
+  63              		.global	_Znwj
+  64              		.syntax unified
+  65              		.thumb
+  66              		.thumb_func
+  67              		.fpu softvfp
+  69              	_Znwj:
+  70              		.fnstart
+  71              	.LFB26:
+  72              		.cfi_startproc
+  73              		@ args = 0, pretend = 0, frame = 0
+  74              		@ frame_needed = 0, uses_anonymous_args = 0
+  75              		@ link register save eliminated.
+  76 0004 FFF7FEBF 		b	malloc
+  77              		.cfi_endproc
+  78              	.LFE26:
+  79              		.cantunwind
+  80              		.fnend
+  82              		.align	1
+  83              		.global	_ZnwjPv
+  84              		.syntax unified
+  85              		.thumb
+  86              		.thumb_func
+  87              		.fpu softvfp
+  89              	_ZnwjPv:
+  90              		.fnstart
+  91              	.LFB20:
+  92              		.cfi_startproc
+  93              		@ args = 0, pretend = 0, frame = 0
+  94              		@ frame_needed = 0, uses_anonymous_args = 0
+  95              		@ link register save eliminated.
+  96 0008 0846     		mov	r0, r1
+  97 000a 7047     		bx	lr
+  98              		.cfi_endproc
+  99              	.LFE20:
+ 100              		.cantunwind
+ 101              		.fnend
+ 103              		.align	1
+ 104              		.global	_Znaj
+ 105              		.syntax unified
+ 106              		.thumb
+ 107              		.thumb_func
+ 108              		.fpu softvfp
+ 110              	_Znaj:
+ 111              		.fnstart
+ 112              	.LFB8:
+  29:src/LibraryHacks.cpp **** 	for(;;);
+  30:src/LibraryHacks.cpp **** }
+  31:src/LibraryHacks.cpp **** 
+  32:src/LibraryHacks.cpp **** 
+  33:src/LibraryHacks.cpp **** /*
+  34:src/LibraryHacks.cpp ****  * Implement C++ new/delete operators using the heap
+  35:src/LibraryHacks.cpp ****  */
+  36:src/LibraryHacks.cpp **** 
+  37:src/LibraryHacks.cpp **** void *operator new(size_t size) {
+  38:src/LibraryHacks.cpp **** 	return malloc(size);
+  39:src/LibraryHacks.cpp **** }
+  40:src/LibraryHacks.cpp **** 
+  41:src/LibraryHacks.cpp **** void *operator new(size_t,void *ptr) {
+  42:src/LibraryHacks.cpp **** 	return ptr;
+  43:src/LibraryHacks.cpp **** }
+  44:src/LibraryHacks.cpp **** 
+  45:src/LibraryHacks.cpp **** void *operator new[](size_t size) {
+ 113              		.loc 1 45 0
+ 114              		.cfi_startproc
+ 115              		@ args = 0, pretend = 0, frame = 0
+ 116              		@ frame_needed = 0, uses_anonymous_args = 0
+ 117              		@ link register save eliminated.
+ 118              	.LVL0:
+  46:src/LibraryHacks.cpp **** 	return malloc(size);
+ 119              		.loc 1 46 0
+ 120 000c FFF7FEBF 		b	malloc
+ 121              	.LVL1:
+ 122              		.cfi_endproc
+ 123              	.LFE8:
+ 124              		.cantunwind
+ 125              		.fnend
+ 127              		.align	1
+ 128              		.global	_ZnajPv
+ 129              		.syntax unified
+ 130              		.thumb
+ 131              		.thumb_func
+ 132              		.fpu softvfp
+ 134              	_ZnajPv:
+ 135              		.fnstart
+ 136              	.LFB9:
+  47:src/LibraryHacks.cpp **** }
+  48:src/LibraryHacks.cpp **** 
+  49:src/LibraryHacks.cpp **** void *operator new[](size_t,void *ptr) {
+ 137              		.loc 1 49 0
+ 138              		.cfi_startproc
+ 139              		@ args = 0, pretend = 0, frame = 0
+ 140              		@ frame_needed = 0, uses_anonymous_args = 0
+ 141              		@ link register save eliminated.
+ 142              	.LVL2:
+  50:src/LibraryHacks.cpp **** 	return ptr;
+  51:src/LibraryHacks.cpp **** }
+ 143              		.loc 1 51 0
+ 144 0010 0846     		mov	r0, r1
+ 145 0012 7047     		bx	lr
+ 146              		.cfi_endproc
+ 147              	.LFE9:
+ 148              		.cantunwind
+ 149              		.fnend
+ 151              		.align	1
+ 152              		.global	_ZdlPv
+ 153              		.syntax unified
+ 154              		.thumb
+ 155              		.thumb_func
+ 156              		.fpu softvfp
+ 158              	_ZdlPv:
+ 159              		.fnstart
+ 160              	.LFB28:
+ 161              		.cfi_startproc
+ 162              		@ args = 0, pretend = 0, frame = 0
+ 163              		@ frame_needed = 0, uses_anonymous_args = 0
+ 164              		@ link register save eliminated.
+ 165 0014 FFF7FEBF 		b	free
+ 166              		.cfi_endproc
+ 167              	.LFE28:
+ 168              		.cantunwind
+ 169              		.fnend
+ 171              		.align	1
+ 172              		.global	_ZdaPv
+ 173              		.syntax unified
+ 174              		.thumb
+ 175              		.thumb_func
+ 176              		.fpu softvfp
+ 178              	_ZdaPv:
+ 179              		.fnstart
+ 180              	.LFB11:
+  52:src/LibraryHacks.cpp **** 
+  53:src/LibraryHacks.cpp **** void operator delete(void *p) {
+  54:src/LibraryHacks.cpp **** 	free(p);
+  55:src/LibraryHacks.cpp **** }
+  56:src/LibraryHacks.cpp **** 
+  57:src/LibraryHacks.cpp **** void operator delete[](void *p) {
+ 181              		.loc 1 57 0
+ 182              		.cfi_startproc
+ 183              		@ args = 0, pretend = 0, frame = 0
+ 184              		@ frame_needed = 0, uses_anonymous_args = 0
+ 185              		@ link register save eliminated.
+ 186              	.LVL3:
+  58:src/LibraryHacks.cpp **** 	free(p);
+ 187              		.loc 1 58 0
+ 188 0018 FFF7FEBF 		b	free
+ 189              	.LVL4:
+ 190              		.cfi_endproc
+ 191              	.LFE11:
+ 192              		.cantunwind
+ 193              		.fnend
+ 195              		.align	1
+ 196              		.global	__wrap___aeabi_unwind_cpp_pr0
+ 197              		.syntax unified
+ 198              		.thumb
+ 199              		.thumb_func
+ 200              		.fpu softvfp
+ 202              	__wrap___aeabi_unwind_cpp_pr0:
+ 203              		.fnstart
+ 204              	.LFB24:
+ 205              		.cfi_startproc
+ 206              		@ args = 0, pretend = 0, frame = 0
+ 207              		@ frame_needed = 0, uses_anonymous_args = 0
+ 208              		@ link register save eliminated.
+ 209 001c 7047     		bx	lr
+ 210              		.cfi_endproc
+ 211              	.LFE24:
+ 212              		.cantunwind
+ 213              		.fnend
+ 215              		.align	1
+ 216              		.global	__wrap___aeabi_unwind_cpp_pr1
+ 217              		.syntax unified
+ 218              		.thumb
+ 219              		.thumb_func
+ 220              		.fpu softvfp
+ 222              	__wrap___aeabi_unwind_cpp_pr1:
+ 223              		.fnstart
+ 224              	.LFB22:
+ 225              		.cfi_startproc
+ 226              		@ args = 0, pretend = 0, frame = 0
+ 227              		@ frame_needed = 0, uses_anonymous_args = 0
+ 228              		@ link register save eliminated.
+ 229 001e 7047     		bx	lr
+ 230              		.cfi_endproc
+ 231              	.LFE22:
+ 232              		.cantunwind
+ 233              		.fnend
+ 235              		.align	1
+ 236              		.global	__wrap___aeabi_unwind_cpp_pr2
+ 237              		.syntax unified
+ 238              		.thumb
+ 239              		.thumb_func
+ 240              		.fpu softvfp
+ 242              	__wrap___aeabi_unwind_cpp_pr2:
+ 243              		.fnstart
+ 244              	.LFB14:
+  59:src/LibraryHacks.cpp **** }
+  60:src/LibraryHacks.cpp **** 
+  61:src/LibraryHacks.cpp **** 
+  62:src/LibraryHacks.cpp **** /*
+  63:src/LibraryHacks.cpp ****  * EABI builds can generate reams of stack unwind code for system generated exceptions
+  64:src/LibraryHacks.cpp ****  * e.g. (divide-by-zero). Since we don't support exceptions we'll wrap out these
+  65:src/LibraryHacks.cpp ****  * symbols and save a lot of flash space.
+  66:src/LibraryHacks.cpp ****  */
+  67:src/LibraryHacks.cpp **** 
+  68:src/LibraryHacks.cpp **** extern "C" void __wrap___aeabi_unwind_cpp_pr0() {}
+  69:src/LibraryHacks.cpp **** extern "C" void __wrap___aeabi_unwind_cpp_pr1() {}
+  70:src/LibraryHacks.cpp **** extern "C" void __wrap___aeabi_unwind_cpp_pr2() {}
+ 245              		.loc 1 70 0
+ 246              		.cfi_startproc
+ 247              		@ args = 0, pretend = 0, frame = 0
+ 248              		@ frame_needed = 0, uses_anonymous_args = 0
+ 249              		@ link register save eliminated.
+ 250 0020 7047     		bx	lr
+ 251              		.cfi_endproc
+ 252              	.LFE14:
+ 253              		.cantunwind
+ 254              		.fnend
+ 256              		.align	1
+ 257              		.global	_sbrk
+ 258              		.syntax unified
+ 259              		.thumb
+ 260              		.thumb_func
+ 261              		.fpu softvfp
+ 263              	_sbrk:
+ 264              		.fnstart
+ 265              	.LFB15:
+  71:src/LibraryHacks.cpp **** 
+  72:src/LibraryHacks.cpp **** 
+  73:src/LibraryHacks.cpp **** /*
+  74:src/LibraryHacks.cpp ****  * sbrk function for getting space for malloc and friends
+  75:src/LibraryHacks.cpp ****  */
+  76:src/LibraryHacks.cpp **** 
+  77:src/LibraryHacks.cpp **** extern int  _end;
+  78:src/LibraryHacks.cpp **** 
+  79:src/LibraryHacks.cpp **** extern "C" {
+  80:src/LibraryHacks.cpp **** 	caddr_t _sbrk ( int incr ) {
+ 266              		.loc 1 80 0
+ 267              		.cfi_startproc
+ 268              		@ args = 0, pretend = 0, frame = 0
+ 269              		@ frame_needed = 0, uses_anonymous_args = 0
+ 270              		@ link register save eliminated.
+ 271              	.LVL5:
+  81:src/LibraryHacks.cpp **** 
+  82:src/LibraryHacks.cpp **** 		static unsigned char *heap = NULL;
+  83:src/LibraryHacks.cpp **** 		unsigned char *prev_heap;
+  84:src/LibraryHacks.cpp **** 
+  85:src/LibraryHacks.cpp **** 		if (heap == NULL) {
+ 272              		.loc 1 85 0
+ 273 0022 054B     		ldr	r3, .L16
+  80:src/LibraryHacks.cpp **** 
+ 274              		.loc 1 80 0
+ 275 0024 0246     		mov	r2, r0
+ 276              		.loc 1 85 0
+ 277 0026 1968     		ldr	r1, [r3]
+ 278 0028 09B9     		cbnz	r1, .L15
+  86:src/LibraryHacks.cpp **** 			heap = (unsigned char *)&_end;
+ 279              		.loc 1 86 0
+ 280 002a 0449     		ldr	r1, .L16+4
+ 281 002c 1960     		str	r1, [r3]
+ 282              	.L15:
+  87:src/LibraryHacks.cpp **** 		}
+  88:src/LibraryHacks.cpp **** 		prev_heap = heap;
+ 283              		.loc 1 88 0
+ 284 002e 1868     		ldr	r0, [r3]
+ 285              	.LVL6:
+  89:src/LibraryHacks.cpp **** 		/* check removed to show basic approach */
+  90:src/LibraryHacks.cpp **** 
+  91:src/LibraryHacks.cpp **** 		heap += incr;
+ 286              		.loc 1 91 0
+ 287 0030 0244     		add	r2, r2, r0
+ 288              	.LVL7:
+ 289 0032 1A60     		str	r2, [r3]
+  92:src/LibraryHacks.cpp **** 
+  93:src/LibraryHacks.cpp **** 		return (caddr_t) prev_heap;
+  94:src/LibraryHacks.cpp **** 	}
+ 290              		.loc 1 94 0
+ 291 0034 7047     		bx	lr
+ 292              	.L17:
+ 293 0036 00BF     		.align	2
+ 294              	.L16:
+ 295 0038 00000000 		.word	.LANCHOR0
+ 296 003c 00000000 		.word	_end
+ 297              		.cfi_endproc
+ 298              	.LFE15:
+ 299              		.cantunwind
+ 300              		.fnend
+ 302              		.align	1
+ 303              		.global	abort
+ 304              		.syntax unified
+ 305              		.thumb
+ 306              		.thumb_func
+ 307              		.fpu softvfp
+ 309              	abort:
+ 310              		.fnstart
+ 311              	.LFB16:
+  95:src/LibraryHacks.cpp **** }
+  96:src/LibraryHacks.cpp **** 
+  97:src/LibraryHacks.cpp **** void abort(void) {
+ 312              		.loc 1 97 0
+ 313              		.cfi_startproc
+ 314              		@ Volatile: function does not return.
+ 315              		@ args = 0, pretend = 0, frame = 0
+ 316              		@ frame_needed = 0, uses_anonymous_args = 0
+ 317              		@ link register save eliminated.
+ 318              	.L19:
+ 319 0040 FEE7     		b	.L19
+ 320              		.cfi_endproc
+ 321              	.LFE16:
+ 322              		.cantunwind
+ 323              		.fnend
+ 325              		.align	1
+ 326              		.global	_init
+ 327              		.syntax unified
+ 328              		.thumb
+ 329              		.thumb_func
+ 330              		.fpu softvfp
+ 332              	_init:
+ 333              		.fnstart
+ 334              	.LFB17:
+  98:src/LibraryHacks.cpp **** 	/* Abort called */
+  99:src/LibraryHacks.cpp **** 	while(1);
+ 100:src/LibraryHacks.cpp **** }
+ 101:src/LibraryHacks.cpp **** 
+ 102:src/LibraryHacks.cpp **** 
+ 103:src/LibraryHacks.cpp **** typedef void (*func_ptr)(void);
+ 104:src/LibraryHacks.cpp **** 
+ 105:src/LibraryHacks.cpp **** extern "C"{
+ 106:src/LibraryHacks.cpp **** 
+ 107:src/LibraryHacks.cpp **** extern func_ptr __init_array_start[0], __init_array_end[0];
+ 108:src/LibraryHacks.cpp **** extern func_ptr __fini_array_start[0], __fini_array_end[0];
+ 109:src/LibraryHacks.cpp **** 
+ 110:src/LibraryHacks.cpp **** void _init(void)
+ 111:src/LibraryHacks.cpp **** {
+ 335              		.loc 1 111 0
+ 336              		.cfi_startproc
+ 337              		@ args = 0, pretend = 0, frame = 0
+ 338              		@ frame_needed = 0, uses_anonymous_args = 0
+ 339              	.LVL8:
+ 340              		.loc 1 111 0
+ 341 0042 38B5     		push	{r3, r4, r5, lr}
+ 342              		.save {r3, r4, r5, lr}
+ 343              	.LCFI0:
+ 344              		.cfi_def_cfa_offset 16
+ 345              		.cfi_offset 3, -16
+ 346              		.cfi_offset 4, -12
+ 347              		.cfi_offset 5, -8
+ 348              		.cfi_offset 14, -4
+ 349 0044 044C     		ldr	r4, .L26
+ 350              	.LBB2:
+ 112:src/LibraryHacks.cpp **** 	for ( func_ptr* func = __init_array_start; func != __init_array_end && *func != 0x0; func++ )
+ 351              		.loc 1 112 0
+ 352 0046 054D     		ldr	r5, .L26+4
+ 353              	.LVL9:
+ 354              	.L22:
+ 355              		.loc 1 112 0 is_stmt 0 discriminator 4
+ 356 0048 AC42     		cmp	r4, r5
+ 357 004a 04D0     		beq	.L20
+ 358              		.loc 1 112 0 discriminator 2
+ 359 004c 54F8043B 		ldr	r3, [r4], #4
+ 360              	.LVL10:
+ 361 0050 0BB1     		cbz	r3, .L20
+ 113:src/LibraryHacks.cpp **** 		(*func)();
+ 362              		.loc 1 113 0 is_stmt 1 discriminator 3
+ 363 0052 9847     		blx	r3
+ 364              	.LVL11:
+ 112:src/LibraryHacks.cpp **** 	for ( func_ptr* func = __init_array_start; func != __init_array_end && *func != 0x0; func++ )
+ 365              		.loc 1 112 0 discriminator 3
+ 366 0054 F8E7     		b	.L22
+ 367              	.LVL12:
+ 368              	.L20:
+ 369 0056 38BD     		pop	{r3, r4, r5, pc}
+ 370              	.L27:
+ 371              		.align	2
+ 372              	.L26:
+ 373 0058 00000000 		.word	__init_array_start
+ 374 005c 00000000 		.word	__init_array_end
+ 375              	.LBE2:
+ 376              		.cfi_endproc
+ 377              	.LFE17:
+ 378              		.fnend
+ 380              		.align	1
+ 381              		.global	_fini
+ 382              		.syntax unified
+ 383              		.thumb
+ 384              		.thumb_func
+ 385              		.fpu softvfp
+ 387              	_fini:
+ 388              		.fnstart
+ 389              	.LFB18:
+ 114:src/LibraryHacks.cpp **** }
+ 115:src/LibraryHacks.cpp **** 
+ 116:src/LibraryHacks.cpp **** void _fini(void)
+ 117:src/LibraryHacks.cpp **** {
+ 390              		.loc 1 117 0
+ 391              		.cfi_startproc
+ 392              		@ args = 0, pretend = 0, frame = 0
+ 393              		@ frame_needed = 0, uses_anonymous_args = 0
+ 394              	.LVL13:
+ 395 0060 38B5     		push	{r3, r4, r5, lr}
+ 396              		.save {r3, r4, r5, lr}
+ 397              	.LCFI1:
+ 398              		.cfi_def_cfa_offset 16
+ 399              		.cfi_offset 3, -16
+ 400              		.cfi_offset 4, -12
+ 401              		.cfi_offset 5, -8
+ 402              		.cfi_offset 14, -4
+ 403              	.LBB3:
+ 118:src/LibraryHacks.cpp **** 	for ( func_ptr* func = __fini_array_start; func != __fini_array_end; func++ )
+ 404              		.loc 1 118 0
+ 405 0062 044C     		ldr	r4, .L31
+ 406 0064 044D     		ldr	r5, .L31+4
+ 407              	.LVL14:
+ 408              	.L30:
+ 409              		.loc 1 118 0 is_stmt 0 discriminator 3
+ 410 0066 AC42     		cmp	r4, r5
+ 411 0068 03D0     		beq	.L28
+ 119:src/LibraryHacks.cpp **** 		(*func)();
+ 412              		.loc 1 119 0 is_stmt 1 discriminator 2
+ 413 006a 54F8043B 		ldr	r3, [r4], #4
+ 414              	.LVL15:
+ 415 006e 9847     		blx	r3
+ 416              	.LVL16:
+ 118:src/LibraryHacks.cpp **** 	for ( func_ptr* func = __fini_array_start; func != __fini_array_end; func++ )
+ 417              		.loc 1 118 0 discriminator 2
+ 418 0070 F9E7     		b	.L30
+ 419              	.L28:
+ 420 0072 38BD     		pop	{r3, r4, r5, pc}
+ 421              	.LVL17:
+ 422              	.L32:
+ 423              		.align	2
+ 424              	.L31:
+ 425 0074 00000000 		.word	__fini_array_start
+ 426 0078 00000000 		.word	__fini_array_end
+ 427              	.LBE3:
+ 428              		.cfi_endproc
+ 429              	.LFE18:
+ 430              		.fnend
+ 432              		.global	__dso_handle
+ 433              		.global	_fini_array_start
+ 434              		.global	_init_array_start
+ 435              		.bss
+ 436              		.align	2
+ 437              		.set	.LANCHOR0,. + 0
+ 440              	_ZZ5_sbrkE4heap:
+ 441 0000 00000000 		.space	4
+ 444              	__dso_handle:
+ 445 0004 00000000 		.space	4
+ 446              		.section	.fini_array,"aw"
+ 447              		.align	2
+ 450              	_fini_array_start:
+ 451              		.section	.init_array,"aw"
+ 452              		.align	2
+ 455              	_init_array_start:
+ 456              		.text
+ 457              	.Letext0:
+ 458              		.file 2 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/c++/6.2.1/cstdlib"
+ 459              		.file 3 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/c++/6.2.1/arm-none-eabi/t
+ 460              		.file 4 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/lib/gcc/arm-none-eabi/6.2.1/include/stddef.h"
+ 461              		.file 5 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/sys/lock.h"
+ 462              		.file 6 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/sys/_types.h"
+ 463              		.file 7 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/sys/reent.h"
+ 464              		.file 8 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/stdlib.h"
+ 465              		.file 9 "/opt/gcc-arm/gcc-arm-none-eabi-6_2-2016q4/arm-none-eabi/include/sys/types.h"
+ 466              		.file 10 "<built-in>"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 LibraryHacks.cpp
+     /tmp/ccKNu2e6.s:15     .text:0000000000000000 $t
+     /tmp/ccKNu2e6.s:22     .text:0000000000000000 _ZN9__gnu_cxx27__verbose_terminate_handlerEv
+                       .ARM.exidx:0000000000000000 $d
+     /tmp/ccKNu2e6.s:46     .text:0000000000000002 __cxa_pure_virtual
+     /tmp/ccKNu2e6.s:69     .text:0000000000000004 _Znwj
+     /tmp/ccKNu2e6.s:89     .text:0000000000000008 _ZnwjPv
+     /tmp/ccKNu2e6.s:110    .text:000000000000000c _Znaj
+     /tmp/ccKNu2e6.s:134    .text:0000000000000010 _ZnajPv
+     /tmp/ccKNu2e6.s:158    .text:0000000000000014 _ZdlPv
+     /tmp/ccKNu2e6.s:178    .text:0000000000000018 _ZdaPv
+     /tmp/ccKNu2e6.s:202    .text:000000000000001c __wrap___aeabi_unwind_cpp_pr0
+     /tmp/ccKNu2e6.s:222    .text:000000000000001e __wrap___aeabi_unwind_cpp_pr1
+     /tmp/ccKNu2e6.s:242    .text:0000000000000020 __wrap___aeabi_unwind_cpp_pr2
+     /tmp/ccKNu2e6.s:263    .text:0000000000000022 _sbrk
+     /tmp/ccKNu2e6.s:295    .text:0000000000000038 $d
+     /tmp/ccKNu2e6.s:302    .text:0000000000000040 $t
+     /tmp/ccKNu2e6.s:309    .text:0000000000000040 abort
+     /tmp/ccKNu2e6.s:332    .text:0000000000000042 _init
+     /tmp/ccKNu2e6.s:373    .text:0000000000000058 $d
+     /tmp/ccKNu2e6.s:380    .text:0000000000000060 $t
+     /tmp/ccKNu2e6.s:387    .text:0000000000000060 _fini
+     /tmp/ccKNu2e6.s:425    .text:0000000000000074 $d
+     /tmp/ccKNu2e6.s:444    .bss:0000000000000004 __dso_handle
+     /tmp/ccKNu2e6.s:450    .fini_array:0000000000000000 _fini_array_start
+     /tmp/ccKNu2e6.s:455    .init_array:0000000000000000 _init_array_start
+     /tmp/ccKNu2e6.s:436    .bss:0000000000000000 $d
+     /tmp/ccKNu2e6.s:440    .bss:0000000000000000 _ZZ5_sbrkE4heap
+                     .debug_frame:0000000000000010 $d
+
+UNDEFINED SYMBOLS
+malloc
+free
+_end
+__init_array_start
+__init_array_end
+__aeabi_unwind_cpp_pr0
+__fini_array_start
+__fini_array_end

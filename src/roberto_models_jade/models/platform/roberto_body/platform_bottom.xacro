@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-	<xacro:include filename="$(find roberto_models)/models/inertia_tensors.xacro"/>
+	<xacro:include filename="$(find roberto_models_jade)/models/inertia_tensors.xacro"/>
 
 	<xacro:macro name="RobertoPlatformBottom" params="name parent mesh_collis:=^|simplified mesh_visual:=^|detailed model_dir:=^">
 
-		<xacro:property name="ParrentLink2ThisLink"> <!--parrent link to this joint tf-->
+		<xacro:property name="ParentLink2ThisLink"> <!--parent link to this joint tf-->
 			<origin xyz="0 0 0" rpy="0 0 0"/> 
 	    </xacro:property>
 
@@ -38,7 +38,7 @@
 	    <joint name="${parent}2${name}_joint" type="fixed">
 			<parent link="${parent}_link"/>
 			<child  link="${name}_link" />
-			<xacro:insert_block name="ParrentLink2ThisLink" />
+			<xacro:insert_block name="ParentLink2ThisLink" />
 	    </joint>		
 
 	    <link name="${name}_link">    
@@ -47,31 +47,11 @@
 			<collision> <xacro:insert_block name="ThisCollis"/> </collision>
 	    </link>
 	    
-	    <!--
+	    
 	    <gazebo reference="${name}_link"> 
-			<material>Gazebo/LightBlueLaser</material> 
-			<selfCollide>false</selfCollide>
+			<!--<material>Gazebo/LightBlueLaser</material> -->
 	    </gazebo>
-		-->
-
-
-		<link name="platform_top">
-			<visual>
-			  	<geometry>
-			    	<mesh filename="package://roberto_description/meshes/platform_top.dae"/>
-			  	</geometry>
-			  	<origin rpy="0 ${PI} 0" xyz="0.02 -0.03 0"/>
-			</visual>
-			<!--<collision>
-				<geometry>
-					<box size="${platformTopLength} ${platformTopWidth} ${platformTopHeight}"/>
-				</geometry>
-				<origin rpy="0 ${PI} 0" xyz="0 0 0"/>
-			</collision>-->
-			<inertial>
-				<mass value="${platformTopMass}"/>
-				<xacro:box_inertia m="${platformTopMass}" x="${platformTopLength}" y="${platformTopWidth}" z="${platformTopHeight}"/>
-			</inertial>
-		</link>
+		
 
 	</xacro:macro>
+</robot>

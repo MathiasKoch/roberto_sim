@@ -11,6 +11,7 @@ find_package(catkin
 
 find_package(gazebo REQUIRED)
 
+add_definitions(-std=c++11)
 catkin_package(
 	CATKIN_DEPENDS 
 	roberto_msgs

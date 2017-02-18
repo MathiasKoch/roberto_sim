@@ -8,6 +8,7 @@
 	<xacro:include filename="platform_top.xacro"/>
 	<xacro:include filename="wheel_mount.xacro"/>
 	<xacro:include filename="wheel.xacro"/>
+	<xacro:include filename="spacer.xacro"/>
 
 	<xacro:macro name="RobertoBody" params="name parent mesh_collis mesh_visual" >
 

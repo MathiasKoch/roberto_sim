@@ -81,6 +81,7 @@ CPPSRC += ./src/motor.cpp
 CPPSRC += ./src/servo.cpp
 CPPSRC += ./src/DCMotor.cpp
 CPPSRC += ./src/motorSettings.cpp
+CPPSRC += ./src/LibraryHacks.cpp
 CPPSRC += ./lib/ros_lib/duration.cpp
 CPPSRC += ./lib/ros_lib/time.cpp
 
@@ -203,20 +204,21 @@ CPLUSPLUS_LIB =
 #  -Wl,...:     tell GCC to pass this to linker.
 #    -Map:      create map file
 #    --cref:    add cross reference to  map file
-LDFLAGS = 
-#-Wl,-Map=$(TARGET).map,--cref
-LDFLAGS += -lc
+LDFLAGS  = -mcpu=cortex-m3 -mthumb -mfix-cortex-m3-ldrd
+LDFLAGS += -u g_pfnVectors -Wl,-static -Wl,--gc-sections -nostartfiles
+LDFLAGS += -Wl,-Map=$(TARGET).map
 LDFLAGS += $(NEWLIBLPC) 
 LDFLAGS += $(MATH_LIB)
-LDFLAGS += -lgcc 
+#LDFLAGS += -lgcc 
 LDFLAGS += $(CPLUSPLUS_LIB)
 #LDFLAGS += 
-LDFLAGS += --specs=nano.specs --specs=rdimon.specs -lc -lrdimon
+#LDFLAGS += --specs=nano.specs --specs=rdimon.specs -lc -lrdimon
 #LDFLAGS += --specs=nano.specs --specs=nosys.specs
 
 
 
-LDFLAGS +=-TSTM32F103XB_FLASH.ld
+#LDFLAGS +=-TSTM32F103XB_FLASH.ld
+LDFLAGS +=-TSTM32F103CBT6.ld
 
 
 
