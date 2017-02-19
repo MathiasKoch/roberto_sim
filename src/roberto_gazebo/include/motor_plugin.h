@@ -89,6 +89,7 @@ namespace gazebo {
 
     protected:
       virtual void UpdateChild();
+      virtual void FiniChild();
 
     private:
       void publishOdometry(double step_time);
@@ -148,6 +149,8 @@ namespace gazebo {
       uint8_t currentMode;
       bool waitForServos;
       bool spinningAutonomously;
+
+      std::vector<common::PID> pid;
 
 
       // Update Rate

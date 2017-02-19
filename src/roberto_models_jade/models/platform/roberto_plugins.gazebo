@@ -7,7 +7,7 @@
 		    <robotNamespace></robotNamespace>
 	        <rosDebugLevel>Debug</rosDebugLevel>
 		    <alwaysOn>1</alwaysOn>
-		    <updateRate>1.0</updateRate>
+		    <updateRate>50.0</updateRate>
 		    
 		    <robotBaseFrame>base_link</robotBaseFrame>
 		    <odometryFrame>odom</odometryFrame>

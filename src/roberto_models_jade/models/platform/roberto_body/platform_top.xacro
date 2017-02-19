@@ -6,22 +6,22 @@
 	<xacro:macro name="RobertoPlatformTop" params="name parent mesh_collis:=^|simplified mesh_visual:=^|detailed model_dir:=^">
 
 		<xacro:property name="ParentLink2ThisLink"> <!--parent link to this joint tf-->
-			<origin xyz="-0.01 0.03 ${spacerLength+spacerPosZ-platformTopHeight-0.001}" rpy="0 0 0"/> 
+			<origin xyz="0 0 ${spacerLength+spacerPosZ-platformTopHeight-0.001}" rpy="0 0 0"/> 
 	    </xacro:property>
 
 	    <xacro:property name="ThisLink2Inert"> <!--this link 2 inertial center tf, mass data-->
-			<box_inertial x="${platformTopLength}" y="${platformTopWidth}"  z="${platformTopHeight}" mass="${platformTopMass}" /> 
+			<box_inertial x="${platformTopWidth}" y="${platformTopLength}"  z="${platformTopHeight}" mass="${platformTopMass}" /> 
 	    </xacro:property>
 
 	    <xacro:property name="ThisLink2STL"> <!--this link 2 mesh center tf, file-->
-			<origin xyz="${platformTopLength/2} -${platformTopWidth/2} 0" rpy="0 ${pi} 0"/> 
+			<origin xyz="${platformTopWidth/2} -${platformTopLength/2} 0" rpy="0 ${pi} 0"/> 
 			<geometry> <mesh filename="file://${model_dir}/meshes/platform_top.dae"/> </geometry> 
 			<!--<material name="light_blue"/> -->
 	    </xacro:property>
 
 	    <xacro:property name="ThisLink2XML"> <!--this link 2 simple mesh center tf, file-->
 			<origin xyz="0 0 0" rpy="0 ${pi} 0"/> 
-			<geometry> <box size="${platformTopLength} ${platformTopWidth} ${platformTopHeight}" /> </geometry> 
+			<geometry> <box size="${platformTopWidth} ${platformTopLength} ${platformTopHeight}" /> </geometry> 
 			<!--<material name="light_blue"/> -->
 	    </xacro:property>
 	        

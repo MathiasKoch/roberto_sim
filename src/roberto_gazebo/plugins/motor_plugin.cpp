@@ -60,7 +60,9 @@
 
 #define MAX_ANGLE_PIVOT 13
 
-
+#define KP_POS 10
+#define KI_POS 1
+#define KD_POS 0.1
 
 
 namespace gazebo
@@ -77,20 +79,14 @@ enum{
   SERVORIGHTMIMIC
 };
 
+
 MotorDrivePlugin::MotorDrivePlugin() {}
 
 // Destructor
 MotorDrivePlugin::~MotorDrivePlugin() {
-    event::Events::DisconnectWorldUpdateBegin(this->update_connection_);
+    //event::Events::DisconnectWorldUpdateBegin(this->update_connection_);
     
-    odometry_publisher_.shutdown();
-    joint_state_publisher_.shutdown();
-    cmd_vel_subscriber_.shutdown();
     
-    queue_.clear();
-    queue_.disable();
-    alive_ = false;
-    callback_queue_thread_.join();
 }
 
 // Load the controller
@@ -132,16 +128,20 @@ void MotorDrivePlugin::Load ( physics::ModelPtr _parent, sdf::ElementPtr _sdf )
     joints_[REARLEFT] = gazebo_ros_->getJoint ( parent, "rearLeftJoint", "rear_left_wheel_hinge" );
     joints_[REARRIGHT] = gazebo_ros_->getJoint ( parent, "rearRightJoint", "rear_right_wheel_hinge" );
 
+    pid.resize(4);
+    pid[SERVOLEFT-4] = common::PID(KP_POS, KI_POS, KD_POS);
+    pid[SERVORIGHT-4] = common::PID(KP_POS, KI_POS, KD_POS);
+    pid[SERVOLEFTMIMIC-4] = common::PID(KP_POS, KI_POS, KD_POS);
+    pid[SERVORIGHTMIMIC-4] = common::PID(KP_POS, KI_POS, KD_POS);
 
-    for ( int i = 0; i < 8; i++ ) {
+
+    for ( int i = 0; i < joints_.size(); i++ ) {
 #if GAZEBO_MAJOR_VERSION > 2
         joints_[i]->SetParam ( "fmax", 0, wheel_torque );
 #else
         joints_[i]->SetMaxForce ( 0, wheel_torque );
-#endif
+#endif   
     }
-
-
 
     this->publish_tf_ = true;
     if (!_sdf->HasElement("publishTf")) {
@@ -152,8 +152,10 @@ void MotorDrivePlugin::Load ( physics::ModelPtr _parent, sdf::ElementPtr _sdf )
     }
 
     // Initialize update rate stuff
-    if ( this->update_rate_ > 0.0 ) this->update_period_ = 1.0 / this->update_rate_;
-    else this->update_period_ = 0.0;
+    if ( this->update_rate_ > 0.0 ) 
+        this->update_period_ = 1.0 / this->update_rate_;
+    else 
+        this->update_period_ = 0.0;
     last_update_time_ = parent->GetWorld()->GetSimTime();
 
     // Initialize velocity stuff
@@ -243,16 +245,17 @@ void MotorDrivePlugin::Reset() {
 void MotorDrivePlugin::publishWheelJointState()
 {
     ros::Time current_time = ros::Time::now();
-
     joint_state_.header.stamp = current_time;
     joint_state_.name.resize ( joints_.size() );
     joint_state_.position.resize ( joints_.size() );
+    joint_state_.velocity.resize ( joints_.size() );
+    joint_state_.effort.resize ( joints_.size() );
 
     for ( int i = 0; i < joints_.size(); i++ ) {
-        physics::JointPtr joint = joints_[i];
-        math::Angle angle = joint->GetAngle ( 0 );
-        joint_state_.name[i] = joint->GetName();
-        joint_state_.position[i] = angle.Radian () ;
+        joint_state_.name[i] = joints_[i]->GetName();
+        joint_state_.position[i] = joints_[i]->GetAngle ( 0 ).Radian () ;
+        joint_state_.velocity[i] = joints_[i]->GetVelocity ( 0 );
+        joint_state_.effort[i] = joints_[i]->GetForce ( 0 );
     }
     joint_state_publisher_.publish ( joint_state_ );
 }
@@ -298,25 +301,29 @@ void MotorDrivePlugin::UpdateChild()
     }
 */
 
-    //if ( odom_source_ == ENCODER ) UpdateOdometryEncoder();
+    if ( odom_source_ == ENCODER ) UpdateOdometryEncoder();
 
     common::Time current_time = parent->GetWorld()->GetSimTime();
     double seconds_since_last_update = ( current_time - last_update_time_ ).Double();
 
     if ( seconds_since_last_update > update_period_ ) {
-        //if (this->publish_tf_) publishOdometry ( seconds_since_last_update );
-        //if ( publishWheelTF_ ) publishWheelTF();
-        //if ( publishWheelJointState_ ) publishWheelJointState();
+        if (this->publish_tf_) publishOdometry ( seconds_since_last_update );
+        if ( publishWheelTF_ ) publishWheelTF();
+        if ( publishWheelJointState_ ) publishWheelJointState();
 
         // Update robot in case new velocities have been requested
         GetPositionCmd();
 
-        double current_speed[4];
+        double current_speed[8];
 
         current_speed[FRONTLEFT ] = joints_[FRONTLEFT ]->GetVelocity ( 0 ) * ( wheel_diameter_ / 2.0 );
         current_speed[FRONTRIGHT] = joints_[FRONTRIGHT]->GetVelocity ( 0 ) * ( wheel_diameter_ / 2.0 );
         current_speed[REARLEFT  ] = joints_[REARLEFT  ]->GetVelocity ( 0 ) * ( wheel_diameter_ / 2.0 );
         current_speed[REARRIGHT ] = joints_[REARRIGHT ]->GetVelocity ( 0 ) * ( wheel_diameter_ / 2.0 );
+        current_speed[SERVOLEFT ] = joints_[SERVOLEFT ]->GetAngle ( 0 ).Radian();
+        current_speed[SERVORIGHT ] = joints_[SERVORIGHT ]->GetAngle ( 0 ).Radian();
+        current_speed[SERVOLEFTMIMIC ] = joints_[SERVOLEFTMIMIC ]->GetAngle ( 0 ).Radian();
+        current_speed[SERVORIGHTMIMIC ] = joints_[SERVORIGHTMIMIC ]->GetAngle ( 0 ).Radian();
 
         if ( wheel_accel == 0 ||
                 ( ( fabs ( motorCmd[FRONTLEFT ] - current_speed[FRONTLEFT ] ) < 0.01 ) &&
@@ -359,19 +366,15 @@ void MotorDrivePlugin::UpdateChild()
 	    wheel_applied_vel[REARRIGHT ] = wheel_speed_instr_[REARRIGHT ] / ( wheel_diameter_ / 2.0 );
         last_update_time_ = current_time;
 
-#if GAZEBO_MAJOR_VERSION  >= 4
         // TODO: Calculate these parameters from servo joint limits!
-        joints_[SERVOLEFT      ]->SetPosition ( 0, ((180-motorCmd[SERVOLEFT]) * -0.0176134615) + 0.830902913 );
-        joints_[SERVORIGHT     ]->SetPosition ( 0, (motorCmd[SERVORIGHT] * -0.0176134615) + 2.36260577);
-        joints_[SERVOLEFTMIMIC ]->SetPosition ( 0, -(((180-motorCmd[SERVOLEFT]) * -0.0176134615) + 0.830902913 ));
-        joints_[SERVORIGHTMIMIC]->SetPosition ( 0, -((motorCmd[SERVORIGHT] * -0.0176134615) + 2.36260577));
-#else
-        // TODO: Calculate these parameters from servo joint limits!
-        joints_[SERVOLEFT      ]->SetAngle ( 0, math::Angle(((180-motorCmd[SERVOLEFT]) * -0.0176134615) + 0.830902913) );
-        joints_[SERVORIGHT     ]->SetAngle ( 0, math::Angle((motorCmd[SERVORIGHT] * -0.0176134615) + 2.36260577) );
-        joints_[SERVOLEFTMIMIC ]->SetAngle ( 0, math::Angle(-(((180-motorCmd[SERVOLEFT]) * -0.0176134615) + 0.830902913)) );
-        joints_[SERVORIGHTMIMIC]->SetAngle ( 0, math::Angle(-((motorCmd[SERVORIGHT] * -0.0176134615) + 2.36260577)) );
-#endif
+        joints_[SERVOLEFT      ]->SetParam ( "vel",  0, pid[SERVOLEFT-4].Update( current_speed[SERVOLEFT] - (((180-motorCmd[SERVOLEFT]) * -0.0176134615) + 0.830902913 ) , seconds_since_last_update));
+        joints_[SERVORIGHT     ]->SetParam ( "vel",  0, pid[SERVORIGHT-4].Update( current_speed[SERVORIGHT] - ((motorCmd[SERVORIGHT] * -0.0176134615) + 2.36260577) , seconds_since_last_update));
+        joints_[SERVOLEFTMIMIC ]->SetParam ( "vel",  0, pid[SERVOLEFTMIMIC-4].Update( current_speed[SERVOLEFTMIMIC] + (((180-motorCmd[SERVOLEFT]) * -0.0176134615) + 0.830902913 ) , seconds_since_last_update));
+        joints_[SERVORIGHTMIMIC]->SetParam ( "vel",  0, pid[SERVORIGHTMIMIC-4].Update( current_speed[SERVORIGHTMIMIC] + ((motorCmd[SERVORIGHT] * -0.0176134615) + 2.36260577) , seconds_since_last_update));
+        //joints_[SERVORIGHT     ]->SetParam ( "vel",  0, (motorCmd[SERVORIGHT] * -0.0176134615) + 2.36260577);
+        //joints_[SERVOLEFTMIMIC ]->SetParam ( "vel",  0, -(((180-motorCmd[SERVOLEFT]) * -0.0176134615) + 0.830902913 ));
+        //joints_[SERVORIGHTMIMIC]->SetParam ( "vel",  0, -((motorCmd[SERVORIGHT] * -0.0176134615) + 2.36260577));
+
 
 
         // (sr, sl) output of low pass filtered servo references, compare these to the setpoint, in order to see whether filter has reached setpoint
@@ -498,11 +501,22 @@ void MotorDrivePlugin::GetPositionCmd(){
 
 }
 
+void MotorDrivePlugin::FiniChild(){
+    odometry_publisher_.shutdown();
+    joint_state_publisher_.shutdown();
+    cmd_vel_subscriber_.shutdown();
+    
+    queue_.clear();
+    queue_.disable();
+    alive_ = false;
+    callback_queue_thread_.join();
+}
+
 void MotorDrivePlugin::cmdVelCallback ( const roberto_msgs::MotorStateConstPtr & cmd_msg )
 {
     boost::mutex::scoped_lock scoped_lock ( lock );
     heading_ = cmd_msg->heading_angle;
-    speed_ = cmd_msg->speed;
+    speed_ = -cmd_msg->speed;
     mode_ = cmd_msg->mode;
 }
 

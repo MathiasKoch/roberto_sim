@@ -39,14 +39,6 @@ target_link_libraries(roberto_gazebo_ros_control
 )
 
 
-add_library(roberto_gazebo_mimic_joint_plugin 
-	plugins/mimic_joint_plugin.cpp
-)
-
-target_link_libraries(roberto_gazebo_mimic_joint_plugin 
-	${catkin_LIBRARIES} 
-	${GAZEBO_LIBRARIES}
-)
 
 
 add_dependencies(

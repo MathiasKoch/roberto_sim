@@ -7,8 +7,8 @@
 	<xacro:property name="platformMass" value="0.200"/>
 
 	<xacro:property name="platformTopHeight" value="0.005"/>
-	<xacro:property name="platformTopLength" value="0.200"/>
-	<xacro:property name="platformTopWidth" value="0.200"/>
+	<xacro:property name="platformTopLength" value="0.160"/>
+	<xacro:property name="platformTopWidth" value="0.180"/>
 	<xacro:property name="platformTopMass" value="0.125"/>
 
 	<xacro:property name="wheelRadius" value="0.04"/>
@@ -32,7 +32,6 @@
 	<xacro:property name="spacerPosY" value="0.052"/>
 	<xacro:property name="spacerPosZ" value="0.079"/>
 
-	<xacro:property name="cameraSize" value="0.05"/>
 	<xacro:property name="cameraMass" value="0.100"/>
 
 	<xacro:property name="servoLowerLimit" value="0.2618" />

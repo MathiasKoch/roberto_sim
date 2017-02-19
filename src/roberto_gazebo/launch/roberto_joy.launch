@@ -19,4 +19,7 @@
   		<param name="tf_prefix" type="string" value="roberto"/>
   	</node>
 
+
+  	<include file="$(find roberto_teleop)/launch/joy.launch" />
+
 </launch>
