@@ -40,7 +40,7 @@
 
 #include <sdf/sdf.hh>
 
-namespace dtu {
+namespace tuw {
     
 class NoiseSimModel {
 

@@ -68,7 +68,7 @@ GazeboRosImu9Dof::~GazeboRosImu9Dof() {
 // Load the controller
 void GazeboRosImu9Dof::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
     model_ = _model;
-    gazebo_ros_ = GazeboRosPtr ( new GazeboRos ( _model, _sdf, "TUWImu9Dof" ) );
+    gazebo_ros_ = GazeboRosPtr ( new GazeboRos ( _model, _sdf, "RobertoImu9Dof" ) );
     gazebo_ros_->isInitialized(); // Make sure the ROS node for Gazebo has already been initialized
     
     pub_multi_queue.startServiceThread();

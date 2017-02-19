@@ -371,11 +371,6 @@ void MotorDrivePlugin::UpdateChild()
         joints_[SERVORIGHT     ]->SetParam ( "vel",  0, pid[SERVORIGHT-4].Update( current_speed[SERVORIGHT] - ((motorCmd[SERVORIGHT] * -0.0176134615) + 2.36260577) , seconds_since_last_update));
         joints_[SERVOLEFTMIMIC ]->SetParam ( "vel",  0, pid[SERVOLEFTMIMIC-4].Update( current_speed[SERVOLEFTMIMIC] + (((180-motorCmd[SERVOLEFT]) * -0.0176134615) + 0.830902913 ) , seconds_since_last_update));
         joints_[SERVORIGHTMIMIC]->SetParam ( "vel",  0, pid[SERVORIGHTMIMIC-4].Update( current_speed[SERVORIGHTMIMIC] + ((motorCmd[SERVORIGHT] * -0.0176134615) + 2.36260577) , seconds_since_last_update));
-        //joints_[SERVORIGHT     ]->SetParam ( "vel",  0, (motorCmd[SERVORIGHT] * -0.0176134615) + 2.36260577);
-        //joints_[SERVOLEFTMIMIC ]->SetParam ( "vel",  0, -(((180-motorCmd[SERVOLEFT]) * -0.0176134615) + 0.830902913 ));
-        //joints_[SERVORIGHTMIMIC]->SetParam ( "vel",  0, -((motorCmd[SERVORIGHT] * -0.0176134615) + 2.36260577));
-
-
 
         // (sr, sl) output of low pass filtered servo references, compare these to the setpoint, in order to see whether filter has reached setpoint
         /*if(waitForServos && ((int)sr == (int)servo_right->getReference() && (int)sl == (int)servo_left->getReference())){

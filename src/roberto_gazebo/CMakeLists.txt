@@ -20,7 +20,8 @@ catkin_package(
 	Boost
 	gazebo
 	INCLUDE_DIRS include
-	LIBRARIES roberto_gazebo_ros_control)
+	LIBRARIES roberto_gazebo_ros_control
+	LIBRARIES roberto_gazebo_ros_imu9dof)
 
 include_directories(include
                     ${catkin_INCLUDE_DIRS}
@@ -48,6 +49,30 @@ add_dependencies(
 
 install(
   TARGETS roberto_gazebo_ros_control
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+)
+
+
+add_library(roberto_gazebo_ros_imu9dof
+  plugins/imu_9dof_plugin.cpp
+  plugins/noise_sim_model.cpp
+)
+
+target_link_libraries(roberto_gazebo_ros_imu9dof
+  ${catkin_LIBRARIES}
+  ${GAZEBO_LIBRARIES}
+)
+
+
+
+
+add_dependencies(
+  roberto_gazebo_ros_imu9dof
+  ${catkin_EXPORTED_TARGETS}
+)
+
+install(
+  TARGETS roberto_gazebo_ros_imu9dof
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 )
 

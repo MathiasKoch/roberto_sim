@@ -43,15 +43,14 @@
 	    <ray>
 		<scan>
 		    <horizontal>
-			<!-- The RPLidar has 360 steps with 1 Degree resolution -->
 			<resolution>1</resolution>
-			<samples>360</samples> <min_angle>-3.141592</min_angle> <max_angle>3.124139361</max_angle> <!-- -180 to 180 Degree -->
+			<samples>1</samples> <min_angle>0</min_angle> <max_angle>0</max_angle>
 		    </horizontal>
 		</scan>
 		<range>
 		    <min>0.04</min>
-		    <max>6</max>
-		    <resolution>0.02</resolution>
+		    <max>2</max>
+		    <resolution>0.01</resolution>
 		</range>
 		<noise>
 		    <type>gaussian</type>
@@ -61,11 +60,11 @@
 	    </ray>
           
 	    <plugin name="gazebo_ros_laser_RPLidar_driver" filename="${driver_type}" >
-		<rosDebugLevel>Debug</rosDebugLevel>
-		<robotNamespace></robotNamespace>
-		<topicName>${frame_names}</topicName>
-		<frameName>${topic_names}</frameName>
-		<rangeMin>0.2</rangeMin>
+			<rosDebugLevel>Debug</rosDebugLevel>
+			<robotNamespace></robotNamespace>
+			<topicName>${frame_names}</topicName>
+			<frameName>${topic_names}</frameName>
+			<rangeMin>0.2</rangeMin>
 	    </plugin>
         </sensor>
     </gazebo>

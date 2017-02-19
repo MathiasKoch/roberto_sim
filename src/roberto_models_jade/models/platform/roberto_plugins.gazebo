@@ -14,7 +14,7 @@
 		    
 		    <commandTopic>cmd_vel</commandTopic>
             <odometryTopic>odom</odometryTopic>
-            <odometrySource>encoder</odometrySource>
+            <odometrySource>world</odometrySource>
 	    
             <servoLeftJoint>body2mountFL_joint</servoLeftJoint>
             <servoRightJoint>body2mountFR_joint</servoRightJoint>

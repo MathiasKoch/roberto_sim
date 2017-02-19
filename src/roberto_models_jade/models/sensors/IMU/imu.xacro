@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<!-- Front Laser --> 
 <xacro:macro name="imu_sensor" params="name parent xyz rpy model_dir:=^" >
   
     <joint name="${parent}_${name}_joint" type="fixed">
@@ -13,19 +12,19 @@
     
     <link name="${name}">
       <collision>
-        <origin xyz="0 0 0.0015" rpy="0 0 0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.004 0.003 0.003"/>
+          <box size="0.003 0.003 0.001"/>
         </geometry>
       </collision>
       <visual>
-        <origin xyz="0 0 -0.025" rpy="0 0 ${-M_PI/2}"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find tuw_gazebo_models)/models/sensors/imu/meshes/imu_razor_9DOF.dae" scale="0.001 0.001 0.001"/>
+          <box size="0.003 0.003 0.001" />
         </geometry>
       </visual>
       <inertial>
-        <mass value="1e-5" />
+        <mass value="1e-6" />
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <inertia ixx="1e-9" ixy="0" ixz="0" iyy="1e-9" iyz="0" izz="1e-9" />
       </inertial>
@@ -63,7 +62,7 @@
     </xacro:property>
     
     <gazebo>
-	<plugin name="gazebo_ros_imu9dof" filename="libtuw_gazebo_ros_imu9dof.so" >
+	<plugin name="gazebo_ros_imu9dof" filename="libroberto_gazebo_ros_imu9dof.so" >
 	    <rosDebugLevel>Debug</rosDebugLevel>
 	    <robotNamespace></robotNamespace>
 	    <updateRate>50.0</updateRate>

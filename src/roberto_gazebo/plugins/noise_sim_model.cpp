@@ -37,7 +37,7 @@
 #include <noise_sim_model.h>
 
 using namespace std;
-using namespace dtu;
+using namespace tuw;
 
 NoiseSimModel::NoiseSimModel () :
     xSim_  ( 0 ),
