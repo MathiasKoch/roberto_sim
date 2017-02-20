@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 2.78.0 commit date:2017-02-08, commit time:13:50, hash:3c043732d3f</authoring_tool>
+    </contributor>
+    <created>2017-02-20T11:15:31</created>
+    <modified>2017-02-20T11:15:31</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_cameras>
+    <camera id="Camera-camera" name="Camera">
+      <optics>
+        <technique_common>
+          <perspective>
+            <xfov sid="xfov">49.13434</xfov>
+            <aspect_ratio>1.777778</aspect_ratio>
+            <znear sid="znear">0.1</znear>
+            <zfar sid="zfar">100</zfar>
+          </perspective>
+        </technique_common>
+      </optics>
+      <extra>
+        <technique profile="blender">
+          <YF_dofdist>0</YF_dofdist>
+          <shiftx>0</shiftx>
+          <shifty>0</shifty>
+        </technique>
+      </extra>
+    </camera>
+    <camera id="skp_camera_Last_Saved_SketchUp_View-camera" name="skp_camera_Last_Saved_SketchUp_View">
+      <optics>
+        <technique_common>
+          <perspective>
+            <xfov sid="xfov">0</xfov>
+            <aspect_ratio>1.777778</aspect_ratio>
+            <znear sid="znear">1</znear>
+            <zfar sid="zfar">1000</zfar>
+          </perspective>
+        </technique_common>
+      </optics>
+      <extra>
+        <technique profile="blender">
+          <YF_dofdist>0</YF_dofdist>
+          <shiftx>0</shiftx>
+          <shifty>0</shifty>
+        </technique>
+      </extra>
+    </camera>
+  </library_cameras>
+  <library_lights>
+    <light id="Lamp-light" name="Lamp">
+      <technique_common>
+        <point>
+          <color sid="color">1 1 1</color>
+          <constant_attenuation>1</constant_attenuation>
+          <linear_attenuation>0</linear_attenuation>
+          <quadratic_attenuation>0.00111109</quadratic_attenuation>
+        </point>
+      </technique_common>
+      <extra>
+        <technique profile="blender">
+          <adapt_thresh>0.000999987</adapt_thresh>
+          <area_shape>1</area_shape>
+          <area_size>0.1</area_size>
+          <area_sizey>0.1</area_sizey>
+          <area_sizez>1</area_sizez>
+          <atm_distance_factor>1</atm_distance_factor>
+          <atm_extinction_factor>1</atm_extinction_factor>
+          <atm_turbidity>2</atm_turbidity>
+          <att1>0</att1>
+          <att2>1</att2>
+          <backscattered_light>1</backscattered_light>
+          <bias>1</bias>
+          <blue>1</blue>
+          <buffers>1</buffers>
+          <bufflag>0</bufflag>
+          <bufsize>2880</bufsize>
+          <buftype>2</buftype>
+          <clipend>30.002</clipend>
+          <clipsta>1.000799</clipsta>
+          <compressthresh>0.04999995</compressthresh>
+          <dist sid="blender_dist">29.99998</dist>
+          <energy sid="blender_energy">1</energy>
+          <falloff_type>2</falloff_type>
+          <filtertype>0</filtertype>
+          <flag>0</flag>
+          <gamma sid="blender_gamma">1</gamma>
+          <green>1</green>
+          <halo_intensity sid="blnder_halo_intensity">1</halo_intensity>
+          <horizon_brightness>1</horizon_brightness>
+          <mode>8192</mode>
+          <ray_samp>1</ray_samp>
+          <ray_samp_method>1</ray_samp_method>
+          <ray_samp_type>0</ray_samp_type>
+          <ray_sampy>1</ray_sampy>
+          <ray_sampz>1</ray_sampz>
+          <red>1</red>
+          <samp>3</samp>
+          <shadhalostep>0</shadhalostep>
+          <shadow_b sid="blender_shadow_b">0</shadow_b>
+          <shadow_g sid="blender_shadow_g">0</shadow_g>
+          <shadow_r sid="blender_shadow_r">0</shadow_r>
+          <sky_colorspace>0</sky_colorspace>
+          <sky_exposure>1</sky_exposure>
+          <skyblendfac>1</skyblendfac>
+          <skyblendtype>1</skyblendtype>
+          <soft>3</soft>
+          <spotblend>0.15</spotblend>
+          <spotsize>75</spotsize>
+          <spread>1</spread>
+          <sun_brightness>1</sun_brightness>
+          <sun_effect_type>0</sun_effect_type>
+          <sun_intensity>1</sun_intensity>
+          <sun_size>1</sun_size>
+          <type>0</type>
+        </technique>
+      </extra>
+    </light>
+  </library_lights>
+  <library_images>
+    <image id="Wood_Floor_Light_jpg" name="Wood_Floor_Light_jpg">
+      <init_from>Wood_Floor_Light.jpg</init_from>
+    </image>
+  </library_images>
+  <library_effects>
+    <effect id="Wood_Floor_Light-effect">
+      <profile_COMMON>
+        <newparam sid="Wood_Floor_Light_jpg-surface">
+          <surface type="2D">
+            <init_from>Wood_Floor_Light_jpg</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="Wood_Floor_Light_jpg-sampler">
+          <sampler2D>
+            <source>Wood_Floor_Light_jpg-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <texture texture="Wood_Floor_Light_jpg-sampler"/>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <texture texture="Wood_Floor_Light_jpg-sampler"/>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.5 0.5 0.5 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <reflective>
+              <texture texture="Wood_Floor_Light_jpg-sampler"/>
+            </reflective>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="_0137_Black-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0 0 0 1</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.5 0.5 0.5 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_materials>
+    <material id="Wood_Floor_Light-material" name="Wood_Floor_Light">
+      <instance_effect url="#Wood_Floor_Light-effect"/>
+    </material>
+    <material id="_0137_Black-material" name="_0137_Black">
+      <instance_effect url="#_0137_Black-effect"/>
+    </material>
+  </library_materials>
+  <library_geometries>
+    <geometry id="ID3-mesh" name="ID3">
+      <mesh>
+        <source id="ID3-mesh-positions">
+          <float_array id="ID3-mesh-positions-array" count="180">0 196.8504 0 48.86345 145.3907 0 0 0 0 54.0276 157.858 0 62.24256 168.564 0 72.94851 176.779 0 85.41587 181.9431 0 196.8504 196.8504 0 47.10206 132.0116 0 98.79497 183.7045 0 112.1741 181.9431 0 124.6414 176.779 0 135.3474 168.564 0 143.5623 157.858 0 148.7265 145.3907 0 150.4879 132.0116 0 150.4879 62.87773 0 98.79497 11.18482 0 196.8504 0 0 85.41587 12.94621 0 72.94851 18.11036 0 62.24256 26.32532 0 54.0276 37.03128 0 48.86345 49.49862 0 47.10206 62.87773 0 112.1741 12.94621 0 124.6414 18.11036 0 135.3474 26.32532 0 143.5623 37.03128 0 148.7265 49.49862 0 196.8504 196.8504 0 150.4879 62.87773 0 196.8504 0 0 148.7265 49.49862 0 143.5623 37.03128 0 135.3474 26.32532 0 124.6414 18.11036 0 112.1741 12.94621 0 98.79497 11.18482 0 47.10206 132.0116 0 0 0 0 47.10206 62.87773 0 48.86345 49.49862 0 54.0276 37.03128 0 62.24256 26.32532 0 72.94851 18.11036 0 85.41587 12.94621 0 150.4879 132.0116 0 148.7265 145.3907 0 143.5623 157.858 0 135.3474 168.564 0 124.6414 176.779 0 112.1741 181.9431 0 98.79497 183.7045 0 85.41587 181.9431 0 48.86345 145.3907 0 0 196.8504 0 72.94851 176.779 0 62.24256 168.564 0 54.0276 157.858 0</float_array>
+          <technique_common>
+            <accessor source="#ID3-mesh-positions-array" count="60" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="ID3-mesh-normals">
+          <float_array id="ID3-mesh-normals-array" count="6">0 0 -1 0 0 1</float_array>
+          <technique_common>
+            <accessor source="#ID3-mesh-normals-array" count="2" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="ID3-mesh-map-0">
+          <float_array id="ID3-mesh-map-0-array" count="360">0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.64042 4.10105 -1.254066 1.309953 -1.64042 0 -1.254066 1.309953 -1.239387 1.031221 -1.64042 0 -1.239387 1.031221 -1.196353 0.7714849 -1.64042 0 -1.196353 0.7714849 -1.127895 0.5484442 -1.64042 0 -1.127895 0.5484442 -1.038679 0.3772991 -1.64042 0 -1.038679 0.3772991 -0.934784 0.2697127 -1.64042 0 -0.934784 0.2697127 -0.8232914 0.233017 -1.64042 0 -0.3925171 2.750241 0 0 -0.3925171 1.309953 -0.3925171 1.309953 0 0 -0.4071954 1.031221 -0.4071954 1.031221 0 0 -0.45023 0.7714849 -0.45023 0.7714849 0 0 -0.518688 0.5484442 -0.518688 0.5484442 0 0 -0.6079043 0.3772991 -0.6079043 0.3772991 0 0 -0.7117988 0.2697127 -0.7117988 0.2697127 0 0 -0.8232914 0.233017 -1.64042 0 -0.8232914 0.233017 0 0 -1.254066 1.309953 -1.64042 4.10105 -1.254066 2.750241 -1.254066 2.750241 -1.64042 4.10105 -1.239387 3.028973 -1.239387 3.028973 -1.64042 4.10105 -1.196353 3.288709 -1.196353 3.288709 -1.64042 4.10105 -1.127895 3.51175 -1.127895 3.51175 -1.64042 4.10105 -1.038679 3.682895 -1.038679 3.682895 -1.64042 4.10105 -0.934784 3.790481 -0.934784 3.790481 -1.64042 4.10105 -0.8232914 3.827177 -0.8232914 3.827177 -1.64042 4.10105 -0.7117988 3.790481 -0.3925171 2.750241 -0.4071954 3.028973 0 0 -1.64042 4.10105 0 4.10105 -0.7117988 3.790481 -0.7117988 3.790481 0 4.10105 -0.6079043 3.682895 -0.6079043 3.682895 0 4.10105 -0.518688 3.51175 -0.518688 3.51175 0 4.10105 -0.45023 3.288709 -0.45023 3.288709 0 4.10105 -0.4071954 3.028973 0 0 -0.4071954 3.028973 0 4.10105</float_array>
+          <technique_common>
+            <accessor source="#ID3-mesh-map-0-array" count="180" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="ID3-mesh-vertices">
+          <input semantic="POSITION" source="#ID3-mesh-positions"/>
+        </vertices>
+        <polylist material="Wood_Floor_Light-material" count="60">
+          <input semantic="VERTEX" source="#ID3-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#ID3-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#ID3-mesh-map-0" offset="2" set="0"/>
+          <vcount>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </vcount>
+          <p>0 0 0 1 0 1 2 0 2 1 0 3 0 0 4 3 0 5 3 0 6 0 0 7 4 0 8 4 0 9 0 0 10 5 0 11 5 0 12 0 0 13 6 0 14 6 0 15 0 0 16 7 0 17 2 0 18 1 0 19 8 0 20 6 0 21 7 0 22 9 0 23 9 0 24 7 0 25 10 0 26 10 0 27 7 0 28 11 0 29 11 0 30 7 0 31 12 0 32 12 0 33 7 0 34 13 0 35 13 0 36 7 0 37 14 0 38 14 0 39 7 0 40 15 0 41 15 0 42 7 0 43 16 0 44 2 0 45 17 0 46 18 0 47 17 0 48 2 0 49 19 0 50 19 0 51 2 0 52 20 0 53 20 0 54 2 0 55 21 0 56 21 0 57 2 0 58 22 0 59 22 0 60 2 0 61 23 0 62 23 0 63 2 0 64 24 0 65 24 0 66 2 0 67 8 0 68 18 0 69 17 0 70 25 0 71 18 0 72 25 0 73 26 0 74 18 0 75 26 0 76 27 0 77 18 0 78 27 0 79 28 0 80 18 0 81 28 0 82 29 0 83 18 0 84 29 0 85 16 0 86 18 0 87 16 0 88 7 0 89 30 1 90 31 1 91 32 1 92 31 1 93 33 1 94 32 1 95 33 1 96 34 1 97 32 1 98 34 1 99 35 1 100 32 1 101 35 1 102 36 1 103 32 1 104 36 1 105 37 1 106 32 1 107 37 1 108 38 1 109 32 1 110 39 1 111 40 1 112 41 1 113 41 1 114 40 1 115 42 1 116 42 1 117 40 1 118 43 1 119 43 1 120 40 1 121 44 1 122 44 1 123 40 1 124 45 1 125 45 1 126 40 1 127 46 1 128 46 1 129 40 1 130 38 1 131 32 1 132 38 1 133 40 1 134 31 1 135 30 1 136 47 1 137 47 1 138 30 1 139 48 1 140 48 1 141 30 1 142 49 1 143 49 1 144 30 1 145 50 1 146 50 1 147 30 1 148 51 1 149 51 1 150 30 1 151 52 1 152 52 1 153 30 1 154 53 1 155 53 1 156 30 1 157 54 1 158 39 1 159 55 1 160 40 1 161 30 1 162 56 1 163 54 1 164 54 1 165 56 1 166 57 1 167 57 1 168 56 1 169 58 1 170 58 1 171 56 1 172 59 1 173 59 1 174 56 1 175 55 1 176 40 1 177 55 1 178 56 1 179</p>
+        </polylist>
+      </mesh>
+    </geometry>
+    <geometry id="ID18-mesh" name="ID18">
+      <mesh>
+        <source id="ID18-mesh-positions">
+          <float_array id="ID18-mesh-positions-array" count="312">48.86345 145.3907 0 47.10206 62.87773 0 47.10206 132.0116 0 48.86345 49.49862 0 49.07056 132.0116 0 50.76488 144.8812 0 54.0276 157.858 0 55.73237 156.8738 0 62.24256 168.564 0 63.6345 167.1721 0 72.94851 176.779 0 73.93277 175.0742 0 85.41587 181.9431 0 85.92535 180.0417 0 98.79497 183.7045 0 98.79497 181.736 0 112.1741 181.9431 0 111.6646 180.0417 0 123.6572 175.0742 0 124.6414 176.779 0 133.9554 167.1721 0 135.3474 168.564 0 141.8576 156.8738 0 143.5623 157.858 0 146.8251 144.8812 0 148.7265 145.3907 0 148.5194 132.0116 0 148.5194 62.87773 0 50.76488 50.00811 0 54.0276 37.03128 0 49.07056 62.87773 0 55.73237 38.01553 0 62.24256 26.32532 0 63.6345 27.71726 0 72.94851 18.11036 0 73.93277 19.81513 0 85.41587 12.94621 0 85.92535 14.84764 0 98.79497 11.18482 0 98.79497 13.15332 0 111.6646 14.84764 0 112.1741 12.94621 0 123.6572 19.81513 0 124.6414 18.11036 0 133.9554 27.71726 0 135.3474 26.32532 0 141.8576 38.01553 0 143.5623 37.03128 0 146.8251 50.00811 0 148.7265 49.49862 0 150.4879 132.0116 0 150.4879 62.87773 0 150.4879 62.87773 0 150.4879 132.0116 0 148.7265 49.49862 0 148.7265 145.3907 0 148.5194 62.87773 0 146.8251 50.00811 0 143.5623 37.03128 0 141.8576 38.01553 0 135.3474 26.32532 0 133.9554 27.71726 0 124.6414 18.11036 0 123.6572 19.81513 0 112.1741 12.94621 0 111.6646 14.84764 0 98.79497 11.18482 0 98.79497 13.15332 0 85.92535 14.84764 0 85.41587 12.94621 0 73.93277 19.81513 0 72.94851 18.11036 0 63.6345 27.71726 0 62.24256 26.32532 0 55.73237 38.01553 0 54.0276 37.03128 0 50.76488 50.00811 0 49.07056 132.0116 0 48.86345 49.49862 0 49.07056 62.87773 0 148.5194 132.0116 0 146.8251 144.8812 0 143.5623 157.858 0 141.8576 156.8738 0 135.3474 168.564 0 133.9554 167.1721 0 124.6414 176.779 0 123.6572 175.0742 0 112.1741 181.9431 0 111.6646 180.0417 0 98.79497 181.736 0 98.79497 183.7045 0 85.92535 180.0417 0 85.41587 181.9431 0 73.93277 175.0742 0 72.94851 176.779 0 63.6345 167.1721 0 62.24256 168.564 0 55.73237 156.8738 0 54.0276 157.858 0 50.76488 144.8812 0 48.86345 145.3907 0 47.10206 62.87773 0 47.10206 132.0116 0</float_array>
+          <technique_common>
+            <accessor source="#ID18-mesh-positions-array" count="104" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="ID18-mesh-normals">
+          <float_array id="ID18-mesh-normals-array" count="6">0 0 -1 0 0 1</float_array>
+          <technique_common>
+            <accessor source="#ID18-mesh-normals-array" count="2" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="ID18-mesh-vertices">
+          <input semantic="POSITION" source="#ID18-mesh-positions"/>
+        </vertices>
+        <polylist material="_0137_Black-material" count="104">
+          <input semantic="VERTEX" source="#ID18-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#ID18-mesh-normals" offset="1"/>
+          <vcount>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </vcount>
+          <p>0 0 1 0 2 0 1 0 0 0 3 0 3 0 0 0 4 0 4 0 0 0 5 0 5 0 0 0 6 0 5 0 6 0 7 0 7 0 6 0 8 0 7 0 8 0 9 0 9 0 8 0 10 0 9 0 10 0 11 0 11 0 10 0 12 0 11 0 12 0 13 0 13 0 12 0 14 0 13 0 14 0 15 0 15 0 14 0 16 0 15 0 16 0 17 0 17 0 16 0 18 0 18 0 16 0 19 0 18 0 19 0 20 0 20 0 19 0 21 0 20 0 21 0 22 0 22 0 21 0 23 0 22 0 23 0 24 0 24 0 23 0 25 0 24 0 25 0 26 0 26 0 25 0 27 0 3 0 28 0 29 0 28 0 3 0 30 0 30 0 3 0 4 0 29 0 28 0 31 0 29 0 31 0 32 0 32 0 31 0 33 0 32 0 33 0 34 0 34 0 33 0 35 0 34 0 35 0 36 0 36 0 35 0 37 0 36 0 37 0 38 0 38 0 37 0 39 0 38 0 39 0 40 0 38 0 40 0 41 0 41 0 40 0 42 0 41 0 42 0 43 0 43 0 42 0 44 0 43 0 44 0 45 0 45 0 44 0 46 0 45 0 46 0 47 0 47 0 46 0 48 0 47 0 48 0 49 0 49 0 48 0 27 0 49 0 27 0 25 0 49 0 25 0 50 0 49 0 50 0 51 0 52 1 53 1 54 1 53 1 55 1 54 1 55 1 56 1 54 1 56 1 57 1 54 1 54 1 57 1 58 1 57 1 59 1 58 1 58 1 59 1 60 1 59 1 61 1 60 1 60 1 61 1 62 1 61 1 63 1 62 1 62 1 63 1 64 1 63 1 65 1 64 1 64 1 65 1 66 1 65 1 67 1 66 1 67 1 68 1 66 1 66 1 68 1 69 1 68 1 70 1 69 1 69 1 70 1 71 1 70 1 72 1 71 1 71 1 72 1 73 1 72 1 74 1 73 1 73 1 74 1 75 1 74 1 76 1 75 1 77 1 78 1 79 1 79 1 78 1 76 1 75 1 76 1 78 1 56 1 55 1 80 1 80 1 55 1 81 1 55 1 82 1 81 1 81 1 82 1 83 1 82 1 84 1 83 1 83 1 84 1 85 1 84 1 86 1 85 1 85 1 86 1 87 1 86 1 88 1 87 1 87 1 88 1 89 1 89 1 88 1 90 1 88 1 91 1 90 1 90 1 91 1 92 1 91 1 93 1 92 1 92 1 93 1 94 1 93 1 95 1 94 1 94 1 95 1 96 1 95 1 97 1 96 1 96 1 97 1 98 1 97 1 99 1 98 1 98 1 99 1 100 1 99 1 101 1 100 1 100 1 101 1 77 1 77 1 101 1 78 1 78 1 101 1 102 1 103 1 102 1 101 1</p>
+        </polylist>
+      </mesh>
+    </geometry>
+    <geometry id="ID26-mesh" name="ID26">
+      <mesh>
+        <source id="ID26-mesh-positions">
+          <float_array id="ID26-mesh-positions-array" count="156">50.76488 144.8812 0 49.07056 62.87773 0 49.07056 132.0116 0 50.76488 50.00811 0 55.73237 156.8738 0 55.73237 38.01553 0 63.6345 167.1721 0 63.6345 27.71726 0 73.93277 175.0742 0 73.93277 19.81513 0 85.92535 180.0417 0 85.92535 14.84764 0 98.79497 181.736 0 98.79497 13.15332 0 111.6646 180.0417 0 111.6646 14.84764 0 123.6572 175.0742 0 123.6572 19.81513 0 133.9554 167.1721 0 133.9554 27.71726 0 141.8576 156.8738 0 141.8576 38.01553 0 146.8251 144.8812 0 146.8251 50.00811 0 148.5194 132.0116 0 148.5194 62.87773 0 148.5194 62.87773 0 148.5194 132.0116 0 146.8251 50.00811 0 146.8251 144.8812 0 141.8576 38.01553 0 141.8576 156.8738 0 133.9554 27.71726 0 133.9554 167.1721 0 123.6572 19.81513 0 123.6572 175.0742 0 111.6646 14.84764 0 111.6646 180.0417 0 98.79497 13.15332 0 98.79497 181.736 0 85.92535 14.84764 0 85.92535 180.0417 0 73.93277 19.81513 0 73.93277 175.0742 0 63.6345 27.71726 0 63.6345 167.1721 0 55.73237 38.01553 0 55.73237 156.8738 0 50.76488 50.00811 0 50.76488 144.8812 0 49.07056 62.87773 0 49.07056 132.0116 0</float_array>
+          <technique_common>
+            <accessor source="#ID26-mesh-positions-array" count="52" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="ID26-mesh-normals">
+          <float_array id="ID26-mesh-normals-array" count="6">0 0 -1 0 0 1</float_array>
+          <technique_common>
+            <accessor source="#ID26-mesh-normals-array" count="2" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="ID26-mesh-map-0">
+          <float_array id="ID26-mesh-map-0-array" count="288">0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.237662 1.309953 -1.237662 2.750241 -1.223542 1.041836 -1.237662 2.750241 -1.223542 3.018359 -1.223542 1.041836 -1.223542 1.041836 -1.223542 3.018359 -1.182146 0.7919901 -1.223542 3.018359 -1.182146 3.268204 -1.182146 0.7919901 -1.182146 0.7919901 -1.182146 3.268204 -1.116295 0.577443 -1.182146 3.268204 -1.116295 3.482751 -1.116295 0.577443 -1.116295 0.577443 -1.116295 3.482751 -1.030476 0.4128152 -1.116295 3.482751 -1.030476 3.647379 -1.030476 0.4128152 -1.030476 0.4128152 -1.030476 3.647379 -0.9305383 0.3093258 -1.030476 3.647379 -0.9305383 3.750868 -0.9305383 0.3093258 -0.9305383 0.3093258 -0.9305383 3.750868 -0.8232914 0.2740275 -0.9305383 3.750868 -0.8232914 3.786167 -0.8232914 0.2740275 -0.8232914 0.2740275 -0.8232914 3.786167 -0.7160446 0.3093258 -0.8232914 3.786167 -0.7160446 3.750868 -0.7160446 0.3093258 -0.7160446 0.3093258 -0.7160446 3.750868 -0.6161064 0.4128152 -0.7160446 3.750868 -0.6161064 3.647379 -0.6161064 0.4128152 -0.6161064 0.4128152 -0.6161064 3.647379 -0.5302875 0.577443 -0.6161064 3.647379 -0.5302875 3.482751 -0.5302875 0.577443 -0.5302875 0.577443 -0.5302875 3.482751 -0.4644364 0.7919901 -0.5302875 3.482751 -0.4644364 3.268204 -0.4644364 0.7919901 -0.4644364 0.7919901 -0.4644364 3.268204 -0.4230407 1.041836 -0.4644364 3.268204 -0.4230407 3.018359 -0.4230407 1.041836 -0.4230407 1.041836 -0.4230407 3.018359 -0.4089213 1.309953 -0.4089213 2.750241 -0.4089213 1.309953 -0.4230407 3.018359</float_array>
+          <technique_common>
+            <accessor source="#ID26-mesh-map-0-array" count="144" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="ID26-mesh-vertices">
+          <input semantic="POSITION" source="#ID26-mesh-positions"/>
+        </vertices>
+        <polylist material="Wood_Floor_Light-material" count="48">
+          <input semantic="VERTEX" source="#ID26-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#ID26-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#ID26-mesh-map-0" offset="2" set="0"/>
+          <vcount>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </vcount>
+          <p>0 0 0 1 0 1 2 0 2 1 0 3 0 0 4 3 0 5 3 0 6 0 0 7 4 0 8 3 0 9 4 0 10 5 0 11 5 0 12 4 0 13 6 0 14 5 0 15 6 0 16 7 0 17 7 0 18 6 0 19 8 0 20 7 0 21 8 0 22 9 0 23 9 0 24 8 0 25 10 0 26 9 0 27 10 0 28 11 0 29 11 0 30 10 0 31 12 0 32 11 0 33 12 0 34 13 0 35 13 0 36 12 0 37 14 0 38 13 0 39 14 0 40 15 0 41 15 0 42 14 0 43 16 0 44 15 0 45 16 0 46 17 0 47 17 0 48 16 0 49 18 0 50 17 0 51 18 0 52 19 0 53 19 0 54 18 0 55 20 0 56 19 0 57 20 0 58 21 0 59 21 0 60 20 0 61 22 0 62 21 0 63 22 0 64 23 0 65 23 0 66 22 0 67 24 0 68 23 0 69 24 0 70 25 0 71 26 1 72 27 1 73 28 1 74 27 1 75 29 1 76 28 1 77 28 1 78 29 1 79 30 1 80 29 1 81 31 1 82 30 1 83 30 1 84 31 1 85 32 1 86 31 1 87 33 1 88 32 1 89 32 1 90 33 1 91 34 1 92 33 1 93 35 1 94 34 1 95 34 1 96 35 1 97 36 1 98 35 1 99 37 1 100 36 1 101 36 1 102 37 1 103 38 1 104 37 1 105 39 1 106 38 1 107 38 1 108 39 1 109 40 1 110 39 1 111 41 1 112 40 1 113 40 1 114 41 1 115 42 1 116 41 1 117 43 1 118 42 1 119 42 1 120 43 1 121 44 1 122 43 1 123 45 1 124 44 1 125 44 1 126 45 1 127 46 1 128 45 1 129 47 1 130 46 1 131 46 1 132 47 1 133 48 1 134 47 1 135 49 1 136 48 1 137 48 1 138 49 1 139 50 1 140 51 1 141 50 1 142 49 1 143</p>
+        </polylist>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_controllers/>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="Camera" name="Camera" type="NODE">
+        <matrix sid="transform">0.6859207 -0.3240135 0.6515582 7.481132 0.7276763 0.3054208 -0.6141704 -6.50764 0 0.8953956 0.4452714 5.343665 0 0 0 1</matrix>
+        <instance_camera url="#Camera-camera"/>
+      </node>
+      <node id="Lamp" name="Lamp" type="NODE">
+        <matrix sid="transform">-0.2908646 -0.7711008 0.5663932 4.076245 0.9551712 -0.1998834 0.2183912 1.005454 -0.05518906 0.6045247 0.7946723 5.903862 0 0 0 1</matrix>
+        <instance_light url="#Lamp-light"/>
+      </node>
+      <node id="SketchUp" name="SketchUp" type="NODE">
+        <matrix sid="transform">0.0254 0 0 0 0 0.0254 0 0 0 0 0.0254 0 0 0 0 1</matrix>
+        <instance_geometry url="#ID3-mesh" name="SketchUp">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="Wood_Floor_Light-material" target="#Wood_Floor_Light-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+        <node id="skp_camera_Last_Saved_SketchUp_View" name="skp_camera_Last_Saved_SketchUp_View" type="NODE">
+          <matrix sid="transform">0.9994162 0.03227449 -0.01122343 110.0535 -0.03417028 0.9439678 -0.3282639 -19.32113 1.30698e-9 0.3284557 0.9445192 350.4138 0 0 0 1</matrix>
+          <instance_camera url="#skp_camera_Last_Saved_SketchUp_View-camera"/>
+        </node>
+      </node>
+      <node id="SketchUp_001" name="SketchUp_001" type="NODE">
+        <matrix sid="transform">0.0254 0 0 0 0 0.0254 0 0 0 0 0.0254 0 0 0 0 1</matrix>
+        <instance_geometry url="#ID18-mesh" name="SketchUp_001">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="_0137_Black-material" target="#_0137_Black-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+      <node id="SketchUp_002" name="SketchUp_002" type="NODE">
+        <matrix sid="transform">0.0254 0 0 0 0 0.0254 0 0 0 0 0.0254 0 0 0 0 1</matrix>
+        <instance_geometry url="#ID26-mesh" name="SketchUp_002">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="Wood_Floor_Light-material" target="#Wood_Floor_Light-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>

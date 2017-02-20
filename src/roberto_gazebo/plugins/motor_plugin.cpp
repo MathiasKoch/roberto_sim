@@ -73,10 +73,10 @@ enum{
   FRONTLEFT,
   REARRIGHT,
   REARLEFT,
-  SERVOLEFT,
   SERVORIGHT,
-  SERVOLEFTMIMIC,
-  SERVORIGHTMIMIC
+  SERVOLEFT,
+  SERVORIGHTMIMIC,
+  SERVOLEFTMIMIC
 };
 
 
@@ -268,7 +268,7 @@ void MotorDrivePlugin::publishWheelTF()
         std::string wheel_frame = gazebo_ros_->resolveTF(joints_[i]->GetChild()->GetName ());
         std::string wheel_parent_frame = gazebo_ros_->resolveTF(joints_[i]->GetParent()->GetName ());
         
-        math::Pose poseWheel = joints_[i]->GetChild()->GetRelativePose();
+        math::Pose poseWheel = joints_[i]->GetChild()->GetRelativePose() - joints_[i]->GetParent()->GetRelativePose();
 
         tf::Quaternion qt ( poseWheel.rot.x, poseWheel.rot.y, poseWheel.rot.z, poseWheel.rot.w );
         tf::Vector3 vt ( poseWheel.pos.x, poseWheel.pos.y, poseWheel.pos.z );

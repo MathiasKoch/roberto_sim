@@ -23,7 +23,7 @@
      
     <!-- Camera -->
     <xacro:include filename="$(find roberto_models_jade)/models/sensors/camera/camera.xacro"/>
-    <xacro:cam name="front_camera" parent="body_top" angle="${M_PI/10}" xyz="0 0.01 0.0375" rpy="0 0 ${M_PI/2}"/>
+    <xacro:cam name="usb_cam" parent="body_top" angle="${M_PI/10}" xyz="0 0.01 0.0375" rpy="0 0 ${M_PI/2}"/>
     
   
 </robot>
