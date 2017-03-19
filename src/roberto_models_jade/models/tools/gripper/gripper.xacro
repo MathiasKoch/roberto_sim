@@ -1,0 +1,286 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+  <xacro:include filename="$(find roberto_models_jade)/models/inertia_tensors.xacro"/>
+  <xacro:macro name="gripper" params="model_dir:=^">
+
+    <link name="mount1">
+      <visual>
+        <geometry>
+          <mesh filename="file://${model_dir}/meshes/servo1_mount5.dae"/> 
+        </geometry>
+        <origin xyz="0 0 0.08" rpy="${M_PI} 0 ${-M_PI/2}" />
+        <material name="grey"/>
+      </visual>
+      <box_inertial x="0.05" y="0.05" z="0.005" mass="0.01"/>
+      <collision>
+        <geometry>
+          <box size="0.03 0.031 0.005" />
+        </geometry>
+        <origin xyz="-0.0475 -0.0205 0.0775" rpy="0 0 0" />
+      </collision>
+    </link>
+
+
+    <link name="mount2">
+      <visual>
+        <geometry>
+          <mesh filename="file://${model_dir}/meshes/servo1_mount5.dae"/> 
+        </geometry>
+        <origin xyz="0 0 0" rpy="${M_PI} 0 ${-M_PI/2}" />
+        <material name="grey"/>
+      </visual>
+      <box_inertial x="0.05" y="0.05" z="0.005" mass="0.01"/>
+      <collision>
+        <geometry>
+          <box size="0.03 0.03 0.005" />
+        </geometry>
+        <origin xyz="-0.0475 -0.0205 -0.0025" rpy="0 0 0" />
+      </collision>
+    </link>
+
+    <joint name="mount2_to_mount1" type="fixed">
+      <parent link="mount1" />
+      <child link="mount2" />
+      <origin xyz="0 0 0.07" rpy="0 0 0" /> 
+    </joint>
+
+
+    <link name="mount3">
+      <visual>
+        <geometry>
+          <mesh filename="file://${model_dir}/meshes/servo1_mount3.dae"/> 
+        </geometry>
+        <origin xyz="0 0 0" rpy="${M_PI/2} 0 0" />
+        <material name="grey"/>
+      </visual>
+      <box_inertial x="0.05" y="0.05" z="0.005" mass="0.01"/>
+      <collision>
+        <geometry>
+          <mesh filename="file://${model_dir}/meshes/servo1_mount3.dae"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="${M_PI/2} 0 0" />
+      </collision>
+    </link>
+
+    <joint name="mount3_to_mount1" type="fixed">
+      <parent link="mount1" />
+      <child link="mount3" />
+      <origin xyz="-0.0325 0 0.0425" rpy="0 0 0" /> 
+    </joint>
+
+
+    <link name="mount4">
+      <visual>
+        <geometry>
+          <mesh filename="file://${model_dir}/meshes/servo1_mount4.dae"/> 
+        </geometry>
+        <origin xyz="0 0 0" rpy="${M_PI/2} 0 ${M_PI}" />
+        <material name="grey"/>
+      </visual>
+      <box_inertial x="0.05" y="0.05" z="0.005" mass="0.01"/>
+      <collision>
+        <geometry>
+          <mesh filename="file://${model_dir}/meshes/servo1_mount4.dae"/> 
+        </geometry>
+        <origin xyz="0 0 0" rpy="${M_PI/2} 0 ${M_PI}" />
+      </collision>
+    </link>
+
+    <joint name="mount4_to_mount1" type="fixed">
+      <parent link="mount1" />
+      <child link="mount4" />
+      <origin xyz="0.029 -0.021 0.0375" rpy="0 0 0" /> 
+    </joint>
+
+
+    <link name="left_hinge">
+      <visual>
+        <geometry>
+          <mesh filename="file://${model_dir}/meshes/servo1_mount2.dae"/> 
+        </geometry>
+        <origin xyz="-0.01 0 -0.01" rpy="${M_PI/2} 0 0" />
+        <material name="grey"/>
+      </visual>
+      <box_inertial x="0.05" y="0.05" z="0.005" mass="0.001"/>
+    </link>
+
+    <joint name="left_hinge_to_mount3" type="revolute">
+      <parent link="mount3" />
+      <child link="left_hinge" />
+      <origin xyz="0.05 0.005 0.01" rpy="0 0 0" /> 
+      <axis xyz="0 1 0" rpy="0 0 0" />
+      <limit effort="1000.0" velocity="4" lower="0" upper="${M_PI/3}"/>
+    </joint>
+
+
+    <link name="right_hinge">
+      <visual>
+        <geometry>
+          <mesh filename="file://${model_dir}/meshes/servo1_mount.dae"/> 
+        </geometry>
+        <origin xyz="0 0 0" rpy="${M_PI/2} 0 0" />
+        <material name="grey"/>
+      </visual>
+      <box_inertial x="0.05" y="0.05" z="0.005" mass="0.001"/>
+    </link>
+
+    <joint name="right_hinge_to_left_hinge" type="fixed">
+      <parent link="left_hinge" />
+      <child link="right_hinge" />
+      <origin xyz="-0.01 -0.033 -0.01" rpy="0 0 0" /> 
+    </joint>
+
+
+    <link name="top_fork">
+      <visual>
+        <geometry>
+          <mesh filename="file://${model_dir}/meshes/gripper_bottom_connector.dae"/> 
+        </geometry>
+        <origin xyz="0 0 0" rpy="${M_PI} 0 ${M_PI/2}" />
+        <material name="grey"/>
+      </visual>
+      <box_inertial x="0.05" y="0.05" z="0.005" mass="0.01"/>
+      <collision>
+        <geometry>
+           <mesh filename="file://${model_dir}/meshes/gripper_bottom_connector.dae"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="${M_PI} 0 ${M_PI/2}" />
+      </collision>
+    </link>
+
+    <joint name="top_fork_to_left_hinge" type="fixed">
+      <parent link="left_hinge" />
+      <child link="top_fork" />
+      <origin xyz="0.006 -0.0505 0.01" rpy="0 0 0" /> 
+    </joint>
+
+
+    <link name="bottom_fork">
+      <visual>
+        <geometry>
+          <mesh filename="file://${model_dir}/meshes/gripper_bottom_connector_servo.dae"/> 
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 ${M_PI/2}" />
+        <material name="grey"/>
+      </visual>
+      <box_inertial x="0.05" y="0.05" z="0.005" mass="0.01"/>
+      <collision>
+        <geometry>
+           <mesh filename="file://${model_dir}/meshes/gripper_bottom_connector_servo.dae"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 ${M_PI/2}" />
+      </collision>
+    </link>
+
+    <joint name="bottom_fork_to_top_fork" type="fixed">
+      <parent link="top_fork" />
+      <child link="bottom_fork" />
+      <origin xyz="0.045 0 -0.031" rpy="0 0 0" /> 
+    </joint>
+
+
+    <link name="gripper_top_left">
+      <visual>
+        <geometry>
+          <mesh filename="file://${model_dir}/meshes/gripper_simpel.dae"/> 
+        </geometry>
+        <origin xyz="-0.006 -0.0175 0.005" rpy="${M_PI} 0 ${M_PI/2}" />
+        <material name="grey"/>
+      </visual>
+      <box_inertial x="0.05" y="0.05" z="0.005" mass="0.001"/>
+      <collision>
+        <geometry>
+           <mesh filename="file://${model_dir}/meshes/gripper_simpel.dae"/>
+        </geometry>
+        <origin xyz="-0.006 -0.0175 0.005" rpy="${M_PI} 0 ${M_PI/2}" />
+      </collision>
+    </link>
+
+    <joint name="gripper_top_left_to_top_fork" type="revolute">
+      <parent link="top_fork" />
+      <child link="gripper_top_left" />
+      <origin xyz="0.015 0.04375 0" rpy="0 0 0" />
+      <axis xyz="0 0 1" rpy="0 0 0" />
+      <limit effort="1000.0" velocity="4" lower="0" upper="${M_PI/4}"/> 
+    </joint>
+
+
+    <link name="gripper_top_right">
+      <visual>
+        <geometry>
+          <mesh filename="file://${model_dir}/meshes/gripper_simpel.dae"/> 
+        </geometry>
+        <origin xyz="-0.006 0.0175 0" rpy="0 0 ${-M_PI/2}" />
+        <material name="grey"/>
+      </visual>
+      <box_inertial x="0.05" y="0.05" z="0.005" mass="0.001"/>
+      <collision>
+        <geometry>
+           <mesh filename="file://${model_dir}/meshes/gripper_simpel.dae"/>
+        </geometry>
+        <origin xyz="-0.006 0.0175 0" rpy="0 0 ${-M_PI/2}" />
+      </collision>
+    </link>
+
+    <joint name="gripper_top_right_to_top_fork" type="revolute">
+      <parent link="top_fork" />
+      <child link="gripper_top_right" />
+      <origin xyz="0.015 0.00875 0" rpy="0 0 0" />
+      <axis xyz="0 0 1" rpy="0 0 0" />
+      <limit effort="1000.0" velocity="4" lower="${-M_PI/4}" upper="0"/> 
+    </joint>
+
+
+    <link name="gripper_bottom_left">
+      <visual>
+        <geometry>
+          <mesh filename="file://${model_dir}/meshes/gripper_with_gear_left.dae"/> 
+        </geometry>
+        <origin xyz="0 0 0" rpy="${M_PI} 0 ${M_PI/2}" />
+        <material name="grey"/>
+      </visual>
+      <box_inertial x="0.05" y="0.05" z="0.005" mass="0.001"/>
+      <collision>
+        <geometry>
+           <mesh filename="file://${model_dir}/meshes/gripper_with_gear_left.dae"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="${M_PI} 0 ${M_PI/2}" />
+      </collision>
+    </link>
+
+    <joint name="gripper_bottom_left_to_gripper_top_left" type="fixed">
+      <parent link="gripper_top_left" />
+      <child link="gripper_bottom_left" />
+      <origin xyz="-0.02 -0.02 -0.031" rpy="0 0 0" /> 
+    </joint>
+
+
+    <link name="gripper_bottom_right">
+      <visual>
+        <geometry>
+          <mesh filename="file://${model_dir}/meshes/gripper_with_gear_right.dae"/> 
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 ${-M_PI/2}" />
+        <material name="grey"/>
+      </visual>
+      <box_inertial x="0.05" y="0.05" z="0.005" mass="0.001"/>
+      <collision>
+        <geometry>
+           <mesh filename="file://${model_dir}/meshes/gripper_with_gear_right.dae"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 ${-M_PI/2}" />
+      </collision>
+    </link>
+
+    <joint name="gripper_bottom_right_to_gripper_top_right" type="fixed">
+      <parent link="gripper_top_right" />
+      <child link="gripper_bottom_right" />
+      <origin xyz="-0.02 0.019 -0.036" rpy="0 0 0" /> 
+    </joint>
+
+
+  </xacro:macro>
+
+</robot>
