@@ -60,9 +60,13 @@
 
 #define MAX_ANGLE_PIVOT 13
 
-#define KP_POS 10
-#define KI_POS 1
-#define KD_POS 0.1
+#define KP_POS 15
+#define KI_POS 10
+#define KD_POS 0.5
+
+#define KP_VEL 0.005
+#define KI_VEL 0
+#define KD_VEL 0
 
 
 namespace gazebo
@@ -71,8 +75,8 @@ namespace gazebo
 enum{
   FRONTRIGHT,
   FRONTLEFT,
-  REARRIGHT,
   REARLEFT,
+  REARRIGHT,
   SERVORIGHT,
   SERVOLEFT,
   SERVORIGHTMIMIC,
@@ -128,11 +132,16 @@ void MotorDrivePlugin::Load ( physics::ModelPtr _parent, sdf::ElementPtr _sdf )
     joints_[REARLEFT] = gazebo_ros_->getJoint ( parent, "rearLeftJoint", "rear_left_wheel_hinge" );
     joints_[REARRIGHT] = gazebo_ros_->getJoint ( parent, "rearRightJoint", "rear_right_wheel_hinge" );
 
-    pid.resize(4);
-    pid[SERVOLEFT-4] = common::PID(KP_POS, KI_POS, KD_POS);
-    pid[SERVORIGHT-4] = common::PID(KP_POS, KI_POS, KD_POS);
-    pid[SERVOLEFTMIMIC-4] = common::PID(KP_POS, KI_POS, KD_POS);
-    pid[SERVORIGHTMIMIC-4] = common::PID(KP_POS, KI_POS, KD_POS);
+    pid.resize(8);
+    pid[FRONTLEFT] = common::PID(KP_VEL, KI_VEL, KD_VEL);
+    pid[FRONTRIGHT] = common::PID(KP_VEL, KI_VEL, KD_VEL);
+    pid[REARLEFT] = common::PID(KP_VEL, KI_VEL, KD_VEL);
+    pid[REARRIGHT] = common::PID(KP_VEL, KI_VEL, KD_VEL);
+
+    pid[SERVOLEFT] = common::PID(KP_POS, KI_POS, KD_POS);
+    pid[SERVORIGHT] = common::PID(KP_POS, KI_POS, KD_POS);
+    pid[SERVOLEFTMIMIC] = common::PID(KP_POS, KI_POS, KD_POS);
+    pid[SERVORIGHTMIMIC] = common::PID(KP_POS, KI_POS, KD_POS);
 
 
     for ( int i = 0; i < joints_.size(); i++ ) {
@@ -176,12 +185,18 @@ void MotorDrivePlugin::Load ( physics::ModelPtr _parent, sdf::ElementPtr _sdf )
     spinningAutonomously = false;
     waitForServos = false;
 
+    math::Pose pose = parent->GetWorldPose();
+    pose_encoder_.x = pose.pos.x;
+    pose_encoder_.y = pose.pos.y;
+    pose_encoder_.theta = pose.rot.GetYaw();
+
     l = sqrt(pow((L/2),2)*2);
 
-    alpha[0] = -M_PI/4;
-    alpha[1] = M_PI/4;
-    alpha[2] = 3*M_PI/4;
-    alpha[3] = -3*M_PI/4;
+    alpha[FRONTRIGHT] = -M_PI/4;
+    alpha[FRONTLEFT ] = M_PI/4;
+    alpha[REARLEFT  ] = 3*M_PI/4;
+    alpha[REARRIGHT ] = -3*M_PI/4;
+
 
 
     if (this->publishWheelJointState_){
@@ -205,6 +220,7 @@ void MotorDrivePlugin::Load ( physics::ModelPtr _parent, sdf::ElementPtr _sdf )
     if (this->publish_tf_)
     {
       odometry_publisher_ = gazebo_ros_->node()->advertise<nav_msgs::Odometry>(odometry_topic_, 1);
+      odometry_publisher__ = gazebo_ros_->node()->advertise<nav_msgs::Odometry>("odom_ground_truth", 1);
       ROS_INFO("%s: Advertise odom to \"%s\" !", gazebo_ros_->info(), odometry_topic_.c_str());
     }
 
@@ -225,15 +241,16 @@ void MotorDrivePlugin::Init() {
 void MotorDrivePlugin::Reset() {
     gazebo::ModelPlugin::Reset();
     last_update_time_ = parent->GetWorld()->GetSimTime();
-    pose_encoder_.x = 0;
-    pose_encoder_.y = 0;
-    pose_encoder_.theta = 0;
+    math::Pose pose = parent->GetWorldPose();
+    pose_encoder_.x = pose.pos.x;
+    pose_encoder_.y = pose.pos.y;
+    pose_encoder_.theta = pose.rot.GetYaw();
     speed_ = 0;
     heading_ = 0;
     alive_ = true;
     mode_ = roberto_msgs::MotorState::DRIVE_MODE_PIVOT;
 
-    for ( int i = 0; i < 8; i++ ) {
+    for ( int i = 0; i < joints_.size(); i++ ) {
 #if GAZEBO_MAJOR_VERSION > 2
         joints_[i]->SetParam ( "fmax", 0, wheel_torque );
 #else
@@ -301,13 +318,14 @@ void MotorDrivePlugin::UpdateChild()
     }
 */
 
-    if ( odom_source_ == ENCODER ) UpdateOdometryEncoder();
+    if ( odom_source_ == ENCODER ) 
+        UpdateOdometryEncoder();
 
     common::Time current_time = parent->GetWorld()->GetSimTime();
     double seconds_since_last_update = ( current_time - last_update_time_ ).Double();
 
     if ( seconds_since_last_update > update_period_ ) {
-        if (this->publish_tf_) publishOdometry ( seconds_since_last_update );
+        publishOdometry ( seconds_since_last_update );
         if ( publishWheelTF_ ) publishWheelTF();
         if ( publishWheelJointState_ ) publishWheelJointState();
 
@@ -364,13 +382,14 @@ void MotorDrivePlugin::UpdateChild()
         wheel_applied_vel[FRONTRIGHT] = wheel_speed_instr_[FRONTRIGHT] / ( wheel_diameter_ / 2.0 );
         wheel_applied_vel[REARLEFT  ] = wheel_speed_instr_[REARLEFT  ] / ( wheel_diameter_ / 2.0 );
 	    wheel_applied_vel[REARRIGHT ] = wheel_speed_instr_[REARRIGHT ] / ( wheel_diameter_ / 2.0 );
+
         last_update_time_ = current_time;
 
         // TODO: Calculate these parameters from servo joint limits!
-        joints_[SERVOLEFT      ]->SetParam ( "vel",  0, pid[SERVOLEFT-4].Update( current_speed[SERVOLEFT] - (((180-motorCmd[SERVOLEFT]) * -0.0176134615) + 0.830902913 ) , seconds_since_last_update));
-        joints_[SERVORIGHT     ]->SetParam ( "vel",  0, pid[SERVORIGHT-4].Update( current_speed[SERVORIGHT] - ((motorCmd[SERVORIGHT] * -0.0176134615) + 2.36260577) , seconds_since_last_update));
-        joints_[SERVOLEFTMIMIC ]->SetParam ( "vel",  0, pid[SERVOLEFTMIMIC-4].Update( current_speed[SERVOLEFTMIMIC] + (((180-motorCmd[SERVOLEFT]) * -0.0176134615) + 0.830902913 ) , seconds_since_last_update));
-        joints_[SERVORIGHTMIMIC]->SetParam ( "vel",  0, pid[SERVORIGHTMIMIC-4].Update( current_speed[SERVORIGHTMIMIC] + ((motorCmd[SERVORIGHT] * -0.0176134615) + 2.36260577) , seconds_since_last_update));
+        joints_[SERVOLEFT      ]->SetParam ( "vel",  0, pid[SERVOLEFT].Update( current_speed[SERVOLEFT] - (((180-motorCmd[SERVOLEFT]) * -0.0176134615) + 0.792605913 ) , seconds_since_last_update));
+        joints_[SERVORIGHT     ]->SetParam ( "vel",  0, pid[SERVORIGHT].Update( current_speed[SERVORIGHT] - ((motorCmd[SERVORIGHT] * -0.0176134615) + 2.37781677) , seconds_since_last_update));
+        joints_[SERVOLEFTMIMIC ]->SetParam ( "vel",  0, pid[SERVOLEFTMIMIC].Update( current_speed[SERVOLEFTMIMIC] + (((180-motorCmd[SERVOLEFT]) * -0.0176134615) + 0.792605913 ) , seconds_since_last_update));
+        joints_[SERVORIGHTMIMIC]->SetParam ( "vel",  0, pid[SERVORIGHTMIMIC].Update( current_speed[SERVORIGHTMIMIC] + ((motorCmd[SERVORIGHT] * -0.0176134615) + 2.37781677) , seconds_since_last_update));
 
         // (sr, sl) output of low pass filtered servo references, compare these to the setpoint, in order to see whether filter has reached setpoint
         /*if(waitForServos && ((int)sr == (int)servo_right->getReference() && (int)sl == (int)servo_left->getReference())){
@@ -381,6 +400,12 @@ void MotorDrivePlugin::UpdateChild()
             joints_[FRONTRIGHT]->SetParam ( "vel", 0, wheel_applied_vel[FRONTRIGHT] );
             joints_[REARLEFT  ]->SetParam ( "vel", 0, wheel_applied_vel[REARLEFT  ] );
             joints_[REARRIGHT ]->SetParam ( "vel", 0, wheel_applied_vel[REARRIGHT ] );
+
+            /*joints_[FRONTLEFT ]->SetParam ( "vel",  0, pid[FRONTLEFT  ].Update( wheel_applied_vel[FRONTLEFT ], seconds_since_last_update));
+            joints_[FRONTRIGHT]->SetParam ( "vel",  0, pid[FRONTRIGHT ].Update( wheel_applied_vel[FRONTRIGHT], seconds_since_last_update));
+            joints_[REARLEFT  ]->SetParam ( "vel",  0, pid[REARLEFT   ].Update( wheel_applied_vel[REARLEFT  ], seconds_since_last_update));
+            joints_[REARRIGHT ]->SetParam ( "vel",  0, pid[REARRIGHT  ].Update( wheel_applied_vel[REARRIGHT ], seconds_since_last_update));
+*/
 #else
             joints_[FRONTLEFT ]->SetVelocity ( 0, wheel_applied_vel[FRONTLEFT ] );
             joints_[FRONTRIGHT]->SetVelocity ( 0, wheel_applied_vel[FRONTRIGHT] );
@@ -527,20 +552,28 @@ void MotorDrivePlugin::QueueThread()
 void MotorDrivePlugin::UpdateOdometryEncoder()
 {
     double actual_speeds[4];
-    actual_speeds[FRONTLEFT ] = joints_[FRONTLEFT ]->GetVelocity ( 0 );
-    actual_speeds[FRONTRIGHT] = joints_[FRONTRIGHT]->GetVelocity ( 0 );
-    actual_speeds[REARLEFT  ] = joints_[REARLEFT  ]->GetVelocity ( 0 );
-    actual_speeds[REARRIGHT ] = joints_[REARRIGHT ]->GetVelocity ( 0 );
+    actual_speeds[FRONTRIGHT] = -joints_[FRONTRIGHT]->GetVelocity ( 0 );
+    actual_speeds[FRONTLEFT ] = -joints_[FRONTLEFT ]->GetVelocity ( 0 );
+    actual_speeds[REARLEFT  ] = -joints_[REARLEFT  ]->GetVelocity ( 0 );
+    actual_speeds[REARRIGHT ] = -joints_[REARRIGHT ]->GetVelocity ( 0 );
 
     double actual_angles[4];
-    actual_angles[FRONTLEFT ] = -joints_[SERVOLEFT ]->GetAngle ( 0 ).Radian() + M_PI/2;
-    actual_angles[FRONTRIGHT] =  joints_[SERVORIGHT]->GetAngle ( 0 ).Radian() - M_PI/2;
-    actual_angles[REARLEFT  ] =  joints_[SERVOLEFTMIMIC ]->GetAngle ( 0 ).Radian() + M_PI/2;
-    actual_angles[REARRIGHT ] = -joints_[SERVORIGHTMIMIC]->GetAngle ( 0 ).Radian() - M_PI/2;
+    actual_angles[FRONTRIGHT] =  joints_[SERVORIGHT]->GetAngle ( 0 ).Radian();// - M_PI/2;
+    actual_angles[FRONTLEFT ] = joints_[SERVOLEFT ]->GetAngle ( 0 ).Radian();// + M_PI/2;
+    actual_angles[REARLEFT  ] =  joints_[SERVOLEFTMIMIC ]->GetAngle ( 0 ).Radian();// + M_PI/2;
+    actual_angles[REARRIGHT ] = joints_[SERVORIGHTMIMIC]->GetAngle ( 0 ).Radian();// - M_PI/2;
 
     common::Time current_time = parent->GetWorld()->GetSimTime();
     double seconds_since_last_update = ( current_time - last_odom_update_ ).Double();
     last_odom_update_ = current_time;
+
+    double wheel_displacement[4];
+    wheel_displacement[FRONTRIGHT] = actual_speeds[FRONTRIGHT] * ( wheel_diameter_ / 2.0 ) * seconds_since_last_update;
+    wheel_displacement[FRONTLEFT ] = actual_speeds[FRONTLEFT ] * ( wheel_diameter_ / 2.0 ) * seconds_since_last_update;
+    wheel_displacement[REARLEFT  ] = actual_speeds[REARLEFT  ] * ( wheel_diameter_ / 2.0 ) * seconds_since_last_update;
+    wheel_displacement[REARRIGHT ] = actual_speeds[REARRIGHT ] * ( wheel_diameter_ / 2.0 ) * seconds_since_last_update;
+
+    
 
     double b = L+d;
 
@@ -556,35 +589,59 @@ void MotorDrivePlugin::UpdateOdometryEncoder()
 
     */
 
-    int i;
     float dx = 0;
     float dy = 0;
     float dtheta = 0;
 
-    for(i = 0; i < 4; i++){
-      //actual_angles[i] = actual_angles[i]*M_PI/180;
-      
-      float wheelAngle = alpha[i]+actual_angles[i];
-      dx += cos(wheelAngle)*actual_speeds[i];
-      dy -= sin(wheelAngle)*actual_speeds[i];
-      
-      float motorAngle = wheelAngle;
-      if(i==2 || i==3){
-        motorAngle += M_PI;
-      }
-      float deltaX = -(l*sin(alpha[i]) + d*sin(motorAngle));
-      float deltaY = l*cos(alpha[i]) + d*cos(motorAngle);
+    // [FRONTRIGHT, FRONTLEFT, REARLEFT, REARRIGHT]
+    for(int i = 0; i < 4; i++){
 
-      float deltaNorm = sqrt(deltaX*deltaX + deltaY*deltaY);
-      float deltaXNorm = deltaX/deltaNorm;
-      float deltaYNorm = deltaY/deltaNorm;
 
-      float wAngle = wheelAngle+M_PI/2;
-      float wX = cos(wAngle);
-      float wY = sin(wAngle);
+        dx += cos(pose_encoder_.theta)*wheel_displacement[i];
+        dy += sin(pose_encoder_.theta)*wheel_displacement[i];
 
-      dtheta += (((deltaXNorm*wX + deltaYNorm*wY)*wX)/deltaNorm)*actual_speeds[i];
+        //printf("%f\t",actual_angles[i]);
+
+        
+        float motorAngle = actual_angles[i];// - M_PI/2;
+        if(i==1 || i==2){
+            motorAngle += M_PI;
+        }
+        
+
+        float deltaX = l*cos(alpha[i]) + d*cos(motorAngle);
+        float deltaY = l*sin(alpha[i]) + d*sin(motorAngle);
+
+        float deltaNorm = sqrt(deltaX*deltaX + deltaY*deltaY);
+        float deltaXNorm = deltaX/deltaNorm;
+        float deltaYNorm = deltaY/deltaNorm;
+
+        /*
+        [ deltaXNorm
+          deltaYNorm ]      <-- Unit vector from robot center to center of wheel 'i'
+
+        */
+
+
+        float wAngle = actual_angles[i] - M_PI/2;
+        /*if(i==1 || i==2){
+            wAngle += M_PI;
+        }*/
+        float wX = -sin(wAngle);
+        float wY = cos(wAngle);
+
+        /*
+        [ wX
+          wY ]      <-- Unit vector - somthing somthing!
+
+        */
+
+        // dtheta += (dot(deltaNorm, w) * wX)/norm(deltaNorm) * wheel_displacement[i]
+
+        dtheta += (( (deltaXNorm*wX + deltaYNorm*wY) * wX)/deltaNorm)*wheel_displacement[i];
+        //printf("%f \t\t",wheel_displacement[i]);
     }
+    //printf("%f\t\n",seconds_since_last_update);
     dx /= 4;
     dy /= 4;
     dtheta /= 4;
@@ -593,26 +650,30 @@ void MotorDrivePlugin::UpdateOdometryEncoder()
     pose_encoder_.y += dy;
     pose_encoder_.theta += dtheta;
 
+    math::Pose pose = parent->GetWorldPose();
+    pose_encoder_.theta = pose.rot.GetYaw();
+
+
     double w = dtheta/seconds_since_last_update;
-    double v = sqrt ( dx*dx+dy*dy ) /seconds_since_last_update;
+    //double v = sqrt ( dx*dx+dy*dy ) /seconds_since_last_update;
 
     tf::Quaternion qt;
     tf::Vector3 vt;
     qt.setRPY ( 0,0,pose_encoder_.theta );
     vt = tf::Vector3 ( pose_encoder_.x, pose_encoder_.y, 0 );
 
-    odom_.pose.pose.position.x = vt.x();
-    odom_.pose.pose.position.y = vt.y();
-    odom_.pose.pose.position.z = vt.z();
+    odom__.pose.pose.position.x = vt.x();
+    odom__.pose.pose.position.y = vt.y();
+    odom__.pose.pose.position.z = vt.z();
 
-    odom_.pose.pose.orientation.x = qt.x();
-    odom_.pose.pose.orientation.y = qt.y();
-    odom_.pose.pose.orientation.z = qt.z();
-    odom_.pose.pose.orientation.w = qt.w();
+    odom__.pose.pose.orientation.x = qt.x();
+    odom__.pose.pose.orientation.y = qt.y();
+    odom__.pose.pose.orientation.z = qt.z();
+    odom__.pose.pose.orientation.w = qt.w();
 
-    odom_.twist.twist.angular.z = w;
-    odom_.twist.twist.linear.x = dx/seconds_since_last_update;
-    odom_.twist.twist.linear.y = dy/seconds_since_last_update;
+    odom__.twist.twist.angular.z = w;
+    odom__.twist.twist.linear.x = dx/seconds_since_last_update;
+    odom__.twist.twist.linear.y = dy/seconds_since_last_update;
 }
 
 void MotorDrivePlugin::publishOdometry ( double step_time )
@@ -625,43 +686,45 @@ void MotorDrivePlugin::publishOdometry ( double step_time )
     tf::Quaternion qt;
     tf::Vector3 vt;
 
+    math::Pose pose = parent->GetWorldPose();
+    //if ( odom_source_ == WORLD) {
+    // getting data form gazebo world
+    qt = tf::Quaternion ( pose.rot.x, pose.rot.y, pose.rot.z, pose.rot.w );
+    vt = tf::Vector3 ( pose.pos.x, pose.pos.y, pose.pos.z );
+    //}
+
+    odom_.pose.pose.position.x = vt.x();
+    odom_.pose.pose.position.y = vt.y();
+    odom_.pose.pose.position.z = vt.z();
+
+    odom_.pose.pose.orientation.x = qt.x();
+    odom_.pose.pose.orientation.y = qt.y();
+    odom_.pose.pose.orientation.z = qt.z();
+    odom_.pose.pose.orientation.w = qt.w();
+
     if ( odom_source_ == ENCODER ) {
         // getting data form encoder integration
-        qt = tf::Quaternion ( odom_.pose.pose.orientation.x, odom_.pose.pose.orientation.y, odom_.pose.pose.orientation.z, odom_.pose.pose.orientation.w );
-        vt = tf::Vector3 ( odom_.pose.pose.position.x, odom_.pose.pose.position.y, odom_.pose.pose.position.z );
+        qt = tf::Quaternion ( odom__.pose.pose.orientation.x, odom__.pose.pose.orientation.y, odom__.pose.pose.orientation.z, odom__.pose.pose.orientation.w );
+        vt = tf::Vector3 ( odom__.pose.pose.position.x, odom__.pose.pose.position.y, odom__.pose.pose.position.z );
 
     }
-    if ( odom_source_ == WORLD ) {
-        // getting data form gazebo world
-        math::Pose pose = parent->GetWorldPose();
-        qt = tf::Quaternion ( pose.rot.x, pose.rot.y, pose.rot.z, pose.rot.w );
-        vt = tf::Vector3 ( pose.pos.x, pose.pos.y, pose.pos.z );
 
-        odom_.pose.pose.position.x = vt.x();
-        odom_.pose.pose.position.y = vt.y();
-        odom_.pose.pose.position.z = vt.z();
+    // get velocity in /odom frame
+    math::Vector3 linear;
+    linear = parent->GetWorldLinearVel();
+    odom_.twist.twist.angular.z = parent->GetWorldAngularVel().z;
 
-        odom_.pose.pose.orientation.x = qt.x();
-        odom_.pose.pose.orientation.y = qt.y();
-        odom_.pose.pose.orientation.z = qt.z();
-        odom_.pose.pose.orientation.w = qt.w();
+    // convert velocity to child_frame_id (aka base_footprint)
+    float yaw = pose.rot.GetYaw();
+    odom_.twist.twist.linear.x = cosf ( yaw ) * linear.x + sinf ( yaw ) * linear.y;
+    odom_.twist.twist.linear.y = cosf ( yaw ) * linear.y - sinf ( yaw ) * linear.x;
 
-        // get velocity in /odom frame
-        math::Vector3 linear;
-        linear = parent->GetWorldLinearVel();
-        odom_.twist.twist.angular.z = parent->GetWorldAngularVel().z;
-
-        // convert velocity to child_frame_id (aka base_footprint)
-        float yaw = pose.rot.GetYaw();
-        odom_.twist.twist.linear.x = cosf ( yaw ) * linear.x + sinf ( yaw ) * linear.y;
-        odom_.twist.twist.linear.y = cosf ( yaw ) * linear.y - sinf ( yaw ) * linear.x;
+    if (this->publish_tf_){
+        tf::Transform base_footprint_to_odom ( qt, vt );
+        transform_broadcaster_->sendTransform (
+            tf::StampedTransform ( base_footprint_to_odom, current_time,
+                                   odom_frame, base_footprint_frame ) );
     }
-
-    tf::Transform base_footprint_to_odom ( qt, vt );
-    transform_broadcaster_->sendTransform (
-        tf::StampedTransform ( base_footprint_to_odom, current_time,
-                               odom_frame, base_footprint_frame ) );
-
 
     // set covariance
     odom_.pose.covariance[0] = 0.00001;
@@ -672,12 +735,30 @@ void MotorDrivePlugin::publishOdometry ( double step_time )
     odom_.pose.covariance[35] = 0.001;
 
 
+    odom__.pose.covariance[0] = 0.00001;
+    odom__.pose.covariance[7] = 0.00001;
+    odom__.pose.covariance[14] = 1000000000000.0;
+    odom__.pose.covariance[21] = 1000000000000.0;
+    odom__.pose.covariance[28] = 1000000000000.0;
+    odom__.pose.covariance[35] = 0.001;
+
+
     // set header
     odom_.header.stamp = current_time;
     odom_.header.frame_id = odom_frame;
     odom_.child_frame_id = base_footprint_frame;
 
-    odometry_publisher_.publish ( odom_ );
+    odom__.header.stamp = current_time;
+    odom__.header.frame_id = odom_frame;
+    odom__.child_frame_id = base_footprint_frame;
+
+    if ( odom_source_ == ENCODER ) {
+        odometry_publisher_.publish ( odom__ );
+        odometry_publisher__.publish ( odom_ );
+    }else{
+        odometry_publisher_.publish ( odom_ );
+    }
+
 }
 
 GZ_REGISTER_MODEL_PLUGIN ( MotorDrivePlugin )

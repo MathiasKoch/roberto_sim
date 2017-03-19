@@ -114,11 +114,13 @@ namespace gazebo {
 
       // ROS STUFF
       ros::Publisher odometry_publisher_;
+      ros::Publisher odometry_publisher__;
       ros::Subscriber cmd_vel_subscriber_;
       boost::shared_ptr<tf::TransformBroadcaster> transform_broadcaster_;
       sensor_msgs::JointState joint_state_;
       ros::Publisher joint_state_publisher_;      
       nav_msgs::Odometry odom_;
+      nav_msgs::Odometry odom__;
       std::string tf_prefix_;
 
       boost::mutex lock;

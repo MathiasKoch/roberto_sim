@@ -142,7 +142,7 @@ void GazeboRosImu9Dof::Update() {
     
     if ( (use_imu_)&&(dt > 0.0) ) { 
 	math::Quaternion delta_orient       = sns_orient_.GetInverse() * sns_orient_new;
-	imu_acc_lin_ = offset_.rot.RotateVectorReverse((model_velocity_new - model_velocity_) / update_period_/* - gravity*/);
+	imu_acc_lin_ = offset_.rot.RotateVectorReverse((model_velocity_new - model_velocity_) / update_period_ - gravity);
 	imu_vel_ang_ = 2.0 * acos(std::max(std::min(delta_orient.w, 1.0), -1.0)) * math::Vector3(delta_orient.x, delta_orient.y, delta_orient.z).Normalize() / update_period_;
 	
 	imu_acc_lin_.x = noise_imu_acc_lin_[X].sim( imu_acc_lin_.x, dt );
