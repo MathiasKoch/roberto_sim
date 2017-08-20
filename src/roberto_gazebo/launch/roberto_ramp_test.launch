@@ -14,7 +14,7 @@
 
   <!-- push robot_description to factory and spawn robot in gazebo -->
   <node name="roberto_spawn" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-   args="-urdf -param robot_description -model roberto -x 1.8 -Y 1.57" />
+   args="-urdf -param robot_description -model roberto -x -2.0 -y -2.0 -z 0.56 -Y -1.57" />
 
   <!-- convert joint states to TF transforms for rviz, etc -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
@@ -22,7 +22,7 @@
     <param name="tf_prefix" type="string" value="roberto"/>
   </node>
 
-  <node name="roberto_snake_sensorv3" pkg="roberto_linesensor" type="roberto_snake_sensorv3" respawn="false" output="log" ns="roberto">
+  <node name="roberto_snake_sensorv3" pkg="roberto_linesensor" type="roberto_snake_sensorv3" respawn="false" output="screen" ns="roberto">
     <param name="autosize" value="true" />
   </node>
 
