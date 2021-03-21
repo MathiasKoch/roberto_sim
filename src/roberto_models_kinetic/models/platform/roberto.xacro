@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="roberto" >
+    
+    <xacro:arg name="model_dir" default="$(find roberto_models_kinetic)/models/platform"/>
+    
+    <!-- Import colors (for Rviz)-->
+    <xacro:include filename="$(find roberto_models_kinetic)/models/materials.xacro" />
+
+    <!-- Import robot -->
+    <xacro:property name="model_dir" value="$(arg model_dir)/roberto_body"/>
+    <xacro:include filename="$(find roberto_models_kinetic)/models/platform/roberto_body/body.xacro"/>
+    <xacro:RobertoBody name="body" parent="base" mesh_collis="simplified" mesh_visual="detailed"/>   <!-- simplified detailed empty-->
+  
+    <!-- Import platform plugins -->
+    <xacro:include filename="$(find roberto_models_kinetic)/models/platform/roberto_plugins.gazebo" />
+    <xacro:RobertoMotorDrivePlugin />
+  
+
+    <!-- IMU -->
+    <xacro:property name="model_dir" value="$(find roberto_models_kinetic)/models/sensors/IMU"/>
+    <xacro:include filename="$(find roberto_models_kinetic)/models/sensors/IMU/imu.xacro"/>
+    <xacro:imu_sensor name="imu9dof" parent="body_link" xyz="0.0 0.0 0.0685" rpy="0 0 0"/>
+     
+    <!-- Camera -->
+    <xacro:include filename="$(find roberto_models_kinetic)/models/sensors/camera/camera.xacro"/>
+    <xacro:cam name="usb_cam" parent="body_top" angle="${M_PI/10}" xyz="0 0.01 0.0375" rpy="0 0 ${M_PI/2}"/>
+    
+  
+</robot>

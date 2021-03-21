@@ -1,0 +1,272 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!-- Camera --> 
+<xacro:macro name="cam" params="name parent angle xyz rpy">
+    
+  <joint name="${parent}_${name}_base_joint" type="fixed">
+      <origin xyz="${xyz}" rpy="${rpy}"/>
+      <parent link="${parent}_link"/>
+      <child link="${name}_base"/>
+  </joint>
+
+
+  <joint name="${name}_base_${name}_spacer1_joint" type="fixed">
+      <origin xyz="0.02 0.038 -0.0175" rpy="0 0 0"/>
+      <parent link="${name}_base"/>
+      <child link="${name}_spacer1"/>
+  </joint>
+
+  <joint name="${name}_base_${name}_spacer2_joint" type="fixed">
+      <origin xyz="-0.02 0.038 -0.0175" rpy="0 0 0"/>
+      <parent link="${name}_base"/>
+      <child link="${name}_spacer2"/>
+  </joint>
+
+  <joint name="${name}_base_${name}_spacer3_joint" type="fixed">
+      <origin xyz="0.02 -0.038 -0.0175" rpy="0 0 0"/>
+      <parent link="${name}_base"/>
+      <child link="${name}_spacer3"/>
+  </joint>
+
+  <joint name="${name}_base_${name}_spacer4_joint" type="fixed">
+      <origin xyz="-0.02 -0.038 -0.0175" rpy="0 0 0"/>
+      <parent link="${name}_base"/>
+      <child link="${name}_spacer4"/>
+  </joint>
+
+  <joint name="${name}_base_${name}_side_left_joint" type="fixed">
+      <origin xyz="0 0.0275 0.0275" rpy="${M_PI/2} ${M_PI/2} 0"/>
+      <parent link="${name}_base"/>
+      <child link="${name}_side_left"/>
+  </joint>
+
+  <joint name="${name}_base_${name}_side_right_joint" type="fixed">
+      <origin xyz="0 -0.0275 0.0275" rpy="${M_PI/2} ${M_PI/2} 0"/>
+      <parent link="${name}_base"/>
+      <child link="${name}_side_right"/>
+  </joint>
+
+  <joint name="${name}_side_right_${name}_mount_joint" type="fixed">
+      <origin xyz="-0.02125 0 -0.027" rpy="${M_PI/2 + angle} ${M_PI/2} 0"/>
+      <parent link="${name}_side_right"/>
+      <child link="${name}_mount"/>
+  </joint>
+
+
+  <joint name="${name}_mount_${name}_cam_joint" type="fixed">
+      <origin xyz="0 0 -0.0215" rpy="0 ${M_PI} 0"/>
+      <parent link="${name}_mount"/>
+      <child link="${name}"/>
+  </joint>
+
+
+
+
+  <link name="${name}_base">
+    <box_inertial x="0.05" y="0.085" z="0.005" mass="0.015" />
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.05 0.085 0.005" />
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.05 0.085 0.005" />
+      </geometry>
+    </collision>
+  </link>
+
+
+  <link name="${name}_spacer1">
+    <cylinder_inertial length="0.035" radius="0.002" mass="0.005" />
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.035" radius="0.002" />
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.035" radius="0.002" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="${name}_spacer2">
+    <cylinder_inertial length="0.035" radius="0.002" mass="0.005" />
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.035" radius="0.002" />
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.035" radius="0.002" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="${name}_spacer3">
+    <cylinder_inertial length="0.035" radius="0.002" mass="0.005" />
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.035" radius="0.002" />
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.035" radius="0.002" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="${name}_spacer4">
+    <cylinder_inertial length="0.035" radius="0.002" mass="0.005" />
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.035" radius="0.002" />
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.035" radius="0.002" />
+      </geometry>
+    </collision>
+  </link>
+
+
+  <link name="${name}_side_left">
+    <box_inertial x="0.05" y="0.03" z="0.003" mass="0.01" />
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.05 0.03 0.003" />
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.05 0.03 0.003" />
+      </geometry>
+    </collision>
+  </link>
+
+
+  <link name="${name}_side_right">
+    <box_inertial x="0.05" y="0.03" z="0.003" mass="0.01" />
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.05 0.03 0.003" />
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.05 0.03 0.003" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="${name}_mount">
+    <box_inertial x="0.05" y="0.025" z="0.003" mass="0.01" />
+    <visual>
+      <origin xyz="0 0 -0.015" rpy="0 0 0" />
+      <geometry>
+        <box size="0.05 0.025 0.003" />
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.015" rpy="0 0 0" />
+      <geometry>
+        <box size="0.05 0.025 0.003" />
+      </geometry>
+    </collision>
+  </link>
+
+
+
+      
+  <!-- Camera -->
+  <link name="${name}">
+    <cylinder_inertial length="0.01" radius="0.0035" mass="${cameraMass}" />
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.0035" length="0.01"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.0035" length="0.01"/>
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="${name}">
+    <material value="Gazebo/Grey"/>
+  </gazebo>
+    
+  <gazebo reference="${name}">
+    <sensor type="camera" name="camera1">
+      <update_rate>60.0</update_rate>
+      <camera name="head">
+        <pose>0 0 0 0 -${M_PI/2}  ${M_PI/2}</pose>
+        <horizontal_fov>${M_PI*0.37777777777}</horizontal_fov>
+        <image>
+          <width>320</width>
+          <height>240</height>
+          <format>L8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>300</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <!-- Noise is sampled independently per pixel on each frame.  
+               That pixel's noise value is added to each of its color
+               channels, which at that point lie in the range [0,1]. -->
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <robotNamespace></robotNamespace>
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>${name}</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>${name}</frameName>
+        <hackBaseline>0.00</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo> 
+  
+</xacro:macro>
+</robot>

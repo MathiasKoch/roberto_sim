@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="seesaw">
+
+  <xacro:property name="model_dir" value="$(find roberto_models_kinetic)/models/obstacles/seesaw"/>
+  <xacro:include filename="$(find roberto_models_kinetic)/models/materials.xacro" />
+  <xacro:include filename="$(find roberto_models_kinetic)/models/inertia_tensors.xacro"/>
+
+  <link name="world"/>  
+
+  <joint name="base_to_world" type="fixed">
+    <parent link="world" />
+    <child link="base" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+
+  <link name="base">
+    <visual>
+      <geometry>
+        <mesh filename="file://${model_dir}/meshes/vippe_bund.dae"/> 
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <material name="grey"/>
+    </visual>
+    <box_inertial_with_origin x="0" y="0" z="0" mass="10">
+      <origin xyz="0.42 0.24 0" rpy="0 0 0" />
+    </box_inertial_with_origin>
+    <collision>
+      <geometry>
+         <mesh filename="file://${model_dir}/meshes/vippe_bund.dae"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </collision>
+  </link>
+
+
+  <link name="top">
+    <visual>
+      <geometry>
+        <mesh filename="file://${model_dir}/meshes/vippe_top.dae"/> 
+      </geometry>
+    <origin xyz="-1.02 -0.22 0" rpy="0 0 0" />
+      <material name="grey"/>
+    </visual>
+    <box_inertial_with_origin x="0" y="0" z="0" mass="1">
+      <origin xyz="-0.01 0 0" rpy="0 0 0" />
+    </box_inertial_with_origin>
+    <collision>
+      <geometry>
+         <mesh filename="file://${model_dir}/meshes/vippe_top.dae"/>
+      </geometry>
+      <origin xyz="-1.02 -0.22 0" rpy="0 0 0" />
+    </collision>
+  </link>
+
+  <joint name="top_to_base" type="revolute">
+    <parent link="base" />
+    <child link="top" />
+    <origin xyz="0.42 0.24 0.41" rpy="0 ${M_PI/8} 0" />
+    <axis xyz="0 1 0" rpy="0 0 0" />
+    <limit effort="1.0" velocity="4" lower="-${M_PI/8}" upper="${M_PI}"/> 
+  </joint>
+
+  <link name="ramp_and_staircase">
+    <visual>
+      <geometry>
+        <mesh filename="file://${model_dir}/meshes/ramper_og_trappe_2.dae"/> 
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <material name="grey"/>
+    </visual>
+    <box_inertial_with_origin x="0" y="0" z="0" mass="100">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </box_inertial_with_origin>
+    <collision>
+      <geometry>
+         <mesh filename="file://${model_dir}/meshes/ramper_og_trappe_2.dae"/>
+      </geometry>
+    </collision>
+  </link>    
+
+  <joint name="ramp_and_staircase_to_world" type="fixed">
+    <parent link="world" />
+    <child link="ramp_and_staircase" />
+    <origin xyz="-0.601 -0.32 0" rpy="0 0 ${M_PI/2}" />
+  </joint>
+
+</robot>

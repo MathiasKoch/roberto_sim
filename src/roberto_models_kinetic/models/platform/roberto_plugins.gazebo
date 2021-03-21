@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    
+<xacro:macro name="RobertoMotorDrivePlugin">
+	<gazebo>
+        <plugin name="roberto_motor_drive" filename="libroberto_gazebo_ros_control.so">
+		    <robotNamespace></robotNamespace>
+	        <rosDebugLevel>Debug</rosDebugLevel>
+		    <alwaysOn>1</alwaysOn>
+		    <updateRate>50.0</updateRate>
+		    
+		    <robotBaseFrame>base_link</robotBaseFrame>
+		    <odometryFrame>odom</odometryFrame>
+		    
+		    <commandTopic>cmd_vel</commandTopic>
+            <odometryTopic>odom</odometryTopic>
+            <odometrySource>encoder</odometrySource>
+	    
+            <servoLeftJoint>body2mountFL_joint</servoLeftJoint>
+            <servoRightJoint>body2mountFR_joint</servoRightJoint>
+            <servoLeftMimicJoint>body2mountBL_joint</servoLeftMimicJoint>
+            <servoRightMimicJoint>body2mountBR_joint</servoRightMimicJoint>
+
+            <frontLeftJoint>mountFL2wheelFL_joint</frontLeftJoint>
+            <frontRightJoint>mountFR2wheelFR_joint</frontRightJoint>
+            <rearLeftJoint>mountBL2wheelBL_joint</rearLeftJoint>
+            <rearRightJoint>mountBR2wheelBR_joint</rearRightJoint>
+	    
+            <wheelDiameter>${wheelRadius*2}</wheelDiameter>
+            <wheelTorque>10</wheelTorque>
+            <wheelAcceleration>1.5</wheelAcceleration>
+            <!--<wheelAcceleration>0</wheelAcceleration>-->
+            <widthBetweenMotorPivotPoints>0.17</widthBetweenMotorPivotPoints>
+            <motorPivotPointToWheel>0.045</motorPivotPointToWheel>
+            
+            <publishTf>1</publishTf>
+		    <publishWheelTF>true</publishWheelTF>
+            <publishWheelJointState>true</publishWheelJointState>
+        </plugin>
+    </gazebo>
+</xacro:macro>
+
+</robot>
